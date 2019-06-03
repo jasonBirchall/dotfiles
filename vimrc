@@ -26,12 +26,20 @@ Plugin 'enricobacis/vim-airline-clock'
 Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " Hotkeys
+"########
 
 map <F7> gg=G<C-o><C-o> " Reindent
 
 map <leader>T :%s/\s\+$//<CR> " <leader>T = Delete all trailing space in file
 
 map <leader>R :retab<CR> " <leader>R = Converts tabs to spaces in file
+
+" Quick save
+map <C-o>w :w!<cr>
+
+" Quick search
+map <space> /
+map <c-space> ?
 
 " Colourschemes
 Plugin 'chriskempson/base16-vim'
@@ -70,6 +78,12 @@ set nobackup
 set nowb
 set noswapfile
 
+" No annoying sound on errors
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+
 let g:tex_flavor = "latext" " Auto detect latex filetype
 
 " Text, tabs and stuff
@@ -92,6 +106,14 @@ set modelines=1 " Modeline would be '" vim:foldmethod=marker:foldlevel=0' at the
 set backspace=2
 set autoindent
 
+" Show matching brackets when text indicator is over them
+set showmatch
+
+" Show how many tenths of a second to blink when text indicator is over them
+set mat=2
+
+" Add a bit extra margin to the left
+set foldcolumn=1
 
 " Moving around
 " #############
@@ -102,10 +124,33 @@ map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-l> <c-w>l
 
+" Set 7 lines of buffer when scrolling
+set so=7
+
+" Moving lines around
+nnoremap <C-j> :m .+1<CR>==
+nnoremap <C-k> :m .-2<CR>==
+inoremap <C-j> <Esc>:m .+1<CR>==gi
+inoremap <C-k> <Esc>:m .-2<CR>==gi
+vnoremap <C-j> :m '>+1<CR>gv=gv
+vnoremap <C-k> :m '<-2<CR>gv=gv
+
+" Return to last edit position when opening files
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+" Spell checking
+" ##############
+" Pressing \ss will toggle and untoggle spell checking
+map <leader>ss :setlocal spell!<cr>
+
+
 " Colours and fonts
 " #################
 
 set background=dark
+
+" Use Unix as the standard file type
+set ffs=unix
 
 " Plugins
 " #######
