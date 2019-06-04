@@ -42,7 +42,7 @@ git_status() {
 git_color() {
     # Receives output of git_status as argument; produces appropriate color
     # code based on status of working directory:
-    # - White if everything is clean
+    # - Green if everything is clean
     # - Green if all changes are staged
     # - Red if there are uncommitted changes with nothing staged
     # - Yellow if there are both staged and unstaged changes
@@ -59,7 +59,7 @@ git_color() {
     elif [[ -n $needs_push ]]; then
         echo -e '\033[1;34m' # bold blue
     else
-        echo -e '\033[1;37m'  # bold white
+        echo -e '\033[1;32m'  # bold white
     fi
 }
 
