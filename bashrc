@@ -12,12 +12,14 @@ if [[ -d /etc/bash-completion.d/ ]]; then
 fi
 
 # Set env variables
+BROWSER=/usr/bin/firefox
 EDITOR=/usr/bin/vim
 GIT_EDITOR=${EDITOR}
 KOPS_STATE_STORE=s3://cloud-platform-kops-state
 KUBECONFIG=$HOME/.kube/config
 PATH=/usr/local/go/bin:$(go env GOPATH)/bin:/home/linuxbrew/.linuxbrew/bin:$PATH
 
+# Set History configuration
 # Only store unique commands in history, and disregard leading spaces
 export HISTCONTROL=ignoreboth:erasedups
 
@@ -36,6 +38,9 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+
+alias live-1='KUBECONFIG=$HOME/.kube/config.live-1'
+alias live-0='KUBECONFIG=$HOME/.kube/config.live-0'
 
 # Bash profiles
 source ~/.bash_profile
