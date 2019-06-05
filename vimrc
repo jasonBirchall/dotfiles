@@ -65,7 +65,7 @@ syntax enable
 syntax on
 
 set autoread			" Auto read files when changed outside
-set mouse =a
+set mouse =a      " Lets you copy data to system clipboard
 set splitright		" Put a new buffer on the right of the current buffer
 set splitbelow		" Put new buffer below the current buffer
 set guiheadroom=0
