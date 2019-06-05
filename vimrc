@@ -10,6 +10,7 @@ call vundle#begin()
 Plugin 'vundleVim/Vundle.vim'
 
 " Basics
+Plugin 'flazz/vim-colorschemes'
 Plugin 'godlygeek/tabular'
 Plugin 'majutsushi/tagbar'
 Plugin 'ctrlpvim/ctrlp.vim'
@@ -63,6 +64,8 @@ let mapleader = "/"
 " Enable syntax highlighting
 syntax enable
 syntax on
+set shell=/bin/bash
+set ruler
 
 set autoread			" Auto read files when changed outside
 set mouse =a      " Lets you copy data to system clipboard
@@ -151,6 +154,8 @@ set background=dark
 
 " Use Unix as the standard file type
 set ffs=unix
+
+colorscheme gruvbox
 
 " Plugins
 " #######
