@@ -24,8 +24,11 @@ PATH=/usr/local/go/bin:$(go env GOPATH)/bin:/home/linuxbrew/.linuxbrew/bin:$PATH
 export HISTCONTROL=ignoreboth:erasedups
 
 shopt -s histappend
-HISTSIZE=100000
-HISTFILESIZE=200000
+HISTSIZE=1000000
+HISTFILESIZE=2000000
+HISTIGNORE='ls:bg:fg:history' # Ignore certain commands
+HISTTIMEFORMAT='%F %T ' # Record timestamps
+PROMPT_COMMAND='history -a' # Immediately record history
 
 # Aliases
 # Add an alert alias for long running commands
