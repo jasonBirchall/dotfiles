@@ -10,7 +10,6 @@ call vundle#begin()
 Plugin 'vundleVim/Vundle.vim'
 
 " Basics
-Plugin 'flazz/vim-colorschemes'
 Plugin 'godlygeek/tabular'
 Plugin 'majutsushi/tagbar'
 Plugin 'ctrlpvim/ctrlp.vim'
@@ -43,6 +42,7 @@ map <space> /
 map <c-space> ?
 
 " Colourschemes
+Plugin 'flazz/vim-colorschemes'
 Plugin 'chriskempson/base16-vim'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'kristijanhusak/vim-hybrid-material'
