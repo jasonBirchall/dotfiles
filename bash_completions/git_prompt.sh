@@ -57,9 +57,9 @@ git_color() {
     elif [[ -n $dirty ]]; then
         echo -e '\033[1;31m'  # bold red
     elif [[ -n $needs_push ]]; then
-        echo -e '\033[1;34m' # bold blue
+        echo -e '\033[1;33m' # bold yellow
     else
-        echo -e '\033[1;32m'  # bold white
+        echo -e '\033[1;32m'  # bold green
     fi
 }
 
