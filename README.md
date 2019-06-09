@@ -8,6 +8,8 @@ ln -sf /home/json/Documents/workarea/dotfiles/vim/* ~/.vim
 ln -sf /home/json/Documents/workarea/dotfiles/bashrc ~/.bashrc
 ln -sf /home/json/Documents/workarea/dotfiles/bash_profile ~/.bash_profile
 ln -sf /home/json/Documents/workarea/dotfiles/bash_completions/* ~/.completions
+ln -sf /home/json/Documents/workarea/dotfiles/terminator/config ~/.config/terminator/config
+ln -sf /home/json/Documents/workarea/dotfiles/terminator/config ~/.config/terminator/config
 ```
 
 ## Vimrc
@@ -15,3 +17,6 @@ The vim configuration is an amalgamation of [dotvim](https://github.com/itscram/
 
 ## Bashrc
 Bash configuration all in one file, contains things like alias and envvars.
+
+## Terminator
+Terminal emulator configuration.
