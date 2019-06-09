@@ -24,6 +24,7 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'enricobacis/vim-airline-clock'
 Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plugin 'ekalinin/Dockerfile.vim'
 
 " Hotkeys
 "########
