@@ -53,7 +53,7 @@ git_color() {
     if [[ -n $staged ]] && [[ -n $dirty ]]; then
         echo -e '\033[1;33m'  # bold yellow
     elif [[ -n $staged ]]; then
-        echo -e '\033[1;32m'  # bold green
+        echo -e '\033[1;33m'  # bold green
     elif [[ -n $dirty ]]; then
         echo -e '\033[1;31m'  # bold red
     elif [[ -n $needs_push ]]; then
