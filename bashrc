@@ -45,7 +45,7 @@ alias egrep='egrep --color=auto'
 alias live-1='KUBECONFIG=$HOME/.kube/config.live-1'
 alias live-0='KUBECONFIG=$HOME/.kube/config.live-0'
 
-alias htop="sudo docker run --rm -it --pid host json/htop"
+alias htop="sudo docker run --rm -it --pid host json0/htop"
 
 # Bash profiles
 source ~/.bash_profile
