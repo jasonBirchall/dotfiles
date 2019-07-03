@@ -82,6 +82,12 @@ set nobackup
 set nowb
 set noswapfile
 
+" Put tmp files under .vim/tmp
+set undodir=~/.vim/tmp/undo/
+set undofile
+set backupdir=~/.vim/tmp/backup/
+set directory=~/.vim/tmp/swap/
+
 " No annoying sound on errors
 set noerrorbells
 set novisualbell
