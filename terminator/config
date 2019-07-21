@@ -21,3 +21,4 @@
     background_color = "#300a24"
     cursor_color = "#aaaaaa"
     foreground_color = "#ffffff"
+    scrollback_infinite = True
