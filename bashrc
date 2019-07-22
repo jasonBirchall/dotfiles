@@ -17,7 +17,7 @@ export EDITOR=/usr/bin/vim
 export GIT_EDITOR=${EDITOR}
 export KOPS_STATE_STORE=s3://cloud-platform-kops-state
 export KUBECONFIG=$HOME/.kube/config
-export PATH=/usr/local/go/bin:$(go env GOPATH)/bin:/home/linuxbrew/.linuxbrew/bin:./.bundle/bin:$HOME/.rvm/bin:$PATH
+export PATH=/usr/local/go/bin:$(go env GOPATH)/bin:/home/linuxbrew/.linuxbrew/bin:./.bundle/bin:$HOME:$HOME/.gem/bin:$PATH
 
 # Set History configuration
 # Only store unique commands in history, and disregard leading spaces
