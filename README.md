@@ -10,6 +10,7 @@ ln -sf /home/json/Documents/workarea/dotfiles/bash_profile ~/.bash_profile
 ln -sf /home/json/Documents/workarea/dotfiles/bash_completions/* ~/.completions
 ln -sf /home/json/Documents/workarea/dotfiles/terminator/config ~/.config/terminator/config
 ln -sf /home/json/Documents/workarea/dotfiles/terminator/config ~/.config/terminator/config
+ln -sf /home/json/Documents/workarea/dotfiles/tmux ~/.tmux.conf
 ```
 
 ## Vimrc
