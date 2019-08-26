@@ -1,12 +1,23 @@
 set -g base-index 1
 
-
-
 # Personal changes
 # remap prefix to Control + a
 set -g prefix C-a
 unbind C-b
 bind C-a send-prefix
+
+#Clipboard
+
+# Automatically copy tmux selection to X clipboard
+#bind -t vi-copy Enter copy-pipe "xclipboard -i -selection clipboard" 
+
+# For binding 'y' to copy and exiting selection mode
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -sel clip -i'
+
+# For binding 'Enter' to copy and not leave selection mode
+bind-key -T copy-mode-vi Enter send-keys -X copy-pipe 'xclip -sel clip -i' '\;'  send -X clear-selection
+
+  
 
 # force a reload of the config file
 unbind r
@@ -18,9 +29,6 @@ bind ^A select-pane -t :.+
 
 # Make mouse useful in copy mode
 set -g mouse on
-
-
-
 
 # Automatically set window title
 set-window-option -g automatic-rename on
