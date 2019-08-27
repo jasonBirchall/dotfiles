@@ -1,4 +1,5 @@
 set -g base-index 1
+set -g default-terminal "screen-256color"
 
 # Personal changes
 # remap prefix to Control + a

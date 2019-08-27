@@ -47,3 +47,4 @@ alias live-1='KUBECONFIG=$HOME/.kube/config.live-1'
 alias live-0='KUBECONFIG=$HOME/.kube/config.live-0'
 
 alias htop="sudo docker run --rm -it --pid host json0/htop"
+alias tmux="TERM=screen-256color-bce tmux"
