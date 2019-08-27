@@ -28,12 +28,21 @@ set directory=~/.vim/tmp/swap/
 set clipboard=unnamedplus
 
 " Colours and fonts
-"set background=dark
-
 " Search and find
 set hls is " turns on highlighted search
 set ic 	   " turns on case insensitive
 
+"Text, tabs and stuff
+set tabstop=2
+set shiftwidth=2 " 1 tab = 2 spaces
+set softtabstop=2
+set smarttab " Be smart when using tabs
+set expandtab " Convert tabs to spaces
+set showmatch " Show matching brackets when cursored
+set wildmenu
+
+
+"---------------------
 " An example for a vimrc file.
 "
 " Maintainer:	Bram Moolenaar <Bram@vim.org>

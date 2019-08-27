@@ -12,6 +12,7 @@ ln -sf /home/json/Documents/workarea/dotfiles/terminator/config ~/.config/termin
 ln -sf /home/json/Documents/workarea/dotfiles/terminator/config ~/.config/terminator/config
 ln -sf /home/json/Documents/workarea/dotfiles/tmux ~/.tmux.conf
 ln -sf /home/json/Documents/workarea/dotfiles/vim/plugins ~/.vim/pack/plugins
+ln -sf /home/json/Documents/workarea/dotfiles/vim/colors ~/.vim/colors
 ```
 
 ## Vimrc
