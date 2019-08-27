@@ -7,6 +7,7 @@ set ruler
 set smartcase
 filetype plugin indent on
 set encoding=utf-8
+set t_Co=256
 
 " Map leader
 let mapleader = " "
@@ -28,6 +29,9 @@ set directory=~/.vim/tmp/swap/
 set clipboard=unnamedplus
 
 " Colours and fonts
+set background=dark
+colorscheme gruvbox
+
 " Search and find
 set hls is " turns on highlighted search
 set ic 	   " turns on case insensitive
