@@ -35,6 +35,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # ruby alias
 alias bi='bundle install --path .bundle/gems --binstubs .bundle/bin'
 alias cdw='cd ~/Documents/workarea'
+alias cdi='cd ~/Documents/workarea/cloud-platform-infrastructure'
 alias l='ls -CF'
 alias la='ls -latr'
 alias ll='ls -alF'
