@@ -4,3 +4,9 @@
 [submodule "vim/plugins/start/vim-gitgutter"]
 	path = vim/plugins/start/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter.git
+[submodule "vim/plugins/start/-f"]
+	path = vim/plugins/start/-f
+	url = https://github.com/vim-airline/vim-airline.git
+[submodule "vim/plugins/start/airline-vim"]
+	path = vim/plugins/start/airline-vim
+	url = https://github.com/vim-airline/vim-airline.git
