@@ -9,7 +9,7 @@ filetype plugin indent on
 set encoding=utf-8
 set t_Co=256
 
-" Map leader
+" Map leader to spacebar
 let mapleader = " "
 
 " Backups 
