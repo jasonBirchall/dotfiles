@@ -30,6 +30,7 @@ set clipboard=unnamedplus
 
 " Colours and fonts
 set background=dark
+set ffs=unix
 colorscheme gruvbox
 
 " Search and find
