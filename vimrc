@@ -1,3 +1,6 @@
+" Abbreviations
+abbr teh the
+
 " Make vim useful
 set nocompatible
 syntax enable
