@@ -41,16 +41,16 @@ set hls is " turns on highlighted search
 set ic 	   " turns on case insensitive
 
 "Text, tabs and stuff
+set autoindent
 set tabstop=2
 set shiftwidth=2 " 1 tab = 2 spaces
 set softtabstop=2
-set smarttab " Be smart when using tabs
+set smarttab " bE smart when using tabs
 set expandtab " Convert tabs to spaces
 set showmatch " Show matching brackets when cursored
-set wildmenu
+set wildmenu " Enhanced command line completion
 
 " Ctrl+p settings
-
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 
