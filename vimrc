@@ -49,6 +49,7 @@ set smarttab " bE smart when using tabs
 set expandtab " Convert tabs to spaces
 set showmatch " Show matching brackets when cursored
 set wildmenu " Enhanced command line completion
+set relativenumber
 
 " Ctrl+p settings
 let g:ctrlp_map = '<c-p>'
