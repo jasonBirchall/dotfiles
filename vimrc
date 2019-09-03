@@ -46,6 +46,10 @@ set expandtab " Convert tabs to spaces
 set showmatch " Show matching brackets when cursored
 set wildmenu
 
+" Ctrl+p settings
+
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
 
 "---------------------
 " An example for a vimrc file.
