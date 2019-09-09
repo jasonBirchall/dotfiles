@@ -52,6 +52,13 @@ set showmatch " Show matching brackets when cursored
 set wildmenu " Enhanced command line completion
 set relativenumber
 
+" Navigation
+" Splits
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 " Ctrl+p settings
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
