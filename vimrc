@@ -11,7 +11,7 @@ set smartcase
 filetype plugin indent on
 set encoding=utf-8
 set t_Co=256
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "Ensure comments aren't persisted
 
 " Map leader to spacebar
 let mapleader = " "
@@ -51,6 +51,13 @@ set expandtab " Convert tabs to spaces
 set showmatch " Show matching brackets when cursored
 set wildmenu " Enhanced command line completion
 set relativenumber
+
+" Closing brackets
+inoremap " ""<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
 
 " Navigation
 " Splits
