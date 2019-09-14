@@ -28,6 +28,7 @@ export HISTSIZE= HISTFILESIZE= # Infinite history
 export HISTIGNORE='ls:bg:fg:history:ps:htop:top' # Ignore certain commands
 export HISTTIMEFORMAT='%F %T ' # Record timestamps
 export PROMPT_COMMAND='history -a' # Immediately record history
+export TERM='xterm-256color'
 
 # Aliases
 # Add an alert alias for long running commands
