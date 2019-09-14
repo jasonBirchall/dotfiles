@@ -1,7 +1,6 @@
 set -g base-index 1
 set -g default-terminal "screen-256color"
 
-# Personal changes
 # remap prefix to Control + a
 set -g prefix C-a
 unbind C-b
@@ -91,5 +90,5 @@ set -g window-status-current-attr bold
 set -g status-interval 60
 set -g status-left-length 30
 set -g status-left '#[fg=green](#S) #(whoami)'
-set -g status-right '#[fg=yellow]#(cut -d " " -f 1-3 /proc/loadavg)#[default] #[fg=white]%H:%M#[default]'
+set -g status-right '#[fg=yellow]#(~/.completions/tmux_kube.sh)#[default] #[fg=white] %H:%M %d-%b-%y '
 
