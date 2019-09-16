@@ -84,11 +84,11 @@ bind r source-file ~/.tmux.conf
 # THEME
 set -g status-bg black
 set -g status-fg white
-set -g window-status-current-bg white
+set -g window-status-current-bg yellow
 set -g window-status-current-fg black
 set -g window-status-current-attr bold
-set -g status-interval 60
-set -g status-left-length 30
-set -g status-left '#[fg=green](#S) #(whoami)'
+set -g status-interval 30
+set -g status-left-length 1000
+set -g status-left '#[fg=green](#S) #(whoami) #[fg=yellow]#(~/bin/get_ip.rb) '
 set -g status-right '#[fg=yellow]#(~/.completions/tmux_kube.sh)#[default] #[fg=white] %H:%M %d-%b-%y '
 
