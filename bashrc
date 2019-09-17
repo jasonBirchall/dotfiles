@@ -30,6 +30,7 @@ export HISTIGNORE='ls:bg:fg:history:ps:htop:top' # Ignore certain commands
 export HISTTIMEFORMAT='%F %T ' # Record timestamps
 export PROMPT_COMMAND='history -a' # Immediately record history
 export TERM='xterm-256color'
+export RANGER_LOAD_DEFAULT_RC='FALSE'
 
 # Aliases
 # Add an alert alias for long running commands
