@@ -13,6 +13,7 @@ ln -sf /home/json/Documents/workarea/dotfiles/terminator/config ~/.config/termin
 ln -sf /home/json/Documents/workarea/dotfiles/tmux ~/.tmux.conf
 ln -sf /home/json/Documents/workarea/dotfiles/vim/plugins ~/.vim/pack/plugins
 ln -sf /home/json/Documents/workarea/dotfiles/vim/colors ~/.vim/colors
+ln -sf /home/json/Documents/workarea/dotfiles/ranger/* ~/.config/ranger
 ```
 
 ## Vimrc
@@ -23,3 +24,6 @@ Bash configuration all in one file, contains things like alias and envvars.
 
 ## Terminator
 Terminal emulator configuration.
+
+## Ranger
+File manager using vim key bindings.
