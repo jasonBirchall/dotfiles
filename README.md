@@ -14,6 +14,7 @@ ln -sf /home/json/Documents/workarea/dotfiles/tmux ~/.tmux.conf
 ln -sf /home/json/Documents/workarea/dotfiles/vim/plugins ~/.vim/pack/plugins
 ln -sf /home/json/Documents/workarea/dotfiles/vim/colors ~/.vim/colors
 ln -sf /home/json/Documents/workarea/dotfiles/ranger/* ~/.config/ranger
+ln -sf /home/json/Documents/workarea/dotfiles/git/gitconfig ~/.gitconfig
 ```
 
 ## Vimrc
@@ -27,3 +28,6 @@ Terminal emulator configuration.
 
 ## Ranger
 File manager using vim key bindings.
+
+## Git
+Changes my git config files.

@@ -1,0 +1,134 @@
+[alias]
+
+  # list files which have changed since REVIEW_BASE
+  # (REVIEW_BASE defaults to 'master' in my zshrc)
+  files = !git diff --name-only $(git merge-base HEAD \"$REVIEW_BASE\")
+
+  # Same as above, but with a diff stat instead of just names
+  # (better for interactive use)
+  stat = !git diff --stat $(git merge-base HEAD \"$REVIEW_BASE\")
+  
+  # NOTE: These aliases depend on the `git files` alias from
+  # a few sections ago!
+
+  # Open all files changed since REVIEW_BASE in Vim tabs
+  # Then, run fugitive's :Gdiff in each tab, and finally
+  # tell vim-gitgutter to show +/- for changes since REVIEW_BASE
+  review = !vim -p $(git files) +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
+
+  # Same as the above, except specify names of files as arguments,
+  # instead of opening all files:
+  # git reviewone foo.js bar.js
+  reviewone = !vim -p +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
+
+[apply]
+
+	# Detect whitespace errors when applying a patch
+	whitespace = fix
+
+[core]
+
+	# Use custom `.gitignore` and `.gitattributes`
+	excludesfile = ~/.gitignore
+	attributesfile = ~/.gitattributes
+
+	# Treat spaces before tabs and all kinds of trailing whitespace as an error
+	# [default] trailing-space: looks for spaces at the end of a line
+	# [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+
+	# Make `git rebase` safer on macOS
+	# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+	trustctime = false
+
+	# Prevent showing files whose names contain non-ASCII symbols as unversioned.
+	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+	precomposeunicode = false
+
+	# Speed up commands involving untracked files such as `git status`.
+	# https://git-scm.com/docs/git-update-index#_untracked_cache
+	untrackedCache = true
+
+[color]
+
+	# Use colors in Git commands that are capable of colored output when
+	# outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
+	ui = auto
+
+[color "branch"]
+
+	current = yellow reverse
+	local = yellow
+	remote = green
+
+[color "diff"]
+
+	meta = yellow bold
+	frag = magenta bold # line info
+	old = red # deletions
+	new = green # additions
+
+[color "status"]
+
+	added = yellow
+	changed = green
+	untracked = cyan
+
+[commit]
+
+	# https://help.github.com/articles/signing-commits-using-gpg/
+	gpgsign = false
+
+[diff]
+
+	# Detect copies as well as renames
+	renames = copies
+
+[diff "bin"]
+
+	# Use `hexdump` to diff binary files
+	textconv = hexdump -v -C
+
+[help]
+
+	# Automatically correct and execute mistyped commands
+	autocorrect = 1
+
+[merge]
+
+	# Include summaries of merged commits in newly created merge commit messages
+	log = true
+
+[push]
+
+	# https://git-scm.com/docs/git-config#git-config-pushdefault
+	default = simple
+	# Make `git push` push relevant annotated tags when pushing branches out.
+	followTags = true
+
+# URL shorthands
+
+[url "git@github.com:"]
+
+	insteadOf = "gh:"
+	pushInsteadOf = "github:"
+	pushInsteadOf = "git://github.com/"
+
+[url "git://github.com/"]
+
+	insteadOf = "github:"
+
+[url "git@gist.github.com:"]
+
+	insteadOf = "gst:"
+	pushInsteadOf = "gist:"
+	pushInsteadOf = "git://gist.github.com/"
+
+[url "git://gist.github.com/"]
+
+	insteadOf = "gist:"
+[user]
+	email = jason.birchall@digital.justice.gov.uk
+	name = jasonBirchall
+[gpg]
+	program = /usr/local/bin/gpg
