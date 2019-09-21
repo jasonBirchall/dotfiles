@@ -89,6 +89,6 @@ set -g window-status-current-fg black
 set -g window-status-current-attr bold
 set -g status-interval 10
 set -g status-left-length 1000
-set -g status-left '#[fg=green]#(~/bin/get_ip.rb) #[fg=yellow]#(~/bin/ping_response.rb)ms '
+set -g status-left '#[fg=green]#(~/bin/get_ip.rb) #[fg=yellow]#(~/bin/ping_response.rb) '
 set -g status-right '#[fg=yellow]#(~/.completions/tmux_kube.sh)#[default] #[fg=white] %H:%M:%S %d-%b-%y '
 
