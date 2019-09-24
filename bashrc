@@ -51,6 +51,10 @@ alias egrep='egrep --color=auto'
 alias live-1='KUBECONFIG=$HOME/.kube/config.live-1'
 alias live-0='KUBECONFIG=$HOME/.kube/config.live-0'
 alias tf='terraform'
+alias gs='git status'
+alias gd='git diff'
+alias ga='git add'
+alias gc='git commit'
 
 alias htop="sudo docker run --rm -it --pid host json0/htop"
 alias tmux="TERM=screen-256color-bce tmux"
