@@ -34,6 +34,9 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Return exec terminator
 
+# start a web browser
+bindsym $mod4+w exec firefox
+
 # kill focused window
 bindsym $mod+Shift+q kill
 
