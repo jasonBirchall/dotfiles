@@ -17,8 +17,6 @@ bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -sel clip -i
 # For binding 'Enter' to copy and not leave selection mode
 bind-key -T copy-mode-vi Enter send-keys -X copy-pipe 'xclip -sel clip -i' '\;'  send -X clear-selection
 
-  
-
 # force a reload of the config file
 unbind r
 bind r source-file ~/.tmux.conf

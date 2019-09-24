@@ -32,7 +32,7 @@ font pango:Monospace 10
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec terminator
+bindsym $mod+Return exec terminator -e tmux
 
 # start a web browser
 bindsym $mod4+w exec firefox
@@ -210,3 +210,7 @@ exec feh --bg-scale ~/Pictures/wallpaper1.png
 
 # Set xrand scale
 exec xrandr --dpi 180
+
+# Enable tap to click on touchpad:
+# https://www.reddit.com/r/i3wm/comments/516e8c/tap_to_click_touchpad/
+exec xinput set-prop 11 280 to  1
