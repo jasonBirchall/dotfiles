@@ -18,6 +18,7 @@
 [plugins]
 [profiles]
   [[default]]
+    show_titlebar = false
     background_color = "#282828"
     cursor_color = "#aaaaaa"
     foreground_color = "#ffffff"
