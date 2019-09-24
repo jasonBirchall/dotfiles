@@ -82,13 +82,18 @@ set -sg escape-time 0
 bind r source-file ~/.tmux.conf
 
 # THEME
+set-option -g status on
+set -g status-justify left
 set -g status-bg black
 set -g status-fg white
-set -g window-status-current-bg yellow
-set -g window-status-current-fg black
-set -g window-status-current-attr bold
+set -g window-status-current-bg black
+set -g window-status-current-fg yellow
+#set -g window-status-current-attr bold
 set -g status-interval 10
-set -g status-left-length 1000
-set -g status-left '#[fg=green]#(~/bin/get_ip.rb) #[fg=yellow]#(~/bin/ping_response.rb) '
-set -g status-right '#[fg=yellow]#(~/.completions/tmux_kube.sh)#[default] #[fg=white] %H:%M:%S %d-%b-%y '
+set -g status-right-length 60
+set -g status-left ''
+set -g status-right '#[fg=yellow]#(~/.completions/tmux_kube.sh)#[default] #[fg=green]#(~/bin/ping_response.rb) #[fg=white] %H:%M:%S %d-%b-%y '
 
+# visual notification of activity in other windows
+setw -g monitor-activity on
+set -g visual-activity on
