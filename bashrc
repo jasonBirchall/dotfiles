@@ -57,6 +57,7 @@ alias gs='git status; git diff'
 alias gd='git diff'
 alias ga='git add'
 alias gc='git commit'
+alias k='kubectl'
 
 alias htop="sudo docker run --rm -it --pid host json0/htop"
 alias tmux="TERM=screen-256color-bce tmux"
