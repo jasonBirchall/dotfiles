@@ -51,6 +51,7 @@ set expandtab " Convert tabs to spaces
 set showmatch " Show matching brackets when cursored
 set wildmenu " Enhanced command line completion
 set relativenumber
+set nu
 
 " Closing brackets
 inoremap " ""<left>
