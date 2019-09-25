@@ -213,4 +213,4 @@ exec xrandr --dpi 180
 
 # Enable tap to click on touchpad:
 # https://www.reddit.com/r/i3wm/comments/516e8c/tap_to_click_touchpad/
-exec xinput set-prop 11 280 to  1
+exec xinput set-prop 11 280 1
