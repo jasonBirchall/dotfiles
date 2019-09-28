@@ -198,12 +198,12 @@ bar {
 # Function colour | border |  background |  text |  indicator
 set $br #98971a
 set $bg #282828
-set $tx #d79921:wq
+set $tx #d79921
 set $id #00ff00
 
 set $bru #98971a
 set $bgu #282828
-set $txu #d79921:wq
+set $txu #d79921
 set $idu #00ff00
 
 client.focused  $bg $bg $tx $id
