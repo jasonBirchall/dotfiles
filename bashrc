@@ -15,6 +15,7 @@ fi
 export BROWSER=/usr/bin/firefox
 export EDITOR=/usr/bin/vim
 export GIT_EDITOR=${EDITOR}
+export KUBE_EDITOR=${EDITOR}
 export KOPS_STATE_STORE=s3://cloud-platform-kops-state
 export KUBECONFIG=$HOME/.kube/config
 export JAVA_HOME=/usr/lib/jvm/jdk1.7.0_79
