@@ -40,6 +40,7 @@ bindsym $mod+Return exec terminator -e tmux
 
 # start a web browser
 bindsym $mod4+w exec firefox
+bindsym $mod4+c exec google-chrome
 
 # kill focused window
 bindsym $mod+Shift+q kill
