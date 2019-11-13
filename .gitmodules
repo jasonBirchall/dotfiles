@@ -16,3 +16,6 @@
 [submodule "vim/plugins/start/emmet-vim"]
 	path = vim/plugins/start/emmet-vim
 	url = https://github.com/mattn/emmet-vim.git
+[submodule "vim/plugins/start/vim-go"]
+	path = vim/plugins/start/vim-go
+	url = https://github.com/fatih/vim-go.git
