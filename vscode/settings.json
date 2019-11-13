@@ -1,0 +1,10 @@
+{
+    "window.zoomLevel": 0,
+    "workbench.colorTheme": "Monokai Dimmed",
+    "window.menuBarVisibility": "toggle",
+    "task.autoDetect": "off",
+    "editor.multiCursorModifier": "alt"
+    "vim.handleKeys": {
+        "<C-w>": false
+    }
+}
