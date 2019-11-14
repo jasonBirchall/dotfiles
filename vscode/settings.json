@@ -3,8 +3,25 @@
     "workbench.colorTheme": "Monokai Dimmed",
     "window.menuBarVisibility": "toggle",
     "task.autoDetect": "off",
-    "editor.multiCursorModifier": "alt"
-    "vim.handleKeys": {
-        "<C-w>": false
+    "editor.multiCursorModifier": "ctrlCmd",
+    "files.trimTrailingWhitespace": true,
+    "files.autoSave": "off",
+    "editor.tabSize": 2,
+    "editor.tabCompletion": "on",
+    "zenMode.hideActivityBar": false,
+    "zenMode.hideLineNumbers": false,
+    "zenMode.hideStatusBar": false,
+    "window.restoreFullscreen": true,
+    "window.restoreWindows": "all",
+    "ruby.codeCompletion": "rcodetools",
+    "ruby.format": "rubyfmt",
+    "vim.changeWordIncludesWhitespace": true,
+    "vim.hlsearch": true,
+    "vim.statusBarColorControl": true,
+    "vim.useSystemClipboard": true,
+    "workbench.colorCustomizations": {
+        "statusBar.background": "#005f5f",
+        "statusBar.noFolderBackground": "#005f5f",
+        "statusBar.debuggingBackground": "#005f5f"
     }
 }

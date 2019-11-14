@@ -40,16 +40,12 @@
         "command": "workbench.action.splitEditorRight"
     },
     {
-        "key": "ctrl+w t",
+        "key": "ctrl+a t",
         "command": "workbench.action.terminal.toggleTerminal"
     },
     {
         "key": "ctrl+a b",
         "command": "workbench.action.toggleSidebarVisibility"
-    },
-    {
-        "key": "ctrl+b",
-        "command": "-workbench.action.toggleSidebarVisibility"
     },
     {
         "key": "ctrl+a o",
@@ -58,5 +54,20 @@
     {
         "key": "ctrl+a c",
         "command": "workbench.action.toggleMultiCursorModifier"
+    },
+    {
+        "key": "ctrl+a ctrl+a",
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+a ctrl+a",
+        "command": "workbench.action.terminal.focus",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "ctrl+a enter",
+        "command": "explorer.openToSide",
+        "when": "explorerViewLetFocus && explorerViewletVisable"
     }
 ]
