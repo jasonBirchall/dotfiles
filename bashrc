@@ -43,6 +43,7 @@ alias bi='bundle install --path .bundle/gems --binstubs .bundle/bin'
 alias cdd='cd ~/Documents/workarea/dotfiles'
 alias cdw='cd ~/Documents/workarea'
 alias cdi='cd ~/Documents/workarea/cloud-platform-infrastructure'
+alias cdp='cd $GOPATH'
 alias l='ls -CF'
 alias la='ls -latr'
 alias ll='ls -alF'
@@ -62,5 +63,6 @@ alias ga='git add'
 alias gc='git commit'
 alias k='kubectl'
 
-alias htop="sudo docker run --rm -it --pid host json0/htop"
+alias htop="docker run --rm -it --pid host json0/htop"
 alias tmux="TERM=screen-256color-bce tmux"
+
