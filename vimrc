@@ -72,3 +72,6 @@ nnoremap <C-H> <C-W><C-H>
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 
+" Nerdtree settings
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif "Closes vim if the only window left open is a NERDTree
+map <C-n> :NERDTreeToggle<CR>
