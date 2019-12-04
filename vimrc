@@ -53,13 +53,14 @@ set showmatch " Show matching brackets when cursored
 set wildmenu " Enhanced command line completion
 set wrap " Wrap lines
 set nu
+au BufNewFile,BufRead *.go setlocal noet ts=4 sw=4 sts=4 " Golang allows four spaces for a tab
 
 " Closing brackets
-inoremap " ""<left>
-inoremap ' ''<left>
-inoremap ( ()<left>
-inoremap [ []<left>
-inoremap { {}<left>
+" inoremap "<left>
+" inoremap ' ''<left>
+" inoremap ( ()<left>
+" inoremap [ []<left>
+" inoremap { {}<left>
 
 " Navigation
 " Splits
@@ -75,3 +76,14 @@ let g:ctrlp_cmd = 'CtrlP'
 " Nerdtree settings
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif "Closes vim if the only window left open is a NERDTree
 map <C-n> :NERDTreeToggle<CR>
+
+" Syntastic plugin
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_go_checkers = ['gofmt']

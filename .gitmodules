@@ -22,3 +22,9 @@
 [submodule "vim/plugins/start/nerdtree"]
 	path = vim/plugins/start/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
+[submodule "vim/plugins/start/syntastic"]
+	path = vim/plugins/start/syntastic
+	url = https://github.com/vim-syntastic/syntastic.git
+[submodule "vim/plugins/start/auto-pairs"]
+	path = vim/plugins/start/auto-pairs
+	url = https://github.com/jiangmiao/auto-pairs.git

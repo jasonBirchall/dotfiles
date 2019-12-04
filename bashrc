@@ -4,6 +4,7 @@
 . /etc/bash_completion
 
 source <(kubectl completion bash)
+source <(skaffold completion bash)
 
 if [[ -d /etc/bash-completion.d/ ]]; then
   for file in /etc/bash_completion.d/*; do
