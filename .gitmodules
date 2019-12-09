@@ -28,3 +28,6 @@
 [submodule "vim/plugins/start/auto-pairs"]
 	path = vim/plugins/start/auto-pairs
 	url = https://github.com/jiangmiao/auto-pairs.git
+[submodule "vim/plugins/start/vim-commentary"]
+	path = vim/plugins/start/vim-commentary
+	url = https://github.com/tpope/vim-commentary.git

@@ -63,6 +63,7 @@ alias gd='git diff'
 alias ga='git add'
 alias gc='git commit'
 alias k='kubectl'
+alias cdgo='cd $GOPATH'
 
 alias htop="docker run --rm -it --pid host json0/htop"
 alias tmux="TERM=screen-256color-bce tmux"
