@@ -21,6 +21,12 @@
   # git reviewone foo.js bar.js
   reviewone = !vim -p +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
 
+  create-pr="!f() { \
+        BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD); \
+        git push -u origin "${BRANCH_NAME}"; \
+        hub pull-request --no-edit; \
+        };f"
+
 [apply]
 
 	# Detect whitespace errors when applying a patch
