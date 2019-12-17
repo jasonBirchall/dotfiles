@@ -56,7 +56,7 @@ alias home="xrandr --output DP-1 --auto --right-of eDP-1"
 
 alias live-1='KUBECONFIG=$HOME/.kube/config.live-1'
 alias live-0='KUBECONFIG=$HOME/.kube/config.live-0'
-alias issue='cd $HOME/Documents/workarea/cloud-platform; hub issue create'
+alias create-issue='cd $HOME/Documents/workarea/cloud-platform; hub issue create'
 alias tf='terraform'
 alias git='hub'
 alias g='git'
