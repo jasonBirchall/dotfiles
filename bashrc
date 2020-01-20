@@ -56,7 +56,7 @@ alias home="xrandr --output DP-1 --auto --right-of eDP-1"
 
 alias live-1='KUBECONFIG=$HOME/.kube/config.live-1'
 alias live-0='KUBECONFIG=$HOME/.kube/config.live-0'
-alias create-issue='cd $HOME/Documents/workarea/cloud-platform; hub issue create'
+alias create-issue='cd $HOME/Documents/workarea/cloud-platform; hub issue create; cd -'
 alias tf='terraform'
 alias git='hub'
 alias g='git'
@@ -66,6 +66,7 @@ alias ga='git add'
 alias gc='git commit'
 alias k='kubectl'
 alias cdgo='cd $GOPATH'
+alias cdu='cd ~/Documents/workarea/university'
 
 alias htop="docker run --rm -it --pid host json0/htop"
 alias tmux="TERM=screen-256color-bce tmux"
