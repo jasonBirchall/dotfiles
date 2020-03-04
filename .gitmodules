@@ -31,3 +31,6 @@
 [submodule "vim/plugins/start/vim-commentary"]
 	path = vim/plugins/start/vim-commentary
 	url = https://github.com/tpope/vim-commentary.git
+[submodule "tmux-dir/plugins/tpm"]
+	path = tmux-dir/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
