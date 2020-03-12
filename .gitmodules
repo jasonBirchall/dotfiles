@@ -34,3 +34,6 @@
 [submodule "tmux-dir/plugins/tpm"]
 	path = tmux-dir/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
+[submodule "vim/plugins/start/vim-easymotion"]
+	path = vim/plugins/start/vim-easymotion
+	url = https://github.com/easymotion/vim-easymotion.git
