@@ -6,6 +6,7 @@
 "Ctrl+u" = "move up 5"
 "gg" = "move top"
 "G" = "move bottom"
+"Shift+s" = "shuffle"
 
 
 [theme]
