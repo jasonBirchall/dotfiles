@@ -72,4 +72,5 @@ alias cdu='cd ~/Documents/workarea/university'
 
 alias htop="docker run --rm -it --pid host json0/htop"
 alias tmux="TERM=screen-256color-bce tmux"
+alias spellcheck="aspell check"
 
