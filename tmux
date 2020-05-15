@@ -84,8 +84,8 @@ set-option -g status on
 set -g status-justify left
 set -g status-bg default
 set -g status-fg white
-set -g window-status-current-bg default
-set -g window-status-current-fg yellow
+# set -g window-status-current-bg default
+# set -g window-status-current-fg yellow
 #set -g window-status-current-attr bold
 set -g status-interval 10
 set -g status-right-length 60
