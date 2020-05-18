@@ -1,4 +1,6 @@
 # .bashrc
+# Quotes at the top of terminal
+fortune
 
 # Auto-completion
 . /etc/bash_completion
