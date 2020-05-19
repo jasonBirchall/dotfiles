@@ -29,7 +29,7 @@ export GOPATH=$HOME/go
 export HISTCONTROL=ignoreboth:erasedups
 
 shopt -s histappend
-export HISTSIZE= HISTFILESIZE= # Infinite history
+export HISTSIZE=HISTFILESIZE= # Infinite history
 export HISTIGNORE='ls:bg:fg:history:ps:htop:top' # Ignore certain commands
 export HISTTIMEFORMAT='%F %T ' # Record timestamps
 export PROMPT_COMMAND='history -a' # Immediately record history
