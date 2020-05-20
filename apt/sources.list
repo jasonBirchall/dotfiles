@@ -52,3 +52,5 @@ deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
 # deb-src [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
 # deb https://dl.bintray.com/resin-io/debian stable etcher
 # deb-src https://dl.bintray.com/resin-io/debian stable etcher
+deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ focal main
+# deb-src https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ focal main
