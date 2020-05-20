@@ -20,7 +20,8 @@ export GIT_EDITOR=${EDITOR}
 export KUBE_EDITOR=${EDITOR}
 export KOPS_STATE_STORE=s3://cloud-platform-kops-state
 export KUBECONFIG=$HOME/.kube/config
-export JAVA_HOME=/usr/lib/jvm/jdk1.7.0_79
+# export JAVA_HOME=/usr/lib/jvm/jdk1.7.0_79
+export JAVA_HOME=/usr
 export PATH=/usr/share/bluej:$JAVA_HOME/bin:/bin:/home/linuxbrew/.linuxbrew/bin:./.bundle/bin:$HOME:$HOME/.gem/bin:/usr/local/go/bin:$PATH
 export GOPATH=$HOME/go
 
