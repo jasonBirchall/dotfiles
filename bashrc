@@ -75,3 +75,5 @@ alias htop="docker run --rm -it --pid host json0/htop"
 alias tmux="TERM=screen-256color-bce tmux"
 alias spellcheck="aspell check"
 
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
