@@ -32,11 +32,11 @@
         "command": "workbench.action.moveActiveEditorGroupRight"
     },
     {
-        "key": "ctrl+w s",
+        "key": "ctrl+a s",
         "command": "workbench.action.splitEditorDown"
     },
     {
-        "key": "ctrl+w v",
+        "key": "ctrl+a v",
         "command": "workbench.action.splitEditorRight"
     },
     {
@@ -76,22 +76,23 @@
         "when": "filesExplorerFocus" 
     }, 
     { 
-      "key": "k", 
-      "command": "list.focusUp", 
-      "when": "filesExplorerFocus" 
+        "key": "k", 
+        "command": "list.focusUp", 
+        "when": "filesExplorerFocus" 
     }, 
     { 
-      "key": "l", 
-      "command": "list.expand", 
-      "when": "filesExplorerFocus" 
+        "key": "l", 
+        "command": "list.expand", 
+        "when": "filesExplorerFocus" 
     }, 
     { 
-      "key": "h", 
-      "command": "list.collapse", 
-      "when": "filesExplorerFocus" 
+        "key": "h", 
+        "command": "list.collapse", 
+        "when": "filesExplorerFocus" 
     }, 
-    { "key": "enter", 
-      "command": "list.select", 
-      "when": "filesExplorerFocus" 
+    { 
+        "key": "enter", 
+        "command": "list.select", 
+        "when": "filesExplorerFocus" 
     }
 ]
