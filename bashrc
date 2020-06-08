@@ -45,7 +45,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias bi='bundle install --path .bundle/gems --binstubs .bundle/bin'
 alias cdd='cd ~/Documents/workarea/dotfiles'
 alias cdw='cd ~/Documents/workarea'
-alias cdi='cd ~/Documents/workarea/cloud-platform-infrastructure'
+alias cdi='cd ~/Documents/workarea/cloud-platform-infrastructure; setupenv'
 alias cdp='cd $GOPATH'
 alias l='ls -CF'
 alias la='ls -latr'
@@ -56,7 +56,7 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias home="xrandr --output DP-1 --auto --right-of eDP-1"
 
-alias setupenv='source $HOME/Documents/workarea/temp/example.env.create-cluster'
+alias setupenv='source $HOME/Documents/workarea/temp/work-environment'
 alias live-1='KUBECONFIG=$HOME/.kube/config.live-1'
 alias live-0='KUBECONFIG=$HOME/.kube/config.live-0'
 alias create-issue='cd $HOME/Documents/workarea/cloud-platform; hub issue create; cd -'
