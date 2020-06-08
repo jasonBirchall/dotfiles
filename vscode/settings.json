@@ -25,5 +25,6 @@
         "statusBar.debuggingBackground": "#005f5f"
     },
     "editor.suggestSelection": "first",
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue"
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "terminal.integrated.shell.linux": "/usr/bin/tmux"
 }
