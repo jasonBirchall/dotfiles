@@ -45,7 +45,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias bi='bundle install --path .bundle/gems --binstubs .bundle/bin'
 alias cdw='cd ~/Documents/workarea'
 alias cdd='cd ~/Documents/workarea/dotfiles'
-alias cdw='cd ~/Documents/workarea/environment'
+alias cde='cd ~/Documents/workarea/environment'
 alias cdi='cd ~/Documents/workarea/cloud-platform-infrastructure; setupenv'
 alias cdp='cd $GOPATH'
 alias l='ls -CF'
