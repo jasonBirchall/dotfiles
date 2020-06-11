@@ -43,8 +43,9 @@ export REVIEW_BASE=master #Used in .gitconfig for quick diff
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 # ruby alias
 alias bi='bundle install --path .bundle/gems --binstubs .bundle/bin'
-alias cdd='cd ~/Documents/workarea/dotfiles'
 alias cdw='cd ~/Documents/workarea'
+alias cdd='cd ~/Documents/workarea/dotfiles'
+alias cdw='cd ~/Documents/workarea/environment'
 alias cdi='cd ~/Documents/workarea/cloud-platform-infrastructure; setupenv'
 alias cdp='cd $GOPATH'
 alias l='ls -CF'
