@@ -1,4 +1,14 @@
 # Window Customization
+env:
+  # TERM env customization.
+  #
+  # If this property is not set, alacritty will set it to xterm-256color.
+  #
+  # Note that some xterm terminfo databases don't declare support for italics.
+  # You can verify this by checking for the presence of `smso` and `sitm` in
+  # `infocmp xterm-256color`.
+  TERM: xterm-256color
+
 window:
   dimensions:
     columns: 140
@@ -6,11 +16,14 @@ window:
   padding:
     x: 10
     y: 10
-  decorations: none
+  decorations: full
+
 scrolling:
   history: 10000
   multiplier: 3
-background_opacity: 1
+
+background_opacity: 1.0
+
 dynamic_title: true
 
 # Font Customization
@@ -35,6 +48,10 @@ dynamic_title: true
 #   debug:
 #     persistent_logging: false
 # draw_bold_text_with_bright_colors: true
+
+debug:
+  # Should display the render timer
+  render_timer: false
 
 # Color Settings (Gruvbox)
 colors:
@@ -70,6 +87,37 @@ cursor:
   style: Block
   unfocused_hollow: true
 
-key_bindings:
-  - { key: N, mods: Control, action: SpawnNewInstance }
+mouse:
+  # Click settings
+  #
+  # The `double_click` and `triple_click` settings control the time
+  # alacritty should wait for accepting multiple clicks as one double
+  # or triple click.
+  double_click: { threshold: 300 }
+  triple_click: { threshold: 300 }
 
+  # If this is `true`, the cursor is temporarily hidden when typing.
+  hide_when_typing: true
+
+  url:
+    # URL launcher
+    #
+    # This program is executed when clicking on a text which is recognized as a URL.
+    # The URL is always added to the command as the last parameter.
+    launcher: open
+
+    # URL modifiers
+    #
+    # These are the modifiers that need to be held down for opening URLs when clicking
+    # on them. The available modifiers are documented in the key binding section.
+    #modifiers: Control|Shift
+
+selection:
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
+
+  # When set to `true`, selected text will be copied to both the primary and
+  # the selection clipboard. Otherwise, it will only be copied to the selection
+  # clipboard.
+  save_to_clipboard: true
+
+live_config_reload: true
