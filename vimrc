@@ -55,21 +55,27 @@ set wrap " Wrap lines
 set nu
 au BufNewFile,BufRead *.go setlocal noet ts=4 sw=4 sts=4 " Golang allows four spaces for a tab
 
-" Closing brackets
-" inoremap "<left>
-" inoremap ' ''<left>
-" inoremap ( ()<left>
-" inoremap [ []<left>
-" inoremap { {}<left>
-
 " Navigation
 " Splits
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+:set list lcs=tab:\|\ "Add tramlines to tabbed code
 
-" <Ctrl-r> redraws the screen and removes any search highlighting.
+" Jump back to last position in file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+endif
+
+" Go auto format, import and autocomplete
+" autocmd FileType go autocmd BufWritePre <buffer> GoFmt
+let g:go_fmt_command = "goimports"
+let g:go_auto_type_info = 1
+au filetype go inoremap <buffer> . .<C-x><C-o>
+
+
+"<Ctrl-r> redraws the screen and removes any search highlighting.
 nnoremap <silent> <C-r> :nohl<CR>
 
 " Ctrl+p settings
