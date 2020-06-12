@@ -1,3 +1,9 @@
+" Get vim to watch for changes
+augroup myvimrc
+  au!
+  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
+
 " Abbreviations
 abbr teh the
 
@@ -108,6 +114,12 @@ let g:go_metalinter_autosave_enabled=['golint', 'govet']
 
 "<Ctrl-r> redraws the screen and removes any search highlighting.
 nnoremap <silent> <C-r> :nohl<CR>
+
+" Drop drop navigation
+inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<CR>"
+inoremap <expr> <Esc> pumvisible() ? "\<C-e>" : "\<Esc>"
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<Up>"
 
 " Ctrl+p settings
 let g:ctrlp_map = '<c-p>'
