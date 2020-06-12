@@ -56,6 +56,7 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias home="xrandr --output DP-1 --auto --right-of eDP-1"
+alias v="vim"
 
 alias setupenv='source $HOME/Documents/workarea/temp/work-environment'
 alias kops='setupenv; kops'
