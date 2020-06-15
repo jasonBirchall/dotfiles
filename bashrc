@@ -58,7 +58,7 @@ alias egrep='egrep --color=auto'
 alias home="xrandr --output DP-1 --auto --right-of eDP-1"
 alias v="vim"
 
-alias setupenv='source $HOME/Documents/workarea/temp/work-environment'
+alias infraenv='source $HOME/Documents/workarea/temp/work-environment'
 alias kops='setupenv; kops'
 alias live-1='KUBECONFIG=$HOME/.kube/config.live-1'
 alias live-0='KUBECONFIG=$HOME/.kube/config.live-0'
