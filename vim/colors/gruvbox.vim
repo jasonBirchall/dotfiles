@@ -65,14 +65,9 @@ if !exists('g:gruvbox_invert_indent_guides')
   let g:gruvbox_invert_indent_guides=0
 endif
 
-if !exists('g:gruvbox_contrast')
-  let g:gruvbox_contrast='medium'
-else
-  echo 'g:gruvbox_contrast is deprecated; use g:gruvbox_contrast_light and g:gruvbox_contrast_dark instead'
-endif
 
 if !exists('g:gruvbox_contrast_dark')
-  let g:gruvbox_contrast_dark='medium'
+  let g:gruvbox_contrast_dark='hard'
 endif
 
 if !exists('g:gruvbox_contrast_light')
