@@ -74,12 +74,12 @@ if has("autocmd")
 endif
 
 " Move lines up and down
-nnoremap <S-j> :m .+1<CR>==
-nnoremap <S-k> :m .-2<CR>==
-inoremap <S-j> <Esc>:m .+1<CR>==gi
-inoremap <S-k> <Esc>:m .-2<CR>==gi
-vnoremap <S-j> :m '>+1<CR>gv=gv
-vnoremap <S-k> :m '<-2<CR>gv=gv
+" nnoremap <k-j> :m .+1<CR>==
+" nnoremap <S-k> :m .-2<CR>==
+" inoremap <S-j> <Esc>:m .+1<CR>==gi
+" inoremap <S-k> <Esc>:m .-2<CR>==gi
+" vnoremap <S-j> :m '>+1<CR>gv=gv
+" vnoremap <S-k> :m '<-2<CR>gv=gv
 
 " Go auto format, import and autocomplete
 " autocmd FileType go autocmd BufWritePre <buffer> GoFmt
