@@ -46,7 +46,7 @@ alias bi='bundle install --path .bundle/gems --binstubs .bundle/bin'
 alias cdw='cd ~/Documents/workarea'
 alias cdd='cd ~/Documents/workarea/dotfiles'
 alias cde='cd ~/Documents/workarea/environment'
-alias cdi='cd ~/Documents/workarea/cloud-platform-infrastructure; setupenv'
+alias cdi='cd ~/Documents/workarea/cloud-platform-infrastructure; infraenv'
 alias cdp='cd $GOPATH'
 alias l='ls -CF'
 alias la='ls -latr'
@@ -59,7 +59,7 @@ alias home="xrandr --output DP-1 --auto --right-of eDP-1"
 alias v="vim"
 
 alias infraenv='source $HOME/Documents/workarea/temp/work-environment'
-alias kops='setupenv; kops'
+alias kops='infraenv; kops'
 alias live-1='KUBECONFIG=$HOME/.kube/config.live-1'
 alias live-0='KUBECONFIG=$HOME/.kube/config.live-0'
 alias create-issue='cd $HOME/Documents/workarea/cloud-platform; hub issue create; cd -'
