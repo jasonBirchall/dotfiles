@@ -26,5 +26,5 @@
     },
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "terminal.integrated.shell.linux": "/usr/bin/tmux"
+    "terminal.integrated.shell.linux": "/usr/bin/zsh"
 }
