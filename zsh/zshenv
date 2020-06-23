@@ -1,0 +1,16 @@
+ZDOTDIR=$HOME/.config/zsh
+BROWSER=/usr/bin/firefox
+EDITOR=/usr/bin/vim
+GIT_EDITOR=${EDITOR}
+KUBE_EDITOR=${EDITOR}
+KOPS_STATE_STORE=s3://cloud-platform-kops-state
+KUBECONFIG=$HOME/.kube/config
+# JAVA_HOME=/usr/lib/jvm/jdk1.7.0_79
+JAVA_HOME=/usr
+GOPATH=$HOME/go
+PATH=
+RANGER_LOAD_DEFAULT_RC='FALSE' #Ranger file manager loads only my config
+
+typeset -U PATH path
+path=("$HOME/.local/bin" "/usr/local/bin" "/usr/share/bluej" "$JAVA_HOME/bin" "/bin" "/home/linuxbrew/.linuxbrew/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" "/snap/bin" "$path[@]")
+export PATH

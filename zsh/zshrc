@@ -1,0 +1,132 @@
+source ~/.config/zsh/.zprofile
+
+autoload -Uz compinit promptinit
+compinit
+promptinit
+setopt prompt_subst # dynamic command prompt
+setopt COMPLETE_ALIASES
+zstyle ':completion:*' menu select
+zstyle ':completion::complete:*' gain-privileges 1 #For enabling autocompletion of privileged environments
+setopt autocd		# Automatically cd into typed directory.
+stty stop undef		# Disable ctrl-s to freeze terminal.
+
+# This will set the default prompt to walters theme
+# prompt walters
+
+## Git Settings
+# https://git-scm.com/book/en/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Zsh
+autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt prompt_subst
+zstyle ':vcs_info:git:*' formats '%F{yellow}(%b)%r%f'
+zstyle ':vcs_info:*' enable git
+
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' unstagedstr '!'
+zstyle ':vcs_info:*' stagedstr '+'
+zstyle ':vcs_info:*' formats '%R/(%b)%S%u%c'
+
+PROMPT='%F{blue}%1~%f %F{cyan}∳%f '
+RPROMPT=\$vcs_info_msg_0_
+bindkey -e # emacs binding
+
+# create a zkbd compatible hash;
+# to add other keys to this hash, see: man 5 terminfo
+typeset -g -A key
+
+key[Home]="${terminfo[khome]}"
+key[End]="${terminfo[kend]}"
+key[Insert]="${terminfo[kich1]}"
+key[Backspace]="${terminfo[kbs]}"
+key[Delete]="${terminfo[kdch1]}"
+key[Up]="${terminfo[kcuu1]}"
+key[Down]="${terminfo[kcud1]}"
+key[Left]="${terminfo[kcub1]}"
+key[Right]="${terminfo[kcuf1]}"
+key[PageUp]="${terminfo[kpp]}"
+key[PageDown]="${terminfo[knp]}"
+key[Shift-Tab]="${terminfo[kcbt]}"
+
+# setup key accordingly
+[[ -n "${key[Home]}"      ]] && bindkey -- "${key[Home]}"      beginning-of-line
+[[ -n "${key[End]}"       ]] && bindkey -- "${key[End]}"       end-of-line
+[[ -n "${key[Insert]}"    ]] && bindkey -- "${key[Insert]}"    overwrite-mode
+[[ -n "${key[Backspace]}" ]] && bindkey -- "${key[Backspace]}" backward-delete-char
+[[ -n "${key[Delete]}"    ]] && bindkey -- "${key[Delete]}"    delete-char
+[[ -n "${key[Up]}"        ]] && bindkey -- "${key[Up]}"        up-line-or-history
+[[ -n "${key[Down]}"      ]] && bindkey -- "${key[Down]}"      down-line-or-history
+[[ -n "${key[Left]}"      ]] && bindkey -- "${key[Left]}"      backward-char
+[[ -n "${key[Right]}"     ]] && bindkey -- "${key[Right]}"     forward-char
+[[ -n "${key[PageUp]}"    ]] && bindkey -- "${key[PageUp]}"    beginning-of-buffer-or-history
+[[ -n "${key[PageDown]}"  ]] && bindkey -- "${key[PageDown]}"  end-of-buffer-or-history
+[[ -n "${key[Shift-Tab]}" ]] && bindkey -- "${key[Shift-Tab]}" reverse-menu-complete
+
+# History search
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^R" history-incremental-pattern-search-backward
+
+[[ -n "${key[Up]}"   ]] && bindkey -- "${key[Up]}"   up-line-or-beginning-search
+[[ -n "${key[Down]}" ]] && bindkey -- "${key[Down]}" down-line-or-beginning-search
+
+HISTFILE=~/.histfile
+HISTSIZE='100000'
+SAVEHIST="${HISTSIZE}"
+
+# Finally, make sure the terminal is in application mode, when zle is
+# active. Only then are the values from $terminfo valid.
+if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
+	autoload -Uz add-zle-hook-widget
+	function zle_application_mode_start { echoti smkx }
+	function zle_application_mode_stop { echoti rmkx }
+	add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
+	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
+fi
+
+# Shift, Alt, Ctrl and Meta modifiers
+key[Control-Left]="${terminfo[kLFT5]}"
+key[Control-Right]="${terminfo[kRIT5]}"
+
+[[ -n "${key[Control-Left]}"  ]] && bindkey -- "${key[Control-Left]}"  backward-word
+[[ -n "${key[Control-Right]}" ]] && bindkey -- "${key[Control-Right]}" forward-word
+
+# Aliases
+# Add an alert alias for long running commands
+alias bi='bundle install --path .bundle/gems --binstubs .bundle/bin'
+alias cdw='cd ~/Documents/workarea'
+alias cdd='cd ~/Documents/workarea/dotfiles'
+alias cde='cd ~/Documents/workarea/environment'
+alias cdi='cd ~/Documents/workarea/cloud-platform-infrastructure; infraenv'
+alias cdp='cd $GOPATH'
+alias l='ls -CF'
+alias la='ls -latr'
+alias ll='ls -alF'
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias v="vim"
+
+alias infraenv='source $HOME/Documents/workarea/temp/work-environment'
+alias kops='infraenv; kops'
+alias live-1='KUBECONFIG=$HOME/.kube/config.live-1'
+alias live-0='KUBECONFIG=$HOME/.kube/config.live-0'
+alias create-issue='cd $HOME/Documents/workarea/cloud-platform; hub issue create; cd -'
+alias tf='terraform'
+alias git='hub'
+alias g='git'
+alias gs='git status; git diff'
+alias gd='git diff'
+alias ga='git add'
+alias gc='git commit'
+alias k='kubectl'
+alias cdgo='cd $GOPATH'
+alias cdu='cd ~/Documents/workarea/university'
+
+alias tmux="TERM=screen-256color-bce tmux"
+alias spellcheck="aspell check"
+
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
