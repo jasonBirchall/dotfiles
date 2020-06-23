@@ -19,6 +19,9 @@
     "vim.hlsearch": true,
     "vim.statusBarColorControl": true,
     "vim.useSystemClipboard": true,
+    "vim.leader": "<space>",
+    "vim.vimrc.enable": true,
+    "vim.vimrc.path": "/home/json/.vimrc",
     "workbench.colorCustomizations": {
         "statusBar.background": "#005f5f",
         "statusBar.noFolderBackground": "#005f5f",
@@ -26,5 +29,6 @@
     },
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "terminal.integrated.shell.linux": "/usr/bin/zsh"
+    "terminal.integrated.shell.linux": "/bin/zsh",
+    "extensions.ignoreRecommendations": true
 }

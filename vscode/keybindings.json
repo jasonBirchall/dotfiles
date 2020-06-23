@@ -24,7 +24,7 @@
         "command": "workbench.action.moveActiveEditorGroupDown"
     },
     {
-        "key": "ctrl+shift+j",
+        "key": "ctrl+shift+k",
         "command": "workbench.action.moveActiveEditorGroupUp"
     },
     {
@@ -70,29 +70,39 @@
         "command": "explorer.openToSide",
         "when": "explorerViewLetFocus && explorerViewletVisable"
     },
-    { 
-        "key": "j", 
-        "command": "list.focusDown", 
-        "when": "filesExplorerFocus" 
-    }, 
-    { 
-        "key": "k", 
-        "command": "list.focusUp", 
-        "when": "filesExplorerFocus" 
-    }, 
-    { 
-        "key": "l", 
-        "command": "list.expand", 
-        "when": "filesExplorerFocus" 
-    }, 
-    { 
-        "key": "h", 
-        "command": "list.collapse", 
-        "when": "filesExplorerFocus" 
-    }, 
-    { 
-        "key": "enter", 
-        "command": "list.select", 
-        "when": "filesExplorerFocus" 
+    {
+        "key": "j",
+        "command": "list.focusDown",
+        "when": "filesExplorerFocus"
+    },
+    {
+        "key": "k",
+        "command": "list.focusUp",
+        "when": "filesExplorerFocus"
+    },
+    {
+        "key": "l",
+        "command": "list.expand",
+        "when": "filesExplorerFocus"
+    },
+    {
+        "key": "h",
+        "command": "list.collapse",
+        "when": "filesExplorerFocus"
+    },
+    {
+        "key": "enter",
+        "command": "list.select",
+        "when": "filesExplorerFocus"
+    },
+    {
+        "key": "ctrl+a shift+k",
+        "command": "workbench.action.toggleMaximizedPanel"
+    },
+    {
+        "before": ["leader", "w"],
+        "commands": [
+            "workbench.action.files.save"
+        ]
     }
 ]
