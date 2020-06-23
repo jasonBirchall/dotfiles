@@ -9,7 +9,7 @@ bind C-a send-prefix
 #Clipboard
 
 # Automatically copy tmux selection to X clipboard
-#bind -t vi-copy Enter copy-pipe "xclipboard -i -selection clipboard" 
+#bind -t vi-copy Enter copy-pipe "xclipboard -i -selection clipboard"
 
 # For binding 'y' to copy and exiting selection mode
 bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -sel clip -i'
@@ -53,13 +53,13 @@ bind-key M-l resize-pane -R
 
 # Vim style pane selection
 bind h select-pane -L
-bind j select-pane -D 
+bind j select-pane -D
 bind k select-pane -U
 bind l select-pane -R
 
 # Use Alt-vim keys without prefix key to switch panes
 bind -n M-h select-pane -L
-bind -n M-j select-pane -D 
+bind -n M-j select-pane -D
 bind -n M-k select-pane -U
 bind -n M-l select-pane -R
 
@@ -90,7 +90,7 @@ set -g status-fg white
 set -g status-interval 10
 set -g status-right-length 60
 set -g status-left ''
-set -g status-right '#[fg=yellow]#(~/.completions/tmux_kube.sh)#[default] #[fg=green]#(~/bin/ping_response.rb) #[fg=white] %H:%M:%S %d-%b-%y '
+set -g status-right '#[fg=yellow]#(~/.completions/tmux_kube.sh)#[default] #[fg=green]#(docker run json0/ping:1.2) #[fg=white] %H:%M:%S %d-%b-%y '
 
 # visual notification of activity in other windows
 setw -g monitor-activity on
