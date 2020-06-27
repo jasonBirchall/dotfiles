@@ -90,7 +90,7 @@ set -g status-fg white
 set -g status-interval 10
 set -g status-right-length 60
 set -g status-left ''
-set -g status-right '#[fg=yellow]#(~/.completions/tmux_kube.sh)#[default] #[fg=green]#(docker run json0/ping:1.2) #[fg=white] %H:%M:%S %d-%b-%y '
+set -g status-right '#[fg=yellow]#(~/.completions/tmux_kube.sh)#[default] #[fg=green]#(docker run json0/ping:1.3) #[fg=white] %H:%M:%S %d-%b-%y '
 
 # visual notification of activity in other windows
 setw -g monitor-activity on
