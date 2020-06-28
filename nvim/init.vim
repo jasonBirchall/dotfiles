@@ -19,6 +19,7 @@ call plug#begin('$HOME/.config/nvim/plugged')
   Plug 'vim-ruby/vim-ruby'
   Plug 'jiangmiao/auto-pairs'
   Plug 'airblade/vim-gitgutter'
+  Plug 'tpope/vim-fugitive'
 
   Plug 'morhetz/gruvbox' "Theme
 call plug#end() 
