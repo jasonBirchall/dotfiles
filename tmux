@@ -38,8 +38,8 @@ set -g history-limit 10000
 
 setw -g monitor-activity on
 
-bind-key v split-window -h
-bind-key s split-window -v
+bind-key v split-window -h -c "#{pane_current_path}"
+bind-key s split-window -v -c "#{pane_current_path}"
 
 bind-key J resize-pane -D 5
 bind-key K resize-pane -U 5
