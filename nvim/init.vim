@@ -25,6 +25,9 @@ call plug#begin('$HOME/.config/nvim/plugged')
 call plug#end() 
 
 " Key bindings
+let mapleader = " "
+nnoremap <leader>v :vsplit<CR>
+nnoremap <leader>s :split<CR>
 nnoremap <leader><Space> :CtrlP<CR>
 nnoremap <leader><ENTER> :Goyo<CR>
 map <C-n> :NERDTreeToggle<CR>
@@ -52,8 +55,11 @@ filetype plugin indent on
 set encoding=utf-8
 set t_Co=256
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "Ensure comments aren't persisted
+"<Ctrl-r> redraws the screen and removes any search highlighting.
+nnoremap <silent> <C-r> :nohl<CR>
 
 "Text, tabs and stuff
+set list lcs=tab:\|\ "Add tramlines to tabbed code
 set autoindent
 set tabstop=2
 set shiftwidth=2 " 1 tab = 2 spaces
@@ -64,7 +70,6 @@ set showmatch " Show matching brackets when cursored
 set wildmenu " Enhanced command line completion
 set wrap " Wrap lines
 set number
-au BufNewFile,BufRead *.go setlocal noet ts=4 sw=4 sts=4 " Golang allows four spaces for a tab
 
 " Backups 
 set nobackup
@@ -84,10 +89,13 @@ if has("autocmd")
 endif
 
 " Color Settings
-colorscheme gruvbox
+let gruvbox_contrast_dark='hard'
+set ffs=unix
 set background=dark cursorline termguicolors
-hi! Normal ctermbg=NONE guibg=NONE 
-hi! NonText ctermbg=NONE guibg=NONE guifg=NONE ctermfg=NONE 
+colorscheme gruvbox
+
+" hi! Normal ctermbg=NONE guibg=NONE 
+" hi! NonText ctermbg=NONE guibg=NONE guifg=NONE ctermfg=NONE 
 
 " Search and find
 set hls is " turns on highlighted search
@@ -99,6 +107,12 @@ map <leader>o :setlocal spell! spelllang=en_gb<CR>
 " Golang stuff
 let g:go_fmt_command = "goimports"    " Run goimports along gofmt on each save     
 let g:go_auto_type_info = 1           " Automatically get signature/type info for object under cursor
+au BufNewFile,BufRead *.go setlocal noet ts=4 sw=4 sts=4 " Golang allows four spaces for a tab
+let g:go_highlight_structs = 1 
+let g:go_highlight_methods = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
 
 " Goyo settings
 function! s:goyo_enter()
