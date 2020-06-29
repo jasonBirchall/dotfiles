@@ -96,6 +96,10 @@ set ic 	   " turns on case insensitive
 " Spell-check set to <leader>o, 'o' for 'orthography':
 map <leader>o :setlocal spell! spelllang=en_gb<CR>
 
+" Golang stuff
+let g:go_fmt_command = "goimports"    " Run goimports along gofmt on each save     
+let g:go_auto_type_info = 1           " Automatically get signature/type info for object under cursor
+
 " Goyo settings
 function! s:goyo_enter()
     set number
