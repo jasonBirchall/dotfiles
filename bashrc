@@ -23,7 +23,8 @@ export KUBECONFIG=$HOME/.kube/config
 # export JAVA_HOME=/usr/lib/jvm/jdk1.7.0_79
 export JAVA_HOME=/usr
 export GOPATH=$HOME/go
-export PATH=$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/share/bluej:$JAVA_HOME/bin:/bin:/home/linuxbrew/.linuxbrew/bin:./.bundle/bin:$HOME:$HOME/.gem/bin:/usr/local/go/bin:$HOME/go/bin:$PATH
+export GOBIN=$HOME/go/bin
+export PATH=$GOBIN:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/share/bluej:$JAVA_HOME/bin:/bin:/home/linuxbrew/.linuxbrew/bin:./.bundle/bin:$HOME:$HOME/.gem/bin:/usr/local/go/bin:$HOME/go/bin:$PATH
 
 # Set History configuration
 # Only store unique commands in history, and disregard leading spaces
@@ -81,3 +82,4 @@ alias spellcheck="aspell check"
 
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
+
