@@ -23,7 +23,7 @@ export KUBECONFIG=$HOME/.kube/config
 # export JAVA_HOME=/usr/lib/jvm/jdk1.7.0_79
 export JAVA_HOME=/usr
 export GOPATH=$HOME/go
-export PATH=/usr/share/bluej:$JAVA_HOME/bin:/bin:/home/linuxbrew/.linuxbrew/bin:./.bundle/bin:$HOME:$HOME/.gem/bin:/usr/local/go/bin:$HOME/go/bin:$PATH
+export PATH=$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/share/bluej:$JAVA_HOME/bin:/bin:/home/linuxbrew/.linuxbrew/bin:./.bundle/bin:$HOME:$HOME/.gem/bin:/usr/local/go/bin:$HOME/go/bin:$PATH
 
 # Set History configuration
 # Only store unique commands in history, and disregard leading spaces
@@ -56,7 +56,8 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias home="xrandr --output DP-1 --auto --right-of eDP-1"
-alias v="vim"
+alias v="nvim"
+alias vim="nvim"
 
 alias infraenv='source $HOME/Documents/workarea/temp/work-environment'
 alias kops='infraenv; kops'
