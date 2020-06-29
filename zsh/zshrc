@@ -107,7 +107,8 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-alias v="vim"
+alias v="nvim"
+alias vim="nvim"
 
 alias infraenv='source $HOME/Documents/workarea/temp/work-environment'
 alias kops='infraenv; kops'
