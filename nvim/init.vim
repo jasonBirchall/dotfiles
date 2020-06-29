@@ -93,6 +93,9 @@ hi! NonText ctermbg=NONE guibg=NONE guifg=NONE ctermfg=NONE
 set hls is " turns on highlighted search
 set ic 	   " turns on case insensitive
 
+" Spell-check set to <leader>o, 'o' for 'orthography':
+map <leader>o :setlocal spell! spelllang=en_gb<CR>
+
 " Goyo settings
 function! s:goyo_enter()
     set number
