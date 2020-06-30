@@ -13,6 +13,7 @@ call plug#begin('$HOME/.config/nvim/plugged')
   Plug 'preservim/nerdtree'
   Plug 'junegunn/goyo.vim'
   Plug 'bling/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
   Plug 'tpope/vim-commentary'
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
@@ -93,6 +94,8 @@ let gruvbox_contrast_dark='hard'
 set ffs=unix
 set background=dark cursorline termguicolors
 colorscheme gruvbox
+let g:airline_theme='solarized'
+let g:airline_solarized_bg='dark'
 
 " hi! Normal ctermbg=NONE guibg=NONE 
 " hi! NonText ctermbg=NONE guibg=NONE guifg=NONE ctermfg=NONE 
