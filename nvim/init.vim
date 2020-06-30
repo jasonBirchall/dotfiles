@@ -31,6 +31,8 @@ nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>s :split<CR>
 nnoremap <leader><Space> :CtrlP<CR>
 nnoremap <leader><ENTER> :Goyo<CR>
+" gt and gT to navigate tabs
+nnoremap <leader>t :tabedit<CR>
 map <C-n> :NERDTreeToggle<CR>
 " Shortcutting split navigation, saving a keypress:
 map <C-h> <C-w>h
