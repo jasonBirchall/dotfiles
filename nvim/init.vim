@@ -34,6 +34,8 @@ nnoremap <leader><ENTER> :Goyo<CR>
 " gt and gT to navigate tabs
 nnoremap <leader>t :tabedit<CR>
 map <C-n> :NERDTreeToggle<CR>
+"<Ctrl-r> redraws the screen and removes any search highlighting.
+nnoremap <leader> r :nohl<CR>
 " Shortcutting split navigation, saving a keypress:
 map <C-h> <C-w>h
 map <C-j> <C-w>j
@@ -47,7 +49,6 @@ map <C-l> <C-w>l
 
 " Some basic stuff
 set clipboard+=unnamedplus "https://neovim.io/doc/user/provider.html#provider-clipboard
-let mapleader =" "
 syntax enable
 syntax on
 set shell=/bin/bash
@@ -58,8 +59,6 @@ filetype plugin indent on
 set encoding=utf-8
 set t_Co=256
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "Ensure comments aren't persisted
-"<Ctrl-r> redraws the screen and removes any search highlighting.
-nnoremap <silent> <C-r> :nohl<CR>
 
 "Text, tabs and stuff
 set list lcs=tab:\|\ "Add tramlines to tabbed code
