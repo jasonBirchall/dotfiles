@@ -46,3 +46,9 @@
 [submodule "zsh/packages/zsh-autosuggestions"]
 	path = zsh/packages/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions.git
+[submodule "zsh/packages/zsh-z"]
+	path = zsh/packages/zsh-z
+	url = https://github.com/agkozak/zsh-z.git
+[submodule "zsh/packages/antigen"]
+	path = zsh/packages/antigen
+	url = https://github.com/zsh-users/antigen.git

@@ -134,5 +134,26 @@ alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 
 # Plugins
-source packages/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source packages/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/Documents/workarea/dotfiles/zsh/packages/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/Documents/workarea/dotfiles/zsh/packages/zsh-z/zsh-z.plugin.zsh
+source $HOME/Documents/workarea/dotfiles/zsh/packages/antigen/antigen.zsh
+
+## Use the oh-my-zsh library
+antigen use oh-my-zsh
+
+antigen bundle git
+antigen bundle git-extras
+antigen bundle tmux
+antigen bundle zsh-users/zsh-completions
+antigen bundle command-not-found
+
+# Syntax highlighting bundle. Has to be the last package.
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+# Load the theme.
+# You probably will want to install powerline fonts https://github.com/powerline/fonts
+antigen theme denysdovhan/spaceship-prompt
+
+# Tell antigen that you're done
+antigen apply
+
