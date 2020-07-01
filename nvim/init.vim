@@ -72,6 +72,7 @@ set showmatch " Show matching brackets when cursored
 set wildmenu " Enhanced command line completion
 set wrap " Wrap lines
 set number
+set inccommand=nosplit
 
 " Backups 
 set nobackup
