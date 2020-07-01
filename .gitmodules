@@ -40,3 +40,9 @@
 [submodule "vim/plugins/start/gv.vim"]
 	path = vim/plugins/start/gv.vim
 	url = https://github.com/junegunn/gv.vim
+[submodule "zsh/packages/zsh-syntax-highlighting"]
+	path = zsh/packages/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "zsh/packages/zsh-autosuggestions"]
+	path = zsh/packages/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions.git
