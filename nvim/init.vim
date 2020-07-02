@@ -21,6 +21,8 @@ call plug#begin('$HOME/.config/nvim/plugged')
   Plug 'jiangmiao/auto-pairs'
   Plug 'airblade/vim-gitgutter'
   Plug 'tpope/vim-fugitive'
+  Plug 'christoomey/vim-tmux-navigator'
+
 
   Plug 'morhetz/gruvbox' "Theme
 call plug#end() 
