@@ -146,6 +146,7 @@ antigen bundle git-extras
 antigen bundle tmux
 antigen bundle zsh-users/zsh-completions
 antigen bundle command-not-found
+# antigen bundle ohmyzsh/plugins/fzf # look at this one in further detail
 
 # Syntax highlighting bundle. Has to be the last package.
 antigen bundle zsh-users/zsh-syntax-highlighting
@@ -153,6 +154,45 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 # Load the theme.
 # You probably will want to install powerline fonts https://github.com/powerline/fonts
 antigen theme denysdovhan/spaceship-prompt
+
+# Prompt configuration:
+# https://github.com/denysdovhan/spaceship-prompt/blob/master/docs/Options.md#prompt
+SPACESHIP_TIME_SHOW=true
+SPACESHIP_USER_SHOW=always
+SPACESHIP_USER_PREFIX="| "
+SPACESHIP_USER_COLOR=gold
+SPACESHIP_DIR_PREFIX="| "
+SPACESHIP_DIR_COLOR=blue
+SPACESHIP_GIT_PREFIX="| "
+SPACESHIP_KUBECTL_SHOW=true
+SPACESHIP_KUBECTL_VERSION_SHOW=false
+SPACESHIP_KUBECTL_PREFIX="| "
+SPACESHIP_KUBECTL_SYMBOL=""
+SPACESHIP_KUBECONTEXT_SHOW=true
+SPACESHIP_KUBECONTEXT_COLOR_GROUPS=(
+  # red if namespace is "kube-system"
+  red    '\(kube-system)$'
+  # else, green if "dev-01" is anywhere in the context or namespace
+  green  dev-01
+  # else, red if context name ends with ".k8s.local" _and_ namespace is "system"
+  red    '^live-[0-9]+$'
+  # else, yellow if the entire content is "test-" followed by digits, and no namespace is displayed
+  green '^test-[0-9]+$'
+)
+
+SPACESHIP_PROMPT_ORDER=(
+  time
+  user
+  dir
+  aws
+  terraform
+  kubectl
+  vi_mode
+  git
+  exec_time
+  line_sep
+  char
+)
 
 # Tell antigen that you're done
 antigen apply
