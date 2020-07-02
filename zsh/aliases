@@ -1,0 +1,40 @@
+# Aliases
+# Add an alert alias for long running commands
+alias bi='bundle install --path .bundle/gems --binstubs .bundle/bin'
+alias cdw='cd ~/Documents/workarea'
+alias cdd='cd ~/Documents/workarea/dotfiles'
+alias cde='cd ~/Documents/workarea/environment'
+alias cdi='cd ~/Documents/workarea/cloud-platform-infrastructure; infraenv'
+alias cdp='cd $GOPATH'
+alias l='ls -CF'
+alias la='ls -latr'
+alias ll='ls -alF'
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias v="nvim"
+alias vim="nvim"
+
+alias infraenv='source $HOME/Documents/workarea/temp/work-environment'
+alias kops='infraenv; kops'
+alias live-1='KUBECONFIG=$HOME/.kube/config.live-1'
+alias live-0='KUBECONFIG=$HOME/.kube/config.live-0'
+alias create-issue='cd $HOME/Documents/workarea/cloud-platform; hub issue create; cd -'
+alias tf='terraform'
+alias git='hub'
+alias g='git'
+alias gs='git status; git diff'
+alias gd='git diff'
+alias ga='git add'
+alias gc='git commit'
+alias k='kubectl'
+complete -F __start_kubectl k
+alias cdgo='cd $GOPATH'
+alias cdu='cd ~/Documents/workarea/university'
+
+alias tmux="TERM=screen-256color-bce tmux"
+alias spellcheck="aspell check"
+
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
