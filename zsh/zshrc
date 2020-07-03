@@ -11,8 +11,19 @@ stty stop undef		# Disable ctrl-s to freeze terminal.
 # This will set the default prompt to walters theme
 # prompt walters
 
-source ~/.config/zsh/.zprofile
+source <(kubectl completion zsh)
 source ~/.config/zsh/.aliases
+
+# Functions
+function commands() {
+  # Shorten the kubeconfig context
+  long=$(cat $KUBECONFIG | grep "current-context:" | sed "s/current-context: //")
+  short=$(print ${long} | awk -F. '{print $1}')
+
+  kubectl config rename-context ${long} ${short}
+}
+
+commands &> /dev/null
 
 ## Git Settings
 # https://git-scm.com/book/en/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Zsh
@@ -68,6 +79,7 @@ autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^R" history-incremental-pattern-search-backward
+HIST_STAMPS="dd.mm.yyyy"
 
 [[ -n "${key[Up]}"   ]] && bindkey -- "${key[Up]}"   up-line-or-beginning-search
 [[ -n "${key[Down]}" ]] && bindkey -- "${key[Down]}" down-line-or-beginning-search
@@ -130,15 +142,16 @@ SPACESHIP_KUBECTL_VERSION_SHOW=false
 SPACESHIP_KUBECTL_PREFIX="| "
 SPACESHIP_KUBECTL_SYMBOL=""
 SPACESHIP_KUBECONTEXT_SHOW=true
+SPACESHIP_KUBECONTEXT_COLOR=green
 SPACESHIP_KUBECONTEXT_COLOR_GROUPS=(
   # red if namespace is "kube-system"
   red    '\(kube-system)$'
   # else, green if "dev-01" is anywhere in the context or namespace
   green  dev-01
   # else, red if context name ends with ".k8s.local" _and_ namespace is "system"
-  red    '^live-[0-9]+$'
+  red    live
   # else, yellow if the entire content is "test-" followed by digits, and no namespace is displayed
-  green '^test-[0-9]+$'
+  green test
 )
 
 SPACESHIP_PROMPT_ORDER=(
