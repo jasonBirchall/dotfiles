@@ -108,7 +108,6 @@ key[Control-Right]="${terminfo[kRIT5]}"
 
 # Plugins
 source $HOME/Documents/workarea/dotfiles/zsh/packages/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $HOME/Documents/workarea/dotfiles/zsh/packages/zsh-z/zsh-z.plugin.zsh
 source $HOME/Documents/workarea/dotfiles/zsh/packages/antigen/antigen.zsh
 
 ## Use the oh-my-zsh library
