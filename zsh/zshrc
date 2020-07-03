@@ -119,6 +119,7 @@ antigen bundle git-extras
 antigen bundle tmux
 antigen bundle zsh-users/zsh-completions
 antigen bundle command-not-found
+antigen bundle agkozak/zsh-z
 # antigen bundle ohmyzsh/plugins/fzf # look at this one in further detail
 
 # Syntax highlighting bundle. Has to be the last package.
@@ -144,14 +145,8 @@ SPACESHIP_KUBECTL_SYMBOL=""
 SPACESHIP_KUBECONTEXT_SHOW=true
 SPACESHIP_KUBECONTEXT_COLOR=green
 SPACESHIP_KUBECONTEXT_COLOR_GROUPS=(
-  # red if namespace is "kube-system"
-  red    '\(kube-system)$'
-  # else, green if "dev-01" is anywhere in the context or namespace
-  green  dev-01
-  # else, red if context name ends with ".k8s.local" _and_ namespace is "system"
+  # Red if the context contains live
   red    live
-  # else, yellow if the entire content is "test-" followed by digits, and no namespace is displayed
-  green test
 )
 
 SPACESHIP_PROMPT_ORDER=(
@@ -162,11 +157,15 @@ SPACESHIP_PROMPT_ORDER=(
   terraform
   kubectl
   vi_mode
-  git
   exec_time
+  git
   line_sep
   char
 )
+
+# Empty by default 
+# SPACESHIP_RPROMPT_ORDER=(
+# )
 
 # Tell antigen that you're done
 antigen apply
