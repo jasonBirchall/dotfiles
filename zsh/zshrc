@@ -156,8 +156,8 @@ SPACESHIP_PROMPT_ORDER=(
   terraform
   kubectl
   vi_mode
-  exec_time
   git
+  exec_time
   line_sep
   char
 )
