@@ -16,7 +16,7 @@ alias egrep='egrep --color=auto'
 alias v="nvim"
 alias vim="nvim"
 
-alias infraenv='source $HOME/Documents/workarea/temp/work-environment'
+alias infraenv='source $HOME/Documents/workarea/temp/temp-clusters'
 alias kops='infraenv; kops'
 alias kopsexport='infraenv; rm ~/.kube/config; kops export kubecfg'
 alias live-1='KUBECONFIG=$HOME/.kube/config.live-1'

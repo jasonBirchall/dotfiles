@@ -22,7 +22,8 @@ call plug#begin('$HOME/.config/nvim/plugged')
   Plug 'airblade/vim-gitgutter'
   Plug 'tpope/vim-fugitive'
   Plug 'christoomey/vim-tmux-navigator'
-
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
 
   Plug 'morhetz/gruvbox' "Theme
 call plug#end() 
