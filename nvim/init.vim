@@ -24,6 +24,8 @@ call plug#begin('$HOME/.config/nvim/plugged')
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
+  Plug 'sebdah/vim-delve'
+
 
   Plug 'morhetz/gruvbox' "Theme
 call plug#end() 
