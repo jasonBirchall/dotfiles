@@ -46,6 +46,8 @@ map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
+" Spell-check set to <leader>o, 'o' for 'orthography':
+map <leader>o :setlocal spell! spelllang=en_gb<CR>
 
 " Set config to .vimrc
 " set runtimepath^=~/.vim runtimepath+=/.vim/after
@@ -110,9 +112,6 @@ let g:airline_solarized_bg='dark'
 " Search and find
 set hls is " turns on highlighted search
 set ic 	   " turns on case insensitive
-
-" Spell-check set to <leader>o, 'o' for 'orthography':
-map <leader>o :setlocal spell! spelllang=en_gb<CR>
 
 " Golang stuff
 let g:go_fmt_command = "goimports"    " Run goimports along gofmt on each save     

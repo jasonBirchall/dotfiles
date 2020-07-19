@@ -139,3 +139,9 @@
 	name = jasonBirchall
 [gpg]
 	program = /usr/local/bin/gpg
+[cola]
+	spellcheck = true
+	theme = flat-dark-grey
+	icontheme = dark
+[gui]
+	editor = gvim
