@@ -36,7 +36,7 @@ bindsym Control+Print exec gnome-screenshot -i
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec terminator -e tmux
+bindsym $mod+Return exec alacritty -e tmux
 
 # start a web browser
 bindsym $mod4+w exec firefox
