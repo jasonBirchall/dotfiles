@@ -29,7 +29,10 @@ font pango:Monospace 10
 # font, it doesn’t scale on retina/hidpi displays.
 
 # Set keyboard layout to gb
-exec setxkbmap gb
+exec_always --no-startup-id "setxkbmap gb"
+
+# Hide window title bar
+new_window pixel 0
 
 # Screen shot for gnome
 #bindsym Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/Pictures/'
