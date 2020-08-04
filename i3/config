@@ -28,6 +28,9 @@ font pango:Monospace 10
 # X core fonts rendering does not support right-to-left and this being a bitmap
 # font, it doesn’t scale on retina/hidpi displays.
 
+# Set keyboard layout to gb
+exec setxkbmap gb
+
 # Screen shot for gnome
 #bindsym Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/Pictures/'
 bindsym Control+Print exec gnome-screenshot -i
@@ -195,7 +198,7 @@ bindsym XF86AudioPrev exec playerctl previous
 # finds out, if available)
 bar {
         status_command i3status -c ~/.i3/i3status.conf
-        font pango:DejaVu Sans Mono 10
+        font pango:DejaVu Sans Mono 11
         tray_output primary
         position  top
 }
