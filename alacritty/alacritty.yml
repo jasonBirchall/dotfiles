@@ -24,7 +24,7 @@ scrolling:
 
 background_opacity: 1.0
 
-dynamic_title: true
+window.dynamic_title: true
 
 # Font Customization
 # font:
