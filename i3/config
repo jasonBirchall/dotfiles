@@ -154,7 +154,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec --no-startup-id i3-nagbar -t warning -f "pango:Hack 9" -m "Do you really want to exit?" -B "    Exit " "i3-msg exit" -B "    Lock " "pkill i3-nagbar && i3lock-fancy -f Source-Sans-Pro" -B "    Reboot " "pkill i3-nagbar && reboot" -B "    Shutdown " "pkill i3-nagbar && shutdown -h now"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -186,8 +186,8 @@ bindsym $mod+r mode "resize"
 bindsym $mod4+l exec $lockcmd --color=000000 && systemctl suspend
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id "pactl set-sink-volume 0 +5%" #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id "pactl set-sink-volume 0 -5%" #decrease sound volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q -D pulse sset Master 5%+ #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q -D pulse sset Master 5%- #decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 # Sreen brightness controls
@@ -235,6 +235,5 @@ exec xrandr --dpi 180
 
 # Enable tap to click on touchpad on dell 9380:
 # https://www.reddit.com/r/i3wm/comments/516e8c/tap_to_click_touchpad/
-exec_always --no-startup-id "xinput set-prop 12 303 1"
-exec_always --no-startup-id "xinput set-prop 12 304 1"
+exec_always --no-startup-id "xinput set-prop 12 302 1"
 exec_always --no-startup-id "xinput set-prop 12 304 1"
