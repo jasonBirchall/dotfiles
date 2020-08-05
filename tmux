@@ -6,6 +6,10 @@ set -g prefix C-a
 unbind C-b
 bind C-a send-prefix
 
+# Use vim key bindings
+set-option -g mode-keys vi
+set-option -g status-keys vi
+
 #Clipboard
 
 # Automatically copy tmux selection to X clipboard
@@ -79,18 +83,47 @@ set -sg escape-time 0
 # Reload tmux config
 bind r source-file ~/.tmux.conf
 
-# THEME
+# Set status bar
 set-option -g status on
-set -g status-justify left
-set -g status-bg default
-set -g status-fg white
-# set -g window-status-current-bg default
-# set -g window-status-current-fg yellow
-#set -g window-status-current-attr bold
+
+# Status position
+set-option -g status-position bottom
+
+# Status update interval
 set -g status-interval 10
-set -g status-right-length 60
-set -g status-left ''
-set -g status-right '#[fg=yellow]#(~/.completions/tmux_kube.sh)#[default] #[fg=green]#(docker run json0/ping:1.3) #[fg=white] %H:%M %d-%b'
+
+# Basic status bar colors
+set-option -g status-style bg=default,fg=white
+
+# Left side of status bar
+set-option -g status-left-length 40
+set-option -g status-left "#[fg=brightwhite,bg=brightblack] #[fg=default,bg=default] "
+
+# Window status
+set-option -g window-status-format "#[fg=white,bg=brightblack] #I #[fg=white,bg=#363636] #W "
+set-option -g window-status-current-format "#[fg=brightwhite,bg=green] #I #[fg=brightwhite,bg=blue] #W "
+set-option -g window-status-separator " "
+
+# Right side of status bar
+set-option -g status-right-length 90
+set-option -g status-right " #[fg=green]#(docker run json0/ping:1.3) #[fg=brightwhite,bg=#363636] %a, %d %b %H:%M #[fg=yellow,bg=black] #(~/.completions/tmux_kube.sh) "
+# set -g status-right '#[fg=yellow]#(~/.completions/tmux_kube.sh)#[default] #[fg=green]#(docker run json0/ping:1.3) #[fg=white] %H:%M %d-%b'
+
+# Pane border
+set-option -g pane-border-style bg=default,fg=brightblack
+set-option -g pane-active-border-style bg=default,fg=white
+
+# Pane number indicator
+set-option -g display-panes-colour brightblack
+set-option -g display-panes-active-colour brightwhite
+
+# Clock mode
+set-option -g clock-mode-colour white
+set-option -g clock-mode-style 24
+
+# Message
+set-option -g message-style bg=default,fg=default
+
 
 # visual notification of activity in other windows
 setw -g monitor-activity on
