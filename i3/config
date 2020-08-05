@@ -234,6 +234,8 @@ exec feh --bg-scale ~/Pictures/wallpaper1.png
 # Set xrand scale
 exec xrandr --dpi 180
 
-# Enable tap to click on touchpad:
+# Enable tap to click on touchpad on dell 9380:
 # https://www.reddit.com/r/i3wm/comments/516e8c/tap_to_click_touchpad/
-exec xinput set-prop 11 280 1
+exec_always --no-startup-id "xinput set-prop 12 303 1"
+exec_always --no-startup-id "xinput set-prop 12 304 1"
+exec_always --no-startup-id "xinput set-prop 12 304 1"
