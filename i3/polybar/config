@@ -69,7 +69,7 @@ font-2 = siji:pixelsize=20;1
 
 modules-left = i3
 modules-center = mpd
-modules-right = xbacklight pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-right = xsystem-bluetooth-bluetoothctl xbacklight pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -108,6 +108,12 @@ label-indicator-padding = 2
 label-indicator-margin = 1
 label-indicator-background = ${colors.secondary}
 label-indicator-underline = ${colors.secondary}
+
+[module/system-bluetooth-bluetoothctl]
+type = custom/script
+exec = ~/.config/polybar/system-bluetooth-bluetoothctl.sh
+tail = true
+click-left = ~/.config/polybar/system-bluetooth-bluetoothctl.sh --toggle &
 
 [module/filesystem]
 type = internal/fs

@@ -31,6 +31,8 @@ font pango:Monospace 10
 # Set keyboard layout to gb
 exec_always --no-startup-id "setxkbmap gb"
 
+# Open gnome-settings
+bindsym $mod+Shift+s exec gnome-control-center
 # Hide window title bar
 new_window pixel 0
 
