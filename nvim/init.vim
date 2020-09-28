@@ -26,8 +26,8 @@ call plug#begin('$HOME/.config/nvim/plugged')
   Plug 'junegunn/fzf.vim'
   Plug 'sebdah/vim-delve'
 
-
   Plug 'morhetz/gruvbox' "Theme
+
 call plug#end() 
 
 " Key bindings
