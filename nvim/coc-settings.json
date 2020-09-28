@@ -6,5 +6,6 @@
       "trace.server": "verbose",
       "filetypes": ["go"]
     }
-  }
+  },
+  "python.jediEnabled": false
 }
