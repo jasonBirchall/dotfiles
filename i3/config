@@ -232,6 +232,9 @@ client.unfocused  $bgu $bgu $txu $idu
 # Set wallpaper
 exec feh --bg-scale ~/Pictures/wallpaper1.png
 
+# Set multi-monitor on odin
+exec xrandr --output DP-0 --auto --left-of HDMI-0
+
 # Set xrand scale
 exec xrandr --dpi 180
 
