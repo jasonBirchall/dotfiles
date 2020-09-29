@@ -37,10 +37,6 @@ bindsym $mod+Shift+s exec gnome-control-center
 # Hide window title bar
 new_window pixel 0
 
-# Screen shot for gnome
-#bindsym Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/Pictures/'
-bindsym Control+Print exec gnome-screenshot -i
-
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -56,6 +52,10 @@ exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
 
 # kill focused window
 bindsym $mod+Shift+q kill
+
+# Take screenshots with scrot
+bindsym Print exec scrot $HOME/Pictures/screenshot_`date +%d%m%y_%H%M%S`.png && viewnior $HOME/Pictures/Screenshots/shad_`date +%d%m%y_%H%M%S`.png # normal
+bindsym Control+Print exec scrot -ub $HOME/Pictures/screenshot_`date +%d%m%y_%H%M%S`.png && viewnior $HOME/Pictures/Screenshots/shad_`date +%d%m%y_%H%M%S`.png # focused window
 
 # dmenu alternative named rofi
 bindsym $mod+d exec --no-startup-id rofi -show combi -theme gruvbox-dark -font "hack 20"
