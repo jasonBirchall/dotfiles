@@ -19,7 +19,8 @@ set $mod4 Mod4
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:Monospace 10
+font pango:Monospace 16
+# font pango:DejaVu Sans Mono 24
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -48,7 +49,10 @@ bindsym $mod+Return exec alacritty -e tmux
 
 # start a web browser
 bindsym $mod4+w exec firefox
-bindsym $mod4+c exec google-chrome
+bindsym $mod4+c exec chromium --force-device-scale-factor=1.5
+
+# use dunst notification service
+exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -234,9 +238,8 @@ exec feh --bg-scale ~/Pictures/wallpaper1.png
 
 # Set multi-monitor on odin
 exec xrandr --output DP-0 --auto --left-of HDMI-0
-
 # Set xrand scale
-exec xrandr --dpi 180
+exec xrandr --dpi 180 --scale 1.5
 
 # Enable tap to click on touchpad on dell 9380:
 # https://www.reddit.com/r/i3wm/comments/516e8c/tap_to_click_touchpad/
