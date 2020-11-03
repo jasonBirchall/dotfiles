@@ -69,7 +69,7 @@ font-2 = siji:pixelsize=20;1
 
 modules-left = i3
 modules-center = mpd
-modules-right = pingtime xsystem-bluetooth-bluetoothctl xbacklight pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-right = xsystem-bluetooth-bluetoothctl xbacklight pulseaudio pingtime xkeyboard memory cpu wlan eth battery temperature date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -151,12 +151,6 @@ label-empty-padding = 2
 
 ; Separator in between workspaces
 ; label-separator = |
-
-[module/ping]
-type = custom/script
-exec = $HOME/Documents/workarea/environment/ruby/ping_response.rb
-interval = 3
-label = %output%
 
 [module/i3]
 type = internal/i3
