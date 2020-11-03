@@ -106,7 +106,7 @@ set-option -g window-status-separator " "
 
 # Right side of status bar
 set-option -g status-right-length 90
-set-option -g status-right " #[fg=green]#(docker run json0/ping:1.3) #[fg=brightwhite,bg=#363636] %a, %d %b %H:%M #[fg=yellow,bg=black] #(~/.completions/tmux_kube.sh) "
+set-option -g status-right " #[fg=brightwhite,bg=#363636] %a, %d %b %H:%M #[fg=yellow,bg=black] #(~/.completions/tmux_kube.sh) "
 
 # Pane border
 set-option -g pane-border-style bg=default,fg=brightblack
