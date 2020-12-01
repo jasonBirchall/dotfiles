@@ -113,6 +113,10 @@ let g:airline_solarized_bg='dark'
 set hls is " turns on highlighted search
 set ic 	   " turns on case insensitive
 
+" Ruby CoC enable
+" Must have solargraph installed using gem install solargraph
+let g:coc_global_extensions = ['coc-solargraph']
+
 " Golang stuff
 let g:go_fmt_command = "goimports"    " Run goimports along gofmt on each save     
 let g:go_auto_type_info = 1           " Automatically get signature/type info for object under cursor
