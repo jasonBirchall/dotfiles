@@ -1,5 +1,4 @@
 ZDOTDIR=$HOME/.config/zsh
-BROWSER=/usr/bin/firefox
 EDITOR=/usr/bin/vim
 GIT_EDITOR=${EDITOR}
 KUBE_EDITOR=${EDITOR}
@@ -12,6 +11,6 @@ PATH=
 RANGER_LOAD_DEFAULT_RC='FALSE' #Ranger file manager loads only my config
 
 typeset -U PATH path
-path=("${KREW_ROOT:-$HOME/.krew}/bin:$PATH" "$HOME/.local/bin" "/usr/local/bin" "/usr/share/bluej" "$JAVA_HOME/bin" "/bin" "/home/linuxbrew/.linuxbrew/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" "/snap/bin" "$path[@]")
+path=("$HOME/bin" "${KREW_ROOT:-$HOME/.krew}/bin:$PATH" "$HOME/.local/bin" "/usr/local/bin" "/usr/share/bluej" "$JAVA_HOME/bin" "/bin" "/home/linuxbrew/.linuxbrew/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" "/snap/bin" "$path[@]")
 export PATH
 export GDK_SCALE=2
