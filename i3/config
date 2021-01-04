@@ -46,6 +46,7 @@ bindsym $mod+Return exec alacritty -e tmux
 # start a web browser
 bindsym $mod4+w exec firefox
 bindsym $mod4+c exec chromium --force-device-scale-factor=1.5
+bindsym $mod4+b exec brave --force-device-scale-factor=1.5
 
 # use dunst notification service
 exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
@@ -198,8 +199,8 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute s
 
 # Sreen brightness controls
 # https://unix.stackexchange.com/questions/301724/xbacklight-not-working
-bindsym $mod4+b exec xbacklight -inc 20 # increase screen brightness
-bindsym $mod4+shift+b exec xbacklight -dec 20 # decrease screen brightness
+bindsym $mod3+b exec xbacklight -inc 20 # increase screen brightness
+bindsym $mod3+shift+b exec xbacklight -dec 20 # decrease screen brightness
 
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play-pause
