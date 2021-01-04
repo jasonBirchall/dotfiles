@@ -91,7 +91,7 @@ cursor-scroll = ns-resize
 
 [module/crypto]
 type = custom/script
-exec = ~/.config/polybar/pcrypto.py --base GBP --display both --coins btc eth #link ltc xrp xmr
+exec = crypto track --coin btc,eth #link ltc xrp xmr
 interval = 120
 
 font-0 = "coins:style=Regular;0"
