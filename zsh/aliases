@@ -33,6 +33,7 @@ alias k='kubectl'
 complete -F __start_kubectl k
 alias cdgo='cd $GOPATH'
 alias cdu='cd ~/Documents/workarea/university-work'
+alias yq="yq e '.' -"
 
 alias tmux="TERM=screen-256color-bce tmux"
 alias spellcheck="aspell check"
