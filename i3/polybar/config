@@ -69,7 +69,7 @@ font-2 = Hack:pixelsize=20;1
 
 modules-left = i3
 modules-center = mpd
-modules-right = xsystem-bluetooth-bluetoothctl xbacklight pulseaudio crypto pingtime xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-right = xsystem-bluetooth-bluetoothctl xbacklight pulseaudio crypto pingtime polypomo xkeyboard memory cpu wlan eth battery temperature date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -88,6 +88,22 @@ scroll-down = i3wm-wsprev
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+[module/polypomo]
+type = custom/script
+
+exec = ~/Documents/workarea/dotfiles/i3/polybar/polypomo/polypomo
+tail = true
+
+label = %output%
+click-left = ~/Documents/workarea/dotfiles/i3/polybar/polypomo/polypomo toggle
+click-right = ~/Documents/workarea/dotfiles/i3/polybar/polypomo/polypomo end
+click-middle = ~/Documents/workarea/dotfiles/i3/polybar/polypomo/polypomo lock
+scroll-up = ~/Documents/workarea/dotfiles/i3/polybar/polypomo/polypomo time +60
+scroll-down = ~/Documents/workarea/dotfiles/i3/polybar/polypomo/polypomo time -60
+
+; font-0 = fixed:pixelsize=10;1
+; font-1 = Noto Emoji:scale=15:antialias=false;0
 
 [module/crypto]
 type = custom/script
