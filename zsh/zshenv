@@ -1,5 +1,5 @@
 ZDOTDIR=$HOME/.config/zsh
-EDITOR=/usr/bin/vim
+EDITOR=/usr/bin/nvim
 GIT_EDITOR=${EDITOR}
 KUBE_EDITOR=${EDITOR}
 KOPS_STATE_STORE=s3://cloud-platform-kops-state
