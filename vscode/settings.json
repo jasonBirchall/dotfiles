@@ -1,6 +1,5 @@
 {
-    "window.zoomLevel": 0,
-    "workbench.colorTheme": "Monokai Dimmed",
+    "window.zoomLevel": 3,
     "window.menuBarVisibility": "toggle",
     "task.autoDetect": "off",
     "editor.multiCursorModifier": "ctrlCmd",
@@ -17,9 +16,15 @@
     "ruby.format": "rubyfmt",
     "vim.changeWordIncludesWhitespace": true,
     "vim.hlsearch": true,
-    "vim.statusBarColorControl": true,
-    "vim.useSystemClipboard": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "j"],
+            "after": ["<Esc>"]
+        }
+    ],
     "vim.leader": "<space>",
+    // "vim.statusBarColorControl": true,
+    "vim.useSystemClipboard": true,
     "vim.vimrc.enable": true,
     "vim.vimrc.path": "/home/json/.vimrc",
     "workbench.colorCustomizations": {
@@ -30,5 +35,7 @@
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "terminal.integrated.shell.linux": "/bin/zsh",
-    "extensions.ignoreRecommendations": true
+    "extensions.ignoreRecommendations": true,
+    "go.toolsManagement.autoUpdate": true,
+    "workbench.colorTheme": "Visual Studio Dark"
 }
