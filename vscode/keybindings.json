@@ -12,11 +12,6 @@
         "key": "ctrl+h",
         "command": "workbench.action.navigateLeft"
     },
-    // {
-    //     "key": "ctrl+l",
-    //     "command": "workbench.action.navigateRight",
-    //     "when": "panelFocus"
-    // },
     // Ctrl + z zenmode in vscode
     {
         "key": "ctrl+a z",
@@ -74,7 +69,8 @@
     },
     {
         "key": "ctrl+a t",
-        "command": "workbench.action.terminal.toggleTerminal"
+        "command": "workbench.action.terminal.toggleTerminal",
+        "when": "terminalFocus"
     },
     {
         "key": "ctrl+a b",
@@ -87,6 +83,26 @@
     {
         "key": "ctrl+a c",
         "command": "workbench.action.toggleMultiCursorModifier"
+    },
+    {
+        "key": "ctrl+a t",
+        "command": "workbench.action.togglePanel",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "ctrl+h",
+        "command": "workbench.action.terminal.focusNextPane",
+        "when": "terminalFocus && terminalProcessSupported"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "workbench.action.terminal.focusNextPane",
+        "when": "terminalFocus && terminalProcessSupported"
+    },
+    {
+        "key": "ctrl+a s",
+        "command": "workbench.action.terminal.split",
+        "when": "terminalFocus && terminalProcessSupported"
     },
     {
         "key": "ctrl+a ctrl+a",

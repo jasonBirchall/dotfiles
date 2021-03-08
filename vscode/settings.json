@@ -1,5 +1,4 @@
 {
-    "window.zoomLevel": 3,
     "window.menuBarVisibility": "toggle",
     "task.autoDetect": "off",
     "editor.multiCursorModifier": "ctrlCmd",
@@ -27,15 +26,26 @@
     "vim.useSystemClipboard": true,
     "vim.vimrc.enable": true,
     "vim.vimrc.path": "/home/json/.vimrc",
-    "workbench.colorCustomizations": {
-        "statusBar.background": "#005f5f",
-        "statusBar.noFolderBackground": "#005f5f",
-        "statusBar.debuggingBackground": "#005f5f"
-    },
+    "workbench.colorTheme": "Gruvbox Dark Hard",
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "terminal.integrated.shell.linux": "/bin/zsh",
     "extensions.ignoreRecommendations": true,
-    "go.toolsManagement.autoUpdate": true,
-    "workbench.colorTheme": "Visual Studio Dark"
+
+    // go stuff
+    "editor.codeActionsOnSave": null,
+    "go.testOnSave": true,
+    "go.lintOnSave": "package",
+    "go.formatTool": "goimports",
+    "go.testFlags": [
+        "-v"
+    ],
+    "go.autoCompleteUnimportedPackages": true,
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionOnSave": {
+            "source.organizeImports": true
+        },
+    },
+    "go.toolsManagement.autoUpdate": true
 }
