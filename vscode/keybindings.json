@@ -1,6 +1,10 @@
 [
     // Directional instructions
     {
+        "key": "ctrl+z",
+        "command": "workbench.action.nextPanelView"
+    },
+    {
         "key": "ctrl+k",
         "command": "workbench.action.navigateUp"
     },
@@ -12,7 +16,7 @@
         "key": "ctrl+h",
         "command": "workbench.action.navigateLeft"
     },
-    // Ctrl + z zenmode in vscode
+    // Ctrl + z "zenmode" in vscode
     {
         "key": "ctrl+a z",
         "command": "workbench.action.toggleEditorWidths"
@@ -103,16 +107,6 @@
         "key": "ctrl+a s",
         "command": "workbench.action.terminal.split",
         "when": "terminalFocus && terminalProcessSupported"
-    },
-    {
-        "key": "ctrl+a ctrl+a",
-        "command": "workbench.action.focusActiveEditorGroup",
-        "when": "terminalFocus"
-    },
-    {
-        "key": "ctrl+a ctrl+a",
-        "command": "workbench.action.terminal.focus",
-        "when": "!terminalFocus"
     },
     {
         "key": "ctrl+a enter",
