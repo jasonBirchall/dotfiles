@@ -1,7 +1,8 @@
 {
     "window.menuBarVisibility": "toggle",
     "task.autoDetect": "off",
-    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.multiCursorModifier": "ctrl+/",
+    "editor.showFoldingControls": "always",
     "files.trimTrailingWhitespace": true,
     "files.autoSave": "off",
     "editor.tabSize": 2,

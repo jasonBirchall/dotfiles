@@ -65,7 +65,8 @@
     },
     {
         "key": "ctrl+a s",
-        "command": "workbench.action.splitEditorDown"
+        "command": "workbench.action.splitEditorDown",
+        "when": "!terminalFocus"
     },
     {
         "key": "ctrl+a v",
@@ -99,7 +100,7 @@
         "when": "terminalFocus && terminalProcessSupported"
     },
     {
-        "key": "ctrl+l",
+        "key": "ctrl+a l",
         "command": "workbench.action.terminal.focusNextPane",
         "when": "terminalFocus && terminalProcessSupported"
     },
@@ -112,6 +113,11 @@
         "key": "ctrl+a enter",
         "command": "explorer.openToSide",
         "when": "explorerViewLetFocus && explorerViewletVisable"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "workbench.action.focusLeftGroup",
+        "when": "filesExplorerFocus"
     },
     {
         "key": "j",
