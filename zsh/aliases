@@ -1,6 +1,7 @@
 # Aliases
 # Add an alert alias for long running commands
 alias bi='bundle install --path .bundle/gems --binstubs .bundle/bin'
+alias cat='batcat'
 alias cdw='cd ~/Documents/workarea'
 alias cdd='cd ~/Documents/workarea/dotfiles'
 alias cde='cd ~/Documents/workarea/environment'
