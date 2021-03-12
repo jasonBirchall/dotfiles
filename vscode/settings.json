@@ -16,12 +16,12 @@
     "ruby.format": "rubyfmt",
     "vim.changeWordIncludesWhitespace": true,
     "vim.hlsearch": true,
-    "vim.insertModeKeyBindings": [
-        {
-            "before": ["j", "j"],
-            "after": ["<Esc>"]
-        }
-    ],
+    // "vim.insertModeKeyBindings": [
+    //     {
+    //         "before": ["j", "j"],
+    //         "after": ["<Esc>"]
+    //     }
+    // ],
     "vim.leader": "<space>",
     // "vim.statusBarColorControl": true,
     "vim.useSystemClipboard": true,
@@ -48,5 +48,6 @@
             "source.organizeImports": true
         },
     },
-    "go.toolsManagement.autoUpdate": true
+    "go.toolsManagement.autoUpdate": true,
+    "window.zoomLevel": 3
 }

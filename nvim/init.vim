@@ -150,6 +150,7 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 " Nerd tree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif "Closes vim if the only window left open is a NERDTree
+let NERDTreeShowHidden=0
 
 " https://github.com/neoclide/coc.nvim
 " Use tab for trigger completion with characters ahead and navigate.

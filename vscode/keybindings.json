@@ -90,6 +90,18 @@
         "command": "workbench.action.toggleMultiCursorModifier"
     },
     {
+        "key": "ctrl+a n",
+        "command": "workbench.action.terminal.newWithCwd",
+        "args": {
+            "cwd": "${fileDirname}"
+        }
+    },
+    {
+    "key": "ctrl+e",
+    "command": "editor.action.showHover",
+    "when": "editorTextFocus"
+    },
+    {
         "key": "ctrl+a t",
         "command": "workbench.action.togglePanel",
         "when": "!terminalFocus"
