@@ -1,5 +1,4 @@
 [
-    // Directional instructions
     {
         "key": "ctrl+z",
         "command": "workbench.action.nextPanelView"
@@ -16,7 +15,6 @@
         "key": "ctrl+h",
         "command": "workbench.action.navigateLeft"
     },
-    // Ctrl + z "zenmode" in vscode
     {
         "key": "ctrl+a z",
         "command": "workbench.action.toggleEditorWidths"
@@ -97,9 +95,9 @@
         }
     },
     {
-    "key": "ctrl+e",
-    "command": "editor.action.showHover",
-    "when": "editorTextFocus"
+        "key": "ctrl+e",
+        "command": "editor.action.showHover",
+        "when": "editorTextFocus"
     },
     {
         "key": "ctrl+a t",

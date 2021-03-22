@@ -199,8 +199,8 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute s
 
 # Sreen brightness controls
 # https://unix.stackexchange.com/questions/301724/xbacklight-not-working
-bindsym $mod3+b exec xbacklight -inc 20 # increase screen brightness
-bindsym $mod3+shift+b exec xbacklight -dec 20 # decrease screen brightness
+bindsym control+b exec xbacklight -inc 20 # increase screen brightness
+bindsym control+shift+b exec xbacklight -dec 20 # decrease screen brightness
 
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play-pause
