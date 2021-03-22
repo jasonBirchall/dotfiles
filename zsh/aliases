@@ -18,6 +18,8 @@ alias v="nvim"
 alias vf="vifm"
 alias vim="nvim"
 alias vi="nvim"
+alias :q="exit"
+alias s="s-search"
 
 alias infraenv='source $HOME/Documents/workarea/temp/temp-clusters'
 alias kops='infraenv; kops'
