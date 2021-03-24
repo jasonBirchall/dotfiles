@@ -27,6 +27,7 @@ call plug#begin('$HOME/.config/nvim/plugged')
   Plug 'sebdah/vim-delve'
   Plug 'troydm/zoomwintab.vim' " zenmode on splits https://vimawesome.com/plugin/zoomwintab-vim
 
+  Plug 'ryanoasis/vim-devicons' " Has to load last
   Plug 'morhetz/gruvbox' "Theme
 
 call plug#end() 
@@ -65,6 +66,7 @@ set smartcase " When searching try to be smart about cases
 set ignorecase " When searching
 filetype plugin indent on
 set encoding=utf-8
+set guifont=DroidSansMono\ Nerd\ Font\ 11
 set t_Co=256
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "Ensure comments aren't persisted
 
@@ -106,6 +108,7 @@ set background=dark cursorline termguicolors
 colorscheme gruvbox
 let g:airline_theme='solarized'
 let g:airline_solarized_bg='dark'
+let g:airline_powerline_fonts = 1
 
 " hi! Normal ctermbg=NONE guibg=NONE 
 " hi! NonText ctermbg=NONE guibg=NONE guifg=NONE ctermfg=NONE 
