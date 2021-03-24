@@ -59,7 +59,7 @@ map <leader>o :setlocal spell! spelllang=en_gb<CR>
 set clipboard+=unnamedplus "https://neovim.io/doc/user/provider.html#provider-clipboard
 syntax enable
 syntax on
-set shell=/bin/bash
+set shell=/usr/bin/zsh
 set ruler
 set smartcase " When searching try to be smart about cases
 set ignorecase " When searching
@@ -130,11 +130,7 @@ let g:go_highlight_functions = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
-" Vim settings for tests
-let g:go_test_timeout = '10s'
-autocmd FileType go nmap <leader>t  <Plug>(go-test)
-
-" Goyo settings
+" Goyo setting 
 function! s:goyo_enter()
     set number
     set noshowmode
