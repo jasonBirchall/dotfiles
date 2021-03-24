@@ -27,7 +27,6 @@ call plug#begin('$HOME/.config/nvim/plugged')
   Plug 'sebdah/vim-delve'
   Plug 'troydm/zoomwintab.vim' " zenmode on splits https://vimawesome.com/plugin/zoomwintab-vim
 
-  Plug 'ryanoasis/vim-devicons' " Has to load last
   Plug 'morhetz/gruvbox' "Theme
 
 call plug#end() 
