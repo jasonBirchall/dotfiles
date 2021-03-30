@@ -26,6 +26,7 @@ call plug#begin('$HOME/.config/nvim/plugged')
   Plug 'junegunn/fzf.vim'
   Plug 'sebdah/vim-delve'
   Plug 'troydm/zoomwintab.vim' " zenmode on splits https://vimawesome.com/plugin/zoomwintab-vim
+  Plug 'preservim/vimux'
 
   Plug 'morhetz/gruvbox' "Theme
 
@@ -33,6 +34,8 @@ call plug#end()
 
 " Key bindings
 let mapleader = " "
+" Setup vimux run commands
+nnoremap <leader>c :VimuxPromptCommand<CR>
 nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>s :split<CR>
 nnoremap <leader><Space> :CtrlP<CR>
@@ -41,7 +44,7 @@ nnoremap <leader><ENTER> :Goyo<CR>
 nnoremap <leader>t :tabedit<CR>
 map <C-n> :NERDTreeToggle<CR>
 "<Ctrl-r> redraws the screen and removes any search highlighting.
-nnoremap <leader> r :nohl<CR>
+nnoremap <leader>z :nohl<CR>
 " Shortcutting split navigation, saving a keypress:
 map <C-h> <C-w>h
 map <C-j> <C-w>j
