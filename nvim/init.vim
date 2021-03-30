@@ -10,7 +10,8 @@ call plug#begin('$HOME/.config/nvim/plugged')
   Plug 'neoclide/coc.nvim'
   Plug 'junegunn/limelight.vim'
   Plug 'tpope/vim-surround'
-  Plug 'preservim/nerdtree'
+  Plug 'preservim/nerdtree'|
+            \ Plug 'Xuyuanp/nerdtree-git-plugin' |
   Plug 'junegunn/goyo.vim'
   Plug 'bling/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
@@ -67,7 +68,7 @@ set ruler
 set smartcase " When searching try to be smart about cases
 set ignorecase " When searching
 filetype plugin indent on
-set encoding=utf-8
+set encoding=UTF-8
 set guifont=DroidSansMono\ Nerd\ Font\ 11
 set t_Co=256
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o "Ensure comments aren't persisted
@@ -110,7 +111,7 @@ set background=dark cursorline termguicolors
 colorscheme gruvbox
 let g:airline_theme='solarized'
 let g:airline_solarized_bg='dark'
-let g:airline_powerline_fonts = 1
+" let g:airline_powerline_fonts = 1
 
 " hi! Normal ctermbg=NONE guibg=NONE 
 " hi! NonText ctermbg=NONE guibg=NONE guifg=NONE ctermfg=NONE 
@@ -157,7 +158,20 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 " Nerd tree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif "Closes vim if the only window left open is a NERDTree
 let NERDTreeShowHidden=1
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+                \ 'Modified'  :'✹',
+                \ 'Staged'    :'✚',
+                \ 'Untracked' :'✭',
+                \ 'Renamed'   :'➜',
+                \ 'Unmerged'  :'═',
+                \ 'Deleted'   :'✖',
+                \ 'Dirty'     :'✗',
+                \ 'Ignored'   :'☒',
+                \ 'Clean'     :'✔︎',
+                \ 'Unknown'   :'?',
+                \ }
 
+let g:NERDTreeGitStatusUseNerdFonts = 1 " you should install nerdfonts by yourself. default: 0
 " https://github.com/neoclide/coc.nvim
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
