@@ -134,6 +134,14 @@ let g:go_highlight_functions = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
+" ctrlp settings
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ }
+
+
 " Goyo setting 
 function! s:goyo_enter()
     set number
