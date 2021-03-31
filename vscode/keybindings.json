@@ -1,8 +1,64 @@
 [
+    // Terminal focus settings
     {
         "key": "ctrl+z",
-        "command": "workbench.action.nextPanelView"
+        "command": "workbench.action.nextPanelView",
+        "when": "terminalFocus"
     },
+    {
+        "key": "ctrl+a s",
+        "command": "workbench.action.splitEditorDown",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "ctrl+a v",
+        "command": "workbench.action.splitEditorRight",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "ctrl+a t",
+        "command": "workbench.action.togglePanel",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "ctrl+a t",
+        "command": "workbench.action.terminal.toggleTerminal",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+a n",
+        "command": "workbench.action.terminal.newWithCwd",
+        "args": {
+            "cwd": "${fileDirname}"
+        }
+    },
+    {
+        "key": "ctrl+h",
+        "command": "workbench.action.terminal.focusNextPane",
+        "when": "terminalFocus && terminalProcessSupported"
+    },
+    {
+        "key": "ctrl+a l",
+        "command": "workbench.action.terminal.focusNextPane",
+        "when": "terminalFocus && terminalProcessSupported"
+    },
+    {
+        "key": "ctrl+a s",
+        "command": "workbench.action.terminal.split",
+        "when": "terminalFocus && terminalProcessSupported"
+    },
+    {
+        "key": "ctrl+a z",
+        "command": "workbench.action.toggleMaximizedPanel",
+        "when": "terminalFocus"
+    },
+    // Zenmode on and off
+    {
+        "key": "ctrl+a z",
+        "command": "workbench.action.toggleEditorWidths",
+        "when": "editorTextFocus"
+    },
+    // Vim and tmux navigation
     {
         "key": "ctrl+k",
         "command": "workbench.action.navigateUp"
@@ -13,11 +69,13 @@
     },
     {
         "key": "ctrl+h",
-        "command": "workbench.action.navigateLeft"
+        "command": "workbench.action.navigateLeft",
+        "when": "editorTextFocus"
     },
     {
-        "key": "ctrl+a z",
-        "command": "workbench.action.toggleEditorWidths"
+        "key": "ctrl+l",
+        "command": "workbench.action.focusRightGroup",
+        "when": "editorTextFocus"
     },
     {
         "key": "ctrl+a h",
@@ -62,73 +120,12 @@
         "when": "sideBarFocus && explorerViewletVisible && !filesExplorerFocus"
     },
     {
-        "key": "ctrl+a s",
-        "command": "workbench.action.splitEditorDown",
-        "when": "!terminalFocus"
-    },
-    {
-        "key": "ctrl+a v",
-        "command": "workbench.action.splitEditorRight",
-        "when": "!terminalFocus"
-    },
-    {
-        "key": "ctrl+a t",
-        "command": "workbench.action.togglePanel",
-        "when": "!terminalFocus"
-    },
-    {
-        "key": "ctrl+a t",
-        "command": "workbench.action.terminal.toggleTerminal",
-        "when": "terminalFocus"
-    },
-    {
         "key": "ctrl+a b",
         "command": "workbench.action.toggleSidebarVisibility"
     },
     {
         "key": "ctrl+a o",
         "command": "workbench.action.focusSideBar"
-    },
-    {
-        "key": "ctrl+a c",
-        "command": "workbench.action.toggleMultiCursorModifier"
-    },
-    {
-        "key": "ctrl+a n",
-        "command": "workbench.action.terminal.newWithCwd",
-        "args": {
-            "cwd": "${fileDirname}"
-        }
-    },
-    {
-        "key": "ctrl+e",
-        "command": "editor.action.showHover",
-        "when": "editorTextFocus"
-    },
-    {
-        "key": "ctrl+h",
-        "command": "workbench.action.focusLeftGroup",
-        "when": "filesExplorerFocus"
-    },
-    {
-        "key": "ctrl+h",
-        "command": "workbench.action.terminal.focusNextPane",
-        "when": "terminalFocus && terminalProcessSupported"
-    },
-    {
-        "key": "ctrl+a l",
-        "command": "workbench.action.terminal.focusNextPane",
-        "when": "terminalFocus && terminalProcessSupported"
-    },
-    {
-        "key": "ctrl+a s",
-        "command": "workbench.action.terminal.split",
-        "when": "terminalFocus && terminalProcessSupported"
-    },
-    {
-        "key": "ctrl+a enter",
-        "command": "explorer.openToSide",
-        "when": "explorerViewLetFocus && explorerViewletVisable"
     },
     {
         "key": "j",
@@ -150,6 +147,26 @@
         "command": "list.collapse",
         "when": "filesExplorerFocus"
     },
+    // General vscode remappings
+    {
+        "key": "ctrl+a c",
+        "command": "workbench.action.toggleMultiCursorModifier"
+    },
+    {
+        "key": "ctrl+e",
+        "command": "editor.action.showHover",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+h",
+        "command": "workbench.action.focusLeftGroup",
+        "when": "filesExplorerFocus"
+    },
+    {
+        "key": "ctrl+a enter",
+        "command": "explorer.openToSide",
+        "when": "explorerViewLetFocus && explorerViewletVisable"
+    },
     {
         "key": "ctrl+a a",
         "command": "list.collapseAll",
@@ -161,14 +178,19 @@
         "when": "filesExplorerFocus"
     },
     {
-        "key": "ctrl+a z",
-        "command": "workbench.action.toggleMaximizedPanel",
-        "when": "terminalFocus"
-    },
-    {
         "before": ["leader", "w"],
         "commands": [
             "workbench.action.files.save"
         ]
     }
+    // {
+    //     "key": "ctrl+a p",
+    //     "command": "editor.action.peekDefinition",
+    //     "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+    // },
+    // Go specifics
+    // {
+    //     "key": "ctrl+g t",
+    //     "command": "go.test.showOutput"
+    // }
 ]
