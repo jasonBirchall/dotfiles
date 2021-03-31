@@ -68,7 +68,13 @@
     },
     {
         "key": "ctrl+a v",
-        "command": "workbench.action.splitEditorRight"
+        "command": "workbench.action.splitEditorRight",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "ctrl+a t",
+        "command": "workbench.action.togglePanel",
+        "when": "!terminalFocus"
     },
     {
         "key": "ctrl+a t",
@@ -100,9 +106,9 @@
         "when": "editorTextFocus"
     },
     {
-        "key": "ctrl+a t",
-        "command": "workbench.action.togglePanel",
-        "when": "!terminalFocus"
+        "key": "ctrl+h",
+        "command": "workbench.action.focusLeftGroup",
+        "when": "filesExplorerFocus"
     },
     {
         "key": "ctrl+h",
@@ -125,11 +131,6 @@
         "when": "explorerViewLetFocus && explorerViewletVisable"
     },
     {
-        "key": "ctrl+l",
-        "command": "workbench.action.focusLeftGroup",
-        "when": "filesExplorerFocus"
-    },
-    {
         "key": "j",
         "command": "list.focusDown",
         "when": "filesExplorerFocus"
@@ -150,13 +151,19 @@
         "when": "filesExplorerFocus"
     },
     {
+        "key": "ctrl+a a",
+        "command": "list.collapseAll",
+        "when": "filesExplorerFocus"
+    },
+    {
         "key": "enter",
         "command": "list.select",
         "when": "filesExplorerFocus"
     },
     {
-        "key": "ctrl+shift+q",
-        "command": "workbench.action.toggleMaximizedPanel"
+        "key": "ctrl+a z",
+        "command": "workbench.action.toggleMaximizedPanel",
+        "when": "terminalFocus"
     },
     {
         "before": ["leader", "w"],
