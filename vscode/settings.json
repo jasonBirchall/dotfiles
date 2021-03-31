@@ -1,7 +1,6 @@
 {
     "window.menuBarVisibility": "toggle",
     "task.autoDetect": "off",
-    "editor.multiCursorModifier": "ctrl+/",
     "editor.showFoldingControls": "always",
     "files.trimTrailingWhitespace": true,
     "files.autoSave": "off",
@@ -14,19 +13,14 @@
     "window.restoreWindows": "all",
     "ruby.codeCompletion": "rcodetools",
     "ruby.format": "rubyfmt",
+    "vim.enableNeovim": true,
+    "vim.neovimUseConfigFile": true,
     "vim.changeWordIncludesWhitespace": true,
     "vim.hlsearch": true,
-    // "vim.insertModeKeyBindings": [
-    //     {
-    //         "before": ["j", "j"],
-    //         "after": ["<Esc>"]
-    //     }
-    // ],
     "vim.leader": "<space>",
-    // "vim.statusBarColorControl": true,
     "vim.useSystemClipboard": true,
-    "vim.vimrc.enable": true,
-    "vim.vimrc.path": "/home/json/.vimrc",
+    // "vim.vimrc.enable": true,
+    // "vim.vimrc.path": "/home/json/.vimrc",
     "workbench.colorTheme": "Gruvbox Dark Hard",
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
@@ -35,6 +29,11 @@
 
     // go stuff
     "editor.codeActionsOnSave": null,
+    "go.gotoSymbol.includeImports": true,
+    "go.vetOnSave": true,
+    "go.useLanguageServer": true,
+    "go.docsTool": "gogetdocs",
+    "go.buildOnSave": "off",
     "go.testOnSave": true,
     "go.lintOnSave": "package",
     "go.formatTool": "goimports",
@@ -49,5 +48,12 @@
         },
     },
     "go.toolsManagement.autoUpdate": true,
-    "window.zoomLevel": 3
+    "workbench.editorAssociations": [
+        {
+            "viewType": "jupyter.notebook.ipynb",
+            "filenamePattern": "*.ipynb"
+        }
+    ],
+    "workbench.sideBar.location": "right",
+    "editor.multiCursorModifier": "ctrlCmd"
 }
