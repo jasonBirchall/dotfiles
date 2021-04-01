@@ -1,4 +1,6 @@
 {
+    // vscode settings
+    "workbench.colorTheme": "Gruvbox Dark Hard",
     "window.menuBarVisibility": "toggle",
     "task.autoDetect": "off",
     "editor.showFoldingControls": "always",
@@ -6,13 +8,26 @@
     "files.autoSave": "off",
     "editor.tabSize": 2,
     "editor.tabCompletion": "on",
+    "window.restoreFullscreen": true,
+    "window.restoreWindows": "all",
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "extensions.ignoreRecommendations": true,
+    "workbench.sideBar.location": "right",
+
+    // terminal settings
+    "terminal.integrated.shell.linux": "/bin/zsh",
+
+    // zenmode settings
     "zenMode.hideActivityBar": false,
     "zenMode.hideLineNumbers": false,
     "zenMode.hideStatusBar": false,
-    "window.restoreFullscreen": true,
-    "window.restoreWindows": "all",
+
+    // ruby settings
     "ruby.codeCompletion": "rcodetools",
     "ruby.format": "rubyfmt",
+
+    // vim configuration
     "vim.enableNeovim": true,
     "vim.neovimUseConfigFile": true,
     "vim.neovimPath": "/usr/bin/nvim",
@@ -23,39 +38,26 @@
     "vim.useSystemClipboard": true,
     // "vim.vimrc.enable": true,
     // "vim.vimrc.path": "/home/json/.vimrc",
-    "workbench.colorTheme": "Gruvbox Dark Hard",
-    "editor.suggestSelection": "first",
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "terminal.integrated.shell.linux": "/bin/zsh",
-    "extensions.ignoreRecommendations": true,
 
-    // go stuff
-    "editor.codeActionsOnSave": null,
-    "go.gotoSymbol.includeImports": true,
-    "go.vetOnSave": true,
-    "go.useLanguageServer": true,
-    "go.docsTool": "gogetdocs",
-    "go.buildOnSave": "off",
-    "go.testOnSave": true,
-    "go.lintOnSave": "package",
-    "go.formatTool": "goimports",
-    "go.testFlags": [
-        "-v"
-    ],
-    "go.autoCompleteUnimportedPackages": true,
-    "[go]": {
-        "editor.formatOnSave": true,
-        "editor.codeActionOnSave": {
-            "source.organizeImports": true
-        },
-    },
-    "go.toolsManagement.autoUpdate": true,
+    // go configuration
+    "go.useLanguageServer": false,
+
+    // python configuration
     "workbench.editorAssociations": [
         {
             "viewType": "jupyter.notebook.ipynb",
             "filenamePattern": "*.ipynb"
         }
     ],
-    "workbench.sideBar.location": "right",
-    "editor.multiCursorModifier": "ctrlCmd"
+    "editor.snippetSuggestions": "bottom",
+    "files.maxMemoryForLargeFilesMB": 8096,
+    "workbench.startupEditor": "none",
+    "workbench.tips.enabled": false,
+    "workbench.editor.scrollToSwitchTabs": true,
+    "workbench.editor.untitled.hint": "hidden",
+    "window.closeWhenEmpty": true,
+    "window.openFoldersInNewWindow": "off",
+    "terminal.external.linuxExec": "/usr/bin/alacritty",
+    "terminal.integrated.copyOnSelection": true,
+    "workbench.activityBar.visible": false
 }
