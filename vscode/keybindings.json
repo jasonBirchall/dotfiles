@@ -182,15 +182,15 @@
         "commands": [
             "workbench.action.files.save"
         ]
-    }
-    // {
-    //     "key": "ctrl+a p",
-    //     "command": "editor.action.peekDefinition",
-    //     "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
-    // },
+    },
+    {
+        "key": "ctrl+a p",
+        "command": "editor.action.peekDefinition",
+        "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+    },
     // Go specifics
-    // {
-    //     "key": "ctrl+g t",
-    //     "command": "go.test.showOutput"
-    // }
+    {
+        "key": "ctrl+g t",
+        "command": "go.test.showOutput"
+    }
 ]
