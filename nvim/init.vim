@@ -36,6 +36,7 @@ call plug#end()
 " Key bindings
 let mapleader = " "
 " Setup vimux run commands
+nnoremap <leader>V :vertical resize 150<CR>
 nnoremap <leader>c :VimuxPromptCommand<CR>
 nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>s :split<CR>
