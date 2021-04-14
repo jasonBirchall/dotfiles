@@ -1,5 +1,6 @@
 set -g base-index 1
-set -g default-terminal "screen-256color"
+# set -g default-terminal "screen-256color"
+set -g default-terminal "alacritty"
 
 # remap prefix to Control + a
 set -g prefix C-a
@@ -151,7 +152,7 @@ bind-key -T copy-mode-vi 'C-\' select-pane -l
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-sensible'
 set -g @plugin 'tmux-plugins/tmux-resurrect' # restore tmux sessions
-# set -g @plugin 'christoomey/vim-tmux-navigator'
+set -g @plugin 'christoomey/vim-tmux-navigator'
 
 # Other examples:
 # set -g @plugin 'github_username/plugin_name'

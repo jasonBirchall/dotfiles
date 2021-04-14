@@ -64,7 +64,7 @@ map <leader>o :setlocal spell! spelllang=en_gb<CR>
 set clipboard+=unnamedplus "https://neovim.io/doc/user/provider.html#provider-clipboard
 syntax enable
 syntax on
-set shell=/usr/bin/zsh
+set shell=/bin/zsh
 set ruler
 set smartcase " When searching try to be smart about cases
 set ignorecase " When searching

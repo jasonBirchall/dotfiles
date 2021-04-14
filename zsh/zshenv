@@ -4,13 +4,10 @@ GIT_EDITOR=${EDITOR}
 KUBE_EDITOR=${EDITOR}
 KOPS_STATE_STORE=s3://cloud-platform-kops-state
 KUBECONFIG=$HOME/.kube/config
-# JAVA_HOME=/usr/lib/jvm/jdk1.7.0_79
-JAVA_HOME=/usr
 GOPATH=$HOME/go
 PATH=
 RANGER_LOAD_DEFAULT_RC='FALSE' #Ranger file manager loads only my config
 
 typeset -U PATH path
-path=("$HOME/bin" "${KREW_ROOT:-$HOME/.krew}/bin:$PATH" "$HOME/.local/bin" "/usr/local/bin" "/usr/share/bluej" "$JAVA_HOME/bin" "/bin" "/home/linuxbrew/.linuxbrew/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" "/snap/bin" "$path[@]")
+path=("$HOME/bin" "$HOME/.local/bin" "/usr/local/bin" "/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" "/snap/bin" "$path[@]" "/opt/homebrew/bin")
 export PATH
-export GDK_SCALE=2
