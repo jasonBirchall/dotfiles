@@ -1,6 +1,5 @@
 set -g base-index 1
-# set -g default-terminal "screen-256color"
-set -g default-terminal "alacritty"
+set -g default-terminal "screen-256color"
 
 # remap prefix to Control + a
 set -g prefix C-a
