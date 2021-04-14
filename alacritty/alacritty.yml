@@ -8,7 +8,6 @@ env:
   # You can verify this by checking for the presence of `smso` and `sitm` in
   # `infocmp xterm-256color`.
   TERM: xterm-256color
-  WINIT_X11_SCALE_FACTOR: "2"
 
 window:
   dimensions:
@@ -17,16 +16,12 @@ window:
   padding:
     x: 10
     y: 10
-  decorations: none
 
 scrolling:
   history: 10000
   multiplier: 3
 
 background_opacity: 1.0
-
-window.dynamic_title: true
-
 # Font Customization
 # font:
 #   normal:
@@ -106,7 +101,6 @@ mouse:
     #
     # This program is executed when clicking on a text which is recognized as a URL.
     # The URL is always added to the command as the last parameter.
-    launcher: brave
 
     # URL modifiers
     #
