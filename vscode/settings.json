@@ -15,9 +15,6 @@
     "extensions.ignoreRecommendations": true,
     "workbench.sideBar.location": "right",
 
-    // terminal settings
-    "terminal.integrated.shell.linux": "/bin/zsh",
-
     // zenmode settings
     "zenMode.hideActivityBar": false,
     "zenMode.hideLineNumbers": false,
@@ -30,7 +27,7 @@
     // vim configuration
     "vim.enableNeovim": true,
     "vim.neovimUseConfigFile": true,
-    "vim.neovimPath": "/usr/bin/nvim",
+    "vim.neovimPath": "/opt/homebrew/bin/nvim",
     "vim.neovimConfigPath": "/home/json/.config/nvim/init.vim",
     "vim.changeWordIncludesWhitespace": true,
     "vim.hlsearch": true,
@@ -57,7 +54,8 @@
     "workbench.editor.untitled.hint": "hidden",
     "window.closeWhenEmpty": true,
     "window.openFoldersInNewWindow": "off",
-    "terminal.external.linuxExec": "/usr/bin/alacritty",
     "terminal.integrated.copyOnSelection": true,
-    "workbench.activityBar.visible": false
+    "workbench.activityBar.visible": false,
+    "window.zoomLevel": 1,
+    "editor.minimap.enabled": false
 }
