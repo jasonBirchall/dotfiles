@@ -40,7 +40,7 @@ nnoremap <leader>V :vertical resize 150<CR>
 nnoremap <leader>c :VimuxPromptCommand<CR>
 nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>s :split<CR>
-nnoremap <leader><Space> :CtrlP<CR>
+nnoremap <leader><Space> :FZF ~/Documents/workarea<CR>
 nnoremap <leader><ENTER> :Goyo<CR>
 " gt and gT to navigate tabs
 nnoremap <leader>t :tabedit<CR>
