@@ -33,11 +33,6 @@
     "vim.hlsearch": true,
     "vim.leader": "<space>",
     "vim.useSystemClipboard": true,
-    // "vim.vimrc.enable": true,
-    // "vim.vimrc.path": "/home/json/.vimrc",
-
-    // go configuration
-    "go.useLanguageServer": false,
 
     // python configuration
     "workbench.editorAssociations": [
