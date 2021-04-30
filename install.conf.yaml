@@ -1,0 +1,35 @@
+- defaults:
+    link:
+      relink: true
+
+- clean: ['~']
+
+- link:
+    ~/.config/zsh/.zshrc: zsh/zshrc
+    ~/.config/zsh/.zprofile: zsh/zprofile
+    ~/.config/zsh/.env: zsh/zshenv
+    ~/.config/zsh/.aliases: zsh/aliases
+
+    ~/.tmux.conf: tmux
+    ~/.tmux/: tmux-dir/plugins
+    ~/.vimrc: vimrc
+    ~/.vim: vim
+    ~/.vim/pack: vim/plugins
+    ~/.vim/: vim/colors
+    ~/.config/nvim/init.vim: nvim/init.vim
+    ~/.config/nvim/coc-settings.json: nvim/coc-settings.json
+    ~/.config/ranger: ranger
+
+    ~/.config/Code/User/keybindings.json: vscode/keybindings.json
+    ~/.config/Code/User/settings.json: vscode/settings.json
+
+    ~/Picture/wallpaper1.png: wallpaper/wallpaper1.png
+    ~/.gitconfig: git/gitconfig
+
+- create:
+    - ~/downloads
+    - ~/.vim/undo-history
+    - ~/Documents/workarea
+
+- shell:
+  - [git submodule update --init --recursive, Installing submodules]
