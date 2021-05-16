@@ -5,6 +5,8 @@
 - clean: ['~']
 
 - create:
+    - ~/.zsh/
+    - ~/.zsh/zsh-autosuggestions
     - ~/.config
     - ~/.config/nvim
     - ~/.config/zsh
@@ -30,10 +32,11 @@
     ~/.config/nvim/coc-settings.json: nvim/coc-settings.json
     ~/.config/ranger: ranger
 
-    ~/.config/Code/User/keybindings.json: vscode/keybindings.json
-    ~/.config/Code/User/settings.json: vscode/settings.json
+    ~/Library/Application\ Support/Code/User/keybindings.json: vscode/keybindings.json
+    ~/Library/Application\ Support/Code/User/settings.json: vscode/settings.json
 
     ~/Pictures/wallpaper1.png: wallpaper/wallpaper1.png
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
+  - git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
