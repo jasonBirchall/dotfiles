@@ -1,13 +1,14 @@
-export ZDOTDIR=$HOME/.config/zsh
+export AWS_PROFILE=moj-cp
 export EDITOR=/opt/homebrew/bin/nvim
 export GIT_EDITOR=${EDITOR}
-export KUBE_EDITOR=${EDITOR}
+export GOPATH=$HOME/go
 export KOPS_STATE_STORE=s3://cloud-platform-kops-state
 export KUBECONFIG=$HOME/.kube/config
-export GOPATH=$HOME/go
+export KUBE_EDITOR=${EDITOR}
+export PATH
 export PATH=
 export RANGER_LOAD_DEFAULT_RC='FALSE' #Ranger file manager loads only my config
+export ZDOTDIR=$HOME/.config/zsh
 
-typeset -U PATH path
 path=("$HOME/bin" "$HOME/.local/bin" "/usr/local/bin" "/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" "/snap/bin" "$path[@]" "/opt/homebrew/bin")
-export PATH
+typeset -U PATH path
