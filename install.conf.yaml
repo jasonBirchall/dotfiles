@@ -36,6 +36,7 @@
     ~/Library/Application\ Support/Code/User/settings.json: vscode/settings.json
 
     ~/Pictures/wallpaper1.png: wallpaper/wallpaper1.png
+    ~/.gitconfig: git/gitconfig
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
