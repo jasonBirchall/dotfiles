@@ -110,7 +110,7 @@ let gruvbox_contrast_dark='hard'
 set ffs=unix
 set background=dark cursorline termguicolors
 colorscheme gruvbox
-let g:airline_theme='solarized'
+let g:airline_theme='gruvbox'
 let g:airline_solarized_bg='dark'
 " let g:airline_powerline_fonts = 1
 
@@ -125,7 +125,7 @@ set ic 	   " turns on case insensitive
 " Must have solargraph installed using gem install solargraph
 let g:coc_global_extensions = ['coc-solargraph']
 
-" Golang stuff
+" Go specifics
 let g:go_fmt_command = "goimports"    " Run goimports along gofmt on each save     
 let g:go_auto_type_info = 1           " Automatically get signature/type info for object under cursor
 au BufNewFile,BufRead *.go setlocal noet ts=4 sw=4 sts=4 " Golang allows four spaces for a tab
@@ -137,11 +137,6 @@ let g:go_highlight_build_constraints = 1
 
 " ctrlp settings
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ }
-
 
 " Goyo setting 
 function! s:goyo_enter()
