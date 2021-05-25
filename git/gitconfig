@@ -21,12 +21,6 @@
   # git reviewone foo.js bar.js
   reviewone = !vim -p +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
 
-  create-pr="!f() { \
-        BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD); \
-        git push -u origin "${BRANCH_NAME}"; \
-        hub pull-request --no-edit; \
-        };f"
-
 [apply]
 
 	# Detect whitespace errors when applying a patch
@@ -112,36 +106,21 @@
 	# Make `git push` push relevant annotated tags when pushing branches out.
 	followTags = true
 
-# URL shorthands
-
-[url "git@github.com:"]
-
-  insteadOf = "https://github.com"
-	insteadOf = "gh:"
-	pushInsteadOf = "github:"
-	pushInsteadOf = "git://github.com/"
-
-[url "git://github.com/"]
-
-	insteadOf = "github:"
-
-[url "git@gist.github.com:"]
-
-	insteadOf = "gst:"
-	pushInsteadOf = "gist:"
-	pushInsteadOf = "git://gist.github.com/"
-
-[url "git://gist.github.com/"]
-
-	insteadOf = "gist:"
 [user]
+
 	email = jason.birchall@digital.justice.gov.uk
 	name = jasonBirchall
-[gpg]
-	program = /usr/local/bin/gpg
+
 [cola]
+
 	spellcheck = true
 	theme = flat-dark-grey
 	icontheme = dark
+
 [gui]
-	editor = gvim
+
+	editor = code
+
+[http]
+
+	postBuffer = 524288000
