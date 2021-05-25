@@ -52,5 +52,6 @@
     "terminal.integrated.copyOnSelection": true,
     "workbench.activityBar.visible": false,
     "window.zoomLevel": 1,
-    "editor.minimap.enabled": false
+    "editor.minimap.enabled": false,
+    "editor.multiCursorModifier": "ctrlCmd"
 }
