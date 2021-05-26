@@ -33,8 +33,9 @@ bind ^A select-pane -t :.+
 set -g mouse on
 
 # Automatically set window title
-set-window-option -g automatic-rename on
+set-window-option -g automatic-rename off
 set-option -g set-titles on
+set allow-rename off
 
 #set -g default-terminal screen-256color
 set -g status-keys vi

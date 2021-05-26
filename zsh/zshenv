@@ -1,7 +1,9 @@
+
 export AWS_PROFILE=moj-cp
 export EDITOR=/opt/homebrew/bin/nvim
 export GIT_EDITOR=${EDITOR}
 export GOPATH=$HOME/go
+export GPG_TTY=$(tty)
 export KOPS_STATE_STORE=s3://cloud-platform-kops-state
 export KUBECONFIG=$HOME/.kube/config
 export KUBE_EDITOR=${EDITOR}
