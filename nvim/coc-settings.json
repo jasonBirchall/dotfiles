@@ -2,7 +2,7 @@
   "languageserver": {
     "go": {
       "command": "gopls",
-      "rootPatterns": ["go.mod"],
+      "rootPatterns": ["go.mod", ".vim/", ".git/"],
       "trace.server": "verbose",
       "filetypes": ["go"]
     }
