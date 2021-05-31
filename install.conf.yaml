@@ -22,9 +22,9 @@
     ~/.config/zsh/.env: zsh/zshenv
     ~/.config/zsh/.aliases: zsh/aliases
 
-    ~/.tmux.conf: tmux
-    ~/.tmux/: tmux-dir/plugins
-    ~/.vimrc: vimrc
+    ~/.tmux.conf: tmux/tmux.conf
+    ~/.tmux/: tmux/tmux-dir/plugins
+    ~/.vimrc: vim/vimrc
     ~/.vim: vim
     ~/.vim/pack: vim/plugins
     ~/.vim/: vim/colors
@@ -41,3 +41,4 @@
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
   - git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+  - brew bundle --file brew/Brewfile
