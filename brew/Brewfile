@@ -1,0 +1,51 @@
+# 'brew tap'
+tap "homebrew/cask"
+tap "homebrew/core"
+tap "homebrew/bundle"
+tap "jasonbirchall/crypto-tap"
+tap "ministryofjustice/cloud-platform-tap"
+
+# 'brew tap' with custom Git URL
+# e.g tap "user/tap-repo", "https://user@bitbucket.org/user/homebrew-tap-repo.git"
+
+# set arguments for all 'brew install --cask' commands
+cask_args appdir: "~/Applications", require_sha: true
+
+# 'brew install'
+brew "ack"
+brew "ansible"
+brew "awscli"
+brew "exercism"
+brew "gh"
+brew "git-cola"
+brew "git-crypt"
+brew "gnupg"
+brew "go"
+brew "helm"
+brew "jasonbirchall/crypto-tap/crypto"
+brew "kubernetes-cli"
+brew "mas"
+brew "ministryofjustice/cloud-platform-tap/cloud-platform-cli"
+brew "neovim"
+brew "node"
+brew "ranger"
+brew "stern"
+brew "tmux"
+brew "tree"
+brew "watch"
+
+# 'brew install --cask'
+cask "amethyst"
+cask "brave-browser"
+cask "fly"
+cask "signal"
+cask "slack"
+cask "spotify"
+cask "visual-studio-code"
+cask "zoom"
+
+# 'mas install'
+#mas "1Password", id: 443987910
+
+# 'whalebrew install'
+#whalebrew "whalebrew/wget"

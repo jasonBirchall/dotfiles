@@ -1,3 +1,6 @@
+# Brew lock file
+Brewfile.lock.json
+
 # Compiled Python files
 *.pyc
 
