@@ -5,3 +5,11 @@ This repository contains both dotfile configuration and brew install packages in
 - I use the keychron k2 keyboard, which is fairly compact. Some keybindings may seem peculiar, but the keyboard is small and some of the keys don't follow ISO UK or mac UK layouts.
 
 The repository uses a combination of [dotbot](https://github.com/anishathalye/dotbot) to create symlinks etc, and [brew bundle](https://github.com/homebrew/homebrew-bundle) to install homebrew, [whalebrew](https://github.com/whalebrew/whalebrew) and [mas](https://github.com/mas-cli/mas) packages and updates.
+
+## Install
+
+Clone this repository locally, then:
+
+```
+sh ./install
+```
