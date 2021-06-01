@@ -12,6 +12,7 @@
     - ~/.config/zsh
 
     - ~/Documents/workarea
+    - ~/.completions
     - ~/.vim/undo-history
     - ~/.tmux
     - ~/.tmux/plugins
@@ -38,6 +39,7 @@
 
     ~/Pictures/wallpaper1.png: wallpaper/wallpaper1.png
     ~/.gitconfig: git/gitconfig
+    ~/.completions/tmux_kube.sh: completions/tmux_kube.sh
 
 - shell:
   - git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
