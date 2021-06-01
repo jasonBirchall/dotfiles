@@ -10,11 +10,13 @@
     - ~/.config
     - ~/.config/nvim
     - ~/.config/zsh
-    - ~/.config/Code
-    - ~/.config/Code/User
 
     - ~/Documents/workarea
     - ~/.vim/undo-history
+    - ~/.tmux
+    - ~/.tmux/plugins
+    - ~/Library/Application\ Support/Code/
+    - ~/Library/Application\ Support/Code/User
 
 - link:
     ~/.config/zsh/.zshrc: zsh/zshrc
@@ -23,7 +25,6 @@
     ~/.config/zsh/.aliases: zsh/aliases
 
     ~/.tmux.conf: tmux/tmux.conf
-    ~/.tmux/: tmux/tmux-dir/plugins
     ~/.vimrc: vim/vimrc
     ~/.vim: vim
     ~/.vim/pack: vim/plugins
@@ -39,6 +40,6 @@
     ~/.gitconfig: git/gitconfig
 
 - shell:
-  - [git submodule update --init --recursive, Installing submodules]
   - git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
   - brew bundle --file brew/Brewfile
+  - git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm

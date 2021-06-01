@@ -111,7 +111,7 @@ set ffs=unix
 set background=dark cursorline termguicolors
 colorscheme gruvbox
 let g:airline_theme='gruvbox'
-let g:airline_solarized_bg='dark'
+" let g:airline_solarized_bg='dark'
 " let g:airline_powerline_fonts = 1
 
 " hi! Normal ctermbg=NONE guibg=NONE 
@@ -301,3 +301,6 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ }
 
 let g:NERDTreeGitStatusUseNerdFonts = 1 " you should install nerdfonts by yourself. default: 0
+
+" Airline config
+let g:airline_detect_spell=1
