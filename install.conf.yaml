@@ -43,5 +43,8 @@
 
 - shell:
   - git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-  - brew bundle --file brew/Brewfile
   - git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
+  - 
+    command: brew bundle --file brew/Brewfile
+    stdout: true
+    stderr: true
