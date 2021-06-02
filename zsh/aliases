@@ -31,4 +31,5 @@ alias cdu='cd ~/Documents/workarea/university-work'
 alias yq="yq e '.' -"
 
 alias tmux="TERM=screen-256color-bce tmux"
-alias spellcheck="aspell check"
+alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
+alias r='ranger'
