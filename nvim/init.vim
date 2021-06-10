@@ -61,6 +61,7 @@ map <leader>o :setlocal spell! spelllang=en_gb<CR>
 "     source ~/.vimrc
 
 " Some basic stuff
+set mouse=a
 set clipboard+=unnamedplus "https://neovim.io/doc/user/provider.html#provider-clipboard
 syntax enable
 syntax on
@@ -111,11 +112,6 @@ set ffs=unix
 set background=dark cursorline termguicolors
 colorscheme gruvbox
 let g:airline_theme='gruvbox'
-" let g:airline_solarized_bg='dark'
-" let g:airline_powerline_fonts = 1
-
-" hi! Normal ctermbg=NONE guibg=NONE 
-" hi! NonText ctermbg=NONE guibg=NONE guifg=NONE ctermfg=NONE 
 
 " Search and find
 set hls is " turns on highlighted search
@@ -186,7 +182,6 @@ nmap <leader>rn <Plug>(coc-rename)
 
 " Remap for format selected region
 vmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
@@ -198,7 +193,6 @@ augroup end
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
 vmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 " Remap for do codeAction of current line
 nmap <leader>ac  <Plug>(coc-codeaction)
@@ -258,6 +252,14 @@ let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_structs = 1 
 let g:go_highlight_types = 1
+
+" Debugging
+nnoremap <leader>d :DlvAddBreakpoint<CR>
+nnoremap <leader>D :DlvRemoveBreakpoint<CR>
+nnoremap <leader>ds :GoDebugStart<CR>
+
+" Testing
+nnoremap <leader>T :GoTest<CR>
 
 " disable vim-go :GoDef short cut (gd)
 " this is handled by LanguageClient [LC]
