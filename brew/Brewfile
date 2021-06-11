@@ -15,6 +15,7 @@ cask_args appdir: "~/Applications", require_sha: true
 brew "ack"
 brew "ansible"
 brew "awscli"
+brew "bat"
 brew "exercism"
 brew "fzf"
 brew "gh"

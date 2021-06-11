@@ -1,6 +1,11 @@
 # Brew lock file
 Brewfile.lock.json
 
+# Vim temp dirs
+vim/tmp/*
+vim/colors/*
+vim/undo-history/*
+
 # Compiled Python files
 *.pyc
 
