@@ -28,6 +28,7 @@ call plug#begin('$HOME/.config/nvim/plugged')
   Plug 'sebdah/vim-delve'
   Plug 'troydm/zoomwintab.vim' " zenmode on splits https://vimawesome.com/plugin/zoomwintab-vim
   Plug 'preservim/vimux'
+  Plug 'wakatime/vim-wakatime'
 
   Plug 'morhetz/gruvbox' "Theme
 
