@@ -34,32 +34,27 @@ call plug#begin('$HOME/.config/nvim/plugged')
 
 call plug#end() 
 
-" Key bindings
 let mapleader = " "
-" Setup vimux run commands
-nnoremap <leader>V :vertical resize 150<CR>
+
+" Random other leader commands
 nnoremap <leader>c :VimuxPromptCommand<CR>
-nnoremap <leader>v :vsplit<CR>
-nnoremap <leader>s :split<CR>
-nnoremap <leader><Space> :FZF ~/Documents/workarea<CR>
-nnoremap <leader><ENTER> :Goyo<CR>
-" gt and gT to navigate tabs
-nnoremap <leader>t :tabedit<CR>
-map <C-n> :NERDTreeToggle<CR>
-"<Ctrl-r> redraws the screen and removes any search highlighting.
-nnoremap <leader>z :nohl<CR>
-" Shortcutting split navigation, saving a keypress:
+
+" Navigation
 map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
+nnoremap <leader>v :vsplit<CR>
+nnoremap <leader>s :split<CR>
+nnoremap <leader>V :vertical resize 150<CR>
+" gt and gT to navigate tabs
+nnoremap <leader>t :tabedit<CR>
+map <C-n> :NERDTreeToggle<CR>
+
 " Spell-check set to <leader>o, 'o' for 'orthography':
 map <leader>o :setlocal spell! spelllang=en_gb<CR>
-
-" Set config to .vimrc
-" set runtimepath^=~/.vim runtimepath+=/.vim/after
-"     let &packpath = &runtimepath
-"     source ~/.vimrc
+"<Ctrl-r> redraws the screen and removes any search highlighting.
+nnoremap <leader>z :nohl<CR> 
 
 " Some basic stuff
 set mouse=a
@@ -262,7 +257,8 @@ nnoremap <leader>T :GoTest<CR>
 " this is handled by LanguageClient [LC]
 let g:go_def_mapping_enabled = 0
 
-" ctrlp settings
+" Fuzzy finders
+nnoremap <leader><Space> :FZF ~/Documents/workarea<CR>
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 
 " Goyo setting 
@@ -285,6 +281,7 @@ endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
+nnoremap <leader><ENTER> :Goyo<CR>
 
 " Nerd tree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif "Closes vim if the only window left open is a NERDTree
