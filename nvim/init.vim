@@ -36,9 +36,6 @@ call plug#end()
 
 let mapleader = " "
 
-" Random other leader commands
-nnoremap <leader>c :VimuxPromptCommand<CR>
-
 " Navigation
 map <C-h> <C-w>h
 map <C-j> <C-w>j
@@ -46,7 +43,7 @@ map <C-k> <C-w>k
 map <C-l> <C-w>l
 nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>s :split<CR>
-nnoremap <leader>V :vertical resize 150<CR>
+nnoremap <leader>V :vertical resize 350<CR>
 " gt and gT to navigate tabs
 nnoremap <leader>t :tabedit<CR>
 
