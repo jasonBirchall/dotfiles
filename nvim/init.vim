@@ -49,7 +49,7 @@ nnoremap <leader>s :split<CR>
 nnoremap <leader>V :vertical resize 150<CR>
 " gt and gT to navigate tabs
 nnoremap <leader>t :tabedit<CR>
-map <C-n> :NERDTreeToggle<CR>
+
 
 " Spell-check set to <leader>o, 'o' for 'orthography':
 map <leader>o :setlocal spell! spelllang=en_gb<CR>
@@ -244,6 +244,10 @@ let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_structs = 1 
 let g:go_highlight_types = 1
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_format_strings = 1
+let g:go_highlight_string_spellcheck = 1
+let g:go_highlight_function_calls = 1
 
 " Debugging
 nnoremap <leader>d :DlvAddBreakpoint<CR>
@@ -257,7 +261,7 @@ nnoremap <leader>T :GoTest<CR>
 " this is handled by LanguageClient [LC]
 let g:go_def_mapping_enabled = 0
 
-" Fuzzy finders
+" Fuzzy finder specifics
 nnoremap <leader><Space> :FZF ~/Documents/workarea<CR>
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 
@@ -285,7 +289,8 @@ nnoremap <leader><ENTER> :Goyo<CR>
 
 " Nerd tree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif "Closes vim if the only window left open is a NERDTree
-let NERDTreeShowHidden=1
+map <C-n> :NERDTreeToggle<CR>
+let g:NERDTreeShowHidden=1
 let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ 'Modified'  :'✹',
                 \ 'Staged'    :'✚',
