@@ -37,6 +37,7 @@ brew "tmux"
 brew "tree"
 brew "watch"
 brew "yarn"
+brew "yq"
 
 # 'brew install --cask'
 cask "amethyst"
