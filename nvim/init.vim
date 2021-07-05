@@ -23,12 +23,13 @@ call plug#begin('$HOME/.config/nvim/plugged')
   Plug 'airblade/vim-gitgutter'
   Plug 'tpope/vim-fugitive'
   Plug 'christoomey/vim-tmux-navigator'
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim'
   Plug 'sebdah/vim-delve'
   Plug 'troydm/zoomwintab.vim' " zenmode on splits https://vimawesome.com/plugin/zoomwintab-vim
   Plug 'preservim/vimux'
   Plug 'wakatime/vim-wakatime'
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
 
   Plug 'morhetz/gruvbox' "Theme
 
@@ -246,6 +247,17 @@ let g:go_highlight_format_strings = 1
 let g:go_highlight_string_spellcheck = 1
 let g:go_highlight_function_calls = 1
 
+" let g:go_auto_sameids = 1 " Highlight variables with the same id
+
+" ctrlp can search for functions
+au FileType go nmap <leader>gt :GoDeclsDir<cr>
+" go to test function
+au Filetype go nmap <leader>gav <Plug>(go-alternate-vertical)
+" Run Go test using G10
+au FileType go nmap <F10> :GoTest -short<cr>
+" Check Go coverage
+au FileType go nmap <F9> :GoCoverageToggle -short<cr>
+
 " Debugging
 nnoremap <leader>d :DlvAddBreakpoint<CR>
 nnoremap <leader>D :DlvRemoveBreakpoint<CR>
@@ -257,10 +269,6 @@ nnoremap <leader>T :GoTest<CR>
 " disable vim-go :GoDef short cut (gd)
 " this is handled by LanguageClient [LC]
 let g:go_def_mapping_enabled = 0
-
-" Fuzzy finder specifics
-nnoremap <leader><Space> :FZF ~/Documents/workarea<CR>
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 
 " Goyo setting 
 function! s:goyo_enter()
@@ -305,3 +313,13 @@ let g:NERDTreeGitStatusUseNerdFonts = 1 " you should install nerdfonts by yourse
 
 " Airline config
 let g:airline_detect_spell=1
+
+" Telescope configutation
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fc <cmd>Telescope command_history<cr>
+nnoremap <leader>fo <cmd>Telescope oldfiles<cr>
+nnoremap <leader>fh <cmd>Telescope commands<cr>
+nnoremap <leader>fn <cmd>Telescope git_commits<cr>
