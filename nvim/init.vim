@@ -12,7 +12,6 @@ call plug#begin('$HOME/.config/nvim/plugged')
   Plug 'tpope/vim-surround'
   Plug 'preservim/nerdtree'|
             \ Plug 'Xuyuanp/nerdtree-git-plugin' |
-  Plug 'junegunn/goyo.vim'
   Plug 'bling/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
   Plug 'tpope/vim-commentary'
@@ -46,8 +45,16 @@ nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>s :split<CR>
 nnoremap <leader>V :vertical resize 350<CR>
 " gt and gT to navigate tabs
-nnoremap <leader>t :tabedit<CR>
-
+" nnoremap <leader>t :tabedit<CR>
+" navigate while in terminal mode
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+" escape while in terminal mode.
+tnoremap <Esc> <C-\><C-n>
+set splitbelow
+nnoremap <leader>t :terminal<CR>
 
 " Spell-check set to <leader>o, 'o' for 'orthography':
 map <leader>o :setlocal spell! spelllang=en_gb<CR>
@@ -269,28 +276,6 @@ nnoremap <leader>T :GoTest<CR>
 " disable vim-go :GoDef short cut (gd)
 " this is handled by LanguageClient [LC]
 let g:go_def_mapping_enabled = 0
-
-" Goyo setting 
-function! s:goyo_enter()
-    set number
-    set noshowmode
-    set noshowcmd
-    set nocursorline
-    CocDisable
-    Limelight
-endfunction
-
-function! s:goyo_leave()
-    set showmode
-    set showcmd
-    set cursorline
-    CocEnable
-    Limelight!
-endfunction
-
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
-nnoremap <leader><ENTER> :Goyo<CR>
 
 " Nerd tree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif "Closes vim if the only window left open is a NERDTree
