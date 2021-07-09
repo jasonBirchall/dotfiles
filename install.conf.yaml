@@ -13,7 +13,6 @@
 
     - ~/Documents/workarea
     - ~/.completions
-    - ~/.vim/undo-history
     - ~/.tmux
     - ~/.tmux/plugins
     - ~/Library/Application\ Support/Code/
@@ -26,12 +25,8 @@
     ~/.config/zsh/.aliases: zsh/aliases
 
     ~/.tmux.conf: tmux/tmux.conf
-    ~/.vimrc: vim/vimrc
-    ~/.vim: vim
-    ~/.vim/pack: vim/plugins
-    ~/.vim/: vim/colors
-    ~/.config/nvim/init.vim: nvim/init.vim
-    ~/.config/nvim/coc-settings.json: nvim/coc-settings.json
+    ~/.config/nvim/init.lua: nvim/init.lua
+    ~/.config/nvim/lua: nvim/lua
     ~/.config/ranger: ranger
 
     ~/Library/Application\ Support/Code/User/keybindings.json: vscode/keybindings.json
