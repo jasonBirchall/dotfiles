@@ -12,6 +12,7 @@ return require('packer').startup(function()
       requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
   }
 
+  -- Navigation
   use {
       'preservim/nerdtree',
       requires = {'Xuyuanp/nerdtree-git-plugin'}
@@ -20,13 +21,10 @@ return require('packer').startup(function()
   -- LSP and completion
   use { 'neovim/nvim-lspconfig' }
   use { 'nvim-lua/completion-nvim' }
+  use { 'kabouzeid/nvim-lspinstall' }
 
   -- Lua development
   use { 'tjdevries/nlua.nvim' }
-
-
-  -- Vim dispatch
-  use { 'tpope/vim-dispatch' }
 
   -- Git specifics
   use { 'tpope/vim-fugitive' }
@@ -50,6 +48,7 @@ return require('packer').startup(function()
   -- Formatting help
   use { 'jiangmiao/auto-pairs' }
 
+  -- Statusline
   use {
     'hoob3rt/lualine.nvim',
     requires = {'kyazdani42/nvim-web-devicons', opt = true}, {'ryanoasis/vim-devicons', opt = true}
