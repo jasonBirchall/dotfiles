@@ -12,6 +12,11 @@ return require('packer').startup(function()
       requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
   }
 
+  use {
+      'preservim/nerdtree',
+      requires = {'Xuyuanp/nerdtree-git-plugin'}
+  }
+
   -- LSP and completion
   use { 'neovim/nvim-lspconfig' }
   use { 'nvim-lua/completion-nvim' }
@@ -23,8 +28,26 @@ return require('packer').startup(function()
   -- Vim dispatch
   use { 'tpope/vim-dispatch' }
 
-  -- Fugitive for Git
+  -- Git specifics
   use { 'tpope/vim-fugitive' }
 
+  use { 'airblade/vim-gitgutter' }
+
+  -- Wakatime for metrics
+  use { 'wakatime/vim-wakatime' }
+
+  -- Vim tmux navigator
+  use { 'christoomey/vim-tmux-navigator' }
+
+  -- Easy comments
+  use { 'tpope/vim-commentary' }
+
+  -- Languages
+  use { 'fatih/vim-go' }
+
+  use { 'vim-ruby/vim-ruby' }
+  
+  -- Formatting help
+  use { 'jiangmiao/auto-pairs' }
 end)
 

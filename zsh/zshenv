@@ -12,5 +12,5 @@ export PATH=
 export RANGER_LOAD_DEFAULT_RC='FALSE' #Ranger file manager loads only my config
 export ZDOTDIR=$HOME/.config/zsh
 
-path=("$HOME/bin" "$HOME/.local/bin" "/usr/local/bin" "/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" "/snap/bin" "$path[@]" "/opt/homebrew/bin")
+path=("$HOME/bin" "$HOME/.local/bin" "/usr/bin" "/usr/local/bin" "/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" "/snap/bin" "$path[@]" "/opt/homebrew/bin")
 typeset -U PATH path

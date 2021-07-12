@@ -171,3 +171,5 @@ SPACESHIP_PROMPT_ORDER=(
 # Tell antigen that you're done
 antigen apply
 
+
+alias luamake=/Users/json0/Documents/workarea/lua-language-server/3rd/luamake/luamake
