@@ -49,5 +49,11 @@ return require('packer').startup(function()
   
   -- Formatting help
   use { 'jiangmiao/auto-pairs' }
+
+  use {
+    'hoob3rt/lualine.nvim',
+    requires = {'kyazdani42/nvim-web-devicons', opt = true}, {'ryanoasis/vim-devicons', opt = true}
+}
+
 end)
 

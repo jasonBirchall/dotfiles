@@ -69,6 +69,10 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["auto-pairs"] = {
+    loaded = true,
+    path = "/Users/json0/.local/share/nvim/site/pack/packer/start/auto-pairs"
+  },
   ["completion-nvim"] = {
     loaded = true,
     path = "/Users/json0/.local/share/nvim/site/pack/packer/start/completion-nvim"
@@ -110,6 +114,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/json0/.local/share/nvim/site/pack/packer/start/telescope.nvim"
   },
+  ["vim-commentary"] = {
+    loaded = true,
+    path = "/Users/json0/.local/share/nvim/site/pack/packer/start/vim-commentary"
+  },
   ["vim-dispatch"] = {
     loaded = true,
     path = "/Users/json0/.local/share/nvim/site/pack/packer/start/vim-dispatch"
@@ -117,6 +125,18 @@ _G.packer_plugins = {
   ["vim-fugitive"] = {
     loaded = true,
     path = "/Users/json0/.local/share/nvim/site/pack/packer/start/vim-fugitive"
+  },
+  ["vim-gitgutter"] = {
+    loaded = true,
+    path = "/Users/json0/.local/share/nvim/site/pack/packer/start/vim-gitgutter"
+  },
+  ["vim-go"] = {
+    loaded = true,
+    path = "/Users/json0/.local/share/nvim/site/pack/packer/start/vim-go"
+  },
+  ["vim-ruby"] = {
+    loaded = true,
+    path = "/Users/json0/.local/share/nvim/site/pack/packer/start/vim-ruby"
   },
   ["vim-tmux-navigator"] = {
     loaded = true,
