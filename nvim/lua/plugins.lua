@@ -21,7 +21,6 @@ return require('packer').startup(function()
   -- LSP and completion
   use { 'neovim/nvim-lspconfig' }
   use { 'nvim-lua/completion-nvim' }
-  use { 'kabouzeid/nvim-lspinstall' }
 
   -- Lua development
   use { 'tjdevries/nlua.nvim' }

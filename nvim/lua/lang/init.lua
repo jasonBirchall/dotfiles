@@ -1,6 +1,6 @@
 -- Your custom attach function for nvim-lspconfig goes here.
 local on_attach = function(client, bufnr)
-    require('lang.keybindings')
+    require('completion').on_attach()
 
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -20,32 +20,4 @@ local on_attach = function(client, bufnr)
 
 end
 
-require'lspconfig'.gopls.setup{}
--- LSPs
--- local servers = {"pyright", "gopls"}
--- for _, lsp in ipairs(servers) do
---     nvim_lsp[lsp].setup {capabilities = capabilities, on_attach = on_attach}
--- end
--- LSPs
--- local servers = { "gopls" }
--- for _, lsp in ipairs(servers) do
---     nvim_lsp[lsp].setup { 
---         capabilities = capabilities;
---         on_attach = on_attach;
---         init_options = {
---             onlyAnalyzeProjectsWithOpenFiles = true,
---             suggestFromUnimportedLibraries = false,
---             closingLabels = true,
---         };
---     }
--- end
-
--- To get builtin LSP running, do something like:
--- NOTE: This replaces the calls where you would have before done `require('nvim_lsp').sumneko_lua.setup()`
--- require('nlua.lsp.nvim').setup(require('lspconfig'), {
---   on_attach = on_attach,
--- })
-
--- require('lspconfig.gopls').setup(require('lspconfig'), {
---   on_attach = on_attach,
--- })
+require'lspconfig'.gopls.setup{on_attach=require'completion'.on_attach}
