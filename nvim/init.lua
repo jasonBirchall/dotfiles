@@ -15,6 +15,9 @@ vim.cmd 'autocmd BufWritePost plugins.lua PackerCompile' -- Auto compile when th
 -- Sensible defaults
 require('settings')
 
+-- LSP settings
+require('lang')
+
 -- Install plugins
 require('plugins')
 
