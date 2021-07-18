@@ -37,4 +37,14 @@ cmd 'autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions
 cmd 'filetype plugin indent on'
 
 -- Backups
--- utils.opt('b', 'nobackup', true)
+utils.opt('o', 'backup', false)
+utils.opt('o', 'swapfile', false)
+utils.opt('o', 'wb', false)
+utils.opt('o', 'undofile', true) -- persistent undo
+
+-- Jump to the last save place
+vim.api.nvim_exec([[
+if has("autocmd")
+    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+endif
+]], true)
