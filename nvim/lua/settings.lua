@@ -12,6 +12,7 @@ utils.opt('o', 'smarttab', true)
 utils.opt('b', 'smartindent', true)
 utils.opt('b', 'tabstop', indent)
 utils.opt('o', 'showmatch', true) -- show matching bracket end
+utils.opt('o', 'termguicolors', true) -- show matching bracket end
 utils.opt('o', 'clipboard','unnamed,unnamedplus')
 utils.opt('o', 'hidden', true)
 utils.opt('o', 'ignorecase', true)
@@ -26,6 +27,7 @@ utils.opt('w', 'number', true)
 utils.opt('w', 'wrap', true)
 utils.opt('o', 'ruler', true)
 utils.opt('o', 'encoding', 'UTF-8')
+utils.opt('o', 'cmdheight', 1)
 
 -- Highlight on yank
 cmd 'au TextYankPost * lua vim.highlight.on_yank {on_visual = false}'
@@ -44,7 +46,7 @@ utils.opt('o', 'undofile', true) -- persistent undo
 
 -- Jump to the last save place
 vim.api.nvim_exec([[
-if has("autocmd")
-    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-endif
+    if has("autocmd")
+        au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+    endif
 ]], true)

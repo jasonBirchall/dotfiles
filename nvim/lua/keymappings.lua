@@ -1,5 +1,4 @@
 local utils = require('utils')
-utils.map('n', '<C-l>', '<cmd>noh<CR>') -- Clear highlights
 utils.map('i', 'jk', '<Esc>')           -- jk to escape
 
 -- Navigation
@@ -14,8 +13,12 @@ utils.map('t', '<C-j> <C-W>', 'j')
 utils.map('t', '<C-k> <C-W>', 'k')
 utils.map('t', '<C-w> <C-W>', 'l')
 utils.map('n', '<leader>t', ':terminal<CR>')
+utils.map('t', '<Esc>', '<C-\\><C-n>')
 
 -- Split
 utils.map('n', '<leader>v', ':vsplit<CR>')
 utils.map('n', '<leader>s', ':split<CR>')
 utils.map('n', '<leader>V', ':vertical resize 350<CR>')
+
+-- Text, tab
+utils.map('n', '<leader>z', ':nohl<CR>')
