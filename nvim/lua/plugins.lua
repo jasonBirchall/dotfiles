@@ -59,15 +59,20 @@ return require('packer').startup(function()
 
   use { 'vim-ruby/vim-ruby' }
   
-  -- Formatting help
-  use { 'jiangmiao/auto-pairs' }
-  use { 'tpope/vim-surround' }
-
   -- Statusline
   use {
     'hoob3rt/lualine.nvim',
     requires = {'kyazdani42/nvim-web-devicons', opt = true}, {'ryanoasis/vim-devicons', opt = true}
   }
 
+  -- Other helpers
+  use {
+    'folke/which-key.nvim',
+    config = function() require("which-key").setup {} end
+  }
+
+  use { 'jiangmiao/auto-pairs' }
+
+  use { 'tpope/vim-surround' }
 end)
 
