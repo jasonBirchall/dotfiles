@@ -11,7 +11,7 @@ require('lualine').setup {
     lualine_b = {'branch'},
     lualine_c = {'filename'},
     lualine_x = {'filetype'},
-    lualine_y = {'progress'},
+    lualine_y = {'b:gitsigns_status'},
     lualine_z = {'location'}
   },
   inactive_sections = {
