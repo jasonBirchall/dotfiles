@@ -12,6 +12,17 @@ return require('packer').startup(function()
       requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
   }
 
+  use {'nvim-telescope/telescope-symbols.nvim'}
+  use {'nvim-telescope/telescope-github.nvim'}
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
+  use {
+      'nvim-telescope/telescope-frecency.nvim',
+      requires = {'tami5/sql.nvim'},
+      config = function()
+        require('telescope').load_extension('frecency')
+      end
+  }
+
   -- Navigation
   use {
       'preservim/nerdtree',
@@ -27,8 +38,12 @@ return require('packer').startup(function()
 
   -- Git specifics
   use { 'tpope/vim-fugitive' }
+  use { 'tpope/vim-rhubarb' } -- use GBrowse to open in browser
 
-  use { 'airblade/vim-gitgutter' }
+  use {
+      'lewis6991/gitsigns.nvim',
+      config = function() require('gitsigns').setup() end
+  }
 
   -- Wakatime for metrics
   use { 'wakatime/vim-wakatime' }
@@ -46,12 +61,13 @@ return require('packer').startup(function()
   
   -- Formatting help
   use { 'jiangmiao/auto-pairs' }
+  use { 'tpope/vim-surround' }
 
   -- Statusline
   use {
     'hoob3rt/lualine.nvim',
     requires = {'kyazdani42/nvim-web-devicons', opt = true}, {'ryanoasis/vim-devicons', opt = true}
-}
+  }
 
 end)
 
