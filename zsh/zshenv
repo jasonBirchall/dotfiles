@@ -18,4 +18,5 @@ if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.config/zshrc/.zshrc
 fi
 
 path=("$HOME/bin" "$HOME/.local/bin" "/usr/bin" "/usr/local/bin" "/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" "$path[@]" "/opt/homebrew/bin")
+
 typeset -U PATH path
