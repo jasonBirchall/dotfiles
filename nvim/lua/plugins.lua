@@ -5,6 +5,13 @@ return require('packer').startup(function()
 
   -- Color scheme
   use { 'sainnhe/gruvbox-material' }
+  use { 'morhetz/gruvbox' }
+  use { 'kyazdani42/nvim-web-devicons' }
+
+  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+
+  use {'p00f/nvim-ts-rainbow', run = ':TSInstall go'}
+
 
   -- Fuzzy finder
   use {
@@ -60,10 +67,7 @@ return require('packer').startup(function()
   use { 'vim-ruby/vim-ruby' }
   
   -- Statusline
-  use {
-    'hoob3rt/lualine.nvim',
-    requires = {'kyazdani42/nvim-web-devicons', opt = true}, {'ryanoasis/vim-devicons', opt = true}
-  }
+  use { 'hoob3rt/lualine.nvim' }
 
   -- Other helpers
   use {
@@ -74,5 +78,7 @@ return require('packer').startup(function()
   use { 'jiangmiao/auto-pairs' }
 
   use { 'tpope/vim-surround' }
+
+  use { 'lukas-reineke/indent-blankline.nvim' }
 end)
 
