@@ -49,3 +49,13 @@ vim.api.nvim_exec([[
         au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
     endif
 ]], true)
+
+-- Spell check for markdown
+vim.api.nvim_exec([[
+augroup auto_spellcheck
+    autocmd!
+    autocmd BufNewFile,BufRead *.md setlocal spell
+    autocmd BufNewFile,BufRead *.org setfiletype markdown
+    autocmd BufNewFile,BufRead *.org setlocal spell
+augroup END
+]], false)

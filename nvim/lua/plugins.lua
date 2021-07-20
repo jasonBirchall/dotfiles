@@ -8,10 +8,9 @@ return require('packer').startup(function()
   use { 'morhetz/gruvbox' }
   use { 'kyazdani42/nvim-web-devicons' }
 
-  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', run = ':TSInstall go'}
 
-  use {'p00f/nvim-ts-rainbow', run = ':TSInstall go'}
-
+  use {'p00f/nvim-ts-rainbow'}
 
   -- Fuzzy finder
   use {
@@ -80,5 +79,7 @@ return require('packer').startup(function()
   use { 'tpope/vim-surround' }
 
   use { 'lukas-reineke/indent-blankline.nvim' }
+  use {'airblade/vim-rooter'}
+
 end)
 
