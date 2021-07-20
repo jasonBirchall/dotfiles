@@ -4,7 +4,8 @@ return require('packer').startup(function()
   use {'wbthomason/packer.nvim', opt = true}
 
   -- Color scheme
-  use { 'sainnhe/gruvbox-material' }
+  use { 'morhetz/gruvbox' }
+  use { 'kyazdani42/nvim-web-devicons' }
 
   -- Fuzzy finder
   use {
