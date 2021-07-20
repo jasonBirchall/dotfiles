@@ -51,6 +51,13 @@ return require('packer').startup(function()
       config = function() require('gitsigns').setup() end
   }
 
+  use {
+      'TimUntersberger/neogit',
+       config = function()
+         require('neogit').setup {integrations = {diffview = true}}
+       end
+  }
+
   -- Wakatime for metrics
   use { 'wakatime/vim-wakatime' }
 
