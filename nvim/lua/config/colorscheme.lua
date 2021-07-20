@@ -1,4 +1,6 @@
 local utils = require('utils')
 local cmd = vim.cmd
 utils.opt('o', 'termguicolors', true)
-cmd 'colorscheme gruvbox'
+cmd 'set background=dark'
+-- cmd 'colorscheme gruvbox'
+cmd 'colorscheme gruvbox-material'
