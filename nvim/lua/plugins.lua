@@ -58,8 +58,10 @@ return require('packer').startup(function()
        end
   }
 
-  -- Wakatime for metrics
+  -- Developer workflow
   use { 'wakatime/vim-wakatime' }
+  use {'voldikss/vim-browser-search'}
+
 
   -- Vim tmux navigator
   use { 'christoomey/vim-tmux-navigator' }
