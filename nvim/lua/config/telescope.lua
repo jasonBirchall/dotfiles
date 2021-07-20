@@ -6,7 +6,7 @@ require("telescope").setup {
     buffers = {
       sort_lastused = true,
       theme = "dropdown",
-      previewer = false,
+      previewer = true,
     },
     find_files = {
       theme = "dropdown"

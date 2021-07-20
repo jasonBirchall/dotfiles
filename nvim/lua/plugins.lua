@@ -81,5 +81,6 @@ return require('packer').startup(function()
   use { 'lukas-reineke/indent-blankline.nvim' }
   use {'airblade/vim-rooter'}
 
+  use { 'ryanoasis/vim-devicons' } -- has to be the last loaded plugin
 end)
 
