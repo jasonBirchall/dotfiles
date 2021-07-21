@@ -1,4 +1,5 @@
 require('config.colorscheme')
+require('config.compe')
 require('config.completion')
 require('config.fugitive')
 require('config.lualine')

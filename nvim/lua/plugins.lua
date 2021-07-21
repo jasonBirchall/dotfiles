@@ -37,9 +37,13 @@ return require('packer').startup(function()
 
   use { 'christoomey/vim-tmux-navigator' }
 
+  use { "simeji/winresizer" }
+
   -- LSP and completion
   use { 'neovim/nvim-lspconfig' }
-  use { 'nvim-lua/completion-nvim' }
+  -- use { 'nvim-lua/completion-nvim' }
+
+  use {'hrsh7th/nvim-compe'}
 
   -- Git specifics
   use { 'tpope/vim-fugitive' }
