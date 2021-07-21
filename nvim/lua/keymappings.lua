@@ -12,7 +12,7 @@ utils.map('t', '<C-h> <C-W>', 'h')
 utils.map('t', '<C-j> <C-W>', 'j')
 utils.map('t', '<C-k> <C-W>', 'k')
 utils.map('t', '<C-w> <C-W>', 'l')
-utils.map('n', '<leader>t', ':terminal<CR>')
+utils.map('n', '<leader>t', ':spl | terminal<CR>')
 utils.map('t', '<Esc>', '<C-\\><C-n>')
 
 -- Split

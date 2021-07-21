@@ -10,7 +10,7 @@ return require('packer').startup(function()
 
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', run = ':TSInstall go'}
 
-  use {'p00f/nvim-ts-rainbow'}
+  use {'p00f/nvim-ts-rainbow'} -- Rainbow brackets etc
 
   -- Fuzzy finder
   use {
@@ -35,12 +35,11 @@ return require('packer').startup(function()
       requires = {'Xuyuanp/nerdtree-git-plugin'}
   }
 
+  use { 'christoomey/vim-tmux-navigator' }
+
   -- LSP and completion
   use { 'neovim/nvim-lspconfig' }
   use { 'nvim-lua/completion-nvim' }
-
-  -- Lua development
-  use { 'tjdevries/nlua.nvim' }
 
   -- Git specifics
   use { 'tpope/vim-fugitive' }
@@ -62,10 +61,6 @@ return require('packer').startup(function()
   use { 'wakatime/vim-wakatime' }
   use {'voldikss/vim-browser-search'}
 
-
-  -- Vim tmux navigator
-  use { 'christoomey/vim-tmux-navigator' }
-
   -- Easy comments
   use { 'tpope/vim-commentary' }
 
@@ -74,6 +69,8 @@ return require('packer').startup(function()
 
   use { 'vim-ruby/vim-ruby' }
   
+  use { 'tjdevries/nlua.nvim' }
+
   -- Statusline
   use { 'hoob3rt/lualine.nvim' }
 
