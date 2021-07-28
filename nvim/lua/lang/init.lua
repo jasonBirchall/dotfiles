@@ -20,4 +20,6 @@ local on_attach = function(client, bufnr)
 
 end
 
-require'lspconfig'.gopls.setup{on_attach=require'completion'.on_attach}
+require'lspconfig'.gopls.setup{}
+
+-- LSPs
