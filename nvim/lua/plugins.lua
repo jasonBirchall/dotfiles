@@ -85,6 +85,7 @@ return require('packer').startup(function()
     config = function() require("which-key").setup {} end
   }
 
+  use { 'troydm/zoomwintab.vim' }
   use { 'jiangmiao/auto-pairs' }
 
   use { 'tpope/vim-surround' }

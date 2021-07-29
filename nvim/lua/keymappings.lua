@@ -25,3 +25,4 @@ utils.map('n', '<leader>z', ':nohl<CR>')
 
 -- Go
 utils.map('n', '<leader>gd', ':GoDocBrowser<CR>')
+utils.map('n', '<leader>gt', ':GoTests<CR>')
