@@ -70,6 +70,7 @@ return require('packer').startup(function()
 
   -- Languages
   use { 'fatih/vim-go' }
+  use { 'buoto/gotests-vim' }
 
   use { 'vim-ruby/vim-ruby' }
   

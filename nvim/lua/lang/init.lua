@@ -22,4 +22,3 @@ end
 
 require'lspconfig'.gopls.setup{}
 
--- LSPs

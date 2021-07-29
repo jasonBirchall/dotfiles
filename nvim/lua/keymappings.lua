@@ -22,3 +22,6 @@ utils.map('n', '<leader>V', ':vertical resize 350<CR>')
 
 -- Text, tab
 utils.map('n', '<leader>z', ':nohl<CR>')
+
+-- Go
+utils.map('n', '<leader>gd', ':GoDocBrowser<CR>')
