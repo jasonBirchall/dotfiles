@@ -8,7 +8,7 @@ return require('packer').startup(function()
   use { 'morhetz/gruvbox' }
   use { 'kyazdani42/nvim-web-devicons' }
 
-  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', run = ':TSInstall go'}
+  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', run = ':TSInstall go comment'}
 
   use {'p00f/nvim-ts-rainbow'} -- Rainbow brackets etc
 
@@ -75,6 +75,7 @@ return require('packer').startup(function()
   use { 'vim-ruby/vim-ruby' }
   
   use { 'tjdevries/nlua.nvim' }
+  use { 'hashivim/vim-terraform' }
 
   -- Statusline
   use { 'hoob3rt/lualine.nvim' }
@@ -92,6 +93,8 @@ return require('packer').startup(function()
 
   use { 'lukas-reineke/indent-blankline.nvim' }
   use {'airblade/vim-rooter'}
+
+  use { 'tpope/vim-obsession' }
 
   use { 'ryanoasis/vim-devicons' } -- has to be the last loaded plugin
 end)
