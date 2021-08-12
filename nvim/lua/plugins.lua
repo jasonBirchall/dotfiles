@@ -38,12 +38,14 @@ return require('packer').startup(function()
   use { 'christoomey/vim-tmux-navigator' }
 
   use { "simeji/winresizer" }
-
+  use {
+    'romgrk/barbar.nvim',
+    requires = {'kyazdani42/nvim-web-devicons'}
+  }
   -- LSP and completion
   use { 'neovim/nvim-lspconfig' }
-  -- use { 'nvim-lua/completion-nvim' }
 
-  use {'hrsh7th/nvim-compe'}
+  use { 'hrsh7th/nvim-compe' }
 
   -- Git specifics
   use { 'tpope/vim-fugitive' }
@@ -60,6 +62,8 @@ return require('packer').startup(function()
          require('neogit').setup {integrations = {diffview = true}}
        end
   }
+  use {'sindrets/diffview.nvim'}
+  use {'voldikss/vim-floaterm'}
 
   -- Developer workflow
   use { 'wakatime/vim-wakatime' }
@@ -76,9 +80,15 @@ return require('packer').startup(function()
   
   use { 'tjdevries/nlua.nvim' }
   use { 'hashivim/vim-terraform' }
+  use { 'lnl7/vim-nix' }
 
   -- Statusline
   use { 'hoob3rt/lualine.nvim' }
+  
+  -- Snippets
+  use { 'hrsh7th/vim-vsnip' }
+  use { 'hrsh7th/vim-vsnip-integ' }
+  use { 'golang/vscode-go' }
 
   -- Other helpers
   use {
@@ -95,6 +105,8 @@ return require('packer').startup(function()
   use {'airblade/vim-rooter'}
 
   use { 'tpope/vim-obsession' }
+
+  use {'unblevable/quick-scope'} -- quickly jump to a char on a line
 
   use { 'ryanoasis/vim-devicons' } -- has to be the last loaded plugin
 end)
