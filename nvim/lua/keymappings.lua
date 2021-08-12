@@ -21,7 +21,11 @@ utils.map('n', '<leader>s', ':split<CR>')
 utils.map('n', '<leader>V', ':vertical resize 350<CR>')
 
 -- Text, tab
-utils.map('n', '<leader>z', ':nohl<CR>')
+utils.map('n', '<leader>z', ':nohl<CR>') -- clear highlights
+utils.map('n', '<leader>.', ':BufferNext<CR>')
+utils.map('n', '<leader>,', ':BufferPrevious<CR>')
+utils.map('n', '<leader><', ':BufferMovePrevious<CR>')
+utils.map('n', '<leader>>', ':BufferMoveNext<CR>')
 
 -- Go
 utils.map('n', '<leader>gd', ':GoDocBrowser<CR>')

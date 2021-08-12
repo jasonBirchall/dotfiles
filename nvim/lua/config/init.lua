@@ -1,6 +1,7 @@
 require('config.colorscheme')
 require('config.compe')
 require('config.completion')
+require('config.diffview')
 require('config.fugitive')
 require('config.lualine')
 require('config.neogit')
