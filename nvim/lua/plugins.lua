@@ -38,10 +38,12 @@ return require('packer').startup(function()
   use { 'christoomey/vim-tmux-navigator' }
 
   use { "simeji/winresizer" }
+
   use {
     'romgrk/barbar.nvim',
     requires = {'kyazdani42/nvim-web-devicons'}
   }
+
   -- LSP and completion
   use { 'neovim/nvim-lspconfig' }
 
@@ -68,6 +70,13 @@ return require('packer').startup(function()
   -- Developer workflow
   use { 'wakatime/vim-wakatime' }
   use {'voldikss/vim-browser-search'}
+
+  use({
+      "folke/persistence.nvim",
+      event = "BufReadPre",
+      module = "persistence",
+      config = function() require("persistence").setup() end
+  })
 
   -- Easy comments
   use { 'tpope/vim-commentary' }
