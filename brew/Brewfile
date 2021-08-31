@@ -45,7 +45,9 @@ brew "yq"
 
 # 'brew install --cask'
 cask "amethyst"
+cask "anki"
 cask "brave-browser"
+cask "firefox"
 cask "fly"
 cask "font-hack-nerd-font"
 cask "signal"
