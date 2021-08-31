@@ -82,7 +82,16 @@ return require('packer').startup(function()
   use {
       'TimUntersberger/neogit',
        config = function()
-         require('neogit').setup {integrations = {diffview = true}}
+         require('neogit').setup {
+             integrations = {
+                 diffview = true
+             },
+             auto_refresh = true,
+             commit_popup = {
+                 kind = "split",
+             },
+             disable_commit_confirmation = true,
+         }
        end
   }
   use {'sindrets/diffview.nvim'}
@@ -135,8 +144,6 @@ return require('packer').startup(function()
   use {'airblade/vim-rooter'}
 
   use { 'tpope/vim-obsession' }
-
-  use {'unblevable/quick-scope'} -- quickly jump to a char on a line
 
   use { 'ryanoasis/vim-devicons' } -- has to be the last loaded plugin
 end)
