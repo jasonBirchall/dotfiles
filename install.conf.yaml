@@ -12,6 +12,7 @@
     - ~/.config/zsh
 
     - ~/Documents/workarea
+    - ~/Documents/laptop_workarea
     - ~/.completions
     - ~/.tmux
     - ~/.tmux/plugins

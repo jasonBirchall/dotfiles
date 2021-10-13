@@ -60,6 +60,10 @@
     },
     // Vim and tmux navigation
     {
+        "key": "ctrl+a space",
+        "command": "workbench.action.toggleEditorGroupLayout"
+    },
+    {
         "key": "ctrl+k",
         "command": "workbench.action.navigateUp"
     },
