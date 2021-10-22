@@ -60,6 +60,10 @@
     },
     // Vim and tmux navigation
     {
+        "key": "ctrl+a space",
+        "command": "workbench.action.toggleEditorGroupLayout"
+    },
+    {
         "key": "ctrl+k",
         "command": "workbench.action.navigateUp"
     },
@@ -148,6 +152,26 @@
         "when": "filesExplorerFocus"
     },
     // General vscode remappings
+    {
+        "key": "tab",
+        "command": "selectNextSuggestion",
+        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
+    },
+    {
+        "key": "down",
+        "command": "-selectNextSuggestion",
+        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
+    },
+    {
+        "key": "shift+tab",
+        "command": "selectPrevSuggestion",
+        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
+    },
+    {
+        "key": "up",
+        "command": "-selectPrevSuggestion",
+        "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
+    },
     {
         "key": "ctrl+a c",
         "command": "workbench.action.toggleMultiCursorModifier"

@@ -33,14 +33,21 @@
     "vim.hlsearch": true,
     "vim.leader": "<space>",
     "vim.useSystemClipboard": true,
-
-    // python configuration
-    "workbench.editorAssociations": [
+    "vim.normalModeKeyBindingsNonRecursive": [
         {
-            "viewType": "jupyter.notebook.ipynb",
-            "filenamePattern": "*.ipynb"
+            "before": [
+                "<Esc>"
+            ],
+            "commands": [
+                ":nohl"
+            ],
         }
     ],
+
+    // python configuration
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
     "editor.snippetSuggestions": "bottom",
     "files.maxMemoryForLargeFilesMB": 8096,
     "workbench.startupEditor": "none",
@@ -50,8 +57,18 @@
     "window.closeWhenEmpty": true,
     "window.openFoldersInNewWindow": "off",
     "terminal.integrated.copyOnSelection": true,
-    "workbench.activityBar.visible": false,
+    "editor.multiCursorModifier": "ctrlCmd",
     "window.zoomLevel": 1,
+    "tabnine.experimentalAutoImports": true,
+    "security.workspace.trust.untrustedFiles": "open",
+    "projectManager.any.baseFolders": [
+        "~/Documents/workarea"
+    ],
+    "git.autofetch": true,
+    "editor.fontFamily": "Monolisa, Menlo, Monaco, 'Courier New', monospace",
+    "settingsSync.ignoredExtensions": [
+        "asf.apache-netbeans-java"
+    ],
     "editor.minimap.enabled": false,
-    "editor.multiCursorModifier": "ctrlCmd"
+    "editor.wordWrap": "on"
 }
