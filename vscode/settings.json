@@ -70,5 +70,11 @@
         "asf.apache-netbeans-java"
     ],
     "editor.minimap.enabled": false,
-    "editor.wordWrap": "on"
+    "editor.wordWrap": "on",
+    "code-runner.enableAppInsights": false,
+    "go.lintTool": "golangci-lint",
+    "go.lintFlags": [
+        "--enable=vet",
+        "--enable=gocritic"
+    ]
 }
