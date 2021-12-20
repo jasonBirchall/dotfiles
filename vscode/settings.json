@@ -72,9 +72,16 @@
     "editor.minimap.enabled": false,
     "editor.wordWrap": "on",
     "code-runner.enableAppInsights": false,
-    "go.lintTool": "golangci-lint",
-    "go.lintFlags": [
-        "--enable=vet",
-        "--enable=gocritic"
-    ]
+    "files.associations": {
+        "*.liquid": "html"
+    },
+    "go.trace.server": "verbose",
+    "editor.inlineSuggest.enabled": true,
+    "github.copilot.enable": {
+        "*": true,
+        "yaml": true,
+        "plaintext": true,
+        "markdown": true,
+        "go": true
+    }
 }
