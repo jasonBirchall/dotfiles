@@ -121,6 +121,9 @@ return require('packer').startup(function()
   use { 'hashivim/vim-terraform' }
   use { 'lnl7/vim-nix' }
 
+  -- Robot copilots
+  use { 'github/copilot.vim' }
+
   -- Statusline
   use { 'hoob3rt/lualine.nvim' }
   
