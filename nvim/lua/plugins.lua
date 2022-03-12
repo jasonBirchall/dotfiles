@@ -39,23 +39,6 @@ return require('packer').startup(function()
   use { "simeji/winresizer" }
 
   use {
-      'akinsho/nvim-bufferline.lua',
-      requires = 'kyazdani42/nvim-web-devicons',
-      config = function()
-          require("bufferline").setup({
-              options = {
-                  numbers = "none",
-                  number_style = "",
-                  diagnostics = "nvim_lsp",
-                  show_tab_indicators = true,
-                  show_buffer_close_icons = false,
-                  show_close_icon = false
-              }
-          })
-      end
-  }
-
-  use {
     'phaazon/hop.nvim',
     as = 'hop',
     config = function()
@@ -68,6 +51,7 @@ return require('packer').startup(function()
   use { 'neovim/nvim-lspconfig' }
 
   use { 'hrsh7th/nvim-compe' }
+  use { 'github/copilot.vim' }
 
   -- Git specifics
   use { 'tpope/vim-fugitive' }
@@ -120,9 +104,6 @@ return require('packer').startup(function()
   use { 'hashivim/vim-terraform' }
   use { 'lnl7/vim-nix' }
 
-  -- Robot copilots
-  use { 'github/copilot.vim' }
-
   -- Statusline
   use { 'hoob3rt/lualine.nvim' }
   
@@ -146,6 +127,8 @@ return require('packer').startup(function()
   use {'airblade/vim-rooter'}
 
   use { 'tpope/vim-obsession' }
+
+  use { 'hoschi/yode-nvim' }
 
   use { 'ryanoasis/vim-devicons' } -- has to be the last loaded plugin
 end)
