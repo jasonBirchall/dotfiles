@@ -1,7 +1,7 @@
 require('lualine').setup {
   options = {
     icons_enabled = 1,
-    theme = 'gruvbox_material',
+    theme = 'gruvbox',
     component_separators = {'|', '|'},
     section_separators = {'', ''},
     disabled_filetypes = {}
