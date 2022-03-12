@@ -15,7 +15,6 @@ alias vim="nvim"
 alias vi="nvim"
 alias :q="exit"
 
-alias infraenv='source $HOME/Documents/workarea/temp/temp-clusters'
 alias kops='infraenv; kops'
 alias kopsexport='infraenv; rm ~/.kube/config; kops export kubecfg'
 alias tf='terraform'

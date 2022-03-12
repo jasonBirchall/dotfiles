@@ -1,5 +1,4 @@
 
-export AWS_PROFILE=moj-cp
 export EDITOR=/opt/homebrew/bin/nvim
 export GIT_EDITOR=${EDITOR}
 export GOPATH=$HOME/go
