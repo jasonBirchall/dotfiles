@@ -107,8 +107,8 @@ key[Control-Right]="${terminfo[kRIT5]}"
 
 
 # Plugins
-source $HOME/Documents/workarea/dotfiles/zsh/packages/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $HOME/Documents/workarea/dotfiles/zsh/antigen.zsh
+source $HOME/Documents/workarea/dotfiles.nosync/zsh/packages/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/Documents/workarea/dotfiles.nosync/zsh/antigen.zsh
 
 ## Use the oh-my-zsh library
 antigen use oh-my-zsh
