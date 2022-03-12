@@ -57,7 +57,6 @@
     "window.closeWhenEmpty": true,
     "window.openFoldersInNewWindow": "off",
     "terminal.integrated.copyOnSelection": true,
-    "editor.multiCursorModifier": "ctrlCmd",
     "tabnine.experimentalAutoImports": true,
     "security.workspace.trust.untrustedFiles": "open",
     "projectManager.any.baseFolders": [
@@ -83,7 +82,9 @@
         "markdown": true,
         "go": true
     },
-    "window.zoomLevel": 1,
+    "window.zoomLevel": 2,
     "go.toolsManagement.autoUpdate": true,
-    "go.lintTool": "golangci-lint"
+    "go.lintTool": "golangci-lint",
+    "git.suggestSmartCommit": false,
+    "editor.accessibilitySupport": "off"
 }
