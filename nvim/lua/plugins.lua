@@ -5,6 +5,7 @@ return require('packer').startup(function()
 
   -- Color scheme
   use { 'morhetz/gruvbox' }
+  use { "projekt0n/github-nvim-theme" }
   use { 'kyazdani42/nvim-web-devicons' }
 
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', run = ':TSInstall go comment'}
@@ -50,6 +51,7 @@ return require('packer').startup(function()
   -- LSP and completion
   use { 'neovim/nvim-lspconfig' }
 
+  use { 'ray-x/lsp_signature.nvim' }
   use { 'hrsh7th/nvim-compe' }
   use { 'github/copilot.vim' }
 
