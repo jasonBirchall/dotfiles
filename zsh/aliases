@@ -2,7 +2,7 @@
 # Add an alert alias for long running commands
 alias bi='bundle install --path .bundle/gems --binstubs .bundle/bin'
 alias cdw='cd ~/Documents/workarea'
-alias cdd='cd ~/Documents/workarea/dotfiles'
+alias cdd='cd ~/Documents/workarea/dotfiles.nosync'
 alias cde='cd ~/Documents/workarea/environment'
 alias cdi='cd ~/Documents/workarea/cloud-platform-infrastructure; infraenv'
 alias cdp='cd $GOPATH'
@@ -30,6 +30,6 @@ alias cdu='cd ~/Documents/workarea/university-work'
 alias yq="yq e '.' -"
 
 alias tmux="TERM=screen-256color-bce tmux"
-alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
+# alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"' # ranger with last directory
 alias r='ranger'
 alias watch='watch --color'
