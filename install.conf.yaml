@@ -20,7 +20,9 @@
     - ~/Library/Application\ Support/Code/User
 
 - link:
-    ~/.config/zsh/.zshrc: zsh/zshrc
+    ~/.zshrc: zsh/zshrc
+    ~/.config/zsh/.zshenv: zsh/zshenv
+    ~/.zshenv: zsh/zshenv
     ~/.config/zsh/.zprofile: zsh/zprofile
     ~/.config/zsh/.env: zsh/zshenv
     ~/.config/zsh/.aliases: zsh/aliases
