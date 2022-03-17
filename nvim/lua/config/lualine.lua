@@ -50,7 +50,7 @@ require('lualine').setup {
     lualine_b = {},
     lualine_c = {'filename'},
     lualine_x = {'location'},
-    lualine_y = {},
+    lualine_y = {'WakaTimeToday'},
     lualine_z = {}
   },
   tabline = {},
