@@ -95,6 +95,11 @@ return require('packer').startup(function()
       config = function() require("persistence").setup() end
   })
 
+  use {
+    'folke/trouble.nvim',
+    requires = 'kyazdani42/nvim-web-devicons'
+  }
+
   -- Easy comments
   use { 'tpope/vim-commentary' }
 
@@ -135,6 +140,8 @@ return require('packer').startup(function()
   use { 'tpope/vim-obsession' }
 
   use { 'hoschi/yode-nvim' }
+
+  use { "rcarriga/nvim-notify" }
 
   use { 'ryanoasis/vim-devicons' } -- has to be the last loaded plugin
 end)
