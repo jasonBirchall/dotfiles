@@ -64,6 +64,8 @@ return require('packer').startup(function()
       config = function() require('gitsigns').setup() end
   }
 
+  use { 'f-person/git-blame.nvim' }
+
   use {
       'TimUntersberger/neogit',
        config = function()
