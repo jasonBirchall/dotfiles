@@ -54,5 +54,5 @@ require('lualine').setup {
     lualine_z = {}
   },
   tabline = {},
-  extensions = {'nerdtree'}
+  extensions = {'nerdtree', 'toggleterm', 'quickfix', 'symbols-outline'}
 }
