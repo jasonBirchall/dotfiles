@@ -84,7 +84,7 @@ return require('packer').startup(function()
 
   -- Developer workflow
   use { 'wakatime/vim-wakatime' }
-  use {'voldikss/vim-browser-search'}
+  use { 'voldikss/vim-browser-search' }
 
   use({
       "folke/persistence.nvim",
@@ -97,9 +97,11 @@ return require('packer').startup(function()
   use { 'tpope/vim-commentary' }
 
   -- Languages
-  use { 'fatih/vim-go' }
+  -- -- Go
+  use { 'ray-x/go.nvim' }
   use { 'buoto/gotests-vim' }
 
+  -- -- Ruby
   use { 'vim-ruby/vim-ruby' }
   
   use { 'tjdevries/nlua.nvim' }
