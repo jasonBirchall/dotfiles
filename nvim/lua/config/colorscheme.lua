@@ -3,6 +3,7 @@ local cmd = vim.cmd
 utils.opt('o', 'termguicolors', true)
 cmd 'set background=dark'
 cmd 'colorscheme gruvbox'
+-- cmd 'colorscheme kanagawa'
 -- cmd 'colorscheme gruvbox-material'
 -- cmd 'colorscheme github_dimmed'
 

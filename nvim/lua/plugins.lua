@@ -7,6 +7,7 @@ return require('packer').startup(function()
   use { 'morhetz/gruvbox' }
   use { "projekt0n/github-nvim-theme" }
   use { 'kyazdani42/nvim-web-devicons' }
+  use { 'rebelot/kanagawa.nvim' }
 
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', run = ':TSInstall go comment'}
 
