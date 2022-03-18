@@ -48,6 +48,8 @@ return require('packer').startup(function()
     end
   }
 
+  use { 'petertriho/nvim-scrollbar' }
+
   -- LSP and completion
   use { 'neovim/nvim-lspconfig' }
 
