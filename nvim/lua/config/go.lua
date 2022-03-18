@@ -33,6 +33,10 @@ require("go").setup({
     build_tags = "", -- set default build tags
     textobjects = true, -- enable default text jobects through treesittter-text-objects
     test_runner = "go", -- richgo, go test, richgo, dlv, ginkgo
-    run_in_floaterm = false -- set to true to run in float window.
+    run_in_floaterm = true -- set to true to run in float window.
     -- float term recommand if you use richgo/ginkgo with terminal color
 })
+
+-- Run gofmt + goimport on save
+vim.api.nvim_exec([[ autocmd BufWritePre *.go :silent! lua require('go.format').goimport() ]], false)
+

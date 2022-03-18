@@ -1,10 +1,12 @@
 require('lualine').setup {
   options = {
-    icons_enabled = 1,
-    theme = 'gruvbox',
-    component_separators = {'|', '|'},
-    section_separators = {'', ''},
-    disabled_filetypes = {}
+    icons_enabled = true,
+    theme = 'auto',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {},
+    always_divide_middle = true,
+    globalstatus = false,
   },
   sections = {
     lualine_a = {
