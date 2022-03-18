@@ -42,11 +42,7 @@ return require('packer').startup(function()
 
   use {
     'phaazon/hop.nvim',
-    as = 'hop',
-    config = function()
-      -- you can configure Hop the way you like here; see :h hop-config
-      require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
-    end
+    branch = 'v1',
   }
 
   use { 'petertriho/nvim-scrollbar' }
@@ -119,7 +115,7 @@ return require('packer').startup(function()
   use { 'lnl7/vim-nix' }
 
   -- Statusline
-  use { 'hoob3rt/lualine.nvim' }
+  use { 'nvim-lualine/lualine.nvim' }
   
   -- Snippets
   use { 'hrsh7th/vim-vsnip' }
@@ -138,13 +134,13 @@ return require('packer').startup(function()
   use { 'tpope/vim-surround' }
 
   use { 'lukas-reineke/indent-blankline.nvim' }
-  use {'airblade/vim-rooter'}
+  use {'airblade/vim-rooter'} -- Stay at the root of a project
 
   use { 'tpope/vim-obsession' }
 
-  use { 'hoschi/yode-nvim' }
+  use { 'hoschi/yode-nvim' } -- Code snippets placement
 
-  use { "rcarriga/nvim-notify" }
+  use { "rcarriga/nvim-notify" } -- Cool notifications
 
   use { 'ryanoasis/vim-devicons' } -- has to be the last loaded plugin
 end)
