@@ -49,8 +49,6 @@ return require('packer').startup(function()
 
   use { "folke/zen-mode.nvim" }
 
-
-
   -- LSP and completion
   use { 'neovim/nvim-lspconfig' }
 
@@ -59,7 +57,6 @@ return require('packer').startup(function()
   use { 'github/copilot.vim' }
 
   -- Git specifics
-  use { 'tpope/vim-fugitive' }
   use { 'tpope/vim-rhubarb' } -- use GBrowse to open in browser
 
   use {
@@ -90,13 +87,6 @@ return require('packer').startup(function()
   -- Developer workflow
   use { 'wakatime/vim-wakatime' }
   use { 'voldikss/vim-browser-search' }
-
-  use({
-      "folke/persistence.nvim",
-      event = "BufReadPre",
-      module = "persistence",
-      config = function() require("persistence").setup() end
-  })
 
   use {
     'folke/trouble.nvim',
