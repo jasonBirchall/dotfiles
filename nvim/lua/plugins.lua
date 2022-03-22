@@ -122,17 +122,10 @@ return require('packer').startup(function()
     config = function() require("which-key").setup {} end
   }
 
-  use { 'troydm/zoomwintab.vim' }
   use { 'jiangmiao/auto-pairs' }
 
-  use { 'tpope/vim-surround' }
-
   use { 'lukas-reineke/indent-blankline.nvim' }
-  use {'airblade/vim-rooter'} -- Stay at the root of a project
-
-  use { 'tpope/vim-obsession' }
-
-  use { 'hoschi/yode-nvim' } -- Code snippets placement
+  -- use { 'airblade/vim-rooter' } -- Stay at the root of a project -- Update: Want to try without this for a while
 
   use { "rcarriga/nvim-notify" } -- Cool notifications
 
