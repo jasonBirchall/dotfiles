@@ -47,6 +47,10 @@ return require('packer').startup(function()
 
   use { 'petertriho/nvim-scrollbar' }
 
+  use { "folke/zen-mode.nvim" }
+
+
+
   -- LSP and completion
   use { 'neovim/nvim-lspconfig' }
 
