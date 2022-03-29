@@ -2,7 +2,7 @@ local utils = require('utils')
 local cmd = vim.cmd
 utils.opt('o', 'termguicolors', true)
 cmd 'set background=dark'
-cmd 'colorscheme gruvbox'
+-- cmd 'colorscheme gruvbox'
 -- cmd 'colorscheme kanagawa'
 -- cmd 'colorscheme gruvbox-material'
 -- cmd 'colorscheme github_dimmed'
@@ -10,6 +10,12 @@ cmd 'colorscheme gruvbox'
 require("nvim-web-devicons").setup {
   default = true;
 }
+    
+cmd 'let g:gruvbox_material_background = "hard"'
+cmd 'let g:gruvbox_material_better_performance = 1'
+cmd 'let g:gruvbox_material_enable_italic = 1'
+cmd 'let g:gruvbox_material_palette = "mix"'
+cmd 'colorscheme gruvbox-material'
 
 -- require("github-theme").setup({
 --   theme_style = "dark",

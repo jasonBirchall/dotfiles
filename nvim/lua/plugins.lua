@@ -6,6 +6,7 @@ return require('packer').startup(function()
   -- Color scheme
   use { 'morhetz/gruvbox' }
   use { "projekt0n/github-nvim-theme" }
+  use { 'sainnhe/gruvbox-material' }
   use { 'kyazdani42/nvim-web-devicons' }
   use { 'rebelot/kanagawa.nvim' }
 
