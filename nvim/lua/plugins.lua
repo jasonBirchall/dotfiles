@@ -101,6 +101,9 @@ return require('packer').startup(function()
   -- -- Go
   use { 'ray-x/go.nvim' }
   use { 'buoto/gotests-vim' }
+  use { 'mfussenegger/nvim-dap' }
+  use { 'rcarriga/nvim-dap-ui' }
+  use { 'theHamsta/nvim-dap-virtual-text' }
 
   -- -- Ruby
   use { 'vim-ruby/vim-ruby' }
