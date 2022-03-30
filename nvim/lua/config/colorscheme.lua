@@ -11,7 +11,7 @@ require("nvim-web-devicons").setup {
   default = true;
 }
     
-cmd 'let g:gruvbox_material_background = "hard"'
+-- cmd 'let g:gruvbox_material_background = "hard"'
 cmd 'let g:gruvbox_material_better_performance = 1'
 cmd 'let g:gruvbox_material_enable_italic = 1'
 cmd 'let g:gruvbox_material_palette = "mix"'
