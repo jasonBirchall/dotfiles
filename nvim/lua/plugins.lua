@@ -33,8 +33,10 @@ return require('packer').startup(function()
 
   -- Navigation
   use {
-      'preservim/nerdtree',
-      requires = {'Xuyuanp/nerdtree-git-plugin'}
+      'kyazdani42/nvim-tree.lua',
+      requires = {
+        'kyazdani42/nvim-web-devicons', -- optional, for file icon
+      }
   }
 
   use { 'christoomey/vim-tmux-navigator' }
@@ -49,6 +51,7 @@ return require('packer').startup(function()
   use { 'petertriho/nvim-scrollbar' }
 
   use { "folke/zen-mode.nvim" }
+  use { 'yamatsum/nvim-cursorline' }
 
   -- LSP and completion
   use { 'neovim/nvim-lspconfig' }
@@ -129,7 +132,7 @@ return require('packer').startup(function()
   use { 'jiangmiao/auto-pairs' }
 
   use { 'lukas-reineke/indent-blankline.nvim' }
-  -- use { 'airblade/vim-rooter' } -- Stay at the root of a project -- Update: Want to try without this for a while
+  use { 'airblade/vim-rooter' } -- Stay at the root of a project
 
   use { "rcarriga/nvim-notify" } -- Cool notifications
 
