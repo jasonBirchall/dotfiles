@@ -62,6 +62,7 @@ return require('packer').startup(function()
 
   -- Git specifics
   use { 'tpope/vim-rhubarb' } -- use GBrowse to open in browser
+  use { 'kdheepak/lazygit.nvim' }
 
   use {
       'lewis6991/gitsigns.nvim',
