@@ -60,6 +60,15 @@ return require('packer').startup(function()
   use { 'hrsh7th/nvim-compe' }
   use { 'github/copilot.vim' }
 
+  use {
+    "hrsh7th/nvim-cmp",
+    requires = {
+        {"hrsh7th/cmp-nvim-lsp"}, {"hrsh7th/cmp-buffer"}, {"hrsh7th/cmp-path"},
+        {"hrsh7th/cmp-cmdline"}, {"hrsh7th/cmp-vsnip"},
+        {"f3fora/cmp-spell", {"hrsh7th/cmp-calc"}}
+    }
+}
+
   -- Git specifics
   use { 'tpope/vim-rhubarb' } -- use GBrowse to open in browser
   use { 'kdheepak/lazygit.nvim' }
@@ -112,8 +121,13 @@ return require('packer').startup(function()
   -- -- Ruby
   use { 'vim-ruby/vim-ruby' }
   
+  -- -- Lua
   use { 'tjdevries/nlua.nvim' }
+
+  -- -- Terraform
   use { 'hashivim/vim-terraform' }
+
+  -- -- *nix
   use { 'lnl7/vim-nix' }
 
   -- Statusline
