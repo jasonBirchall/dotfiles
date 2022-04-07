@@ -57,8 +57,11 @@ return require('packer').startup(function()
   use { 'neovim/nvim-lspconfig' }
 
   use { 'ray-x/lsp_signature.nvim' }
-  use { 'hrsh7th/nvim-compe' }
+  use { 'hrsh7th/nvim-cmp' }
+  use { 'hrsh7th/cmp-nvim-lsp' } -- LSP source for nvim-cmp
   use { 'github/copilot.vim' }
+  use { 'saadparwaiz1/cmp_luasnip' } -- Snippets source for nvim-cmp
+  use { 'L3MON4D3/LuaSnip' } -- Snippets plugin
 
   -- Git specifics
   use { 'tpope/vim-rhubarb' } -- use GBrowse to open in browser

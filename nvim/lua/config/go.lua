@@ -1,3 +1,5 @@
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 require("go").setup({
     go = "go", -- go command, can be go[default] or go1.18beta1
     goimport = "gopls", -- goimport command, can be gopls[default] or goimport
@@ -10,7 +12,9 @@ require("go").setup({
     comment_placeholder = " ﳑ ", -- comment_placeholder your cool placeholder e.g. ﳑ   b    
     icons = {breakpoint = "🧘", currentpos = "🏃"},
     verbose = false, -- output loginf in messages
-    lsp_cfg = true, -- true: use non-default gopls setup specified in go/lsp.lua
+    lsp_cfg = {
+        capabilities = capabilities,
+    }, -- true: use non-default gopls setup specified in go/lsp.lua
     -- false: do nothing
     -- if lsp_cfg is a table, merge table with with non-default gopls setup in go/lsp.lua, e.g.
     --   lsp_cfg = {settings={gopls={matcher='CaseInsensitive', ['local'] = 'your_local_module_path', gofumpt = true }}}
@@ -18,7 +22,7 @@ require("go").setup({
     lsp_on_attach = true, -- nil: use on_attach function defined in go/lsp.lua,
     --      when lsp_cfg is true
     -- if lsp_on_attach is a function: use this function as on_attach function for gopls
-    lsp_codelens = false, -- set to false to disable codelens, true by default
+    lsp_codelens = true, -- set to false to disable codelens, true by default
     lsp_diag_hdlr = true, -- hook lsp diag handler
     lsp_document_formatting = true,
     -- set to true: use gopls to format
@@ -33,16 +37,15 @@ require("go").setup({
     build_tags = "", -- set default build tags
     textobjects = true, -- enable default text jobects through treesittter-text-objects
     test_runner = "go", -- richgo, go test, richgo, dlv, ginkgo
-    run_in_floaterm = true -- set to true to run in float window.
+    run_in_floaterm = false -- set to true to run in float window.
     -- float term recommand if you use richgo/ginkgo with terminal color
 })
 
+-- Keybindings
+vim.cmd("autocmd FileType go nmap <Leader>gt :GoTests<CR>")
+
 -- Run gofmt + goimport on save
 vim.api.nvim_exec([[ autocmd BufWritePre *.go :silent! lua require('go.format').goimport() ]], false)
-
--- Key bindings
-vim.cmd("autocmd FileType go nmap <Leader>gl :GoLint")
-vim.cmd("autocmd FileType go nmap <Leader>gc :lua require('go.comment').gen()")
 
 -- DAP
 local dap_config = function()

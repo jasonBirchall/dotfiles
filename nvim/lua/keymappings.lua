@@ -27,9 +27,5 @@ utils.map('n', '<leader>,', ':BufferLineCyclePrev<CR>')
 utils.map('n', '<leader><', ':BufferLineMovePrev<CR>')
 utils.map('n', '<leader>>', ':BufferLineMoveNext<CR>')
 
--- Go
-utils.map('n', '<leader>gd', ':GoDocBrowser<CR>')
-utils.map('n', '<leader>gt', ':GoTests<CR>')
-
 -- Trouble
 utils.map('n', '<leader>xx', ':TroubleToggle<CR>')
