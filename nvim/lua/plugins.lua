@@ -140,6 +140,8 @@ return require('packer').startup(function()
 
   use { "rcarriga/nvim-notify" } -- Cool notifications
 
+  use { 'mhartington/formatter.nvim' }
+
   use { 'ryanoasis/vim-devicons' } -- has to be the last loaded plugin
 end)
 
