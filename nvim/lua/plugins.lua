@@ -1,5 +1,5 @@
 return require('packer').startup(function()
-    
+
   -- Packer can manage itself as an optional plugin
   use {'wbthomason/packer.nvim', opt = true}
 
@@ -102,7 +102,7 @@ return require('packer').startup(function()
   }
 
   -- Easy comments
-  use { 'tpope/vim-commentary' }
+  use { 'b3nj5m1n/kommentary' }
 
   -- Languages
   -- -- Go
@@ -114,14 +114,15 @@ return require('packer').startup(function()
 
   -- -- Ruby
   use { 'vim-ruby/vim-ruby' }
-  
+
+  -- -- Other
   use { 'tjdevries/nlua.nvim' }
   use { 'hashivim/vim-terraform' }
   use { 'lnl7/vim-nix' }
 
   -- Statusline
   use { 'nvim-lualine/lualine.nvim' }
-  
+
   -- Snippets
   use { 'hrsh7th/vim-vsnip' }
   use { 'hrsh7th/vim-vsnip-integ' }
