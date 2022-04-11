@@ -29,3 +29,6 @@ utils.map('n', '<leader>>', ':BufferLineMoveNext<CR>')
 
 -- Trouble
 utils.map('n', '<leader>xx', ':TroubleToggle<CR>')
+
+-- Other
+utils.map('n', '<leader>w', ':WakaTimeToday<CR>')
