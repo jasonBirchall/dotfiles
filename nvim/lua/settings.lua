@@ -14,7 +14,6 @@ utils.opt('o', 'ignorecase', true)
 utils.opt('o', 'mouse', 'a')
 utils.opt('o', 'ruler', true)
 utils.opt('o', 'scrolloff', 4 )
--- utils.opt('o', 'shiftround', true)
 utils.opt('o', 'shiftwidth', 3)
 utils.opt('o', 'showmatch', true) -- show matching bracket end
 utils.opt('o', 'smartcase', true)
