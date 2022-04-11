@@ -103,6 +103,10 @@ return require('packer').startup(function()
 
   -- Easy comments
   use { 'b3nj5m1n/kommentary' }
+  use {
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
+  }
 
   -- Languages
   -- -- Go
