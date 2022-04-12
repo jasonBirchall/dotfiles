@@ -4,8 +4,6 @@ local cmd = vim.cmd
 -- General
 cmd 'filetype plugin indent on'
 cmd 'syntax enable'
-utils.opt('b', 'expandtab', true) -- convert tabs to spaces
-utils.opt('b', 'smartindent', true)
 utils.opt('o', 'clipboard','unnamed,unnamedplus')
 utils.opt('o', 'cmdheight', 1)
 utils.opt('o', 'encoding', 'UTF-8')
