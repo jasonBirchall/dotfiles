@@ -53,6 +53,8 @@ return require('packer').startup(function()
   use { "folke/zen-mode.nvim" }
   use { 'yamatsum/nvim-cursorline' }
 
+  use { 'windwp/nvim-autopairs' }
+
   -- LSP and completion
   use { 'neovim/nvim-lspconfig' }
 

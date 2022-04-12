@@ -1,3 +1,4 @@
+require('config.autopairs')
 require('config.blame')
 require('config.cmp')
 require('config.colorscheme')
