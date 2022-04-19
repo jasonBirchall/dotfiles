@@ -41,6 +41,20 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-  },
+	 { name = 'buffer', keyword_length = 5 },
+	 { name = 'luasnip' },
+	 { name = 'calc' },
+	 { name = 'emoji' },
+	 { name = 'spell' },
+	 { name = 'path' },
+	 { name = 'rg', keyword_length = 5 },
+	},
 }
+
+-- Use buffer source for `/`.
+cmp.setup.cmdline("/", { sources = { { name = "buffer" } } })
+
+-- Use cmdline & path source for ':'.
+cmp.setup.cmdline(":", {
+	sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
+})
