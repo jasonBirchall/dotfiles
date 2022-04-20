@@ -17,11 +17,16 @@ return require('packer').startup(function()
   -- Fuzzy finder
   use {
       'nvim-telescope/telescope.nvim',
-      requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+      requires = {
+			{'nvim-lua/popup.nvim'},
+			{'nvim-lua/plenary.nvim'},
+	      {'nvim-telescope/telescope-symbols.nvim'},
+			{'nvim-telescope/telescope-github.nvim'},
+			{'cljoly/telescope-repo.nvim'},
+			{'AckslD/nvim-neoclip.lua'},
+		},
   }
 
-  use {'nvim-telescope/telescope-symbols.nvim'}
-  use {'nvim-telescope/telescope-github.nvim'}
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
   use {
       'nvim-telescope/telescope-frecency.nvim',
