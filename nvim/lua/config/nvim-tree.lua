@@ -2,7 +2,6 @@
 require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
   auto_reload_on_write = true,
   disable_netrw = false,
-  hide_root_folder = false,
   hijack_cursor = false,
   hijack_netrw = true,
   hijack_unnamed_buffer_when_opening = false,
@@ -12,7 +11,7 @@ require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
   sort_by = "name",
   update_cwd = false,
   view = {
-    width = 40,
+    width = 35,
     height = 30,
     side = "left",
     preserve_window_proportions = false,
@@ -51,7 +50,7 @@ require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
     },
   },
   filters = {
-    dotfiles = true,
+    dotfiles = false,
     custom = {},
     exclude = {},
   },

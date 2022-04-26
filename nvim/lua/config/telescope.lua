@@ -14,7 +14,7 @@ require("telescope").setup {
 
 local utils = require('utils')
 
-utils.map('n', '<Leader><space>', '<cmd>Telescope find_files<CR>')
+utils.map('n', '<Leader><space>', '<cmd>Telescope find_files hidden=true<CR>')
 utils.map('n', '<Leader>fo', '<cmd>Telescope oldfiles<CR>')
 utils.map('n', '<Leader>ff', '<cmd>Telescope file_browser hidden=true<CR>')
 utils.map('n', '<Leader>gh', '<cmd>Telescope gh pull_request<CR>')
