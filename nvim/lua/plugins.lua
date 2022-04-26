@@ -147,9 +147,18 @@ return require('packer').startup(function()
   use { 'vim-ruby/vim-ruby' }
 
   -- -- Other
-  use { 'tjdevries/nlua.nvim' }
   use { 'hashivim/vim-terraform' }
   use { 'lnl7/vim-nix' }
+
+  -- -- lualine
+  use { 'tjdevries/nlua.nvim' }
+
+  -- (OPTIONAL): This is recommended to get better auto-completion UX experience for builtin LSP.
+  use { 'nvim-lua/completion-nvim' }
+
+  --[[ (OPTIONAL): This is a suggested plugin to get better Lua syntax highlighting
+   but it's not currently required ]]
+  use { 'euclidianAce/BetterLua.vim' }
 
   -- Statusline
   use { 'nvim-lualine/lualine.nvim' }
