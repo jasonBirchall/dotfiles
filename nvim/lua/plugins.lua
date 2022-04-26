@@ -165,8 +165,6 @@ return require('packer').startup(function()
     config = function() require("which-key").setup {} end
   }
 
-  use { 'jiangmiao/auto-pairs' }
-
   use { 'lukas-reineke/indent-blankline.nvim' }
   use { 'airblade/vim-rooter' } -- Stay at the root of a project
 
