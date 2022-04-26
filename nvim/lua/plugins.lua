@@ -126,6 +126,8 @@ return require('packer').startup(function()
     requires = 'kyazdani42/nvim-web-devicons'
   }
 
+  use { 'ianding1/leetcode.vim' }
+
   -- Easy comments
   use { 'b3nj5m1n/kommentary' }
   use {
