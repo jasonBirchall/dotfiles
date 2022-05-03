@@ -88,6 +88,14 @@ return require('packer').startup(function()
   use { 'saadparwaiz1/cmp_luasnip' } -- Snippets source for nvim-cmp
   use { 'L3MON4D3/LuaSnip' } -- Snippets plugin
 
+  use {
+    "j-hui/fidget.nvim",
+    event = "BufReadPre",
+    config = function()
+      require("fidget").setup {}
+    end,
+  }
+
   -- Git specifics
   use { 'tpope/vim-rhubarb' } -- use GBrowse to open in browser
   use { 'kdheepak/lazygit.nvim' }
