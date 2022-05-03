@@ -154,6 +154,10 @@ return require('packer').startup(function()
   -- -- Ruby
   use { 'vim-ruby/vim-ruby' }
 
+  -- -- Python
+  -- Python indent (follows the PEP8 style)
+  use({ "Vimjas/vim-python-pep8-indent", ft = { "python" } })
+
   -- -- Other
   use { 'hashivim/vim-terraform' }
   use { 'lnl7/vim-nix' }
