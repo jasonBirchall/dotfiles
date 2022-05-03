@@ -157,6 +157,7 @@ return require('packer').startup(function()
   -- -- Other
   use { 'hashivim/vim-terraform' }
   use { 'lnl7/vim-nix' }
+  use { 'towolf/vim-helm' }
 
   -- -- lualine
   use { 'tjdevries/nlua.nvim' }
