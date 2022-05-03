@@ -16,14 +16,13 @@ alias vi="nvim"
 alias :q="exit"
 alias gcz="cz commit"
 
-alias kops='infraenv; kops'
-alias kopsexport='infraenv; rm ~/.kube/config; kops export kubecfg'
 alias tf='terraform'
 alias g='git'
 alias gs='git status; git diff'
 alias gd='git diff'
 alias ga='git add'
 alias gc='git commit'
+alias lg='lazygit'
 alias k='kubectl'
 complete -F __start_kubectl k
 alias cdgo='cd $GOPATH'
