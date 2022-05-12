@@ -40,6 +40,9 @@ for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     on_attach = on_attach,
 	 settings = {
+	   gopls = {
+		  gofumpt = true,
+		},
       yaml = {
         schemas = { kubernetes = "globPattern" },
       }
