@@ -22,7 +22,7 @@ require("go").setup({
     lsp_on_attach = true, -- nil: use on_attach function defined in go/lsp.lua,
     --      when lsp_cfg is true
     -- if lsp_on_attach is a function: use this function as on_attach function for gopls
-    lsp_codelens = true, -- set to false to disable codelens, true by default
+    lsp_codelens = false, -- set to false to disable codelens, true by default
     lsp_diag_hdlr = true, -- hook lsp diag handler
     lsp_document_formatting = true,
     -- set to true: use gopls to format
