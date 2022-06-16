@@ -1,5 +1,6 @@
 require('config.autopairs')
 require('config.blame')
+require('config.bufferline')
 require('config.cmp')
 require('config.colorscheme')
 require('config.completion')

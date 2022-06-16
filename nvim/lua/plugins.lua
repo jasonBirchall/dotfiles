@@ -38,6 +38,14 @@ return require('packer').startup(function()
 
   -- Navigation
   use {
+		"akinsho/nvim-bufferline.lua",
+		tag = "v2.*",
+		requires = {
+			'kyazdani42/nvim-web-devicons', -- optional, for file icon
+		}
+  }
+
+  use {
       'kyazdani42/nvim-tree.lua',
       requires = {
         'kyazdani42/nvim-web-devicons', -- optional, for file icon
