@@ -145,10 +145,16 @@ return require('packer').startup(function()
   use { 'ianding1/leetcode.vim' }
 
   -- Easy comments
-  use { 'b3nj5m1n/kommentary' }
   use {
     "folke/todo-comments.nvim",
     requires = "nvim-lua/plenary.nvim",
+  }
+
+  use {
+    'numToStr/Comment.nvim',
+    config = function()
+        require('Comment').setup()
+    end
   }
 
   -- Languages
