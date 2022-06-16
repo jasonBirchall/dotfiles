@@ -162,6 +162,7 @@ return require('packer').startup(function()
   use { 'hashivim/vim-terraform' }
   use { 'lnl7/vim-nix' }
   use { 'towolf/vim-helm' }
+  use { 'rust-lang/rust.vim' }
 
   -- -- lualine
   use { 'tjdevries/nlua.nvim' }
