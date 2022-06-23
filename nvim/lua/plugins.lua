@@ -136,6 +136,11 @@ return require('packer').startup(function()
   use {'sindrets/diffview.nvim'}
   use {'voldikss/vim-floaterm'}
 
+  use {
+    "ldelossa/gh.nvim",
+    requires = "ldelossa/litee.nvim",
+  }
+
   -- Developer workflow
   use { 'wakatime/vim-wakatime' }
   use { 'voldikss/vim-browser-search' }
