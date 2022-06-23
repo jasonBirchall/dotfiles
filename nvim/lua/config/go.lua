@@ -36,13 +36,19 @@ require("go").setup({
     dap_debug_vt = true, -- set to true to enable dap virtual text
     build_tags = "", -- set default build tags
     textobjects = true, -- enable default text jobects through treesittter-text-objects
-    test_runner = "go", -- richgo, go test, richgo, dlv, ginkgo
-    run_in_floaterm = false -- set to true to run in float window.
+    test_runner = "richgo", -- richgo, go test, richgo, dlv, ginkgo
+	 verbose_tests = true,
+    run_in_floaterm = true -- set to true to run in float window.
     -- float term recommand if you use richgo/ginkgo with terminal color
 })
 
 -- Keybindings
-vim.cmd("autocmd FileType go nmap <Leader>gt :GoTests<CR>")
+vim.cmd("autocmd FileType go nmap <Leader>gt :GoAddTest<CR>")
+vim.cmd("autocmd FileType go nmap <Leader>gT :GoAddAllTest<CR>")
+vim.cmd("autocmd FileType go nmap <Leader>gg :GoTest<CR>")
+vim.cmd("autocmd FileType go nmap <Leader>ge :GoIfErr<CR>")
+vim.cmd("autocmd FileType go nmap <Leader>e :GoDoc<CR>") -- See data type
+vim.cmd("autocmd FileType go nmap <Leader>gc :GoCmt<CR>") -- Comment
 
 -- Run gofmt + goimport on save
 vim.api.nvim_exec([[ autocmd BufWritePre *.go :silent! lua require('go.format').goimport() ]], false)

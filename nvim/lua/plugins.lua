@@ -167,8 +167,10 @@ return require('packer').startup(function()
 
   -- Languages
   -- -- Go
-  use { 'ray-x/go.nvim' }
-  use { 'buoto/gotests-vim' }
+  use {
+	"ray-x/go.nvim",
+	requires = "ray-x/guihua.lua",
+  }
   use { 'mfussenegger/nvim-dap' }
   use { 'rcarriga/nvim-dap-ui' }
   use { 'theHamsta/nvim-dap-virtual-text' }
