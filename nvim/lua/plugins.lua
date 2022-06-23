@@ -45,6 +45,7 @@ return require('packer').startup(function()
 		}
   }
 
+  use {'mvllow/modes.nvim'}
   use {
       'kyazdani42/nvim-tree.lua',
       requires = {
