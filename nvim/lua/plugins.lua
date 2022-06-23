@@ -46,6 +46,7 @@ return require('packer').startup(function()
   }
 
   use {'mvllow/modes.nvim'}
+
   use {
       'kyazdani42/nvim-tree.lua',
       requires = {
@@ -79,6 +80,7 @@ return require('packer').startup(function()
 
   -- LSP and completion
   use { 'neovim/nvim-lspconfig' }
+  use { "williamboman/nvim-lsp-installer" }
 
   use { 'ray-x/lsp_signature.nvim' }
   use{
