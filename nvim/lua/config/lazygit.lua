@@ -1,3 +1,3 @@
-local utils = require('utils')
+local utils = require("utils")
 
-utils.map('n', '<Leader>lg', '<cmd>LazyGit<CR>')
+utils.map("n", "<Leader>lg", "<cmd>LazyGit<CR>")

@@ -1,224 +1,226 @@
-return require('packer').startup(function()
+return require("packer").startup(function()
+	-- Packer can manage itself as an optional plugin
+	use({ "wbthomason/packer.nvim", opt = true })
 
-  -- Packer can manage itself as an optional plugin
-  use {'wbthomason/packer.nvim', opt = true}
+	-- Color scheme
+	use({ "morhetz/gruvbox" })
+	use({ "projekt0n/github-nvim-theme" })
+	use({ "sainnhe/gruvbox-material" })
+	use({ "kyazdani42/nvim-web-devicons" })
+	use({ "rebelot/kanagawa.nvim" })
 
-  -- Color scheme
-  use { 'morhetz/gruvbox' }
-  use { "projekt0n/github-nvim-theme" }
-  use { 'sainnhe/gruvbox-material' }
-  use { 'kyazdani42/nvim-web-devicons' }
-  use { 'rebelot/kanagawa.nvim' }
+	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", run = ":TSInstall go comment" })
 
-  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', run = ':TSInstall go comment'}
+	use({ "p00f/nvim-ts-rainbow" }) -- Rainbow brackets etc
 
-  use {'p00f/nvim-ts-rainbow'} -- Rainbow brackets etc
-
-  -- Fuzzy finder
-  use {
-      'nvim-telescope/telescope.nvim',
-      requires = {
-			{'nvim-lua/popup.nvim'},
-			{'nvim-lua/plenary.nvim'},
-	      {'nvim-telescope/telescope-symbols.nvim'},
-			{'nvim-telescope/telescope-github.nvim'},
-			{'cljoly/telescope-repo.nvim'},
-			{'AckslD/nvim-neoclip.lua'},
+	-- Fuzzy finder
+	use({
+		"nvim-telescope/telescope.nvim",
+		requires = {
+			{ "nvim-lua/popup.nvim" },
+			{ "nvim-lua/plenary.nvim" },
+			{ "nvim-telescope/telescope-symbols.nvim" },
+			{ "nvim-telescope/telescope-github.nvim" },
+			{ "cljoly/telescope-repo.nvim" },
+			{ "AckslD/nvim-neoclip.lua" },
 		},
-  }
+	})
 
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
-  use {
-      'nvim-telescope/telescope-frecency.nvim',
-      requires = {'tami5/sql.nvim'},
-      config = function()
-        require('telescope').load_extension('frecency')
-      end
-  }
+	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
+	use({
+		"nvim-telescope/telescope-frecency.nvim",
+		requires = { "tami5/sql.nvim" },
+		config = function()
+			require("telescope").load_extension("frecency")
+		end,
+	})
 
-  -- Navigation
-  use {
+	-- Navigation
+	use({
 		"akinsho/nvim-bufferline.lua",
 		tag = "v2.*",
 		requires = {
-			'kyazdani42/nvim-web-devicons', -- optional, for file icon
-		}
-  }
+			"kyazdani42/nvim-web-devicons", -- optional, for file icon
+		},
+	})
 
-  use {'mvllow/modes.nvim'}
+	use({ "mvllow/modes.nvim" })
 
-  use {
-      'kyazdani42/nvim-tree.lua',
-      requires = {
-        'kyazdani42/nvim-web-devicons', -- optional, for file icon
-      }
-  }
-
-  use { 'christoomey/vim-tmux-navigator' }
-
-  use { "simeji/winresizer" }
-
-  use {
-    'phaazon/hop.nvim',
-    branch = 'v1',
-  }
-
-  use { 'petertriho/nvim-scrollbar' }
-
-  use { "folke/zen-mode.nvim" }
-  use { 'yamatsum/nvim-cursorline' }
-
-  use { 'windwp/nvim-autopairs' }
-
-  use {
-    'goolord/alpha-nvim',
-    requires = { 'kyazdani42/nvim-web-devicons' },
-    config = function ()
-        require'alpha'.setup(require'alpha.themes.startify'.config)
-    end
-  }
-
-  -- LSP and completion
-  use { 'neovim/nvim-lspconfig' }
-  use { "williamboman/nvim-lsp-installer" }
-
-  use { 'ray-x/lsp_signature.nvim' }
-  use{
-	   'hrsh7th/nvim-cmp',
+	use({
+		"kyazdani42/nvim-tree.lua",
 		requires = {
-		  'hrsh7th/cmp-nvim-lsp',
-		  'hrsh7th/cmp-buffer',
-		  'hrsh7th/cmp-path',
-		  'hrsh7th/cmp-cmdline',
-		  'f3fora/cmp-spell',
-		  'hrsh7th/cmp-calc',
-		  'lukas-reineke/cmp-rg'
-	 },
-  }
-  use { 'github/copilot.vim' }
-  use { 'saadparwaiz1/cmp_luasnip' } -- Snippets source for nvim-cmp
-  use { 'L3MON4D3/LuaSnip' } -- Snippets plugin
+			"kyazdani42/nvim-web-devicons", -- optional, for file icon
+		},
+	})
 
-  use {
-    "j-hui/fidget.nvim",
-    event = "BufReadPre",
-    config = function()
-      require("fidget").setup {}
-    end,
-  }
+	use({ "christoomey/vim-tmux-navigator" })
 
-  -- Git specifics
-  use { 'tpope/vim-rhubarb' } -- use GBrowse to open in browser
-  use { 'kdheepak/lazygit.nvim' }
+	use({ "simeji/winresizer" })
 
-  use {
-      'lewis6991/gitsigns.nvim',
-      config = function() require('gitsigns').setup() end
-  }
+	use({
+		"phaazon/hop.nvim",
+		branch = "v1",
+	})
 
-  use { 'f-person/git-blame.nvim' }
+	use({ "petertriho/nvim-scrollbar" })
 
-  use {
-      'TimUntersberger/neogit',
-       config = function()
-         require('neogit').setup {
-             integrations = {
-                 diffview = true
-             },
-             auto_refresh = true,
-             commit_popup = {
-                 kind = "split",
-             },
-             disable_commit_confirmation = true,
-         }
-       end
-  }
-  use {'sindrets/diffview.nvim'}
-  use {'voldikss/vim-floaterm'}
+	use({ "folke/zen-mode.nvim" })
+	use({ "yamatsum/nvim-cursorline" })
 
-  use {
-    "ldelossa/gh.nvim",
-    requires = "ldelossa/litee.nvim",
-  }
+	use({ "windwp/nvim-autopairs" })
 
-  -- Developer workflow
-  use { 'wakatime/vim-wakatime' }
-  use { 'voldikss/vim-browser-search' }
+	use({
+		"goolord/alpha-nvim",
+		requires = { "kyazdani42/nvim-web-devicons" },
+		config = function()
+			require("alpha").setup(require("alpha.themes.startify").config)
+		end,
+	})
 
-  use {
-    'folke/trouble.nvim',
-    requires = 'kyazdani42/nvim-web-devicons'
-  }
+	-- LSP and completion
+	use({ "neovim/nvim-lspconfig" })
+	use({ "williamboman/nvim-lsp-installer" })
 
-  use { 'ianding1/leetcode.vim' }
+	use({ "ray-x/lsp_signature.nvim" })
+	use({
+		"hrsh7th/nvim-cmp",
+		requires = {
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-path",
+			"hrsh7th/cmp-cmdline",
+			"f3fora/cmp-spell",
+			"hrsh7th/cmp-calc",
+			"lukas-reineke/cmp-rg",
+		},
+	})
+	use({ "github/copilot.vim" })
+	use({ "saadparwaiz1/cmp_luasnip" }) -- Snippets source for nvim-cmp
+	use({ "L3MON4D3/LuaSnip" }) -- Snippets plugin
 
-  -- Easy comments
-  use {
-    "folke/todo-comments.nvim",
-    requires = "nvim-lua/plenary.nvim",
-  }
+	use({
+		"j-hui/fidget.nvim",
+		event = "BufReadPre",
+		config = function()
+			require("fidget").setup({})
+		end,
+	})
 
-  use {
-    'numToStr/Comment.nvim',
-    config = function()
-        require('Comment').setup()
-    end
-  }
+	-- Git specifics
+	use({ "tpope/vim-rhubarb" }) -- use GBrowse to open in browser
+	use({ "kdheepak/lazygit.nvim" })
 
-  -- Languages
-  -- -- Go
-  use {
-	"ray-x/go.nvim",
-	requires = "ray-x/guihua.lua",
-  }
-  use { 'mfussenegger/nvim-dap' }
-  use { 'rcarriga/nvim-dap-ui' }
-  use { 'theHamsta/nvim-dap-virtual-text' }
+	use({
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			require("gitsigns").setup()
+		end,
+	})
 
-  -- -- Ruby
-  use { 'vim-ruby/vim-ruby' }
+	use({ "f-person/git-blame.nvim" })
 
-  -- -- Python
-  -- Python indent (follows the PEP8 style)
-  use({ "Vimjas/vim-python-pep8-indent", ft = { "python" } })
+	use({
+		"TimUntersberger/neogit",
+		config = function()
+			require("neogit").setup({
+				integrations = {
+					diffview = true,
+				},
+				auto_refresh = true,
+				commit_popup = {
+					kind = "split",
+				},
+				disable_commit_confirmation = true,
+			})
+		end,
+	})
+	use({ "sindrets/diffview.nvim" })
+	use({ "voldikss/vim-floaterm" })
 
-  -- -- Other
-  use { 'hashivim/vim-terraform' }
-  use { 'lnl7/vim-nix' }
-  use { 'towolf/vim-helm' }
-  use { 'rust-lang/rust.vim' }
+	use({
+		"ldelossa/gh.nvim",
+		requires = "ldelossa/litee.nvim",
+	})
 
-  -- -- lualine
-  use { 'tjdevries/nlua.nvim' }
+	-- Developer workflow
+	use({ "wakatime/vim-wakatime" })
+	use({ "voldikss/vim-browser-search" })
 
-  -- (OPTIONAL): This is recommended to get better auto-completion UX experience for builtin LSP.
-  use { 'nvim-lua/completion-nvim' }
+	use({
+		"folke/trouble.nvim",
+		requires = "kyazdani42/nvim-web-devicons",
+	})
 
-  --[[ (OPTIONAL): This is a suggested plugin to get better Lua syntax highlighting
+	use({ "ianding1/leetcode.vim" })
+
+	-- Easy comments
+	use({
+		"folke/todo-comments.nvim",
+		requires = "nvim-lua/plenary.nvim",
+	})
+
+	use({
+		"numToStr/Comment.nvim",
+		config = function()
+			require("Comment").setup()
+		end,
+	})
+
+	-- Languages
+	-- -- Go
+	use({
+		"ray-x/go.nvim",
+		requires = "ray-x/guihua.lua",
+	})
+	use({ "mfussenegger/nvim-dap" })
+	use({ "rcarriga/nvim-dap-ui" })
+	use({ "theHamsta/nvim-dap-virtual-text" })
+
+	-- -- Ruby
+	use({ "vim-ruby/vim-ruby" })
+
+	-- -- Python
+	-- Python indent (follows the PEP8 style)
+	use({ "Vimjas/vim-python-pep8-indent", ft = { "python" } })
+
+	-- -- Other
+	use({ "hashivim/vim-terraform" })
+	use({ "lnl7/vim-nix" })
+	use({ "towolf/vim-helm" })
+	use({ "rust-lang/rust.vim" })
+
+	-- -- lualine
+	use({ "tjdevries/nlua.nvim" })
+
+	-- (OPTIONAL): This is recommended to get better auto-completion UX experience for builtin LSP.
+	use({ "nvim-lua/completion-nvim" })
+
+	--[[ (OPTIONAL): This is a suggested plugin to get better Lua syntax highlighting
    but it's not currently required ]]
-  use { 'euclidianAce/BetterLua.vim' }
+	use({ "euclidianAce/BetterLua.vim" })
 
-  -- Statusline
-  use { 'nvim-lualine/lualine.nvim' }
+	-- Statusline
+	use({ "nvim-lualine/lualine.nvim" })
 
-  -- Snippets
-  use { 'hrsh7th/vim-vsnip' }
-  use { 'hrsh7th/vim-vsnip-integ' }
-  use { 'golang/vscode-go' }
+	-- Snippets
+	use({ "hrsh7th/vim-vsnip" })
+	use({ "hrsh7th/vim-vsnip-integ" })
+	use({ "golang/vscode-go" })
 
-  -- Other helpers
-  use {
-    'folke/which-key.nvim',
-    config = function() require("which-key").setup {} end
-  }
+	-- Other helpers
+	use({
+		"folke/which-key.nvim",
+		config = function()
+			require("which-key").setup({})
+		end,
+	})
 
-  use { 'lukas-reineke/indent-blankline.nvim' }
-  use { 'airblade/vim-rooter' } -- Stay at the root of a project
+	use({ "lukas-reineke/indent-blankline.nvim" })
+	use({ "airblade/vim-rooter" }) -- Stay at the root of a project
 
-  use { "rcarriga/nvim-notify" } -- Cool notifications
+	use({ "rcarriga/nvim-notify" }) -- Cool notifications
 
-  use { 'mhartington/formatter.nvim' }
+	use({ "mhartington/formatter.nvim" })
 
-  use { 'ryanoasis/vim-devicons' } -- has to be the last loaded plugin
+	use({ "ryanoasis/vim-devicons" }) -- has to be the last loaded plugin
 end)
-
