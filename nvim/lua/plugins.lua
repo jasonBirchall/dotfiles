@@ -89,9 +89,12 @@ return require("packer").startup(function()
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
 			"hrsh7th/cmp-cmdline",
+			"hrsh7th/cmp-copilot",
 			"f3fora/cmp-spell",
 			"hrsh7th/cmp-calc",
 			"lukas-reineke/cmp-rg",
+			"andersevenrud/cmp-tmux",
+			"davidsierradz/cmp-conventionalcommits",
 		},
 	})
 	use({ "github/copilot.vim" })

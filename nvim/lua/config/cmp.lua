@@ -48,6 +48,16 @@ cmp.setup({
 		{ name = "spell" },
 		{ name = "path" },
 		{ name = "rg", keyword_length = 5 },
+		{
+			name = "tmux",
+			option = {
+				all_panes = false,
+				label = "[tmux]",
+				trigger_characters = { "." },
+				trigger_characters_ft = {}, -- { filetype = { '.' } }
+			},
+		},
+		{ name = "conventionalcommits" },
 	},
 })
 
