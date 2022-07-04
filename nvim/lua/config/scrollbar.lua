@@ -1,8 +1,18 @@
+require("hlslens").setup({
+	build_position_cb = function(plist, _, _, _)
+		require("scrollbar.handlers.search").handler.show(plist.start_pos)
+	end,
+})
+
 require("scrollbar").setup({
 	show = true,
+	show_in_active_only = false,
 	set_highlights = true,
+	folds = 1000, -- handle folds, set to number to disable folds if no. of lines in buffer exceeds this
+	max_lines = false, -- disables if no. of lines in buffer exceeds this
 	handle = {
 		text = " ",
+		-- color = nil,
 		color = nil,
 		cterm = nil,
 		highlight = "CursorColumn",
@@ -12,7 +22,7 @@ require("scrollbar").setup({
 		Search = {
 			text = { "-", "=" },
 			priority = 0,
-			color = nil,
+			color = orange,
 			cterm = nil,
 			highlight = "Search",
 		},
@@ -70,9 +80,15 @@ require("scrollbar").setup({
 			"VimResized",
 			"WinScrolled",
 		},
+		clear = {
+			"BufWinLeave",
+			"TabLeave",
+			"TermLeave",
+			"WinLeave",
+		},
 	},
 	handlers = {
 		diagnostic = true,
-		search = false, -- Requires hlslens to be loaded, will run require("scrollbar.handlers.search").setup() for you
+		search = true, -- Requires hlslens to be loaded, will run require("scrollbar.handlers.search").setup() for you
 	},
 })

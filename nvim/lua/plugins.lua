@@ -62,7 +62,12 @@ return require("packer").startup(function()
 		branch = "v1",
 	})
 
-	use({ "petertriho/nvim-scrollbar" })
+	use({
+		"petertriho/nvim-scrollbar",
+		requires = {
+			"kevinhwang91/nvim-hlslens",
+		},
+	})
 
 	use({ "folke/zen-mode.nvim" })
 	use({ "yamatsum/nvim-cursorline" })
@@ -167,6 +172,16 @@ return require("packer").startup(function()
 		config = function()
 			require("Comment").setup()
 		end,
+	})
+
+	use({
+		"nvim-neotest/neotest",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"antoinemadec/FixCursorHold.nvim",
+			"nvim-neotest/neotest-go",
+		},
 	})
 
 	-- Languages
