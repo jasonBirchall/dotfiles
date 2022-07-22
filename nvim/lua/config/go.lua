@@ -45,6 +45,7 @@ require("go").setup({
 -- Keybindings
 vim.cmd("autocmd FileType go nmap <Leader>gt :GoAddTest<CR>")
 vim.cmd("autocmd FileType go nmap <Leader>gT :GoAddAllTest<CR>")
+vim.cmd("autocmd FileType go nmap <Leader>gtp :GoTestPkg<CR>")
 vim.cmd("autocmd FileType go nmap <Leader>gg :GoTest<CR>")
 vim.cmd("autocmd FileType go nmap <Leader>ge :GoIfErr<CR>")
 vim.cmd("autocmd FileType go nmap <Leader>e :GoDoc<CR>") -- See data type
