@@ -32,3 +32,4 @@ utils.map("n", "<leader>xx", ":TroubleToggle<CR>")
 
 -- Other
 utils.map("n", "<leader>w", ":WakaTimeToday<CR>")
+utils.map("n", "<leader>dd", "<cmd> lua vim.diagnostic.open_float() <CR>")
