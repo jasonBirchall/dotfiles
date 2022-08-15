@@ -10,6 +10,7 @@ return require("packer").startup(function()
 	use({ "rebelot/kanagawa.nvim" })
 
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", run = ":TSInstall go comment" })
+	use({ "nvim-treesitter/nvim-treesitter-context" })
 
 	use({ "p00f/nvim-ts-rainbow" }) -- Rainbow brackets etc
 
