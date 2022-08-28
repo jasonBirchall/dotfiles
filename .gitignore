@@ -7,7 +7,7 @@ vim/colors/*
 vim/undo-history/*
 
 # Compiled nvim
-nvim/plugin/packer_compiled.lua
+packer_compiled.lua
 
 # Compiled Python files
 *.pyc
