@@ -235,6 +235,7 @@ return require("packer").startup(function()
 		end,
 	})
 
+	use({ "rhysd/vim-grammarous" })
 	use({ "lukas-reineke/indent-blankline.nvim" })
 	use({ "airblade/vim-rooter" }) -- Stay at the root of a project
 
