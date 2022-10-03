@@ -235,6 +235,13 @@ return require("packer").startup(function()
 		end,
 	})
 
+	use({
+		"iamcco/markdown-preview.nvim",
+		run = function()
+			vim.fn["mkdp#util#install"]()
+		end,
+	})
+
 	use({ "rhysd/vim-grammarous" })
 	use({ "lukas-reineke/indent-blankline.nvim" })
 	use({ "airblade/vim-rooter" }) -- Stay at the root of a project
