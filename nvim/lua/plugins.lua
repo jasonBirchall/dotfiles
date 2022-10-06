@@ -163,6 +163,8 @@ return require("packer").startup(function()
 	use({ "ianding1/leetcode.vim" })
 
 	use({ "andythigpen/nvim-coverage" })
+
+	use("almo7aya/openingh.nvim")
 	-- Easy comments
 	use({
 		"folke/todo-comments.nvim",
