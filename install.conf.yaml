@@ -2,7 +2,7 @@
     link:
       relink: true
 
-- clean: ['~']
+- clean: ["~"]
 
 - create:
     - ~/.zsh/
@@ -16,8 +16,9 @@
     - ~/.completions
     - ~/.tmux
     - ~/.tmux/plugins
-    - ~/Library/Application\ Support/Code/
-    - ~/Library/Application\ Support/Code/User
+    - ~/Library/Application Support/Code/
+    - ~/Library/Application Support/Code/User
+    - ~/Library/Application Support/lazygit/
 
 - link:
     ~/.zshrc: zsh/zshrc
@@ -33,17 +34,18 @@
     ~/.config/nvim/plugin: nvim/plugin
     ~/.config/ranger: ranger
 
-    ~/Library/Application\ Support/Code/User/keybindings.json: vscode/keybindings.json
-    ~/Library/Application\ Support/Code/User/settings.json: vscode/settings.json
+    ~/Library/Application Support/Code/User/keybindings.json: vscode/keybindings.json
+    ~/Library/Application Support/Code/User/settings.json: vscode/settings.json
+
+    ~/Library/Application Support/lazygit/config.yml: lazygit/config.yml
 
     ~/Pictures/wallpaper1.png: wallpaper/wallpaper1.png
     ~/.gitconfig: git/gitconfig
     ~/.completions/tmux_kube.sh: completions/tmux_kube.sh
 
 - shell:
-  - git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-  - git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
-  - 
-    command: brew bundle --file brew/Brewfile
-    stdout: true
-    stderr: true
+    - git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+    - git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
+    - command: brew bundle --file brew/Brewfile
+      stdout: true
+      stderr: true
