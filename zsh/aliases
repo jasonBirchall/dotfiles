@@ -24,7 +24,6 @@ alias ga='git add'
 alias gc='git commit'
 alias lg='lazygit'
 alias k='kubectl'
-complete -F __start_kubectl k
 alias cdgo='cd $GOPATH'
 alias cdu='cd ~/Documents/workarea/university-work'
 alias yq="yq e '.' -"
