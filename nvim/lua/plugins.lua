@@ -146,11 +146,6 @@ return require("packer").startup(function()
 	use({ "sindrets/diffview.nvim" })
 	use({ "voldikss/vim-floaterm" })
 
-	use({
-		"ldelossa/gh.nvim",
-		requires = "ldelossa/litee.nvim",
-	})
-
 	-- Developer workflow
 	use({ "wakatime/vim-wakatime" })
 	use({ "voldikss/vim-browser-search" })
@@ -164,7 +159,6 @@ return require("packer").startup(function()
 
 	use({ "andythigpen/nvim-coverage" })
 
-	use("almo7aya/openingh.nvim")
 	-- Easy comments
 	use({
 		"folke/todo-comments.nvim",
