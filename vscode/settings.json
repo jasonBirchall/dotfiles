@@ -1,90 +1,104 @@
 {
-    // vscode settings
-    "workbench.colorTheme": "Gruvbox Dark Hard",
-    "window.menuBarVisibility": "toggle",
-    "task.autoDetect": "off",
-    "editor.showFoldingControls": "always",
-    "files.trimTrailingWhitespace": true,
-    "files.autoSave": "off",
-    "editor.tabSize": 2,
-    "editor.tabCompletion": "on",
-    "window.restoreFullscreen": true,
-    "window.restoreWindows": "all",
-    "editor.suggestSelection": "first",
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "extensions.ignoreRecommendations": true,
-    "workbench.sideBar.location": "right",
-
-    // zenmode settings
-    "zenMode.hideActivityBar": false,
-    "zenMode.hideLineNumbers": false,
-    "zenMode.hideStatusBar": false,
-
-    // ruby settings
-    "ruby.codeCompletion": "rcodetools",
-    "ruby.format": "rubyfmt",
-
-    // vim configuration
-    "vim.enableNeovim": true,
-    "vim.neovimUseConfigFile": true,
-    "vim.neovimPath": "/opt/homebrew/bin/nvim",
-    "vim.neovimConfigPath": "/home/json/.config/nvim/init.vim",
-    "vim.changeWordIncludesWhitespace": true,
-    "vim.hlsearch": true,
-    "vim.leader": "<space>",
-    "vim.useSystemClipboard": true,
-    "vim.normalModeKeyBindingsNonRecursive": [
-        {
-            "before": [
-                "<Esc>"
-            ],
-            "commands": [
-                ":nohl"
-            ],
-        }
-    ],
-
-    // python configuration
-    "workbench.editorAssociations": {
-        "*.ipynb": "jupyter.notebook.ipynb"
-    },
-    "editor.snippetSuggestions": "bottom",
-    "files.maxMemoryForLargeFilesMB": 8096,
-    "workbench.startupEditor": "none",
-    "workbench.tips.enabled": false,
-    "workbench.editor.scrollToSwitchTabs": true,
-    "workbench.editor.untitled.hint": "hidden",
-    "window.closeWhenEmpty": true,
-    "window.openFoldersInNewWindow": "off",
-    "terminal.integrated.copyOnSelection": true,
-    "tabnine.experimentalAutoImports": true,
-    "security.workspace.trust.untrustedFiles": "open",
-    "projectManager.any.baseFolders": [
-        "~/Documents/workarea"
-    ],
-    "git.autofetch": true,
-    "editor.fontFamily": "Monolisa, Menlo, Monaco, 'Courier New', monospace",
-    "settingsSync.ignoredExtensions": [
-        "asf.apache-netbeans-java"
-    ],
-    "editor.minimap.enabled": false,
-    "editor.wordWrap": "on",
-    "code-runner.enableAppInsights": false,
-    "files.associations": {
-        "*.liquid": "html"
-    },
-    "go.trace.server": "verbose",
-    "editor.inlineSuggest.enabled": true,
-    "github.copilot.enable": {
-        "*": true,
-        "yaml": true,
-        "plaintext": true,
-        "markdown": true,
-        "go": true
-    },
-    "window.zoomLevel": 2,
-    "go.toolsManagement.autoUpdate": true,
-    "go.lintTool": "golangci-lint",
-    "git.suggestSmartCommit": false,
-    "editor.accessibilitySupport": "off"
+	// vscode settings
+	"workbench.colorTheme": "Gruvbox Dark Hard",
+	"window.menuBarVisibility": "toggle",
+	"task.autoDetect": "off",
+	"editor.showFoldingControls": "always",
+	"files.trimTrailingWhitespace": true,
+	"files.autoSave": "off",
+	"editor.tabSize": 2,
+	"editor.tabCompletion": "on",
+	"window.restoreFullscreen": true,
+	"window.restoreWindows": "all",
+	"editor.suggestSelection": "first",
+	"vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+	"extensions.ignoreRecommendations": true,
+	"workbench.sideBar.location": "right",
+	// zenmode settings
+	"zenMode.hideActivityBar": false,
+	"zenMode.hideLineNumbers": false,
+	"zenMode.hideStatusBar": false,
+	// ruby settings
+	"ruby.codeCompletion": "rcodetools",
+	"ruby.format": "rubyfmt",
+	// python settings all gained from https://realpython.com/advanced-visual-studio-code-python/#linting-and-formatting
+	"python.languageServer": "Pylance",
+	"editor.formatOnSave": true,
+	"python.formatting.provider": "black",
+	"editor.codeActionsOnSave": {
+		"source.organizeImports": true
+	},
+	"python.analysis.typeCheckingMode": "basic",
+	"python.linting.enabled": true,
+	"python.linting.banditEnabled": true,
+	"python.linting.pylintEnabled": true,
+	"python.linting.lintOnSave": true,
+	"python.testing.pytestEnabled": true,
+	"python.testing.pytestArgs": [
+		"tests"
+	],
+	// vim configuration
+	"vim.enableNeovim": true,
+	"vim.neovimUseConfigFile": true,
+	"vim.neovimPath": "/opt/homebrew/bin/nvim",
+	"vim.neovimConfigPath": "/home/json/.config/nvim/init.vim",
+	"vim.changeWordIncludesWhitespace": true,
+	"vim.hlsearch": true,
+	"vim.leader": "<space>",
+	"vim.useSystemClipboard": true,
+	"vim.normalModeKeyBindingsNonRecursive": [
+		{
+			"before": [
+				"<Esc>"
+			],
+			"commands": [
+				":nohl"
+			],
+		}
+	],
+	// python configuration
+	"workbench.editorAssociations": {
+		"*.ipynb": "jupyter.notebook.ipynb"
+	},
+	"editor.snippetSuggestions": "bottom",
+	"files.maxMemoryForLargeFilesMB": 8096,
+	"workbench.startupEditor": "none",
+	"workbench.tips.enabled": false,
+	"workbench.editor.scrollToSwitchTabs": true,
+	"workbench.editor.untitled.hint": "hidden",
+	"window.closeWhenEmpty": true,
+	"window.openFoldersInNewWindow": "off",
+	"terminal.integrated.copyOnSelection": true,
+	"tabnine.experimentalAutoImports": true,
+	"security.workspace.trust.untrustedFiles": "open",
+	"projectManager.any.baseFolders": [
+		"~/Documents/workarea"
+	],
+	"git.autofetch": true,
+	"editor.fontFamily": "Monolisa, Menlo, Monaco, 'Courier New', monospace",
+	"settingsSync.ignoredExtensions": [
+		"asf.apache-netbeans-java"
+	],
+	"editor.minimap.enabled": false,
+	"editor.wordWrap": "on",
+	"code-runner.enableAppInsights": false,
+	"files.associations": {
+		"*.liquid": "html"
+	},
+	"go.trace.server": "verbose",
+	"editor.inlineSuggest.enabled": true,
+	"github.copilot.enable": {
+		"*": true,
+		"yaml": true,
+		"plaintext": true,
+		"markdown": true,
+		"go": true
+	},
+	"go.toolsManagement.autoUpdate": true,
+	"go.lintTool": "golangci-lint",
+	"git.suggestSmartCommit": false,
+	"editor.accessibilitySupport": "off",
+	"terminal.integrated.enableMultiLinePasteWarning": false,
+	"window.zoomLevel": 1,
+	"githubPullRequests.pullBranch": "never",
 }
