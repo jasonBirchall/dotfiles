@@ -21,6 +21,7 @@
     - ~/Library/Application Support/lazygit/
 
 - link:
+    ~/.amethyst.yaml: amethyst/amethyst.yaml
     ~/.zshrc: zsh/zshrc
     ~/.config/zsh/.zshenv: zsh/zshenv
     ~/.zshenv: zsh/zshenv

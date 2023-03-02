@@ -12,7 +12,7 @@ customCommands:
     loadingText: "Creating pull request on GitHub"
 
   - key: "C"
-    command: "git cz c"
+    command: "cz commit"
     description: "commit with commitizen"
     context: "files"
     loadingText: "opening commitizen commit tool"

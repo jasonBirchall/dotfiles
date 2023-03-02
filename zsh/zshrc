@@ -164,7 +164,7 @@ SPACESHIP_PROMPT_ORDER=(
   char
 )
 
-# Empty by default 
+# Empty by default
 # SPACESHIP_RPROMPT_ORDER=(
 # )
 
@@ -173,3 +173,7 @@ antigen apply
 
 
 alias luamake=/Users/json0/Documents/workarea/lua-language-server/3rd/luamake/luamake
+export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi

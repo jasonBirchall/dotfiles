@@ -7,7 +7,7 @@
   # Same as above, but with a diff stat instead of just names
   # (better for interactive use)
   stat = !git diff --stat $(git merge-base HEAD \"$REVIEW_BASE\")
-  
+
   # NOTE: These aliases depend on the `git files` alias from
   # a few sections ago!
 
@@ -105,6 +105,9 @@
 	default = simple
 	# Make `git push` push relevant annotated tags when pushing branches out.
 	followTags = true
+
+	# Remove the requirement to set upstream for every new branch
+	autoSetupRemote = true
 
 [user]
 
