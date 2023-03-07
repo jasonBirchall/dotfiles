@@ -9,7 +9,7 @@ return require("packer").startup(function()
 	use({ "kyazdani42/nvim-web-devicons" })
 	use({ "rebelot/kanagawa.nvim" })
 
-	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", run = ":TSInstall go comment" })
+	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", run = ":TSInstall go comment python" })
 	use({ "nvim-treesitter/nvim-treesitter-context" })
 
 	use({ "p00f/nvim-ts-rainbow" }) -- Rainbow brackets etc
