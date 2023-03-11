@@ -64,11 +64,12 @@ cask "firefox"
 cask "fly"
 cask "font-hack-nerd-font"
 cask "gpg-suite"
+cask "jetbrains-toolbox"
 cask "signal"
 cask "slack"
 cask "spotify"
-brew "warp"
 cask "visual-studio-code"
+cask "warp"
 cask "zoom"
 
 # 'mas install'
