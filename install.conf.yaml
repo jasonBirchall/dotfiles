@@ -22,6 +22,7 @@
 
 - link:
     ~/.amethyst.yaml: amethyst/amethyst.yaml
+    ~/.ideavimrc: jetbrains/ideavimrc
     ~/.zshrc: zsh/zshrc
     ~/.config/zsh/.zshenv: zsh/zshenv
     ~/.zshenv: zsh/zshenv
