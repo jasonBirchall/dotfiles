@@ -1,0 +1,24 @@
+source ~/.vimrc
+
+let mapleader = " "
+
+set visualbell
+set noerrorbells
+set quickscope
+set which-key
+set timeoutlen=5000
+
+map <c-a n> :NERDTreeToggle<cr>
+Plug 'preservim/nerdtree'
+
+Plug 'machakann/vim-highlightedyank'
+Plug 'tpope/vim-commentary'
+
+map <c-e> <Action>(ShowErrorDescription)
+
+" No annoying sound on errors
+set visualbell
+set tm=500
+
+" Zen mode
+map <leader>zz <Action>(TogglePresentationMode)
