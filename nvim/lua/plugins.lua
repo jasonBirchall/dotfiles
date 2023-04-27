@@ -198,6 +198,7 @@ return require("packer").startup(function()
 	-- -- Python
 	-- Python indent (follows the PEP8 style)
 	use({ "Vimjas/vim-python-pep8-indent", ft = { "python" } })
+	use({ "jose-elias-alvarez/null-ls.nvim" })
 
 	-- -- Other
 	use({ "hashivim/vim-terraform" })

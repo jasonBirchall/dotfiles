@@ -65,11 +65,6 @@ require("formatter").setup({
 				}
 			end,
 		},
-		python = {
-			function()
-				return { exe = "black", args = { "-" }, stdin = true }
-			end,
-		},
 		terraform = {
 			function()
 				return { exe = "terraform", args = { "fmt", "-" }, stdin = true }
