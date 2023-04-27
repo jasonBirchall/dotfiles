@@ -42,21 +42,8 @@ cmp.setup({
 	sources = {
 		{ name = "nvim_lsp" },
 		{ name = "buffer", keyword_length = 5 },
-		{ name = "luasnip" },
-		{ name = "calc" },
-		{ name = "emoji" },
 		{ name = "spell" },
 		{ name = "path" },
-		{ name = "rg", keyword_length = 5 },
-		{
-			name = "tmux",
-			option = {
-				all_panes = false,
-				label = "[tmux]",
-				trigger_characters = { "." },
-				trigger_characters_ft = {}, -- { filetype = { '.' } }
-			},
-		},
 		{ name = "conventionalcommits" },
 	},
 })
