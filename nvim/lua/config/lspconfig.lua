@@ -1,16 +1,8 @@
-require("nvim-lsp-installer").setup({
-	automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
-	ui = {
-		icons = {
-			server_installed = "✓",
-			server_pending = "➜",
-			server_uninstalled = "✗",
-		},
-	},
+require("mason").setup()
+require("mason-lspconfig").setup({
+	ensure_installed = { "lua_ls", "pyright", "gopls", "grammarly" },
 })
 
--- Mappings.
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap = true, silent = true }
 
 -- Use an on_attach function to only map the following keys
@@ -48,19 +40,20 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "gopls", "rust_analyzer", "pyright", "eslint", "yamlls", "grammarly" }
+local servers = { "pyright", "gopls", "rust_analyzer", "eslint", "yamlls", "grammarly" }
 for _, lsp in pairs(servers) do
 	require("lspconfig")[lsp].setup({
 		on_attach = on_attach,
-		settings = {
-			yaml = {
-				schemas = { kubernetes = "globPattern" },
-			},
-		},
 		flags = {
 			-- This will be the default in neovim 0.7+
-			debounce_text_changes = 150,
 			capabilities = capabilities,
 		},
 	})
 end
+
+require("lsp_signature").setup({
+	bind = true, -- This is mandatory, otherwise border config won't get registered.
+	handler_opts = {
+		border = "rounded",
+	},
+})

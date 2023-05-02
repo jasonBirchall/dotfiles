@@ -14,7 +14,6 @@ require("nvim-treesitter.configs").setup({
 		"query",
 		"toml",
 		"vim",
-		"yaml",
 	}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
 	sync_install = true,
 	highlight = {
