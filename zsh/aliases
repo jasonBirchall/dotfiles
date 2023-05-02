@@ -32,3 +32,5 @@ alias tmux="TERM=screen-256color-bce tmux"
 # alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"' # ranger with last directory
 alias r='ranger'
 alias watch='watch --color'
+
+alias py='python3'

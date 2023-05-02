@@ -14,6 +14,7 @@ stty stop undef		# Disable ctrl-s to freeze terminal.
 source <(kubectl completion zsh)
 source ~/.config/zsh/.aliases
 
+
 # Functions
 function commands() {
   # Shorten the kubeconfig context
@@ -98,6 +99,30 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
 
+# Add node to path for copilot
+export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
+
+# Autosource virtualenv if found
+function cd() {
+  builtin cd "$@"
+
+  if [[ -z "$VIRTUAL_ENV" ]] ; then
+    ## If env folder is found then activate the vitualenv
+      if [[ -d ./venv ]] ; then
+        source ./venv/bin/activate
+      fi
+  else
+    ## check the current folder belong to earlier VIRTUAL_ENV folder
+    # if yes then do nothing
+    # else deactivate
+      parentdir="$(dirname "$VIRTUAL_ENV")"
+      if [[ "$PWD"/ != "$parentdir"/* ]] ; then
+        deactivate
+      fi
+  fi
+}
+
+
 # Shift, Alt, Ctrl and Meta modifiers
 key[Control-Left]="${terminfo[kLFT5]}"
 key[Control-Right]="${terminfo[kRIT5]}"
@@ -139,25 +164,12 @@ SPACESHIP_DIR_COLOR=blue
 SPACESHIP_GIT_PREFIX="| "
 SPACESHIP_GIT_STATUS_COLOR=green
 SPACESHIP_GIT_BRANCH_COLOR=white
-SPACESHIP_KUBECTL_SHOW=true
-SPACESHIP_KUBECTL_VERSION_SHOW=false
-SPACESHIP_KUBECTL_PREFIX="| "
-SPACESHIP_KUBECTL_SYMBOL=""
-SPACESHIP_KUBECONTEXT_SHOW=true
-SPACESHIP_KUBECONTEXT_COLOR=green
-SPACESHIP_KUBECONTEXT_COLOR_GROUPS=(
-  # Red if the context contains live
-  red    live
-)
 
 SPACESHIP_PROMPT_ORDER=(
   time
   user
   dir
-  # aws
   terraform
-  kubectl
-  vi_mode
   git
   exec_time
   line_sep
@@ -168,12 +180,7 @@ SPACESHIP_PROMPT_ORDER=(
 # SPACESHIP_RPROMPT_ORDER=(
 # )
 
+
 # Tell antigen that you're done
 antigen apply
 
-
-alias luamake=/Users/json0/Documents/workarea/lua-language-server/3rd/luamake/luamake
-export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
