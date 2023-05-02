@@ -84,8 +84,13 @@ return require("packer").startup(function()
 	})
 
 	-- LSP and completion
-	use({ "neovim/nvim-lspconfig" })
-	use({ "williamboman/nvim-lsp-installer" })
+	-- It's important to have the LSP related plugins before the LSP config
+	-- mason is required before lspconfig
+	use({
+		"williamboman/mason.nvim",
+		"williamboman/mason-lspconfig.nvim",
+		"neovim/nvim-lspconfig",
+	})
 
 	use({ "ray-x/lsp_signature.nvim" })
 	use({
@@ -114,6 +119,7 @@ return require("packer").startup(function()
 			require("fidget").setup({})
 		end,
 	})
+	use({ "jose-elias-alvarez/null-ls.nvim" })
 
 	-- Git specifics
 	use({ "tpope/vim-rhubarb" }) -- use GBrowse to open in browser
@@ -198,7 +204,6 @@ return require("packer").startup(function()
 	-- -- Python
 	-- Python indent (follows the PEP8 style)
 	use({ "Vimjas/vim-python-pep8-indent", ft = { "python" } })
-	use({ "jose-elias-alvarez/null-ls.nvim" })
 
 	-- -- Other
 	use({ "hashivim/vim-terraform" })
