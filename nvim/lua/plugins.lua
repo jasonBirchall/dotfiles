@@ -7,7 +7,6 @@ return require("packer").startup(function()
 	use({ "projekt0n/github-nvim-theme" })
 	use({ "sainnhe/gruvbox-material" })
 	use({ "kyazdani42/nvim-web-devicons" })
-	use({ "rebelot/kanagawa.nvim" })
 
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", run = ":TSInstall go comment python" })
 	use({ "nvim-treesitter/nvim-treesitter-context" })
@@ -109,8 +108,6 @@ return require("packer").startup(function()
 		},
 	})
 	use({ "github/copilot.vim" })
-	use({ "saadparwaiz1/cmp_luasnip" }) -- Snippets source for nvim-cmp
-	use({ "L3MON4D3/LuaSnip" }) -- Snippets plugin
 
 	use({
 		"j-hui/fidget.nvim",
@@ -204,6 +201,7 @@ return require("packer").startup(function()
 	-- -- Python
 	-- Python indent (follows the PEP8 style)
 	use({ "Vimjas/vim-python-pep8-indent", ft = { "python" } })
+	use({ "linux-cultist/venv-selector.nvim" })
 
 	-- -- Other
 	use({ "hashivim/vim-terraform" })
@@ -214,20 +212,12 @@ return require("packer").startup(function()
 	-- -- lualine
 	use({ "tjdevries/nlua.nvim" })
 
-	-- (OPTIONAL): This is recommended to get better auto-completion UX experience for builtin LSP.
-	use({ "nvim-lua/completion-nvim" })
-
 	--[[ (OPTIONAL): This is a suggested plugin to get better Lua syntax highlighting
    but it's not currently required ]]
 	use({ "euclidianAce/BetterLua.vim" })
 
 	-- Statusline
 	use({ "nvim-lualine/lualine.nvim" })
-
-	-- Snippets
-	use({ "hrsh7th/vim-vsnip" })
-	use({ "hrsh7th/vim-vsnip-integ" })
-	use({ "golang/vscode-go" })
 
 	-- Other helpers
 	use({
@@ -246,7 +236,6 @@ return require("packer").startup(function()
 
 	use({ "rhysd/vim-grammarous" })
 	use({ "lukas-reineke/indent-blankline.nvim" })
-	use({ "airblade/vim-rooter" }) -- Stay at the root of a project
 
 	use({ "rcarriga/nvim-notify" }) -- Cool notifications
 
