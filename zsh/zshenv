@@ -7,33 +7,38 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home
 export KOPS_STATE_STORE=s3://cloud-platform-kops-state
 export KUBECONFIG=$HOME/.kube/config
 export KUBE_EDITOR=${EDITOR}
-export PATH
 export PATH=
 export RANGER_LOAD_DEFAULT_RC='FALSE' #Ranger file manager loads only my config
 export ZDOTDIR=$HOME/.config/zsh
+export PYENV_ROOT="$HOME/.pyenv"
 
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.config/zshrc/.zshrc" ]]; then
   source "${ZDOTDIR:-$HOME}/.config/zshrc/.zshrc"
 fi
 
-path=("$HOME/.pyenv/bin", "$HOME/bin" "$HOME/.local/bin" "/usr/bin" "/usr/local/bin" "/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" "$path[@]" "/opt/homebrew/bin")
+# Make pyenv work
 
-eval "$(rbenv init - zsh)"
+path=("$HOME/bin" "$HOME/.local/bin" "/usr/bin" "/usr/local/bin" "/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" "$path[@]" "/opt/homebrew/bin")
+
 eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+eval "$(rbenv init - zsh)"
 
 typeset -U PATH path
 . "$HOME/.cargo/env"
 
+# NeoVim virtualenv support
 function nvimvenv {
   if [[ -e "$VIRTUAL_ENV" && -f "$VIRTUAL_ENV/bin/activate" ]]; then
     source "$VIRTUAL_ENV/bin/activate"
+    pyenv shell (echo $VIRTUAL_ENV | sed 's/\(.*\)\/\(.*\)/\2/')
     command nvim "$@"
-    deactivate
   else
+	 pyenv shell --unset
     command nvim "$@"
   fi
 }
 
 alias nvim=nvimvenv
+# NeoVim PackerSync with large timeout
+ulimit -S -n 200048
