@@ -40,7 +40,7 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "zk", "pyright", "gopls", "rust_analyzer", "eslint", "yamlls", "grammarly" }
+local servers = { "pyright", "gopls", "rust_analyzer", "eslint", "yamlls", "grammarly" }
 for _, lsp in pairs(servers) do
 	require("lspconfig")[lsp].setup({
 		on_attach = on_attach,
@@ -55,5 +55,27 @@ require("lsp_signature").setup({
 	bind = true, -- This is mandatory, otherwise border config won't get registered.
 	handler_opts = {
 		border = "rounded",
+	},
+})
+
+require("zk").setup({
+	-- can be "telescope", "fzf" or "select" (`vim.ui.select`)
+	-- it's recommended to use "telescope" or "fzf"
+	picker = "telescope",
+
+	lsp = {
+		-- `config` is passed to `vim.lsp.start_client(config)`
+		config = {
+			cmd = { "zk", "lsp" },
+			name = "zk",
+			-- on_attach = ...
+			-- etc, see `:h vim.lsp.start_client()`
+		},
+
+		-- automatically attach buffers in a zk notebook that match the given filetypes
+		auto_attach = {
+			enabled = true,
+			filetypes = { "markdown" },
+		},
 	},
 })
