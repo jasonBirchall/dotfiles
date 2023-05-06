@@ -11,6 +11,7 @@ export PATH=
 export RANGER_LOAD_DEFAULT_RC='FALSE' #Ranger file manager loads only my config
 export ZDOTDIR=$HOME/.config/zsh
 export PYENV_ROOT="$HOME/.pyenv"
+export ZK_NOTEBOOK_DIR="$HOME/Documents/zettlekasten"
 
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.config/zshrc/.zshrc" ]]; then

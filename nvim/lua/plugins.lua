@@ -219,6 +219,9 @@ return require("packer").startup(function()
 	-- Statusline
 	use({ "nvim-lualine/lualine.nvim" })
 
+	-- Zettlekasten
+	use({ "mickael-menu/zk-nvim" })
+
 	-- Other helpers
 	use({
 		"folke/which-key.nvim",

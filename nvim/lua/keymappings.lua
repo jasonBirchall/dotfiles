@@ -30,6 +30,9 @@ utils.map("n", "<leader>>", ":BufferLineMoveNext<CR>")
 -- Trouble
 utils.map("n", "<leader>xx", ":TroubleToggle<CR>")
 
+-- Zettlekasten
+utils.map("n", "<leader>zi", ":ZkIndex<CR>")
+
 -- Other
 utils.map("n", "<leader>w", ":WakaTimeToday<CR>")
 utils.map("n", "<leader>dd", "<cmd> lua vim.diagnostic.open_float() <CR>")
