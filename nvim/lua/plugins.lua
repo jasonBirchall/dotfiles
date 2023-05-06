@@ -20,9 +20,7 @@ return require("packer").startup(function()
 			{ "nvim-lua/popup.nvim" },
 			{ "nvim-lua/plenary.nvim" },
 			{ "nvim-telescope/telescope-symbols.nvim" },
-			{ "nvim-telescope/telescope-github.nvim" },
 			{ "cljoly/telescope-repo.nvim" },
-			{ "AckslD/nvim-neoclip.lua" },
 		},
 	})
 
@@ -44,7 +42,7 @@ return require("packer").startup(function()
 		},
 	})
 
-	use({ "mvllow/modes.nvim" })
+	use({ "mvllow/modes.nvim" }) -- Line decoration for different modes
 
 	use({
 		"kyazdani42/nvim-tree.lua",
@@ -55,18 +53,9 @@ return require("packer").startup(function()
 
 	use({ "christoomey/vim-tmux-navigator" })
 
-	use({ "simeji/winresizer" })
-
 	use({
 		"phaazon/hop.nvim",
 		branch = "v1",
-	})
-
-	use({
-		"petertriho/nvim-scrollbar",
-		requires = {
-			"kevinhwang91/nvim-hlslens",
-		},
 	})
 
 	use({ "folke/zen-mode.nvim" })
@@ -75,7 +64,7 @@ return require("packer").startup(function()
 	use({ "windwp/nvim-autopairs" })
 
 	use({
-		"goolord/alpha-nvim",
+		"goolord/alpha-nvim", -- Dashboard
 		requires = { "kyazdani42/nvim-web-devicons" },
 		config = function()
 			require("alpha").setup(require("alpha.themes.startify").config)
@@ -86,25 +75,21 @@ return require("packer").startup(function()
 	-- It's important to have the LSP related plugins before the LSP config
 	-- mason is required before lspconfig
 	use({
-		"williamboman/mason.nvim",
+		"williamboman/mason.nvim", -- LSP installer; must be added before lspconfig
 		"williamboman/mason-lspconfig.nvim",
 		"neovim/nvim-lspconfig",
 	})
 
 	use({ "ray-x/lsp_signature.nvim" })
 	use({
-		"hrsh7th/nvim-cmp",
+		"hrsh7th/nvim-cmp", -- Autocompletion
 		requires = {
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
 			"hrsh7th/cmp-cmdline",
-			"hrsh7th/cmp-copilot",
 			"f3fora/cmp-spell",
-			"hrsh7th/cmp-calc",
-			"lukas-reineke/cmp-rg",
 			"andersevenrud/cmp-tmux",
-			"davidsierradz/cmp-conventionalcommits",
 		},
 	})
 	use({ "github/copilot.vim" })
@@ -119,7 +104,6 @@ return require("packer").startup(function()
 	use({ "jose-elias-alvarez/null-ls.nvim" })
 
 	-- Git specifics
-	use({ "tpope/vim-rhubarb" }) -- use GBrowse to open in browser
 	use({ "kdheepak/lazygit.nvim" })
 
 	use({
@@ -131,27 +115,10 @@ return require("packer").startup(function()
 
 	use({ "f-person/git-blame.nvim" })
 
-	use({
-		"TimUntersberger/neogit",
-		config = function()
-			require("neogit").setup({
-				integrations = {
-					diffview = true,
-				},
-				auto_refresh = true,
-				commit_popup = {
-					kind = "split",
-				},
-				disable_commit_confirmation = true,
-			})
-		end,
-	})
-	use({ "sindrets/diffview.nvim" })
 	use({ "voldikss/vim-floaterm" })
 
 	-- Developer workflow
 	use({ "wakatime/vim-wakatime" })
-	use({ "voldikss/vim-browser-search" })
 
 	use({
 		"folke/trouble.nvim",
@@ -159,8 +126,6 @@ return require("packer").startup(function()
 	})
 
 	use({ "ianding1/leetcode.vim" })
-
-	use({ "andythigpen/nvim-coverage" })
 
 	-- Easy comments
 	use({
@@ -175,25 +140,12 @@ return require("packer").startup(function()
 		end,
 	})
 
-	use({
-		"nvim-neotest/neotest",
-		requires = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
-			"antoinemadec/FixCursorHold.nvim",
-			"nvim-neotest/neotest-go",
-		},
-	})
-
 	-- Languages
 	-- -- Go
 	use({
 		"ray-x/go.nvim",
 		requires = "ray-x/guihua.lua",
 	})
-	use({ "mfussenegger/nvim-dap" })
-	use({ "rcarriga/nvim-dap-ui" })
-	use({ "theHamsta/nvim-dap-virtual-text" })
 
 	-- -- Ruby
 	use({ "vim-ruby/vim-ruby" })
@@ -230,17 +182,10 @@ return require("packer").startup(function()
 		end,
 	})
 
-	use({
-		"iamcco/markdown-preview.nvim",
-		run = function()
-			vim.fn["mkdp#util#install"]()
-		end,
-	})
-
 	use({ "rhysd/vim-grammarous" })
 	use({ "lukas-reineke/indent-blankline.nvim" })
 
-	use({ "rcarriga/nvim-notify" }) -- Cool notifications
+	use({ "rcarriga/nvim-notify" })
 
 	use({ "mhartington/formatter.nvim" })
 
