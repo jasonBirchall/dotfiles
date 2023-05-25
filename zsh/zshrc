@@ -14,12 +14,6 @@ stty stop undef		# Disable ctrl-s to freeze terminal.
 source <(kubectl completion zsh)
 source ~/.config/zsh/.aliases
 
-# Make pyenv and neovim work.
-# See: https://stackoverflow.com/questions/65847159/how-to-set-python-interpreter-in-neovim-for-python-language-server-depending-on
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-
 # Functions
 function commands() {
   # Shorten the kubeconfig context
