@@ -3,6 +3,7 @@ local cmd = vim.cmd
 
 -- General
 cmd("filetype plugin indent on")
+cmd("set encoding=utf-8")
 cmd("syntax enable")
 utils.opt("o", "clipboard", "unnamed,unnamedplus")
 utils.opt("o", "cmdheight", 1)
