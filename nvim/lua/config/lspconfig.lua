@@ -40,7 +40,7 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "pyright", "gopls", "rust_analyzer", "eslint", "yamlls", "grammarly" }
+local servers = { "gopls", "rust_analyzer", "eslint", "yamlls", "grammarly" }
 for _, lsp in pairs(servers) do
 	require("lspconfig")[lsp].setup({
 		on_attach = on_attach,
@@ -50,6 +50,20 @@ for _, lsp in pairs(servers) do
 		},
 	})
 end
+
+local lspconfig = require("lspconfig")
+local python_root_files = {
+	"pyproject.toml",
+	"setup.py",
+	"setup.cfg",
+	"Pipfile",
+	"pyrightconfig.json",
+	".git",
+}
+lspconfig["pyright"].setup({
+	on_attach = on_attach,
+	root_dir = lspconfig.util.root_pattern(unpack(python_root_files)),
+})
 
 require("lsp_signature").setup({
 	bind = true, -- This is mandatory, otherwise border config won't get registered.
