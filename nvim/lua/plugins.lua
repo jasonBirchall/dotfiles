@@ -81,6 +81,13 @@ return require("packer").startup(function()
 		"neovim/nvim-lspconfig",
 	})
 
+	use({
+		"rmagatti/goto-preview",
+		config = function()
+			require("goto-preview").setup({})
+		end,
+	})
+
 	use({ "ray-x/lsp_signature.nvim" })
 	use({
 		"hrsh7th/nvim-cmp", -- Autocompletion
