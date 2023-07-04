@@ -7,7 +7,6 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home
 export KOPS_STATE_STORE=s3://cloud-platform-kops-state
 export KUBECONFIG=$HOME/.kube/config
 export KUBE_EDITOR=${EDITOR}
-export PATH=
 export RANGER_LOAD_DEFAULT_RC='FALSE' #Ranger file manager loads only my config
 export ZDOTDIR=$HOME/.config/zsh
 export ZK_NOTEBOOK_DIR="$HOME/Documents/zettlekasten"
@@ -17,7 +16,8 @@ if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.config/zshrc/.zshrc
   source "${ZDOTDIR:-$HOME}/.config/zshrc/.zshrc"
 fi
 
-path=("/opt/homebrew/opt/node@16/bin", "$HOME/bin" "$HOME/.local/bin" "/usr/bin" "/usr/local/bin" "/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" "$path[@]" "/opt/homebrew/bin")
+path=("/usr/local/opt/python/libexec/bin" "$HOME/bin" "$HOME/.local/bin" "/usr/bin" "/usr/local/bin" "/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" "$path[@]" "/opt/homebrew/bin" $path)
+export PATH
 
 eval "$(rbenv init - zsh)"
 

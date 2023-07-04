@@ -1,0 +1,8 @@
+# example ~/.config/starship.toml
+
+add_newline = true
+
+format = '''
+[┌───────────────────>](bold green)
+[│](bold green)$directory$git_branch$git_status$golang$python$terraform$package
+[└─>](bold green) '''
