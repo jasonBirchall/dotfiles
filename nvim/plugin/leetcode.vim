@@ -4,4 +4,4 @@ nnoremap <leader>ls :LeetCodeSubmit<cr>
 nnoremap <leader>li :LeetCodeSignIn<cr>
 
 let g:leetcode_browser='firefox'
-let g:leetcode_solution_filetype='golang'
+let g:leetcode_solution_filetype='python'

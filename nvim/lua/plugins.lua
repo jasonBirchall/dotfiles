@@ -168,6 +168,20 @@ return require("packer").startup(function()
 	use({ "lnl7/vim-nix" })
 	use({ "towolf/vim-helm" })
 	use({ "rust-lang/rust.vim" })
+	use({
+		"rawnly/gist.nvim",
+		config = function()
+			require("gist").setup()
+		end,
+		-- `GistsList` opens the selected gif in a terminal buffere
+		-- this plugin uses neovim remote rpc functionality to open the gist in an actual buffer and not have buffer inception
+		requires = {
+			"samjwill/nvim-unception",
+			setup = function()
+				vim.g.unception_block_while_host_edits = true
+			end,
+		},
+	})
 
 	-- -- lualine
 	use({ "tjdevries/nlua.nvim" })
