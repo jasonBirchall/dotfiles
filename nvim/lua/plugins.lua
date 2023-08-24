@@ -102,13 +102,6 @@ return require("packer").startup(function()
 	})
 	use({ "github/copilot.vim" })
 
-	use({
-		"j-hui/fidget.nvim",
-		event = "BufReadPre",
-		config = function()
-			require("fidget").setup({})
-		end,
-	})
 	use({ "jose-elias-alvarez/null-ls.nvim" })
 
 	-- Git specifics
