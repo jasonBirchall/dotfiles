@@ -24,16 +24,13 @@
 	// python settings all gained from https://realpython.com/advanced-visual-studio-code-python/#linting-and-formatting
 	"python.languageServer": "Pylance",
 	"editor.formatOnSave": true,
-	"python.formatting.provider": "black",
 	"editor.codeActionsOnSave": {
 		"source.organizeImports": true
 	},
 	"python.analysis.typeCheckingMode": "basic",
 	"python.linting.enabled": true,
-	"python.linting.banditEnabled": true,
 	"python.linting.pylintEnabled": true,
 	"python.linting.lintOnSave": true,
-	"python.testing.pytestEnabled": true,
 	"python.testing.pytestArgs": [
 		"tests"
 	],
@@ -99,6 +96,27 @@
 	"git.suggestSmartCommit": false,
 	"editor.accessibilitySupport": "off",
 	"terminal.integrated.enableMultiLinePasteWarning": false,
-	"window.zoomLevel": 1,
 	"githubPullRequests.pullBranch": "never",
+	"[python]": {
+		"editor.defaultFormatter": "ms-python.autopep8"
+	},
+	"python.createEnvironment.contentButton": "show",
+	"python.defaultInterpreterPath": "python3",
+	"python.formatting.autopep8Args": [
+		"--in-place --aggressive --max-line-length 120"
+	],
+	"python.terminal.activateEnvInCurrentTerminal": true,
+	"python.testing.unittestEnabled": true,
+	"python.venvFolders": [
+		"venv"
+	],
+	"pylint.args": [
+		"--disable=C0114,C0116"
+	],
+	"terminal.integrated.fontFamily": "Monolisa, Menlo, Monaco, 'Courier New', monospace",
+	"window.zoomLevel": 1,
+	"flake8.args": [
+		"--ignore=E501,W503"
+	],
+	"git.confirmSync": false,
 }
