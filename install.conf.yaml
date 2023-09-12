@@ -8,7 +8,6 @@
     - ~/.zsh/
     - ~/.zsh/zsh-autosuggestions
     - ~/.config
-    - ~/.config/nvim
     - ~/.config/zsh
     - ~/Documents/zettlekasten
     - ~/Documents/zettlekasten/.zk
@@ -25,9 +24,7 @@
 - link:
     ~/.amethyst.yaml: amethyst/amethyst.yaml
     ~/.completions/tmux_kube.sh: completions/tmux_kube.sh
-    ~/.config/nvim/init.lua: nvim/init.lua
-    ~/.config/nvim/lua: nvim/lua
-    ~/.config/nvim/plugin: nvim/plugin
+    ~/.config/nvim: nvim
     ~/.config/ranger: ranger
     ~/.config/zsh/.aliases: zsh/aliases
     ~/.config/zsh/.env: zsh/zshenv
