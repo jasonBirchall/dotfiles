@@ -1,46 +1,18 @@
-autoload -Uz compinit promptinit
-compinit
-promptinit
-setopt prompt_subst # dynamic command prompt
-setopt COMPLETE_ALIASES
-zstyle ':completion:*' menu select
-zstyle ':completion::complete:*' gain-privileges 1 #For enabling autocompletion of privileged environments
-setopt autocd		# Automatically cd into typed directory.
-stty stop undef		# Disable ctrl-s to freeze terminal.
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# This will set the default prompt to walters theme
-# prompt walters
+# Path to your oh-my-zsh installation.
+export ZSH="$ZDOTDIR/ohmyzsh"
 
-source <(kubectl completion zsh)
-source ~/.config/zsh/.aliases
+ZSH_THEME="robbyrussell"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+# Plugins
+source $HOME/Documents/workarea/dotfiles.nosync/zsh/packages/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# Functions
-function commands() {
-  # Shorten the kubeconfig context
-  long=$(cat $KUBECONFIG | grep "current-context:" | sed "s/current-context: //")
-  short=$(print ${long} | awk -F. '{print $1}')
-
-  kubectl config rename-context ${long} ${short}
-}
-
-commands &> /dev/null
-
-## Git Settings
-# https://git-scm.com/book/en/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Zsh
-autoload -Uz vcs_info
-precmd_vcs_info() { vcs_info }
-precmd_functions+=( precmd_vcs_info )
-setopt prompt_subst
-zstyle ':vcs_info:git:*' formats '%F{yellow}(%b)%r%f'
-zstyle ':vcs_info:*' enable git
-
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' unstagedstr '!'
-zstyle ':vcs_info:*' stagedstr '+'
-zstyle ':vcs_info:*' formats '%R/(%b)%S%u%c'
-
-PROMPT='%F{blue}%1~%f %F{cyan}∳%f '
-RPROMPT=\$vcs_info_msg_0_
 bindkey -e # emacs binding
 
 # create a zkbd compatible hash;
@@ -60,126 +32,128 @@ key[PageUp]="${terminfo[kpp]}"
 key[PageDown]="${terminfo[knp]}"
 key[Shift-Tab]="${terminfo[kcbt]}"
 
-# setup key accordingly
-[[ -n "${key[Home]}"      ]] && bindkey -- "${key[Home]}"      beginning-of-line
-[[ -n "${key[End]}"       ]] && bindkey -- "${key[End]}"       end-of-line
-[[ -n "${key[Insert]}"    ]] && bindkey -- "${key[Insert]}"    overwrite-mode
-[[ -n "${key[Backspace]}" ]] && bindkey -- "${key[Backspace]}" backward-delete-char
-[[ -n "${key[Delete]}"    ]] && bindkey -- "${key[Delete]}"    delete-char
-[[ -n "${key[Up]}"        ]] && bindkey -- "${key[Up]}"        up-line-or-history
-[[ -n "${key[Down]}"      ]] && bindkey -- "${key[Down]}"      down-line-or-history
-[[ -n "${key[Left]}"      ]] && bindkey -- "${key[Left]}"      backward-char
-[[ -n "${key[Right]}"     ]] && bindkey -- "${key[Right]}"     forward-char
-[[ -n "${key[PageUp]}"    ]] && bindkey -- "${key[PageUp]}"    beginning-of-buffer-or-history
-[[ -n "${key[PageDown]}"  ]] && bindkey -- "${key[PageDown]}"  end-of-buffer-or-history
-[[ -n "${key[Shift-Tab]}" ]] && bindkey -- "${key[Shift-Tab]}" reverse-menu-complete
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
-# History search
-autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey "^R" history-incremental-pattern-search-backward
-HIST_STAMPS="dd.mm.yyyy"
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
 
-[[ -n "${key[Up]}"   ]] && bindkey -- "${key[Up]}"   up-line-or-beginning-search
-[[ -n "${key[Down]}" ]] && bindkey -- "${key[Down]}" down-line-or-beginning-search
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
 
-HISTFILE=~/.histfile
-HISTSIZE='100000'
-SAVEHIST="${HISTSIZE}"
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
-# Finally, make sure the terminal is in application mode, when zle is
-# active. Only then are the values from $terminfo valid.
-if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
-	autoload -Uz add-zle-hook-widget
-	function zle_application_mode_start { echoti smkx }
-	function zle_application_mode_stop { echoti rmkx }
-	add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
-	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
-fi
+# Uncomment the following line to change how often to auto-update (in days).
+# zstyle ':omz:update' frequency 13
 
-# Add node to path for copilot
-export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
 
-# Autosource virtualenv if found
-function cd() {
-  builtin cd "$@"
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
 
-  if [[ -z "$VIRTUAL_ENV" ]] ; then
-    ## If env folder is found then activate the vitualenv
-      if [[ -d ./venv ]] ; then
-        source ./venv/bin/activate
-      fi
-  else
-    ## check the current folder belong to earlier VIRTUAL_ENV folder
-    # if yes then do nothing
-    # else deactivate
-      parentdir="$(dirname "$VIRTUAL_ENV")"
-      if [[ "$PWD"/ != "$parentdir"/* ]] ; then
-        deactivate
-      fi
-  fi
-}
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
 
+# Uncomment the following line to enable command auto-correction.
+ENABLE_CORRECTION="true"
 
-# Shift, Alt, Ctrl and Meta modifiers
-key[Control-Left]="${terminfo[kLFT5]}"
-key[Control-Right]="${terminfo[kRIT5]}"
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
 
-[[ -n "${key[Control-Left]}"  ]] && bindkey -- "${key[Control-Left]}"  backward-word
-[[ -n "${key[Control-Right]}" ]] && bindkey -- "${key[Control-Right]}" forward-word
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
 
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="dd/mm/yyyy"
 
-# Plugins
-source $HOME/Documents/workarea/dotfiles.nosync/zsh/packages/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $HOME/Documents/workarea/dotfiles.nosync/zsh/antigen.zsh
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
 
-## Use the oh-my-zsh library
-antigen use oh-my-zsh
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+# https://engineeringfordatascience.com/posts/configure_terminal_for_data_science_with_oh_my_zsh/
+plugins=(git python tmux pip virtualenv autopep8 command-not-found macos tmux zsh-syntax-highlighting zsh-autosuggestions)
 
-antigen bundle git
-antigen bundle git-extras
-antigen bundle tmux
-antigen bundle zsh-users/zsh-completions
-antigen bundle command-not-found
-antigen bundle agkozak/zsh-z
-# antigen bundle ohmyzsh/plugins/fzf # look at this one in further detail
+source $ZSH/oh-my-zsh.sh
 
-# Syntax highlighting bundle. Has to be the last package.
-antigen bundle zsh-users/zsh-syntax-highlighting
+# User configuration
+path=("/opt/homebrew/bin" "$HOME/bin" "$HOME/.local/bin" "/usr/bin" "/usr/local/bin" "/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" "$path[@]" $path)
+export PATH
+export RANGER_LOAD_DEFAULT_RC='FALSE' #Ranger file manager loads only my config
+export EDITOR=/opt/homebrew/bin/nvim
 
-# Load the theme.
-# You probably will want to install powerline fonts https://github.com/powerline/fonts
-antigen theme denysdovhan/spaceship-prompt
+# export MANPATH="/usr/local/man:$MANPATH"
 
-# Prompt configuration:
-# https://github.com/denysdovhan/spaceship-prompt/blob/master/docs/Options.md#prompt
-SPACESHIP_TIME_SHOW=true
-# SPACESHIP_USER_SHOW=always
-SPACESHIP_USER_PREFIX="| "
-SPACESHIP_USER_COLOR=gold
-SPACESHIP_DIR_PREFIX="| "
-SPACESHIP_DIR_COLOR=blue
-SPACESHIP_GIT_PREFIX="| "
-SPACESHIP_GIT_STATUS_COLOR=green
-SPACESHIP_GIT_BRANCH_COLOR=white
+# NeoVim PackerSync with large timeout
+ulimit -S -n 200048
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
 
-SPACESHIP_PROMPT_ORDER=(
-  time
-  user
-  dir
-  terraform
-  git
-  exec_time
-  line_sep
-  char
-)
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
 
-# Empty by default
-# SPACESHIP_RPROMPT_ORDER=(
-# )
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
 
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias cdw='cd ~/Documents/workarea'
+alias cdd='cd ~/Documents/workarea/dotfiles.nosync'
+alias cdp='cd $GOPATH'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias v="nvim"
+alias vf="vifm"
+alias vim="nvim"
+alias vi="nvim"
+alias :q="exit"
+alias gcz="cz commit"
+alias tf='terraform'
+alias g='git'
+alias gs='git status; git diff'
+alias gd='git diff'
+alias ga='git add'
+alias gc='git commit'
+alias lg='lazygit'
+alias k='kubectl'
+alias cdu='cd ~/Documents/workarea/university-work'
+alias yq="yq e '.' -"
+alias tmux="TERM=screen-256color-bce tmux"
+# alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"' # ranger with last directory
+alias r='ranger'
+alias watch='watch --color'
+alias py="/opt/homebrew/bin/python3"
 
-# Tell antigen that you're done
-antigen apply
-
+eval "$(starship init zsh)"

@@ -5,8 +5,6 @@
 - clean: ["~"]
 
 - create:
-    - ~/.zsh/
-    - ~/.zsh/zsh-autosuggestions
     - ~/.config
     - ~/.config/zsh
     - ~/Documents/zettlekasten
@@ -26,15 +24,12 @@
     ~/.completions/tmux_kube.sh: completions/tmux_kube.sh
     ~/.config/nvim: nvim
     ~/.config/ranger: ranger
-    ~/.config/zsh/.aliases: zsh/aliases
-    ~/.config/zsh/.env: zsh/zshenv
-    ~/.config/zsh/.zprofile: zsh/zprofile
     ~/.config/zsh/.zshenv: zsh/zshenv
+    ~/.config/zsh/.env: zsh/zshenv
+    ~/.config/zsh/.zshrc: zsh/zshrc
     ~/.gitconfig: git/gitconfig
     ~/.ideavimrc: jetbrains/ideavimrc
     ~/.tmux.conf: tmux/tmux.conf
-    ~/.zshenv: zsh/zshenv
-    ~/.zshrc: zsh/zshrc
     ~/Documents/zettlekasten/.zk/config.toml: zettlekasten/config.toml
     ~/Library/Application Support/Code/User/keybindings.json: vscode/keybindings.json
     ~/Library/Application Support/Code/User/settings.json: vscode/settings.json
