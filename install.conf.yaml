@@ -28,6 +28,7 @@
     ~/.config/zsh/.env: zsh/zshenv
     ~/.config/zsh/.zshrc: zsh/zshrc
     ~/.gitconfig: git/gitconfig
+    ~/bin/view.py: ~/Documents/workarea/wakatime-view/view.py
     ~/.ideavimrc: jetbrains/ideavimrc
     ~/.tmux.conf: tmux/tmux.conf
     ~/Documents/zettlekasten/.zk/config.toml: zettlekasten/config.toml
