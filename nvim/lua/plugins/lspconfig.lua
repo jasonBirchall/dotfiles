@@ -15,7 +15,6 @@ return {
     },
     opts = {
       -- Automatically format on save
-      autoformat = true,
       servers = {
         terraformls = {},
         pyright = {},
@@ -79,7 +78,7 @@ return {
         eslint = function()
           vim.api.nvim_create_autocmd("BufWritePre", {
             callback = function(event)
-              if not require("lazyvim.plugins.lsp.format").enabled() then
+              if not require("lazyvim.util").format.enabled() then
                 -- exit early if autoformat is not enabled
                 return
               end
@@ -95,7 +94,7 @@ return {
           })
         end,
         ruff_lsp = function()
-          require("lazyvim.util").on_attach(function(client, _)
+          require("lazyvim.util").lsp.on_attach(function(client, _)
             if client.name == "ruff_lsp" then
               -- Disable hover in favor of Pyright
               client.server_capabilities.hoverProvider = false
