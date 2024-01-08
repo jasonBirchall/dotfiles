@@ -66,12 +66,14 @@ cask "fly"
 cask "font-hack-nerd-font"
 cask "gpg-suite"
 cask "jetbrains-toolbox"
+cask "obsidian"
 cask "signal"
 cask "slack"
 cask "spotify"
 cask "visual-studio-code"
 cask "warp"
 cask "zoom"
+cask "zotero"
 
 # 'mas install'
 #mas "1Password", id: 443987910
