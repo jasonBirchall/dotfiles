@@ -17,4 +17,3 @@ local function map(mode, lhs, rhs, opts)
     vim.keymap.set(mode, lhs, rhs, opts)
   end
 end
-map("n", "<leader>", "<cmd>nohl<cr>", { desc = "Remove the highlight from the search" })
