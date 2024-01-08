@@ -157,3 +157,8 @@ alias watch='watch --color'
 alias py="/opt/homebrew/bin/python3"
 
 eval "$(starship init zsh)"
+
+autoload -Uz compinit
+zstyle ':completion:*' menu select
+fpath+=~/.zfunc
+

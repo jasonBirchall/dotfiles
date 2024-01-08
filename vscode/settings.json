@@ -25,7 +25,7 @@
 	"python.languageServer": "Pylance",
 	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
-		"source.organizeImports": true
+		"source.organizeImports": "explicit"
 	},
 	"python.analysis.typeCheckingMode": "basic",
 	"python.linting.enabled": true,
@@ -62,7 +62,6 @@
 	"workbench.startupEditor": "none",
 	"workbench.tips.enabled": false,
 	"workbench.editor.scrollToSwitchTabs": true,
-	"workbench.editor.untitled.hint": "hidden",
 	"window.closeWhenEmpty": true,
 	"window.openFoldersInNewWindow": "off",
 	"terminal.integrated.copyOnSelection": true,
@@ -119,4 +118,5 @@
 		"--ignore=E501,W503"
 	],
 	"git.confirmSync": false,
+	"workbench.editor.empty.hint": "hidden",
 }
