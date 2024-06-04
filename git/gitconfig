@@ -77,7 +77,6 @@
 [commit]
 
 	# https://help.github.com/articles/signing-commits-using-gpg/
-	gpgsign = true
 
 [diff]
 
@@ -113,7 +112,7 @@
 
 	email = jason.birchall@digital.justice.gov.uk
 	name = jasonBirchall
-	signingKey = 0A892C9525D58107B80A76FDAA62BE08ADFC6750
+	signingkey = AA62BE08ADFC6750
 
 [cola]
 
