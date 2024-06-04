@@ -5,6 +5,7 @@ Brewfile.lock.json
 vim/tmp/*
 vim/colors/*
 vim/undo-history/*
+lazy-lock*
 
 # Compiled nvim
 packer_compiled.lua
