@@ -112,11 +112,17 @@
 	"pylint.args": [
 		"--disable=C0114,C0116"
 	],
-	"terminal.integrated.fontFamily": "Monolisa, Menlo, Monaco, 'Courier New', monospace",
+	"terminal.integrated.fontFamily": "Hack, Monolisa, Menlo, Monaco, 'Courier New', monospace",
 	"window.zoomLevel": 1,
 	"flake8.args": [
 		"--ignore=E501,W503"
 	],
 	"git.confirmSync": false,
 	"workbench.editor.empty.hint": "hidden",
+	"git.openRepositoryInParentFolders": "never",
+	"genieai.openai.model": "gpt-4",
+	"genieai.promptPrefix.commit-message": "Suggest a precise and informative commit message based on the following diff. Do not use markdown syntax in your response.\n\nThe commit message should have description with a short title that follows emoji commit message format like <emoji> <description>.\n\nExamples:\n- :refactor: Change log format for better visibility\n- :sparkles: Introduce new logging class\n\nIf necessary, follow with an explanatory body providing insight into the nature of the changes, the reasoning behind them, and any significant consequences or considerations arising from them.\n\nDiff: \n\n",
+	"genieai.response.showNotification": true,
+	"hediet.vscode-drawio.resizeImages": null,
+	"github.copilot.editor.enableAutoCompletions": true,
 }
