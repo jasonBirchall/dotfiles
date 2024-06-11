@@ -17,3 +17,5 @@ local function map(mode, lhs, rhs, opts)
     vim.keymap.set(mode, lhs, rhs, opts)
   end
 end
+
+map("n", "<leader>ft", ":FloatermToggle<CR>")
