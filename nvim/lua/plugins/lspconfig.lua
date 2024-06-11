@@ -3,7 +3,6 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      { "folke/neodev.nvim", opts = {} },
       "b0o/SchemaStore.nvim",
       version = false, -- last release is way too old
       {
@@ -16,6 +15,8 @@ return {
     opts = {
       -- Automatically format on save
       servers = {
+        dockerls = {},
+        docker_compose_language_service = {},
         terraformls = {},
         pyright = {},
         ruff_lsp = {},

@@ -1,4 +1,5 @@
 return {
+  { "nvim-neotest/neotest-python" },
   { "nvim-neotest/neotest-plenary" },
   {
     "nvim-neotest/neotest",
@@ -13,7 +14,7 @@ return {
           -- runner = "pytest",
           -- python = ".venv/bin/python",
         },
-    },
+      },
       status = { virtual_text = true },
       output = { open_on_run = true },
       quickfix = {
