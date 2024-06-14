@@ -11,6 +11,7 @@ return {
         "shellcheck",
         "shfmt",
         "flake8",
+        "pylint",
       },
     },
     ---@param opts MasonSettings | {ensure_installed: string[]}
