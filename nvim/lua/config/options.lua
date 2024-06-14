@@ -3,6 +3,7 @@
 -- Add any additional options here
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+vim.opt.clipboard = ""
 
 local opt = vim.opt
 opt.relativenumber = false
