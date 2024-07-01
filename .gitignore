@@ -29,3 +29,7 @@ Thumbs.db
 *.old
 
 *Session*
+
+# Lazyvim files
+nvim/lazy-lock.json
+nvim/lazyvim.json
