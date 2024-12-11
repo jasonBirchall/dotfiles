@@ -4,7 +4,7 @@ customCommands:
     context: "commits"
     loadingText: "Pushing commit..."
     description: "Push a specific commit (and any preceding)"
-    stream: yes
+    stream: true
 
   - key: "<c-r>"
     command: "gh pr create --fill --web"
@@ -16,4 +16,10 @@ customCommands:
     description: "commit with commitizen"
     context: "files"
     loadingText: "opening commitizen commit tool"
+    subprocess: true
+
+  - key: "<c-e>"
+    command: "lazycommit commit"
+    description: "lazycommit commit"
+    context: "files"
     subprocess: true
