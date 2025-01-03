@@ -9,6 +9,7 @@
     - ~/.config/zsh
     - ~/Documents/zettlekasten
     - ~/Documents/zettlekasten/.zk
+    - ~/.config/ghostty
 
     - ~/Documents/workarea
     - ~/Documents/laptop_workarea
@@ -24,6 +25,7 @@
     ~/.completions/tmux_kube.sh: completions/tmux_kube.sh
     ~/.config/nvim: nvim
     ~/.config/ranger: ranger
+    ~/.config/ghostty/config: ghostty/config
     ~/.config/zsh/.zshenv: zsh/zshenv
     ~/.config/zsh/.env: zsh/zshenv
     ~/.config/zsh/.zshrc: zsh/zshrc
