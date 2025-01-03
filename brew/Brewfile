@@ -1,10 +1,5 @@
 # 'brew tap'
 tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/cask-fonts"
-tap "homebrew/core"
-tap "ministryofjustice/cloud-platform-tap"
-tap "shopify/shopify"
 
 # 'brew tap' with custom Git URL
 # e.g tap "user/tap-repo", "https://user@bitbucket.org/user/homebrew-tap-repo.git"
@@ -14,7 +9,6 @@ cask_args appdir: "~/Applications", require_sha: true
 
 # 'brew install'
 brew "ack"
-brew "ansible"
 brew "awscli"
 brew "bat"
 brew "commitizen"
@@ -24,6 +18,7 @@ brew "fzf"
 brew "gh"
 brew "git-cola"
 brew "git-crypt"
+brew "gitmoji"
 brew "glow"
 brew "gnupg"
 brew "go"
@@ -36,14 +31,11 @@ brew "lazygit"
 brew "lua-language-server"
 brew "luarocks"
 brew "mas"
-brew "ministryofjustice/cloud-platform-tap/cloud-platform-cli"
 brew "neovim"
 brew "ninja"
-brew "node@16"
 brew "operator-sdk"
 brew "ranger"
 brew "ripgrep"
-brew "spotify-tui"
 brew "starship"
 brew "staticcheck"
 brew "stern"
@@ -58,22 +50,10 @@ brew "yq"
 brew "zk" # Zettelkasten CLI tool
 
 # 'brew install --cask'
-cask "amethyst"
-cask "anki"
-cask "brave-browser"
-cask "firefox"
 cask "fly"
-cask "font-hack-nerd-font"
 cask "gpg-suite"
-cask "jetbrains-toolbox"
 cask "obsidian"
-cask "signal"
-cask "slack"
-cask "spotify"
 cask "visual-studio-code"
-cask "warp"
-cask "zoom"
-cask "zotero"
 
 # 'mas install'
 #mas "1Password", id: 443987910
