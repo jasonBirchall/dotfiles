@@ -7,13 +7,11 @@
 - create:
     - ~/.config
     - ~/.config/zsh
-    - ~/Documents/zettlekasten
-    - ~/Documents/zettlekasten/.zk
     - ~/.config/ghostty
 
     - ~/Documents/workarea
-    - ~/Documents/laptop_workarea
     - ~/.completions
+    - ~/bin
     - ~/.tmux
     - ~/.tmux/plugins
     - ~/Library/Application Support/Code/
@@ -21,7 +19,6 @@
     - ~/Library/Application Support/lazygit/
 
 - link:
-    ~/.amethyst.yaml: amethyst/amethyst.yaml
     ~/.completions/tmux_kube.sh: completions/tmux_kube.sh
     ~/.config/nvim: nvim
     ~/.config/ranger: ranger
@@ -31,17 +28,13 @@
     ~/.config/zsh/.zshrc: zsh/zshrc
     ~/.gitconfig: git/gitconfig
     ~/bin/view.py: ~/Documents/workarea/wakatime-view/view.py
-    ~/.ideavimrc: jetbrains/ideavimrc
     ~/.tmux.conf: tmux/tmux.conf
-    ~/Documents/zettlekasten/.zk/config.toml: zettlekasten/config.toml
     ~/Library/Application Support/Code/User/keybindings.json: vscode/keybindings.json
     ~/Library/Application Support/Code/User/settings.json: vscode/settings.json
     ~/Library/Application Support/lazygit/config.yml: lazygit/config.yml
     ~/Pictures/wallpaper1.png: wallpaper/wallpaper1.png
 
 - shell:
-    - git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-    - git clone https://github.com/tmux-plugins/tpm.git ~/.tmux/plugins/tpm
     - command: brew bundle --file brew/Brewfile
       stderr: true
       stdout: true
