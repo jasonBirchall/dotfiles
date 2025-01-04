@@ -8,6 +8,7 @@
     - ~/.config
     - ~/.config/zsh
     - ~/.config/ghostty
+    - ~/.config/fish
 
     - ~/Documents/workarea
     - ~/.completions
@@ -24,6 +25,7 @@
     ~/.config/ranger: ranger
     ~/.config/ghostty/config: ghostty/config
     ~/.config/zsh/.zshenv: zsh/zshenv
+    ~/.config/fish/config.fish: fish/config.fish
     ~/.config/zsh/.env: zsh/zshenv
     ~/.config/zsh/.zshrc: zsh/zshrc
     ~/.gitconfig: git/gitconfig
