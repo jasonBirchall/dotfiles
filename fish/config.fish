@@ -7,6 +7,7 @@ set -gx GIT_EDITOR nvim
 set -gx DOTFILES $HOME/Documents/workarea/dotfiles/
 set -gx ZETTEL $HOME/Documents/workarea/zettelkasten/
 set -gx WORKAREA $HOME/Documents/workarea/
+set PATH $HOME/.cargo/bin $PATH
 
 # Config dir access
 abbr -a -g cdd 'cd $DOTFILES'
@@ -23,6 +24,12 @@ abbr -a -g r ranger
 
 # Homebrew
 abbr -a -g bru 'brew update && brew upgrade'
+
+# Ruby stuff
+. (rbenv init - | source)
+
+# K8s config
+abbr -a -g k kubectl
 
 # Check if we're in an interactive shell
 if status is-interactive
