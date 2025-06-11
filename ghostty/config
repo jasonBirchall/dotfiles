@@ -1,4 +1,7 @@
+command = /opt/homebrew/bin/brew shellenv | source
+command = /opt/homebrew/bin/fish --login --interactive
 shell-integration = fish
 shell-integration-features = no-cursor,sudo,no-title
 theme = GruvboxDark
 copy-on-select = clipboard
+keybind = shift+enter=text:\n
