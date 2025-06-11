@@ -4,22 +4,19 @@ customCommands:
     context: "commits"
     loadingText: "Pushing commit..."
     description: "Push a specific commit (and any preceding)"
-    stream: true
-
+    output: log
   - key: "<c-r>"
     command: "gh pr create --fill --web"
     context: "global"
     loadingText: "Creating pull request on GitHub"
-
   - key: "C"
     command: "gitmoji -c"
     description: "commit with commitizen"
     context: "files"
     loadingText: "opening commitizen commit tool"
-    subprocess: true
-
+    output: terminal
   - key: "<c-e>"
     command: "lazycommit commit"
     description: "lazycommit commit"
     context: "files"
-    subprocess: true
+    output: terminal
