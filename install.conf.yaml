@@ -24,6 +24,7 @@
     ~/.config/nvim: nvim
     ~/.config/ranger: ranger
     ~/.config/ghostty/config: ghostty/config
+    ~/.config/zellij/config.kdl: zellij/config.kdl
     ~/.config/zsh/.zshenv: zsh/zshenv
     ~/.config/fish/config.fish: fish/config.fish
     ~/.config/zsh/.env: zsh/zshenv
