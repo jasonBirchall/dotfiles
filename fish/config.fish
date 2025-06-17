@@ -7,11 +7,13 @@ set -gx GIT_EDITOR nvim
 set -gx DOTFILES $HOME/Documents/workarea/dotfiles/
 set -gx ZETTEL $HOME/Documents/workarea/zettelkasten/
 set -gx WORKAREA $HOME/Documents/workarea/
+set -gx ZETTEL $HOME/Documents/workarea/zettelkasten/
 set PATH $HOME/.cargo/bin $PATH
 
 # Config dir access
 abbr -a -g cdd 'cd $DOTFILES'
 abbr -a -g cdw 'cd $WORKAREA'
+abbr -a -g cdz 'cd $ZETTEL'
 
 # Config git configuration
 abbr -a -g lg lazygit

@@ -11,6 +11,7 @@ cask_args appdir: "~/Applications", require_sha: true
 brew "ack"
 brew "awscli"
 brew "bat"
+brew "chafa"
 brew "commitizen"
 brew "exercism"
 brew "fd"
