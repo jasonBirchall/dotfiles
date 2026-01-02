@@ -7,25 +7,43 @@ vim.g.maplocalleader = "\\"
 local opt = vim.opt
 opt.relativenumber = false
 
--- LSP Server to use for Python.
--- Set to "basedpyright" to use basedpyright instead of pyright.
-vim.g.lazyvim_python_lsp = "pyright"
-vim.g.lazyvim_python_ruff = "ruff_lsp"
+-- LazyVim auto format
+vim.g.autoformat = true
+-- Snacks animations
+-- Set to `false` to globally disable all snacks animations
+vim.g.snacks_animate = true
 
--- Telekasten settings
--- Launch panel if nothing is typed after <leader>z
-vim.keymap.set("n", "<leader>z", "<cmd>Telekasten panel<CR>")
+-- LazyVim picker to use.
+-- Can be one of: telescope, fzf
+-- Leave it to "auto" to automatically use the picker
+-- enabled with `:LazyExtras`
+vim.g.lazyvim_picker = "auto"
 
--- Most used functions
-vim.keymap.set("n", "<leader>zf", "<cmd>Telekasten find_notes<CR>")
-vim.keymap.set("n", "<leader>zg", "<cmd>Telekasten search_notes<CR>")
-vim.keymap.set("n", "<leader>zd", "<cmd>Telekasten goto_today<CR>")
-vim.keymap.set("n", "<leader>zz", "<cmd>Telekasten follow_link<CR>")
-vim.keymap.set("n", "<leader>zn", "<cmd>Telekasten new_note<CR>")
-vim.keymap.set("n", "<leader>zc", "<cmd>Telekasten show_calendar<CR>")
-vim.keymap.set("n", "<leader>zb", "<cmd>Telekasten show_backlinks<CR>")
-vim.keymap.set("n", "<leader>zI", "<cmd>Telekasten insert_img_link<CR>")
+-- if the completion engine supports the AI source,
+-- use that instead of inline suggestions
+vim.g.ai_cmp = true
 
--- Call insert link automatically when we start typing a link
-vim.keymap.set("i", "[[", "<cmd>Telekasten insert_link<CR>")
+-- LazyVim root dir detection
+-- Each entry can be:
+-- * the name of a detector function like `lsp` or `cwd`
+-- * a pattern or array of patterns like `.git` or `lua`.
+-- * a function with signature `function(buf) -> string|string[]`
+vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
+
+-- Optionally setup the terminal to use
+-- This sets `vim.o.shell` and does some additional configuration for:
+-- * pwsh
+-- * powershell
+-- LazyVim.terminal.setup("pwsh")
+
+-- Set LSP servers to be ignored when used with `util.root.detectors.lsp`
+-- for detecting the LSP root
+vim.g.root_lsp_ignore = { "copilot" }
+
+-- Hide deprecation warnings
+vim.g.deprecation_warnings = false
+
+-- Show the current document symbols location from Trouble in lualine
+-- You can disable this for a buffer by setting `vim.b.trouble_lualine = false`
+vim.g.trouble_lualine = true
 
