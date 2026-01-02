@@ -24,12 +24,6 @@ abbr -a -g v nvim
 abbr -a -g vim nvim
 abbr -a -g r ranger
 
-# Homebrew
-abbr -a -g bru 'brew update && brew upgrade'
-
-# Ruby stuff
-. (rbenv init - | source)
-
 # K8s config
 abbr -a -g k kubectl
 
