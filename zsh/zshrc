@@ -93,7 +93,7 @@ ENABLE_CORRECTION="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # https://engineeringfordatascience.com/posts/configure_terminal_for_data_science_with_oh_my_zsh/
-plugins=(git python tmux pip virtualenv autopep8 command-not-found macos tmux zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git python tmux pip virtualenv autopep8 command-not-found macos tmux)
 
 source $ZSH/oh-my-zsh.sh
 
