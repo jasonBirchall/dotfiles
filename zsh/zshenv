@@ -1,26 +1,20 @@
-
+# Environment variables (loaded for all shells)
 export EDITOR=/opt/homebrew/bin/nvim
 export GIT_EDITOR=${EDITOR}
+export KUBE_EDITOR=${EDITOR}
 export GOPATH=$HOME/go
 export GPG_TTY=$(tty)
 export KUBECONFIG=$HOME/.kube/config
-export KUBE_EDITOR=${EDITOR}
-export RANGER_LOAD_DEFAULT_RC='TRUE' #Ranger loads defaults first, then my customizations
+export RANGER_LOAD_DEFAULT_RC='TRUE'
 export ZDOTDIR=$HOME/.config/zsh
 export ZK_NOTEBOOK_DIR="$HOME/Documents/zettlekasten"
 
-# Ensure that a non-login, non-interactive shell has a defined environment.
-if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.config/zshrc/.zshrc" ]]; then
-  source "${ZDOTDIR:-$HOME}/.config/zshrc/.zshrc"
-fi
-
-path=("/usr/local/opt/python/libexec/bin" "$HOME/bin" "$HOME/.local/bin" "/usr/bin" "/usr/local/bin" "/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" "$path[@]" "/opt/homebrew/bin" $path)
-export PATH
-
-eval "$(rbenv init - zsh)"
-
+# Ensure unique PATH entries
 typeset -U PATH path
+
+# Additional tools
+eval "$(rbenv init - zsh)"
 . "$HOME/.cargo/env"
 
-# NeoVim PackerSync with large timeout
+# File descriptor limit for neovim
 ulimit -S -n 200048
