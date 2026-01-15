@@ -18,6 +18,7 @@
     - ~/Library/Application Support/Code/
     - ~/Library/Application Support/Code/User
     - ~/Library/Application Support/lazygit/
+    - ~/Library/LaunchAgents
 
 - link:
     ~/.completions/tmux_kube.sh: completions/tmux_kube.sh
@@ -31,6 +32,8 @@
     ~/.config/zsh/.zshrc: zsh/zshrc
     ~/.gitconfig: git/gitconfig
     ~/bin/view.py: bin/wakatime-view/view.py
+    ~/bin/sync.py: bin/sync-zettel/sync.py
+    ~/Library/LaunchAgents/com.json0.sync-zettel.plist: bin/sync-zettel/com.json0.sync-zettel.plist
     ~/.tmux.conf: tmux/tmux.conf
     ~/Library/Application Support/Code/User/keybindings.json: vscode/keybindings.json
     ~/Library/Application Support/Code/User/settings.json: vscode/settings.json
