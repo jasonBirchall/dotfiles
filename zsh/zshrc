@@ -100,7 +100,7 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 path=("/opt/homebrew/bin" "$HOME/bin" "$HOME/.local/bin" "/usr/bin" "/usr/local/bin" "/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" "$path[@]" $path)
 export PATH
-export RANGER_LOAD_DEFAULT_RC='FALSE' #Ranger file manager loads only my config
+export RANGER_LOAD_DEFAULT_RC='TRUE' #Ranger loads defaults first, then my customizations
 export EDITOR=/opt/homebrew/bin/nvim
 
 # export MANPATH="/usr/local/man:$MANPATH"

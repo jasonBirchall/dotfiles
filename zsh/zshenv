@@ -5,7 +5,7 @@ export GOPATH=$HOME/go
 export GPG_TTY=$(tty)
 export KUBECONFIG=$HOME/.kube/config
 export KUBE_EDITOR=${EDITOR}
-export RANGER_LOAD_DEFAULT_RC='FALSE' #Ranger file manager loads only my config
+export RANGER_LOAD_DEFAULT_RC='TRUE' #Ranger loads defaults first, then my customizations
 export ZDOTDIR=$HOME/.config/zsh
 export ZK_NOTEBOOK_DIR="$HOME/Documents/zettlekasten"
 
