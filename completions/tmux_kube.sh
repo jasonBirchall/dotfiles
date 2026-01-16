@@ -4,5 +4,5 @@
 CONTEXT=$(cat $KUBECONFIG | grep "current-context:" | sed "s/current-context: //")
 
 if [ -n "$CONTEXT" ]; then
-    echo "Current context: ${CONTEXT%%.*}"
+  echo "kubecontext: ${CONTEXT%%.*}"
 fi
