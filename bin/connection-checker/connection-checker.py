@@ -4,6 +4,7 @@
 # ///
 """Simple CLI tool to check internet connection status."""
 
+import argparse
 import socket
 import time
 import sys
@@ -11,7 +12,6 @@ import sys
 # ANSI color codes
 GREEN = "\033[92m"
 RED = "\033[91m"
-YELLOW = "\033[93m"
 RESET = "\033[0m"
 BOLD = "\033[1m"
 
@@ -32,7 +32,23 @@ def check_connection(host: str, port: int, timeout: float = 3.0) -> tuple[bool, 
         return False, 0.0
 
 
-def main() -> int:
+def is_online() -> bool:
+    """Return True if any target is reachable."""
+    return any(check_connection(host, port)[0] for host, port, _ in TARGETS)
+
+
+def tmux_output() -> int:
+    """Output minimal tmux-formatted status."""
+    if is_online():
+        print("#[fg=green]●#[default]")
+        return 0
+    else:
+        print("#[fg=red]●#[default]")
+        return 1
+
+
+def verbose_output() -> int:
+    """Output detailed connection status."""
     print(f"{BOLD}Connection Status{RESET}")
     print("-" * 30)
 
@@ -59,6 +75,16 @@ def main() -> int:
     else:
         print(f"{RED}{BOLD}Offline{RESET}")
         return 1
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Check internet connection status")
+    parser.add_argument("--tmux", "-t", action="store_true", help="Output for tmux statusbar")
+    args = parser.parse_args()
+
+    if args.tmux:
+        return tmux_output()
+    return verbose_output()
 
 
 if __name__ == "__main__":
