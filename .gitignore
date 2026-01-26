@@ -33,3 +33,7 @@ Thumbs.db
 # Lazyvim files
 nvim/lazy-lock.json
 nvim/lazyvim.json
+
+# Newsboat
+newsboat/*.db*
+newsboat/history.cmdline

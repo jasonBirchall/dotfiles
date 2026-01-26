@@ -31,6 +31,7 @@
     ~/.config/zsh/.env: zsh/zshenv
     ~/.config/zsh/.zshrc: zsh/zshrc
     ~/.gitconfig: git/gitconfig
+    ~/.newsboat: newsboat
     ~/bin/view.py: bin/wakatime-view/view.py
     ~/bin/sync.py: bin/sync-zettel/sync.py
     ~/bin/connection-checker.py: bin/connection-checker/connection-checker.py

@@ -1,0 +1,72 @@
+### =========================
+### Core behaviour (optional)
+### =========================
+refresh-on-startup yes
+reload-threads 8
+auto-reload yes
+reload-time 30   # minutes (only if you want it to refresh while open)
+
+# macOS: open links in your default browser
+browser "open %u"
+
+### =========================
+### Gruvbox-ish (dark)
+### =========================
+# Background + text
+color background          color235 default          # bg0
+color article             color223 default          # fg1
+color end-of-text-marker  color239 default          # bg4-ish
+
+# Feed/item list
+color listnormal          color223 default          # normal text
+color listnormal_unread   color142 default  bold    # green (unread)
+color listfocus           color223 color237 bold    # focused row background
+color listfocus_unread    color142 color237 bold    # focused + unread
+
+# Top/bottom bars + hints
+color title               color214 color235 bold    # yellow/orange on bg
+color info                color208 color235 bold    # orange
+color hint-key            color109 color235 bold    # aqua/blue-ish
+color hint-keys-delimiter color245 color235
+color hint-separator      color214 color235 bold
+color hint-description    color223 color235
+
+# Search highlighting
+search-highlight-colors   color235 color214 bold
+
+# Article view highlights
+highlight article "^(Feed|Title|Author|Link|Date):" color214 default bold
+highlight article "https?://[^ ]+"                 color109 default underline
+highlight article "\\[[0-9]+\\]"                   color245 default bold
+
+### =========================
+### Vim navigation
+### =========================
+# First, free up keys that Newsboat uses for other things by default
+unbind-key j
+unbind-key k
+unbind-key h
+unbind-key l
+unbind-key g
+unbind-key G
+
+# Movement + open/back
+bind-key j down
+bind-key k up
+bind-key l open
+bind-key h quit
+
+# Top/bottom like Vim
+bind-key g home
+bind-key G end
+
+# Half-page like Vim (NOTE: ^D is "delete all articles" by default; this remaps it)
+unbind-key ^U
+unbind-key ^D
+bind-key ^U halfpageup
+bind-key ^D halfpagedown
+
+# Give sorting new homes since we stole g/G
+bind-key s sort
+bind-key S rev-sort
+

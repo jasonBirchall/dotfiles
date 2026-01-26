@@ -1,0 +1,31 @@
+# Programming News
+https://www.reddit.com/r/programming/.rss
+https://hnrss.org/frontpage
+
+# Django (official)
+https://www.djangoproject.com/rss/weblog/  # official Django weblog/news :contentReference[oaicite:0]{index=0}
+https://code.djangoproject.com/timeline?ticket=on&changeset=on&milestone=on&wiki=on&max=50&daysback=90&format=rss  # code.djangoproject.com activity :contentReference[oaicite:1]{index=1}
+
+# Django (practitioners)
+https://realpython.com/atom.xml  # Real Python (often Django-adjacent) :contentReference[oaicite:5]{index=5}
+
+# Performance + systems
+https://www.brendangregg.com/blog/rss.xml  # Brendan Gregg :contentReference[oaicite:6]{index=6}
+https://blog.acolyer.org/feed  # The Morning Paper :contentReference[oaicite:7]{index=7}
+
+# SRE / scaling
+http://sreweekly.com/feed/  # SRE Weekly :contentReference[oaicite:9]{index=9}
+https://netflixtechblog.com/feed  # Netflix TechBlog :contentReference[oaicite:11]{index=11}
+
+# UK + advisories
+https://isc.sans.edu/rssfeed_full.xml  # SANS ISC full diary feed :contentReference[oaicite:14]{index=14}
+
+# Security writing + research
+https://www.schneier.com/feed/atom/  # Schneier on Security :contentReference[oaicite:15]{index=15}
+https://blog.trailofbits.com/feed/  # Trail of Bits :contentReference[oaicite:16]{index=16}
+https://googleprojectzero.blogspot.com/feeds/posts/default  # Google Project Zero :contentReference[oaicite:17]{index=17}
+
+# Standards / secure engineering
+https://csrc.nist.gov/CSRC/media/feeds/pubs/drafts-open-for-comment.xml  # NIST CSRC drafts feed :contentReference[oaicite:18]{index=18}
+https://genai.owasp.org/feed/  # OWASP GenAI project feed :contentReference[oaicite:19]{index=19}
+
