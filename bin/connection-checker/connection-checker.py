@@ -79,7 +79,9 @@ def verbose_output() -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Check internet connection status")
-    parser.add_argument("--tmux", "-t", action="store_true", help="Output for tmux statusbar")
+    parser.add_argument(
+        "--tmux", "-t", action="store_true", help="Output for tmux statusbar"
+    )
     args = parser.parse_args()
 
     if args.tmux:
