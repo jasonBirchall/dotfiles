@@ -1,6 +1,7 @@
 ### =========================
 ### Core behaviour (optional)
 ### =========================
+max-items 3
 refresh-on-startup yes
 reload-threads 8
 auto-reload yes
