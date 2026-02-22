@@ -23,6 +23,7 @@
     lazygit
 
     # --- Terminal Workspace ---
+    ghostty
     tmux
     ranger
 
