@@ -40,6 +40,18 @@
     opentofu
   ];
 
+  # Layer 2: Configuration Files
+  home.file = {
+    # Tmux
+    ".tmux.conf".source = ./tmux/tmux.conf;
+    
+    # Zsh Shell
+    ".config/zsh/.zshenv".source = ./zsh/zshenv;
+    ".config/zsh/.zshrc".source = ./zsh/zshrc;
+    
+    # Ranger
+    ".config/ranger/rc.conf".source = ./ranger/rc.conf;
+  };
   # Let Home Manager manage itself
   programs.home-manager.enable = true;
 }
