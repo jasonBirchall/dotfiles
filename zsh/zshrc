@@ -1,20 +1,12 @@
-# Path to oh-my-zsh installation
-export ZSH="$ZDOTDIR/ohmyzsh"
-
 # Autosuggestions config
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
-source $HOME/Documents/workarea/dotfiles.nosync/zsh/packages/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/Documents/workarea/dotfiles/zsh/packages/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Emacs keybindings
 bindkey -e
 
-# oh-my-zsh settings
-ENABLE_CORRECTION="true"
+plugins=(git python tmux pip virtualenv autopep8 command-not-found)
 
-# Plugins (removed duplicate tmux)
-plugins=(git python tmux pip virtualenv autopep8 command-not-found macos)
-
-source $ZSH/oh-my-zsh.sh
 
 # PATH (consolidated)
 path=("/opt/homebrew/bin" "$HOME/bin" "$HOME/.local/bin" "/usr/bin" "/usr/local/bin" "/bin" "$HOME/.gem/bin" "/usr/local/go/bin" "$HOME/go/bin" $path)
@@ -46,7 +38,6 @@ alias yq="yq e '.' -"
 alias tmux="TERM=screen-256color-bce tmux"
 alias r='ranger'
 alias watch='watch --color'
-alias py="/opt/homebrew/bin/python3"
 
 # Completions
 autoload -Uz compinit
@@ -55,6 +46,3 @@ fpath+=~/.zfunc
 
 # Starship prompt
 eval "$(starship init zsh)"
-
-# Syntax highlighting (MUST be last)
-source $HOME/Documents/workarea/dotfiles.nosync/zsh/packages/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
