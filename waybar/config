@@ -1,0 +1,12 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 28,
+  "modules-left": ["sway/workspaces"],
+  "modules-center": [],
+  "modules-right": ["clock"],
+
+  "clock": {
+    "format": "{:%H:%M}"
+  }
+}

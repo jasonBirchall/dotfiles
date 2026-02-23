@@ -39,6 +39,21 @@
     k9s
     helm
     opentofu
+
+    # --- Wayland / Sway ---
+    sway
+    swaybg
+    swayidle
+    swaylock
+    waybar
+    mako
+    wl-clipboard
+    grim
+    slurp
+    wofi
+    brightnessctl
+    playerctl
+    networkmanagerapplet
   ];
 
   programs.bash = {
@@ -88,25 +103,30 @@
   };
 
   home.file = {
-    # Tmux
     ".tmux.conf".source = ./tmux/tmux.conf;
-
     # Neovim (LazyVim) - Out-of-store symlink so it can write to lazy-lock.json
     ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/nvim";
-
-    # Ranger
     ".config/ranger/rc.conf".source = ./ranger/rc.conf;
+    ".config/sway/config".source = ./sway/config;
+    ".config/waybar/config".source = ./waybar/config;
+    ".config/waybar/style.css".source = ./waybar/style.css;
 
     # Custom scripts
     "bin/connection-checker.py".source = ./bin/connection-checker/connection-checker.py;
   };
 
-  # Set default environment variables
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
     GIT_EDITOR = "nvim";
+
+    # NVIDIA Wayland fixes
+    WLR_NO_HARDWARE_CURSORS = "1";
+    GBM_BACKEND = "nvidia-drm";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    WLR_RENDERER = "vulkan";
   };
+
   # Let Home Manager manage itself
   programs.home-manager.enable = true;
 }

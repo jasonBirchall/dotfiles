@@ -1,0 +1,73 @@
+### --- Variables ---
+set $mod Mod4
+set $term ghostty
+set $menu wofi --show drun
+
+font pango:monospace 10
+
+### --- Startup ---
+exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec_always waybar
+exec_always mako
+exec_always nm-applet --indicator
+
+### --- Auto lock ---
+exec_always swayidle -w \
+    timeout 600 'swaylock -f -c 000000' \
+    timeout 900 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
+    before-sleep 'swaylock -f -c 000000'
+
+### --- NVIDIA stability ---
+output * adaptive_sync off
+
+### --- Terminal ---
+bindsym $mod+Return exec $term
+
+### --- Launcher ---
+bindsym $mod+d exec $menu
+
+### --- Exit ---
+bindsym $mod+Shift+e exec "swaymsg exit"
+bindsym $mod+Shift+r reload
+
+### --- Focus (vim style) ---
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+### --- Move ---
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+### --- Split ---
+bindsym $mod+v split v
+bindsym $mod+b split h
+
+### --- Fullscreen ---
+bindsym $mod+f fullscreen
+
+### --- Floating toggle ---
+bindsym $mod+Shift+space floating toggle
+
+### --- Screenshot ---
+bindsym $mod+Print exec grim -g "$(slurp)" - | wl-copy
+
+### --- Workspaces ---
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
