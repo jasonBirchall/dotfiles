@@ -7,8 +7,11 @@ font pango:monospace 14
 
 ### --- Startup ---
 exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec_always pkill waybar
 exec_always waybar
+exec_always pkill mako
 exec_always mako
+exec_always nm-applet
 exec_always nm-applet --indicator
 
 # UK keyboard layout
@@ -24,13 +27,18 @@ bindsym $mod+Shift+n exec makoctl dismiss -a
 bindsym $mod+Shift+m exec makoctl restore
 
 ### --- Auto lock ---
+exec_always pkill swayidle
 exec_always swayidle -w \
-    timeout 600 'swaylock -f -c 000000' \
+    timeout 600 'swaylock -f -C ~/.config/swaylock/config' \
     timeout 900 'swaymsg "output * dpms off"' \
     resume 'swaymsg "output * dpms on"' \
-    before-sleep 'swaylock -f -c 000000'
+    timeout 1800 'systemctl suspend' \
+    before-sleep 'swaylock -f -C ~/.config/swaylock/config'
 
 bindsym $mod+Shift+x exec swaylock -f -C ~/.config/swaylock/config
+
+# Lock then suspend
+bindsym $mod+Shift+s exec sh -c 'swaylock -f -C ~/.config/swaylock/config && systemctl suspend'
 
 ### --- NVIDIA stability ---
 output * adaptive_sync off
