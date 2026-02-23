@@ -1,0 +1,10 @@
+sway
+swaylock
+swayidle
+waybar
+mako
+wl-clipboard
+ghostty
+jetbrains-mono-fonts
+lm_sensors
+wev
