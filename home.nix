@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  # Remember to replace these with your actual Fedora username!
   home.username = "json0";
   home.homeDirectory = "/home/json0";
 
@@ -43,19 +42,59 @@
     opentofu
   ];
 
-  # Layer 2: Configuration Files
+  programs.bash = {
+    enable = true;
+    
+    shellAliases = {
+      v = "nvim";
+      vim = "nvim";
+      g = "git";
+      lg = "lazygit";
+      r = "ranger";
+      cdd = "cd ~/Documents/workarea/dotfiles";
+      cdw = "cd ~/Documents/workarea";
+    };
+
+    initExtra = ''
+      # Better History: ignore duplicates and space-started commands
+      export HISTCONTROL=ignoreboth:erasedups
+      export HISTSIZE=10000
+      export HISTFILESIZE=20000
+      
+      # Autocomplete cd: typing a directory name moves you there
+      shopt -s autocd 
+      
+      # Correct minor directory typos
+      shopt -s cdspell
+
+      # Source your specific completion scripts
+      if [ -f ~/.completions/tmux_kube.sh ]; then
+        source ~/.completions/tmux_kube.sh
+      fi
+    '';
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
+    defaultOptions = [
+      "--height 40%"
+      "--layout=reverse"
+      "--border"
+      "--inline-info"
+      "--color=bw"
+    ];
+    defaultCommand = "fd --type f";
+    fileWidgetCommand = "fd --type f";
+  };
+
   home.file = {
     # Tmux
     ".tmux.conf".source = ./tmux/tmux.conf;
-    # Layer 2: Configuration Files & Directories
 
     # Neovim (LazyVim) - Out-of-store symlink so it can write to lazy-lock.json
     ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/nvim";
 
-    # Zsh Shell
-    ".config/zsh/.zshenv".source = ./zsh/zshenv;
-    ".config/zsh/.zshrc".source = ./zsh/zshrc;
-    
     # Ranger
     ".config/ranger/rc.conf".source = ./ranger/rc.conf;
 
