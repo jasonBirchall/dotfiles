@@ -6,7 +6,6 @@
 
   home.stateVersion = "23.11"; 
 
-  # Layer 1: Core FOSS CLI Packages
   home.packages = with pkgs; [
     # --- Core Utilities ---
     fzf
