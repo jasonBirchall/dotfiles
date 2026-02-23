@@ -39,21 +39,6 @@
     k9s
     helm
     opentofu
-
-    # --- Wayland / Sway ---
-    sway
-    swaybg
-    swayidle
-    swaylock
-    waybar
-    mako
-    wl-clipboard
-    grim
-    slurp
-    wofi
-    brightnessctl
-    playerctl
-    networkmanagerapplet
   ];
 
   programs.bash = {
@@ -108,8 +93,11 @@
     ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/nvim";
     ".config/ranger/rc.conf".source = ./ranger/rc.conf;
     ".config/sway/config".source = ./sway/config;
+    ".config/ghostty/config".source = ./ghostty/config;
     ".config/waybar/config".source = ./waybar/config;
     ".config/waybar/style.css".source = ./waybar/style.css;
+    ".newsboat/config".source = ./newsboat/config;
+    ".newsboat/urls".source = ./newsboat/urls;
 
     # Custom scripts
     "bin/connection-checker.py".source = ./bin/connection-checker/connection-checker.py;
@@ -119,12 +107,6 @@
     EDITOR = "nvim";
     VISUAL = "nvim";
     GIT_EDITOR = "nvim";
-
-    # NVIDIA Wayland fixes
-    WLR_NO_HARDWARE_CURSORS = "1";
-    GBM_BACKEND = "nvidia-drm";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    WLR_RENDERER = "vulkan";
   };
 
   # Let Home Manager manage itself

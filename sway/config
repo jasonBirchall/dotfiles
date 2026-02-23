@@ -3,13 +3,18 @@ set $mod Mod4
 set $term ghostty
 set $menu wofi --show drun
 
-font pango:monospace 10
+font pango:monospace 14
 
 ### --- Startup ---
 exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec_always waybar
 exec_always mako
 exec_always nm-applet --indicator
+
+# UK keyboard layout
+input * {
+    xkb_layout gb
+}
 
 ### --- Auto lock ---
 exec_always swayidle -w \
@@ -20,6 +25,8 @@ exec_always swayidle -w \
 
 ### --- NVIDIA stability ---
 output * adaptive_sync off
+output * scale 1.25
+output DP-1 scale_filter linear
 
 ### --- Terminal ---
 bindsym $mod+Return exec $term
@@ -55,6 +62,10 @@ bindsym $mod+Shift+space floating toggle
 
 ### --- Screenshot ---
 bindsym $mod+Print exec grim -g "$(slurp)" - | wl-copy
+
+gaps inner 14
+gaps outer 6
+default_border pixel 2
 
 ### --- Workspaces ---
 set $ws1 "1"

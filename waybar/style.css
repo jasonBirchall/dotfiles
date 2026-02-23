@@ -1,6 +1,20 @@
 * {
-  font-family: monospace;
-  font-size: 13px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 16px;
+}
+
+#waybar {
+  padding: 0 8px;
+}
+
+#clock,
+#network,
+#pulseaudio,
+#tray,
+#cpu,
+#memory,
+#temperature {
+  padding: 0 8px;
 }
 
 window#waybar {

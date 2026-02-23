@@ -1,12 +1,47 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 28,
+  "height": 40,
+
   "modules-left": ["sway/workspaces"],
   "modules-center": [],
-  "modules-right": ["clock"],
+  "modules-right": [
+    "cpu",
+    "memory",
+    "pulseaudio",
+    "network",
+    "tray",
+    "clock"
+  ],
 
   "clock": {
-    "format": "{:%H:%M}"
+    "format": "  {:%H:%M}",
+    "tooltip-format": "{:%A %d %B %Y}"
+  },
+
+  "cpu": {
+    "format": "  {usage}%",
+    "interval": 5
+  },
+
+  "memory": {
+    "format": "  {used:0.1f}G",
+    "interval": 5
+  },
+
+  "network": {
+    "format-wifi": "  {essid}",
+    "format-ethernet": "󰈀  Wired",
+    "format-disconnected": "  Offline"
+  },
+
+  "pulseaudio": {
+    "format": "  {volume}%",
+    "format-muted": "  Muted"
+  },
+
+  "tray": {
+    "icon-size": 18,
+    "spacing": 10
   }
 }

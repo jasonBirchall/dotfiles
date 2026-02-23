@@ -1,2 +1,3 @@
-shell-integration = zsh
+shell-integration = bash
 copy-on-select = clipboard
+font-size = 12
