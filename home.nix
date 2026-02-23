@@ -94,6 +94,7 @@
     ".config/ranger/rc.conf".source = ./ranger/rc.conf;
     ".config/sway/config".source = ./sway/config;
     ".config/ghostty/config".source = ./ghostty/config;
+    ".config/mako/config".source = ./mako/config;
     ".config/waybar/config".source = ./waybar/config;
     ".config/waybar/style.css".source = ./waybar/style.css;
     ".newsboat/config".source = ./newsboat/config;

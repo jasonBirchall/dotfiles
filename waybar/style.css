@@ -21,3 +21,36 @@ window#waybar {
   background: #1d2021;
   color: #ebdbb2;
 }
+
+/* Workspaces */
+#workspaces button {
+  padding: 0 10px;
+  margin: 0 3px;
+  background: transparent;
+  color: #928374; /* gruvbox grey */
+  border: none;
+  border-radius: 6px;
+}
+
+#workspaces button:hover {
+  background: #3c3836; /* subtle hover */
+  color: #ebdbb2;
+}
+
+/* Focused workspace (keyboard focus) */
+#workspaces button.focused {
+  background: #83a598; /* gruvbox light blue */
+  color: #1d2021;
+}
+
+/* Active workspace (currently visible) */
+#workspaces button.active {
+  background: #458588; /* gruvbox blue */
+  color: #ebdbb2;
+}
+
+/* Urgent workspace */
+#workspaces button.urgent {
+  background: #cc241d; /* gruvbox red */
+  color: #ebdbb2;
+}
