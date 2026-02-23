@@ -16,6 +16,13 @@ input * {
     xkb_layout gb
 }
 
+# Dismiss current notification
+bindsym $mod+n exec makoctl dismiss
+
+# Dismiss all notifications
+bindsym $mod+Shift+n exec makoctl dismiss -a
+bindsym $mod+Shift+m exec makoctl restore
+
 ### --- Auto lock ---
 exec_always swayidle -w \
     timeout 600 'swaylock -f -c 000000' \
