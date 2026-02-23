@@ -92,18 +92,16 @@
     # Neovim (LazyVim) - Out-of-store symlink so it can write to lazy-lock.json
     ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/nvim";
     ".config/ranger/rc.conf".source = ./ranger/rc.conf;
-    ".config/sway/config".source = ./sway/config;
+    ".config/sway/config".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/sway/config";
     ".config/ghostty/config".source = ./ghostty/config;
     ".config/mako/config".source = ./mako/config;
     ".config/waybar/config".source = ./waybar/config;
     ".config/waybar/style.css".source = ./waybar/style.css;
     ".newsboat/config".source = ./newsboat/config;
     ".newsboat/urls".source = ./newsboat/urls;
-
     # Custom scripts
     "bin/connection-checker.py".source = ./bin/connection-checker/connection-checker.py;
   };
-
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
