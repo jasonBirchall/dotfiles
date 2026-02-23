@@ -93,6 +93,7 @@
     ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/nvim";
     ".config/ranger/rc.conf".source = ./ranger/rc.conf;
     ".config/sway/config".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/sway/config";
+    ".config/swaylock/config".source = ./swaylock/config;
     ".config/ghostty/config".source = ./ghostty/config;
     ".config/mako/config".source = ./mako/config;
     ".config/waybar/config".source = ./waybar/config;
