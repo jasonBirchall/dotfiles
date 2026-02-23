@@ -30,6 +30,28 @@ exec_always swayidle -w \
     resume 'swaymsg "output * dpms on"' \
     before-sleep 'swaylock -f -c 000000'
 
+# Lock screen
+bindsym $mod+Shift+x exec swaylock -f \
+  --color 1d2021 \
+  --font "JetBrains Mono" \
+  --font-size 28 \
+  --indicator-radius 120 \
+  --indicator-thickness 8 \
+  --indicator-idle-visible \
+  --inside-color 1d2021cc \
+  --ring-color 458588ff \
+  --ring-ver-color 83a598ff \
+  --ring-wrong-color cc241dff \
+  --key-hl-color b8bb26ff \
+  --bs-hl-color fabd2fff \
+  --separator-color 00000000 \
+  --line-color 00000000 \
+  --text-color ebdbb2ff \
+  --text-ver-color ebdbb2ff \
+  --text-wrong-color ebdbb2ff \
+  --show-failed-attempts \
+  --indicator-caps-lock
+
 ### --- NVIDIA stability ---
 output * adaptive_sync off
 output * scale 1.25
