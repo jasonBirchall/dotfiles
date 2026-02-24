@@ -8,3 +8,4 @@ ghostty
 jetbrains-mono-fonts
 lm_sensors
 wev
+wofi
