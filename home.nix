@@ -100,8 +100,10 @@
     ".config/waybar/style.css".source = ./waybar/style.css;
     ".newsboat/config".source = ./newsboat/config;
     ".newsboat/urls".source = ./newsboat/urls;
+
     # Custom scripts
     "bin/connection-checker.py".source = ./bin/connection-checker/connection-checker.py;
+    "bin/diagnosis.sh".source = ./bin/debug/fedora_diagnosis.sh;
   };
   home.sessionVariables = {
     EDITOR = "nvim";
