@@ -10,8 +10,10 @@ RULES_DIR="/var/lib/suricata/rules"
 
 echo "[*] Configuring Suricata for passive IDS on interface: ${IFACE}"
 
-# Ensure log directory exists
+# Ensure log directory exists and is readable by the user
+# Suricata defaults to 750 which blocks non-root access
 sudo mkdir -p "${LOG_DIR}"
+sudo chmod 755 "${LOG_DIR}"
 
 # Download ET Open ruleset (FOSS, no subscription needed)
 echo "[*] Updating ET Open rules..."
@@ -28,7 +30,7 @@ if sudo test -f "${SURICATA_YAML}"; then
 
   # Enable eve-log (JSON structured logging) if not already
   echo "[*] Verifying eve-log is enabled..."
-  grep -q "eve-log:" "${SURICATA_YAML}" && echo "    eve-log found in config"
+  sudo grep -q "eve-log:" "${SURICATA_YAML}" && echo "    eve-log found in config"
 else
   echo "[!] Suricata config not found at ${SURICATA_YAML}"
   echo "    Is suricata installed? Run 'make dnf' first."
@@ -46,6 +48,12 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable suricata
 sudo systemctl restart suricata
+
+# Add current user to suricata group for log access
+if ! groups | grep -q suricata; then
+  sudo usermod -aG suricata "$(whoami)"
+  echo "[*] Added $(whoami) to suricata group (effective after next login)"
+fi
 
 echo ""
 echo "[*] Suricata is running in passive IDS mode on ${IFACE}"
