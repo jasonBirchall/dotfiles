@@ -31,7 +31,7 @@ hm:
 	home-manager switch --flake "$(FLAKE)"
 
 .PHONY: bootstrap
-bootstrap: dnf nix hm
+bootstrap: dnf nix hm suricata
 	@echo "Bootstrap complete."
 
 .PHONY: drift-dnf
@@ -40,3 +40,13 @@ drift-dnf:
 	comm -23 \
 	  <(dnf repoquery --userinstalled | sort) \
 	  <(grep -vE '^\s*#|^\s*$$' "$(DNF_PKGS_FILE)" | sort) || true
+
+.PHONY: suricata
+suricata:
+	@echo "Setting up suricata"
+	bash suricata/setup-suricata.sh
+
+.PHONY: suricata-update
+suricata-update:
+	@echo "Updating suricata rules"
+	sudo systemctl restart suricata

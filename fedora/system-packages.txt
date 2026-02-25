@@ -9,3 +9,5 @@ jetbrains-mono-fonts
 lm_sensors
 wev
 wofi
+suricata
+conntrack-tools

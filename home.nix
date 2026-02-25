@@ -18,6 +18,15 @@
     gcc
     gnumake
 
+    # --- Network monitoring ---
+    bandwhich
+    nethogs
+    tcpdump
+    nmap
+    termshark
+    trippy
+    dog
+
     # --- Git & Version Control ---
     git
     lazygit
@@ -52,6 +61,10 @@
       r = "ranger";
       cdd = "cd ~/Documents/workarea/dotfiles";
       cdw = "cd ~/Documents/workarea";
+      alerts = "sudo ~/bin/suricata-alerts.sh";
+      sniff = "sudo \"$(which bandwhich)\"";
+      capture = "sudo tcpdump -i any -w /tmp/capture-$(date +%s).pcap";
+      shark = "termshark";
     };
 
     initExtra = ''
@@ -106,11 +119,60 @@
     # Custom scripts
     "bin/connection-checker.py".source = ./bin/connection-checker/connection-checker.py;
     "bin/diagnosis.sh".source = ./bin/debug/fedora_diagnosis.sh;
+
+    # Suricata scripts
+    "bin/suricata-alerts.sh".source = ./bin/suricata/suricata-alerts.sh;
+    "bin/suricata-watcher.sh".source = ./bin/suricata/suricata-watcher.sh;
+    "bin/suricata-notify.sh".source = ./bin/suricata/suricata-notify.sh;
   };
+
   home.sessionVariables = {
-    EDITOR = "nvim";
-    VISUAL = "nvim";
-    GIT_EDITOR = "nvim";
+      EDITOR = "nvim";
+      VISUAL = "nvim";
+      GIT_EDITOR = "nvim";
+  };
+
+  # Suricata real-time alert watcher
+  systemd.user.services.suricata-watcher = {
+    Unit = {
+      Description = "Suricata real-time alert watcher";
+      After = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "simple";
+      ExecStart = "%h/bin/suricata-watcher.sh";
+      Restart = "on-failure";
+      RestartSec = 30;
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+  };
+
+  # Hourly alert summary
+  systemd.user.services.suricata-notify = {
+    Unit = {
+      Description = "Suricata hourly alert check";
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "%h/bin/suricata-notify.sh";
+    };
+  };
+
+  systemd.user.timers.suricata-notify = {
+    Unit = {
+      Description = "Hourly Suricata alert check";
+    };
+    Timer = {
+      OnCalendar = "hourly";
+      RandomizedDelaySec = 120;
+      Persistent = true;
+    };
+    Install = {
+      WantedBy = [ "timers.target" ];
+    };
   };
 
   # Let Home Manager manage itself
