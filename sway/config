@@ -8,7 +8,7 @@ font pango:monospace 14
 ### --- Startup ---
 exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec_always sh -lc 'pkill waybar; waybar'
-exec_always sh -lc 'pkill wako; wako'
+exec_always sh -lc 'pkill mako; mako'
 exec_always sh -lc 'pkill nm-applet; nm-applet --indicator'
 
 # UK keyboard layout
@@ -46,6 +46,9 @@ bindsym $mod+Next exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 
 # Toggle mute (Mod + End)
 bindsym $mod+End exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+
+# wl-kbptr — keyboard-driven pointer
+bindsym $mod+g exec ~/.nix-profile/bin/wl-kbptr
 
 ### --- NVIDIA stability ---
 output * adaptive_sync off

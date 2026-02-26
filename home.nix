@@ -17,6 +17,8 @@
     tree
     gcc
     gnumake
+    wl-kbptr
+    wlrctl
 
     # --- Network monitoring ---
     bandwhich
