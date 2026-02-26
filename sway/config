@@ -37,6 +37,16 @@ bindsym $mod+Shift+x exec swaylock -f -C ~/.config/swaylock/config
 # Lock then suspend
 bindsym $mod+Shift+s exec sh -c 'systemctl poweroff'
 
+### --- Audio Controls ---
+# Increase volume by 5% (Mod + Page Up)
+bindsym $mod+Prior exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0
+
+# Decrease volume by 5% (Mod + Page Down)
+bindsym $mod+Next exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+
+# Toggle mute (Mod + End)
+bindsym $mod+End exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+
 ### --- NVIDIA stability ---
 output * adaptive_sync off
 output * scale 1.25
