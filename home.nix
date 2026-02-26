@@ -72,10 +72,9 @@
       export HISTCONTROL=ignoreboth:erasedups
       export HISTSIZE=10000
       export HISTFILESIZE=20000
-      
+
       # Autocomplete cd: typing a directory name moves you there
-      shopt -s autocd 
-      
+      shopt -s autocd
       # Correct minor directory typos
       shopt -s cdspell
 
@@ -83,6 +82,35 @@
       if [ -f ~/.completions/tmux_kube.sh ]; then
         source ~/.completions/tmux_kube.sh
       fi
+
+      # --- Prompt ---
+      __git_branch() {
+        git symbolic-ref --short HEAD 2>/dev/null
+      }
+
+      __prompt_command() {
+        local exit_code=$?
+        PS1=""
+
+        # Red ✗ only on non-zero exit
+        if [ $exit_code -ne 0 ]; then
+          PS1+="\[\e[31m\]✗ \[\e[0m\]"
+        fi
+
+        # Working directory (basename only) — gruvbox blue
+        PS1+="\[\e[34m\]\W\[\e[0m\]"
+
+        # Git branch (only when in a repo)
+        local branch
+        branch=$(__git_branch)
+        if [ -n "''${branch}" ]; then
+          PS1+=" \[\e[33m\]''${branch}\[\e[0m\]"
+        fi
+
+        PS1+=" \$ "
+      }
+
+      PROMPT_COMMAND=__prompt_command
     '';
   };
 
