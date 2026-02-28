@@ -14,6 +14,7 @@
     bat
     jq
     htop
+    btop
     tree
     gcc
     gnumake
