@@ -16,6 +16,7 @@ tap "warrensbox/tap"
 # 'brew install'
 brew "ack"
 brew "act"
+brew "task"
 brew "tree"
 brew "ansible"
 brew "ant"
