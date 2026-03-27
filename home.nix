@@ -164,6 +164,10 @@
       GIT_EDITOR = "nvim";
   };
 
+  home.sessionPath = [
+      "$HOME/.cargo/bin"
+  ];
+
   # Suricata real-time alert watcher
   systemd.user.services.suricata-watcher = {
     Unit = {
