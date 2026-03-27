@@ -51,6 +51,7 @@
     k9s
     helm
     opentofu
+    rustup
   ];
 
   programs.bash = {
