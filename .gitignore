@@ -37,3 +37,4 @@ nvim/lazyvim.json
 # Newsboat
 newsboat/*.db*
 newsboat/history.cmdline
+.aider*

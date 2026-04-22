@@ -52,7 +52,23 @@
     helm
     opentofu
     rustup
+    aider-chat
+    ollama
   ];
+
+  systemd.user.services.ollama = {
+    Unit = {
+      Description = "Ollama Local LLM Runner";
+      After = [ "network.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.ollama}/bin/ollama serve";
+      Restart = "always";
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+  };
 
   programs.bash = {
     enable = true;
