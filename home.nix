@@ -182,6 +182,7 @@
 
   home.sessionPath = [
       "$HOME/.cargo/bin"
+      "~/.local/bin/"
   ];
 
   # Suricata real-time alert watcher
