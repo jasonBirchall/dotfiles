@@ -11,3 +11,5 @@ wev
 wofi
 suricata
 conntrack-tools
+docker
+docker-compose
