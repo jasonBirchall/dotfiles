@@ -54,6 +54,7 @@
     rustup
     aider-chat
     ollama
+    github-cli
   ];
 
   systemd.user.services.ollama = {
