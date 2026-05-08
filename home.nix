@@ -20,6 +20,7 @@
     gnumake
     wl-kbptr
     wlrctl
+    ack
 
     # --- Network monitoring ---
     bandwhich
