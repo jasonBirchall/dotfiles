@@ -1,59 +1,60 @@
 """Autostart drift detection.
 
-What runs at boot or on a schedule, and where does it come from?
-This tool answers: "compared to what I last blessed, what's changed?"
+Reports drift in enabled systemd units (system scope) against a tracked
+baseline. See ``bin/recon/README.md`` for the drift model, first-run
+behaviour, ``--bless`` convention, output discipline, and stack.
 
-Surface (v1)
-------------
-Enabled system units only — most stable, highest signal. Other surfaces
-(user units, timers, cron, desktop autostart) are deliberately out of
-scope until this one's working end-to-end. Add them as separate baselines
-once the workflow is settled.
+Scope (v1)
+----------
+Enabled system units only — most stable, highest signal. Deferred until
+this is working end-to-end:
 
-Drift model
------------
-- Baseline: a sorted list of enabled unit names at
-  ``bin/recon/autostart/baseline/system-units.txt`` (gitignored).
-- Each run computes the current list and reports additions/removals
-  vs the baseline. Re-blessing is an explicit action (e.g. a ``--bless``
-  flag), never automatic.
+- User-scope units (``systemctl --user list-unit-files``)
+- Timers (``systemctl list-timers --all``)
+- Cron (``/etc/cron.d/``, ``/etc/cron.{hourly,daily,weekly,monthly}/``,
+  user crontabs, root crontab)
+- Desktop autostart (``~/.config/autostart/``, ``/etc/xdg/autostart/``)
 
-First-run behaviour
--------------------
-Decision still pending — refuse with an ``--init`` hint, or auto-create
-on first run? Pick one and apply it consistently across recon tools so
-future-you doesn't have to remember which is which.
+Shell init (``~/.bashrc`` and friends) is **excluded** from this tool —
+it's content-level, not list-membership, and doesn't fit the diff
+pattern. If ever covered, it needs file-content hashing rather than
+list comparison.
+
+Known gap
+---------
+List-membership only. If a unit is enabled in both baseline and current
+but its file contents change (different ``ExecStart=``, new
+``EnvironmentFile=``, etc.), this tool will not see it. Closing that
+gap means hashing unit-file contents — deferred.
 
 Test seam
 ---------
-The interesting parsing is "given systemctl stdout, return a sorted list
-of enabled unit names." Keep that as a pure function (no I/O, no
-subprocess) so it can be fed captured fixtures from ``fixtures/`` under
-pytest. The subprocess call and the baseline file I/O around it should
-stay thin — they're not what you're testing.
+Keep parsing as a pure function: ``str -> list[str]`` (systemctl stdout
+to sorted unit names). Capture real output as
+``fixtures/system-units.stdout.txt`` and pytest against that. The
+subprocess call and the baseline file I/O stay thin.
 
-Path handling
--------------
-Resolve the baseline path relative to ``__file__``, not cwd. ``make``
-runs scripts from the repo root via ``uv run --directory``, so cwd is
-not the script's directory and paths break otherwise.
-
-Candidate command for v1
-------------------------
+Candidate command
+-----------------
     systemctl list-unit-files --state=enabled --no-legend --no-pager
-
-Other surfaces, for later (do not implement now):
-    systemctl --user list-unit-files --state=enabled
-    systemctl list-timers --all
-    crontab -l ; sudo crontab -l
-    ls /etc/cron.d/ /etc/cron.{hourly,daily,weekly,monthly}/
-    ls ~/.config/autostart/ /etc/xdg/autostart/
 """
 
-
-def main() -> None:
-    print("TODO: implement autostart drift detection")
+from dataclasses import dataclass
 
 
-if __name__ == "__main__":
-    main()
+@dataclass(frozen=True)
+class UnitName:
+    value: str
+
+    def __post_init__(self) -> None:
+        if self.value == "":
+            raise ValueError("Unit name cannot be empty")
+
+        # check if value has a suffix (e.g. "foo.service")
+        if self.value.split(".")[-1] == self.value:
+            raise ValueError(f"Unit name '{self.value}' does not have a suffix")
+
+        suffix = self.value.split(".")[1]
+
+        if suffix != "service":
+            raise ValueError(f"Unit name suffix '{suffix}' is not valid")
