@@ -27,3 +27,9 @@ class TestUnitName:
 
         with pytest.raises(ValueError):
             UnitName(name)
+
+    def test_rejects_whitespace(self):
+        name = " "
+
+        with pytest.raises(ValueError):
+            UnitName(name)
