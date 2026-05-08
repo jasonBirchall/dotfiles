@@ -38,3 +38,13 @@ nvim/lazyvim.json
 newsboat/*.db*
 newsboat/history.cmdline
 .aider*
+
+# Python (uv venvs, bytecode, caches)
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Recon baselines — machine-specific, kept private
+bin/recon/*/baseline/
