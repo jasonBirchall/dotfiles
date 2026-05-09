@@ -82,6 +82,14 @@ bindsym $mod+Shift+l move right
 bindsym $mod+v split v
 bindsym $mod+b split h
 
+### --- Layout ---
+# splith/splitv: side-by-side or stacked tiles (the default tiling layouts)
+# tabbed: only the focused window visible, others as tabs along the top
+# stacking: only the focused window visible, others as a vertical title list
+bindsym $mod+e layout toggle split
+bindsym $mod+w layout tabbed
+bindsym $mod+s layout stacking
+
 ### --- Fullscreen ---
 bindsym $mod+f fullscreen
 
