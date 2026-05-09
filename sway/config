@@ -38,14 +38,24 @@ bindsym $mod+Shift+q exec swaylock -f -C ~/.config/swaylock/config
 bindsym $mod+Shift+s exec sh -c 'swaylock -f -C ~/.config/swaylock/config & sleep 0.3; systemctl suspend'
 
 ### --- Audio Controls ---
-# Increase volume by 5% (Mod + Page Up)
+# Volume / mute via Mod + Page Up / Page Down / End
 bindsym $mod+Prior exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0
+bindsym $mod+Next  exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym $mod+End   exec wpctl set-mute   @DEFAULT_AUDIO_SINK@ toggle
 
-# Decrease volume by 5% (Mod + Page Down)
-bindsym $mod+Next exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+# Dedicated keyboard keys
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute        exec wpctl set-mute   @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute     exec wpctl set-mute   @DEFAULT_SOURCE@     toggle
 
-# Toggle mute (Mod + End)
-bindsym $mod+End exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+### --- Media Controls ---
+# Talks to any MPRIS-compatible player (Spotify, Firefox, mpv, ...)
+bindsym XF86AudioPlay  exec playerctl play-pause
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioNext  exec playerctl next
+bindsym XF86AudioPrev  exec playerctl previous
+bindsym XF86AudioStop  exec playerctl stop
 
 # wl-kbptr — keyboard-driven pointer
 bindsym $mod+g exec ~/.nix-profile/bin/wl-kbptr
@@ -117,7 +127,12 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 ### --- Screenshot ---
-bindsym $mod+Print exec grim -g "$(slurp)" - | wl-copy
+# Print            area  -> clipboard
+# Shift+Print      full  -> clipboard
+# $mod+Print       area  -> ~/Pictures/screenshots/<timestamp>.png
+bindsym Print       exec grim -g "$(slurp)" - | wl-copy && notify-send 'Screenshot' 'Area copied to clipboard'
+bindsym Shift+Print exec grim - | wl-copy && notify-send 'Screenshot' 'Full screen copied to clipboard'
+bindsym $mod+Print  exec sh -c 'd="$HOME/Pictures/screenshots"; mkdir -p "$d"; f="$d/$(date +%Y-%m-%d_%H%M%S).png"; grim -g "$(slurp)" "$f" && notify-send "Screenshot" "Saved to $f"'
 
 gaps inner 14
 gaps outer 6

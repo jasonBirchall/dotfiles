@@ -16,3 +16,4 @@ docker-compose
 akmod-nvidia
 checkpolicy
 policycoreutils-devel
+playerctl
