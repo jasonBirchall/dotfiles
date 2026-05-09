@@ -94,6 +94,9 @@ bindsym $mod+s layout stacking
 bindsym $mod+f fullscreen
 
 ### --- Floating toggle ---
+# Hold $mod and drag a floating window with left-click to move,
+# or right-click to resize.
+floating_modifier $mod normal
 bindsym $mod+Shift+space floating toggle
 
 ### --- Resize ---
