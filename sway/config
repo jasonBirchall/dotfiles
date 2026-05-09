@@ -32,7 +32,7 @@ exec_always swayidle -w \
     timeout 3800 'systemctl poweroff' \
     before-sleep 'swaylock -f -C ~/.config/swaylock/config'
 
-bindsym $mod+Shift+x exec swaylock -f -C ~/.config/swaylock/config
+bindsym $mod+Shift+q exec swaylock -f -C ~/.config/swaylock/config
 
 # Lock then suspend
 bindsym $mod+Shift+s exec sh -c 'systemctl poweroff'
@@ -93,7 +93,12 @@ bindsym $mod+Print exec grim -g "$(slurp)" - | wl-copy
 
 gaps inner 14
 gaps outer 6
-default_border pixel 2
+default_border pixel 4
+
+# class                 border   bg       text     indicator child_border
+client.focused          #ff5f00  #ff5f00  #ffffff  #ff5f00   #ff5f00
+client.focused_inactive #2e3440  #2e3440  #888888  #2e3440   #2e3440
+client.unfocused        #1e1e1e  #1e1e1e  #666666  #1e1e1e   #1e1e1e
 
 ### --- Workspaces ---
 set $ws1 "1"
