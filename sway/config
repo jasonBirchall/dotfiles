@@ -34,8 +34,8 @@ exec_always swayidle -w \
 
 bindsym $mod+Shift+q exec swaylock -f -C ~/.config/swaylock/config
 
-# Lock then suspend
-bindsym $mod+Shift+s exec sh -c 'systemctl poweroff'
+# Lock, then suspend
+bindsym $mod+Shift+s exec sh -c 'swaylock -f -C ~/.config/swaylock/config & sleep 0.3; systemctl suspend'
 
 ### --- Audio Controls ---
 # Increase volume by 5% (Mod + Page Up)

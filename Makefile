@@ -8,6 +8,7 @@ help:
 	@echo "  make nix                Install Nix (if missing)"
 	@echo "  make hm                 Apply Home Manager flake ($(FLAKE))"
 	@echo "  make bootstrap          dnf + nix + hm"
+	@echo "  make nvidia             Install proprietary NVIDIA driver + suspend setup"
 	@echo "  make drift-dnf          Show user-installed packages not in $(DNF_PKGS_FILE)"
 	@echo ""
 	@echo "Recon (system inspection):"
@@ -39,8 +40,13 @@ hm:
 	home-manager switch --flake "$(FLAKE)"
 
 .PHONY: bootstrap
-bootstrap: dnf nix hm suricata
+bootstrap: dnf nix hm suricata nvidia
 	@echo "Bootstrap complete."
+
+.PHONY: nvidia
+nvidia:
+	@echo "Setting up NVIDIA proprietary driver + suspend"
+	bash fedora/setup-nvidia.sh
 
 .PHONY: drift-dnf
 drift-dnf:

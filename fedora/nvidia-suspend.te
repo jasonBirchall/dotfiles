@@ -1,0 +1,26 @@
+module nvidia-suspend 1.0;
+
+# Local SELinux policy module to permit the NVIDIA proprietary driver's VRAM
+# preservation flow during system suspend.
+#
+# Background: with NVreg_PreserveVideoMemoryAllocations=1 the nvidia kernel
+# module asks systemd-sleep (running as systemd_sleep_t) to write VRAM
+# contents to NVreg_TemporaryFilePath (/var/tmp, labelled tmp_t) so they can
+# be restored on resume. The default Fedora policy denies this combination.
+# Without it: AVC denial -> VRAM dump never happens -> resume comes back to
+# a black screen.
+#
+# Also covers the perfmon capability that systemd-sleep needs for the same
+# code path.
+
+require {
+    type systemd_sleep_t;
+    type tmp_t;
+    class capability2 perfmon;
+    class dir { add_name remove_name search write read getattr };
+    class file { create open read write getattr setattr unlink lock map ioctl append };
+}
+
+allow systemd_sleep_t self:capability2 perfmon;
+allow systemd_sleep_t tmp_t:dir { add_name remove_name search write read getattr };
+allow systemd_sleep_t tmp_t:file { create open read write getattr setattr unlink lock map ioctl append };

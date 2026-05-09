@@ -13,3 +13,6 @@ suricata
 conntrack-tools
 docker
 docker-compose
+akmod-nvidia
+checkpolicy
+policycoreutils-devel
