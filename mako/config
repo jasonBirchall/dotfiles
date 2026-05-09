@@ -12,6 +12,7 @@ width=400
 max-visible=5
 
 default-timeout=5000
+max-history=50
 
 # Urgent notifications
 [urgency=critical]
