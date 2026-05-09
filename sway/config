@@ -88,6 +88,23 @@ bindsym $mod+f fullscreen
 ### --- Floating toggle ---
 bindsym $mod+Shift+space floating toggle
 
+### --- Resize ---
+mode "resize" {
+    bindsym h resize shrink width 30px
+    bindsym j resize grow height 30px
+    bindsym k resize shrink height 30px
+    bindsym l resize grow width 30px
+
+    bindsym Left  resize shrink width 30px
+    bindsym Down  resize grow height 30px
+    bindsym Up    resize shrink height 30px
+    bindsym Right resize grow width 30px
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
 ### --- Screenshot ---
 bindsym $mod+Print exec grim -g "$(slurp)" - | wl-copy
 
