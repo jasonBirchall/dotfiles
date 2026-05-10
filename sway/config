@@ -71,6 +71,10 @@ bindsym $mod+Return exec $term
 ### --- Launcher ---
 bindsym $mod+d exec $menu
 
+### --- Help ---
+# Searchable list of every keybinding in this config
+bindsym $mod+slash exec ~/.config/sway/cheatsheet.sh
+
 ### --- Exit ---
 bindsym $mod+Shift+e exec "swaymsg exit"
 bindsym $mod+Shift+r reload
