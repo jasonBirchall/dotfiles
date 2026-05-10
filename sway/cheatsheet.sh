@@ -27,4 +27,4 @@ awk '
     else
       printf "%-26s  %s\n", key, rest
   }
-' "$CONFIG" | wofi --show dmenu --prompt "sway " --insensitive --width 900 --height 600 >/dev/null
+' "$CONFIG" | wofi --show dmenu --prompt "sway " --insensitive >/dev/null
