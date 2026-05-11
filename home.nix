@@ -56,6 +56,9 @@
     aider-chat
     ollama
     github-cli
+
+    # --- Input remapping ---
+    xremap
   ];
 
   systemd.user.services.ollama = {
@@ -90,6 +93,12 @@
     };
 
     initExtra = ''
+      # Pull in home-manager session vars (PATH, EDITOR, …) for non-login interactive
+      # shells too — .profile is only sourced by login shells.
+      if [ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ]; then
+        . ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+      fi
+
       # Better History: ignore duplicates and space-started commands
       export HISTCONTROL=ignoreboth:erasedups
       export HISTSIZE=10000
@@ -176,6 +185,12 @@
     "bin/suricata-alerts.sh".source = ./bin/suricata/suricata-alerts.sh;
     "bin/suricata-watcher.sh".source = ./bin/suricata/suricata-watcher.sh;
     "bin/suricata-notify.sh".source = ./bin/suricata/suricata-notify.sh;
+
+    ".config/xremap/config.yml".source = ./xremap/config.yml;
+
+    # Force GTK4's GL renderer for Fractal — Vulkan-on-Nvidia produces a blank window.
+    ".local/share/flatpak/overrides/org.gnome.Fractal".source =
+      ./flatpak/overrides/org.gnome.Fractal;
   };
 
   home.sessionVariables = {
@@ -186,7 +201,7 @@
 
   home.sessionPath = [
       "$HOME/.cargo/bin"
-      "~/.local/bin/"
+      "$HOME/.local/bin"
   ];
 
   # Suricata real-time alert watcher
@@ -229,6 +244,22 @@
     };
     Install = {
       WantedBy = [ "timers.target" ];
+    };
+  };
+
+  systemd.user.services.xremap = {
+    Unit = {
+      Description = "xremap key remapper";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.xremap}/bin/xremap %h/.config/xremap/config.yml";
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
     };
   };
 

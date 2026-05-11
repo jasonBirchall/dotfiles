@@ -11,6 +11,7 @@ help:
 	@echo "  make hm                 Apply Home Manager flake ($(FLAKE))"
 	@echo "  make bootstrap          dnf + flatpak + nix + hm"
 	@echo "  make nvidia             Install proprietary NVIDIA driver + suspend setup"
+	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
 	@echo "  make drift-dnf          Show user-installed packages not in $(DNF_PKGS_FILE)"
 	@echo "  make drift-flatpak      Show installed flatpaks not in $(FLATPAK_FILE)"
 	@echo ""
@@ -43,8 +44,13 @@ hm:
 	home-manager switch --flake "$(FLAKE)"
 
 .PHONY: bootstrap
-bootstrap: dnf flatpak nix hm suricata nvidia
+bootstrap: dnf flatpak nix hm suricata nvidia xremap
 	@echo "Bootstrap complete."
+
+.PHONY: xremap
+xremap:
+	@echo "Setting up xremap uinput access"
+	bash fedora/setup-xremap.sh
 
 .PHONY: nvidia
 nvidia:
@@ -68,6 +74,10 @@ flatpak:
 	  echo "  $$remote $$app"; \
 	  sudo flatpak install -y --noninteractive "$$remote" "$$app"; \
 	done
+	@echo "Reloading session DBus so new app services are activatable now…"
+	@gdbus call --session --dest org.freedesktop.DBus \
+	  --object-path /org/freedesktop/DBus \
+	  --method org.freedesktop.DBus.ReloadConfig >/dev/null 2>&1 || true
 
 .PHONY: drift-flatpak
 drift-flatpak:

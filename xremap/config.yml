@@ -1,0 +1,13 @@
+# xremap config — per-app key remaps.
+# Reload by restarting: systemctl --user restart xremap
+
+keymap:
+  - name: Fractal vim navigation
+    application:
+      only: [org.gnome.Fractal]
+    remap:
+      j: Down
+      k: Up
+      h: Left
+      l: Right
+      G: End
