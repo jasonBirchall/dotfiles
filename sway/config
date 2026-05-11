@@ -75,6 +75,10 @@ bindsym $mod+d exec $menu
 # Searchable list of every keybinding in this config
 bindsym $mod+slash exec ~/.config/sway/cheatsheet.sh
 
+### --- Power menu ---
+# Lock / Suspend / Hibernate / Logout / Reboot / Shutdown via wofi
+bindsym $mod+Shift+End exec ~/.config/sway/powermenu.sh
+
 ### --- Exit ---
 bindsym $mod+Shift+e exec "swaymsg exit"
 bindsym $mod+Shift+r reload
