@@ -1,15 +1,18 @@
 FLAKE ?= .#json0
 DNF_PKGS_FILE ?= fedora/system-packages.txt
+FLATPAK_FILE ?= fedora/flatpaks.txt
 
 .PHONY: help
 help:
 	@echo "Targets:"
 	@echo "  make dnf                Install Fedora system packages from $(DNF_PKGS_FILE)"
+	@echo "  make flatpak            Install flatpaks from $(FLATPAK_FILE)"
 	@echo "  make nix                Install Nix (if missing)"
 	@echo "  make hm                 Apply Home Manager flake ($(FLAKE))"
-	@echo "  make bootstrap          dnf + nix + hm"
+	@echo "  make bootstrap          dnf + flatpak + nix + hm"
 	@echo "  make nvidia             Install proprietary NVIDIA driver + suspend setup"
 	@echo "  make drift-dnf          Show user-installed packages not in $(DNF_PKGS_FILE)"
+	@echo "  make drift-flatpak      Show installed flatpaks not in $(FLATPAK_FILE)"
 	@echo ""
 	@echo "Recon (system inspection):"
 	@echo "  make recon              Run all recon tools"
@@ -40,7 +43,7 @@ hm:
 	home-manager switch --flake "$(FLAKE)"
 
 .PHONY: bootstrap
-bootstrap: dnf nix hm suricata nvidia
+bootstrap: dnf flatpak nix hm suricata nvidia
 	@echo "Bootstrap complete."
 
 .PHONY: nvidia
@@ -54,6 +57,24 @@ drift-dnf:
 	comm -23 \
 	  <(dnf repoquery --userinstalled | sort) \
 	  <(grep -vE '^\s*#|^\s*$$' "$(DNF_PKGS_FILE)" | sort) || true
+
+.PHONY: flatpak
+flatpak:
+	test -f "$(FLATPAK_FILE)"
+	@echo "Ensuring Flathub remote is configured…"
+	sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+	@echo "Installing flatpaks from $(FLATPAK_FILE)…"
+	@grep -vE '^\s*#|^\s*$$' "$(FLATPAK_FILE)" | while read -r remote app; do \
+	  echo "  $$remote $$app"; \
+	  sudo flatpak install -y --noninteractive "$$remote" "$$app"; \
+	done
+
+.PHONY: drift-flatpak
+drift-flatpak:
+	@echo "Flatpak drift (installed but not tracked in $(FLATPAK_FILE)):"
+	@comm -23 \
+	  <(flatpak list --app --columns=origin,application | tr '\t' ' ' | sort) \
+	  <(grep -vE '^\s*#|^\s*$$' "$(FLATPAK_FILE)" | tr -s ' \t' ' ' | sort) || true
 
 .PHONY: suricata
 suricata:

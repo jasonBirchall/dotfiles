@@ -7,6 +7,8 @@ font pango:monospace 14
 
 ### --- Startup ---
 exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+# Activate the systemd session target so xdg-desktop-portal (and Flatpak apps) work.
+exec_always systemctl --user start sway-session.target
 exec_always sh -lc 'pkill waybar; waybar'
 exec_always sh -lc 'pkill mako; mako'
 exec_always sh -lc 'pkill nm-applet; nm-applet --indicator'
