@@ -34,6 +34,7 @@
     # --- Git & Version Control ---
     git
     lazygit
+    commitizen
 
     # --- Terminal Workspace ---
     tmux
@@ -164,6 +165,7 @@
     # Neovim (LazyVim) - Out-of-store symlink so it can write to lazy-lock.json
     ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/nvim";
     ".config/ranger/rc.conf".source = ./ranger/rc.conf;
+    ".config/lazygit/config.yml".source = ./lazygit/config.yml;
     ".config/sway/config".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/sway/config";
     ".config/sway/cheatsheet.sh".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/sway/cheatsheet.sh";
     ".config/sway/powermenu.sh".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/sway/powermenu.sh";

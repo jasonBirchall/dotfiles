@@ -10,7 +10,7 @@ customCommands:
     context: "global"
     loadingText: "Creating pull request on GitHub"
   - key: "C"
-    command: "gitmoji -c"
+    command: "cz commit"
     description: "commit with commitizen"
     context: "files"
     loadingText: "opening commitizen commit tool"
