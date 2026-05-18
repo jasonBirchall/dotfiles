@@ -1,31 +1,65 @@
 # Programming News
-https://www.reddit.com/r/programming/.rss
-https://hnrss.org/frontpage
+https://www.reddit.com/r/programming/.rss  "programming"
+https://hnrss.org/best  "programming" "aggregator"  # Hacker News (best = quality filter)
 
 # Django (official)
-https://www.djangoproject.com/rss/weblog/  # official Django weblog/news :contentReference[oaicite:0]{index=0}
-https://code.djangoproject.com/timeline?ticket=on&changeset=on&milestone=on&wiki=on&max=50&daysback=90&format=rss  # code.djangoproject.com activity :contentReference[oaicite:1]{index=1}
+https://www.djangoproject.com/rss/weblog/  "django"  # official Django weblog/news
+https://code.djangoproject.com/timeline?ticket=on&changeset=on&milestone=on&wiki=on&max=50&daysback=90&format=rss  "django"  # code.djangoproject.com activity
 
 # Django (practitioners)
-https://realpython.com/atom.xml  # Real Python (often Django-adjacent) :contentReference[oaicite:5]{index=5}
+https://realpython.com/atom.xml  "django" "python"  # Real Python
 
 # Performance + systems
-https://www.brendangregg.com/blog/rss.xml  # Brendan Gregg :contentReference[oaicite:6]{index=6}
-https://blog.acolyer.org/feed  # The Morning Paper :contentReference[oaicite:7]{index=7}
+https://www.brendangregg.com/blog/rss.xml  "performance" "systems"  # Brendan Gregg
+https://blog.acolyer.org/feed  "systems" "papers"  # The Morning Paper
 
 # SRE / scaling
-http://sreweekly.com/feed/  # SRE Weekly :contentReference[oaicite:9]{index=9}
-https://netflixtechblog.com/feed  # Netflix TechBlog :contentReference[oaicite:11]{index=11}
+https://sreweekly.com/feed/  "sre" "aggregator"  # SRE Weekly
+https://netflixtechblog.com/feed  "sre" "systems"  # Netflix TechBlog
 
 # UK + advisories
-https://isc.sans.edu/rssfeed_full.xml  # SANS ISC full diary feed :contentReference[oaicite:14]{index=14}
+https://isc.sans.edu/rssfeed_full.xml  "security" "advisories"  # SANS ISC full diary feed
 
 # Security writing + research
-https://www.schneier.com/feed/atom/  # Schneier on Security :contentReference[oaicite:15]{index=15}
-https://blog.trailofbits.com/feed/  # Trail of Bits :contentReference[oaicite:16]{index=16}
-https://googleprojectzero.blogspot.com/feeds/posts/default  # Google Project Zero :contentReference[oaicite:17]{index=17}
+https://www.schneier.com/feed/atom/  "security"  # Schneier on Security
+https://blog.trailofbits.com/feed/  "security"  # Trail of Bits
+https://googleprojectzero.blogspot.com/feeds/posts/default  "security"  # Google Project Zero
 
 # Standards / secure engineering
-https://csrc.nist.gov/CSRC/media/feeds/pubs/drafts-open-for-comment.xml  # NIST CSRC drafts feed :contentReference[oaicite:18]{index=18}
-https://genai.owasp.org/feed/  # OWASP GenAI project feed :contentReference[oaicite:19]{index=19}
+https://csrc.nist.gov/CSRC/media/feeds/pubs/drafts-open-for-comment.xml  "security" "standards"  # NIST CSRC drafts feed
+https://genai.owasp.org/feed/  "security" "standards"  # OWASP GenAI project feed
 
+# Systems safety & resilience engineering
+https://www.adaptivecapacitylabs.com/blog/feed/  "safety" "resilience"  # Adaptive Capacity Labs
+https://www.resilience-engineering-association.org/feed/  "safety" "resilience"  # Resilience Engineering Association
+https://psas.scripts.mit.edu/home/feed/  "safety" "resilience"  # MIT PSAS
+
+# Incidents & reliability research
+https://queue.acm.org/rss/feeds/queuecontent.xml  "incidents" "systems"  # ACM Queue
+https://aphyr.com/posts.atom  "incidents" "distributed"  # Kyle Kingsbury (Jepsen author's personal feed)
+
+# Mozilla & add-ons
+https://hacks.mozilla.org/feed/  "mozilla"  # Mozilla Hacks
+https://blog.mozilla.org/addons/feed/  "mozilla"  # Mozilla Add-ons Blog
+https://blog.mozilla.org/security/feed/  "mozilla" "security"  # Mozilla Security Blog
+
+# Supply chain security
+https://openssf.org/feed/  "supply-chain" "security"  # OpenSSF
+https://slsa.dev/feed.xml  "supply-chain" "security"  # SLSA
+https://www.ncsc.gov.uk/api/1/services/v1/all-rss-feed.xml  "security" "advisories"  # NCSC UK
+
+# Systems engineering
+https://www.sei.cmu.edu/blog/feeds/latest/rss/  "systems-eng"  # SEI CMU
+
+# FOSS, low-level & thinking-shaping
+https://lwn.net/headlines/rss  "foss" "low-level"  # LWN.net
+https://research.swtch.com/feed.atom  "foss" "low-level"  # Russ Cox
+https://paperswelove.org/feed.xml  "papers"  # Papers We Love
+https://worrydream.com/feed.xml  "thinking"  # Bret Victor
+
+# Aggregators & curated newsletters
+https://lobste.rs/rss  "aggregator" "programming"  # Lobste.rs
+https://lwkd.info/feed.xml  "aggregator" "kubernetes"  # LWKD
+https://rss.beehiiv.com/feeds/xgTKUmMmUm.xml  "aggregator" "security"  # tl;dr sec
+https://news.risky.biz/feed  "aggregator" "security"  # Risky Business News
+https://console.dev/rss.xml  "aggregator" "tools"  # Console.dev

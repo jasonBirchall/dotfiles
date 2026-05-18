@@ -6,8 +6,17 @@ reload-threads 8
 auto-reload yes
 reload-time 30   # minutes (only if you want it to refresh while open)
 
-# macOS: open links in your default browser
-browser "open %u"
+# Keep cached articles for 60 days; prevents the DB from growing forever
+# (LWN, HN, Lobste.rs are high-volume).
+keep-articles-days 60
+
+# Open links in the default desktop browser (xdg-open routes to Firefox).
+browser "xdg-open %u"
+
+# Desktop notifications via mako when feeds reload with new items.
+notify-program "/usr/bin/notify-send"
+notify-format  "newsboat: %n unread (%f new)"
+notify-always  yes
 
 ### =========================
 ### Gruvbox-ish (dark)
