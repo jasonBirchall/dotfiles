@@ -105,7 +105,8 @@ This will:
 
 1. Install system packages via `dnf`
 2. Install Nix (if not present)
-3. Apply Home Manager configuration
+3. Clone or update the [private companion repo](#private-companion-repo) (`make local-sync`)
+4. Apply Home Manager configuration
 
 ---
 
@@ -121,6 +122,12 @@ Apply Home Manager config:
 
 ```bash
 make hm
+```
+
+Sync the private companion repo:
+
+```bash
+make local-sync
 ```
 
 Full rebuild:
@@ -154,6 +161,20 @@ make drift-dnf
 | Mako            | `mako/config`                 |
 | Swaylock        | `~/.config/swaylock/config`   |
 | System packages | `fedora/system-packages.txt`  |
+
+---
+
+# Private companion repo
+
+A few configuration files live outside this repo because they're personal enough that I don't open-source them. They sit in a private sibling repo at `~/Documents/workarea/local-config/`, fetched and kept in sync by:
+
+```bash
+make local-sync
+```
+
+This target runs as part of `make bootstrap` ahead of Home Manager, because `home.nix` references files inside `local-config/` — the clone has to land first.
+
+If you've cloned this repo without access to the private companion, `make hm` and `make bootstrap` will fail at the `local-sync` step. Comment out the lines that reference `local-config/` in `home.nix` to skip the private parts, or run the individual targets that don't depend on `local-sync` directly.
 
 ---
 

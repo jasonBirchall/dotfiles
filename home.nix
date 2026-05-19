@@ -169,6 +169,11 @@
     ".config/sway/config".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/sway/config";
     ".config/sway/cheatsheet.sh".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/sway/cheatsheet.sh";
     ".config/sway/powermenu.sh".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/sway/powermenu.sh";
+
+    # Sourced from the local-config private repo (sibling of dotfiles).
+    # Run `make local-sync` to clone or update it before `make hm`.
+    ".claude/settings.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/local-config/settings.json";
+    ".claude/hooks".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/local-config/hooks";
     ".config/swaylock/config".source = ./swaylock/config;
     ".config/wofi/config".source = ./wofi/config;
     ".config/wofi/style".source = ./wofi/style.css;

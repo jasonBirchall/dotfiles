@@ -12,6 +12,7 @@ help:
 	@echo "  make bootstrap          dnf + flatpak + nix + hm"
 	@echo "  make nvidia             Install proprietary NVIDIA driver + suspend setup"
 	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
+	@echo "  make local-sync         Clone or update the private local-config repo + run its setup hook"
 	@echo "  make drift-dnf          Show user-installed packages not in $(DNF_PKGS_FILE)"
 	@echo "  make drift-flatpak      Show installed flatpaks not in $(FLATPAK_FILE)"
 	@echo ""
@@ -44,8 +45,23 @@ hm:
 	home-manager switch --flake "$(FLAKE)"
 
 .PHONY: bootstrap
-bootstrap: dnf flatpak nix hm suricata nvidia xremap
+bootstrap: dnf flatpak nix local-sync hm suricata nvidia xremap
 	@echo "Bootstrap complete."
+
+# Clones or updates the private local-config repo (sibling of dotfiles) and
+# runs its setup hook. Must run before `hm` because home.nix references files
+# under local-config.
+.PHONY: local-sync
+local-sync:
+	@echo "Syncing local-config (private)…"
+	@if [ -d "$(HOME)/Documents/workarea/local-config/.git" ]; then \
+	  git -C "$(HOME)/Documents/workarea/local-config" pull --ff-only; \
+	else \
+	  git clone git@github.com:json0/local-config.git "$(HOME)/Documents/workarea/local-config"; \
+	fi
+	@if [ -x "$(HOME)/Documents/workarea/local-config/setup.sh" ]; then \
+	  bash "$(HOME)/Documents/workarea/local-config/setup.sh"; \
+	fi
 
 .PHONY: xremap
 xremap:
