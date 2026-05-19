@@ -146,9 +146,43 @@ make drift-dnf
 
 # Sway Keybinds
 
-- `Mod + Shift + r` — Reload Sway
-- `Mod + Shift + x` — Lock screen
-- `Mod + Shift + s` — Lock and suspend
+`Mod` is the Super (Windows) key. The full keybinding list lives in `sway/config`; the bindings below are the ones worth knowing before you've logged in for the first time. Inside a running Sway session, `Mod + /` opens a searchable cheatsheet of every binding (sourced live from the config file).
+
+### Session
+
+| Keys | Action |
+| --- | --- |
+| `Mod + Shift + r` | Reload Sway config |
+| `Mod + Shift + q` | Lock screen |
+| `Mod + Shift + s` | Lock, then suspend |
+| `Mod + Shift + e` | Exit Sway (back to greeter) |
+| `Mod + Shift + End` | Power menu (lock / suspend / hibernate / logout / reboot / shutdown) |
+| `Mod + /` | Cheatsheet of all keybinds |
+
+### Apps & windows
+
+| Keys | Action |
+| --- | --- |
+| `Mod + Return` | Open terminal |
+| `Mod + d` | Application launcher (wofi) |
+| `Mod + q` | Close focused window |
+| `Mod + f` | Fullscreen toggle |
+| `Mod + {h,j,k,l}` | Focus left / down / up / right |
+| `Mod + Shift + {h,j,k,l}` | Move window left / down / up / right |
+| `Mod + r` | Enter resize mode — then `hjkl` to resize, `Esc` to exit |
+| `Mod + {1..4}` | Switch to workspace 1–4 |
+
+### Screenshots
+
+| Keys | Action |
+| --- | --- |
+| `Print` | Area select → clipboard |
+| `Shift + Print` | Full screen → clipboard |
+| `Mod + Print` | Area select → `~/Pictures/screenshots/` |
+
+### Audio & media
+
+Dedicated keys (`XF86AudioRaiseVolume`, `XF86AudioPlay`, etc.) work where the keyboard has them. For keyboards that don't, `Mod + PageUp/PageDown/End` cover volume and mute.
 
 ---
 
