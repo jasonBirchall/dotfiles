@@ -14,6 +14,7 @@ help:
 	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
 	@echo "  make local-sync         Clone or update the private local-config repo + run its setup hook"
 	@echo "  make audit              Report pending security updates (dnf), flatpak updates, nix flake input age"
+	@echo "  make update             Apply routine updates across all channels (dnf, flatpak, flake, hm, uv)"
 	@echo "  make drift-dnf          Show user-installed packages not in $(DNF_PKGS_FILE)"
 	@echo "  make drift-flatpak      Show installed flatpaks not in $(FLATPAK_FILE)"
 	@echo ""
@@ -89,6 +90,30 @@ audit:
 	@echo
 	@echo "=== Nix flake input age ==="
 	@nix flake metadata --json 2>/dev/null | jq -r '.locks.nodes | to_entries[] | select(.value.locked.lastModified) | "\(.key): \((now - .value.locked.lastModified) / 86400 | floor)d old"' || true
+
+# Routine cadence update across all four package channels.
+# Order matters: flake update must come before `home-manager switch`, otherwise
+# you'd apply an old flake.lock. uv tool upgrade is last because the companion
+# tools depend on nothing else.
+# Run weekly or biweekly. A kernel update may land here — reboot afterwards if so.
+.PHONY: update
+update:
+	@echo "=== DNF: system upgrade ==="
+	sudo dnf upgrade --refresh -y
+	@echo
+	@echo "=== Flatpak: update ==="
+	flatpak update -y
+	@echo
+	@echo "=== Nix flake: update flake.lock ==="
+	nix flake update
+	@echo
+	@echo "=== Home Manager: apply new generation ==="
+	home-manager switch --flake "$(FLAKE)"
+	@echo
+	@echo "=== uv: upgrade tools ==="
+	uv tool upgrade --all
+	@echo
+	@echo "Update complete. If the kernel was updated, reboot to apply."
 
 .PHONY: drift-dnf
 drift-dnf:
