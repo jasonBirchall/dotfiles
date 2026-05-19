@@ -20,6 +20,10 @@ https://netflixtechblog.com/feed  "sre" "systems"  # Netflix TechBlog
 # UK + advisories
 https://isc.sans.edu/rssfeed_full.xml  "security" "advisories"  # SANS ISC full diary feed
 
+# Patch advisories — actionable feeds for "what do I need to update right now?"
+https://bodhi.fedoraproject.org/rss?type=security  "security" "advisories" "patching"  # Fedora security updates (Bodhi)
+https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.xml  "security" "advisories" "patching"  # CISA KEV — vulnerabilities actively exploited in the wild
+
 # Security writing + research
 https://www.schneier.com/feed/atom/  "security"  # Schneier on Security
 https://blog.trailofbits.com/feed/  "security"  # Trail of Bits

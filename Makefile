@@ -13,6 +13,7 @@ help:
 	@echo "  make nvidia             Install proprietary NVIDIA driver + suspend setup"
 	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
 	@echo "  make local-sync         Clone or update the private local-config repo + run its setup hook"
+	@echo "  make audit              Report pending security updates (dnf), flatpak updates, nix flake input age"
 	@echo "  make drift-dnf          Show user-installed packages not in $(DNF_PKGS_FILE)"
 	@echo "  make drift-flatpak      Show installed flatpaks not in $(FLATPAK_FILE)"
 	@echo ""
@@ -72,6 +73,22 @@ xremap:
 nvidia:
 	@echo "Setting up NVIDIA proprietary driver + suspend"
 	bash fedora/setup-nvidia.sh
+
+# Reports what's pending across the three update channels so you can decide
+# whether to apply now or leave for the next routine update.
+# - dnf check-update --security exits 100 if updates are available (not an error)
+# - flatpak remote-ls --updates lists every pending flatpak update (no severity tagging)
+# - nix flake metadata shows how stale each input is so flake.lock churn is visible
+.PHONY: audit
+audit:
+	@echo "=== DNF: pending security updates ==="
+	@dnf check-update --security || true
+	@echo
+	@echo "=== Flatpak: pending updates ==="
+	@flatpak remote-ls --updates || true
+	@echo
+	@echo "=== Nix flake input age ==="
+	@nix flake metadata --json 2>/dev/null | jq -r '.locks.nodes | to_entries[] | select(.value.locked.lastModified) | "\(.key): \((now - .value.locked.lastModified) / 86400 | floor)d old"' || true
 
 .PHONY: drift-dnf
 drift-dnf:
