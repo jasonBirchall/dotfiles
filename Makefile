@@ -92,6 +92,9 @@ audit:
 	@echo
 	@echo "=== Nix flake input age ==="
 	@nix flake metadata --json 2>/dev/null | jq -r '.locks.nodes | to_entries[] | select(.value.locked.lastModified) | "\(.key): \((now - .value.locked.lastModified) / 86400 | floor)d old"' || true
+	@echo
+	@echo "=== Python (bin/recon): vulnerabilities ==="
+	@uvx pip-audit -r <(cd bin/recon && uv export --no-hashes 2>/dev/null) 2>&1 | grep -vE '^(Installed|Downloading|Downloaded| Installed)' || true
 
 # Routine cadence update across all four package channels.
 # Order matters: flake update must come before `home-manager switch`, otherwise
@@ -114,6 +117,9 @@ update:
 	@echo
 	@echo "=== uv: upgrade tools ==="
 	uv tool upgrade --all
+	@echo
+	@echo "=== uv: refresh bin/recon lockfile ==="
+	cd bin/recon && uv lock --upgrade
 	@echo
 	@echo "Update complete. If the kernel was updated, reboot to apply."
 
