@@ -45,6 +45,14 @@ private.
   `git init` inside a baseline directory is a 10-second upgrade.
 - Tools default to writing full diffs to a file, not stdout — see
   Output above.
+- **Fixtures must be anonymised before commit.** Captured command
+  output often contains LAN IPs, link-local IPv6 (correlatable
+  per-interface tokens), interface names, hostnames, or paths.
+  Replace with documentation-reserved equivalents:
+  RFC 5737 (`192.0.2.0/24`, `198.51.100.0/24`, `203.0.113.0/24`) for
+  IPv4, `2001:db8::/32` or synthetic link-locals like `fe80::1` for
+  IPv6, generic interface names (`eth0`, `wlan0`). Loopback,
+  well-known multicast, and `0.0.0.0`/`::` stay as-is.
 
 ## Stack
 
