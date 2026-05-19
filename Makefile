@@ -21,6 +21,7 @@ help:
 	@echo "Recon (system inspection):"
 	@echo "  make recon              Run all recon tools"
 	@echo "  make recon-processes    Processes & services snapshot"
+	@echo "  make recon-processes-bless  Accept current processes state as baseline"
 	@echo "  make recon-listening    Listening sockets / open ports"
 	@echo "  make recon-listening-bless  Accept current listening state as baseline"
 	@echo "  make recon-outbound     Outbound traffic / DNS / connections"
@@ -165,13 +166,16 @@ suricata-update:
 
 RECON_TOOLS := processes listening outbound autostart
 
-.PHONY: recon recon-processes recon-listening recon-listening-bless recon-outbound recon-autostart recon-autostart-bless recon-new
+.PHONY: recon recon-processes recon-processes-bless recon-listening recon-listening-bless recon-outbound recon-autostart recon-autostart-bless recon-new
 
 recon: recon-processes recon-listening recon-outbound recon-autostart
 
 recon-processes:
 	@echo "=== recon: processes ==="
-	@bin/recon/processes/processes.sh
+	@uv run --directory bin/recon python processes/processes.py
+
+recon-processes-bless:
+	@uv run --directory bin/recon python processes/processes.py --bless
 
 recon-listening:
 	@echo "=== recon: listening ==="
