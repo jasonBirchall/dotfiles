@@ -24,7 +24,9 @@ help:
 	@echo "  make recon-listening    Listening sockets / open ports"
 	@echo "  make recon-outbound     Outbound traffic / DNS / connections"
 	@echo "  make recon-autostart    systemd timers, cron, desktop autostart"
+	@echo "  make recon-autostart-bless  Accept current autostart state as baseline"
 	@echo "  make recon-new NAME=x   Scaffold a new recon tool at bin/recon/x/"
+	@echo "  make recon-timers-install   Install + enable recon systemd --user timers"
 
 .PHONY: dnf
 dnf:
@@ -47,7 +49,7 @@ hm:
 	home-manager switch --flake "$(FLAKE)"
 
 .PHONY: bootstrap
-bootstrap: dnf flatpak nix local-sync hm suricata nvidia xremap
+bootstrap: dnf flatpak nix local-sync hm suricata nvidia xremap recon-timers-install
 	@echo "Bootstrap complete."
 
 # Clones or updates the private local-config repo (sibling of dotfiles) and
@@ -156,7 +158,7 @@ suricata-update:
 
 RECON_TOOLS := processes listening outbound autostart
 
-.PHONY: recon recon-processes recon-listening recon-outbound recon-autostart recon-new
+.PHONY: recon recon-processes recon-listening recon-outbound recon-autostart recon-autostart-bless recon-new
 
 recon: recon-processes recon-listening recon-outbound recon-autostart
 
@@ -175,6 +177,13 @@ recon-outbound:
 recon-autostart:
 	@echo "=== recon: autostart ==="
 	@uv run --directory bin/recon python autostart/autostart.py
+
+recon-autostart-bless:
+	@uv run --directory bin/recon python autostart/autostart.py --bless
+
+.PHONY: recon-timers-install
+recon-timers-install:
+	bash bin/recon/setup-recon-timers.sh
 
 recon-new:
 	@test -n "$(NAME)" || (echo "usage: make recon-new NAME=<tool>"; exit 1)

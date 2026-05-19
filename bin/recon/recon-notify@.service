@@ -1,0 +1,6 @@
+[Unit]
+Description=Desktop notification for failed recon check (%i)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/notify-send --app-name=recon --urgency=critical --icon=dialog-warning "recon: drift in %i" "See bin/recon/README.md (When drift fires) — journalctl --user -u %i.service"
