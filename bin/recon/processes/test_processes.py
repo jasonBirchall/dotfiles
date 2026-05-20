@@ -1,12 +1,18 @@
 from pathlib import Path
 
-from processes import (
-    Drift,
+from _common import Drift, diff
+from processes.processes import (
     RunningService,
     Scope,
-    diff_services,
     parse_running_services,
 )
+
+
+def diff_services(
+    baseline: list[RunningService], current: list[RunningService]
+) -> Drift[RunningService]:
+    return diff(baseline, current)
+
 
 FIXTURES = Path(__file__).parent / "fixtures"
 

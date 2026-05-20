@@ -59,17 +59,33 @@ private.
 Python 3.13, managed by `uv`. `pyproject.toml` at the suite root
 (`bin/recon/`).
 
-Per-tool layout:
+Layout — flat: `bin/recon/` is the uv project root, each tool a
+package directly under it.
 
-    <tool>/
-      <tool>.py        # entry point
-      test_<tool>.py   # pytest; target the pure parsing layer
-      fixtures/        # captured command output for tests
-      baseline/        # gitignored, machine-specific
+    bin/recon/
+      pyproject.toml
+      setup-recon-timers.sh
+      recon-notify@.service          # shared notification template
+      _common.py                     # drift scaffolding (Drift, diff,
+                                     # read/write_baseline, run_cli)
+      <tool>/
+        __init__.py
+        <tool>.py                    # entry point: domain type, fetch,
+                                     # main calling _common.run_cli
+        test_<tool>.py               # pytest; target the pure parsing layer
+        fixtures/                    # captured command output for tests
+        baseline/                    # gitignored, machine-specific
+        recon-<tool>.{service,timer}
 
-Tests focus on the parsing layer ("given this stdout, return this
-list"). The subprocess call and filesystem I/O around it stay thin
-and aren't where bugs hide.
+Each tool defines a domain type with ``.serialize()`` /
+``.deserialize()``, a ``fetch_*`` function, and a one-line ``main()``
+that hands the rest to ``_common.run_cli``. Tests focus on the parsing
+layer ("given this stdout, return this list"). The subprocess call and
+filesystem I/O around it stay thin and aren't where bugs hide.
+
+Run a tool directly with ``uv run --directory bin/recon python -m
+<tool>.<tool>``, or via the ``make recon-<tool>`` /
+``make recon-<tool>-bless`` wrappers.
 
 ## When drift fires
 

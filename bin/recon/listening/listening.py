@@ -47,11 +47,12 @@ Command
 
 from __future__ import annotations
 
-import argparse
 import subprocess
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
+
+from _common import run_cli
 
 SS_CMD: tuple[str, ...] = ("ss", "-tulnH")
 BASELINE_PATH = Path(__file__).parent / "baseline" / "listeners.txt"
@@ -94,16 +95,6 @@ class Listener:
         )
 
 
-@dataclass(frozen=True)
-class Drift:
-    added: tuple[Listener, ...]
-    removed: tuple[Listener, ...]
-
-    @property
-    def has_drift(self) -> bool:
-        return bool(self.added or self.removed)
-
-
 def parse_listeners(stdout: str) -> list[Listener]:
     seen: set[Listener] = set()
     for raw in stdout.splitlines():
@@ -122,32 +113,6 @@ def parse_listeners(stdout: str) -> list[Listener]:
     return sorted(seen)
 
 
-def diff_listeners(baseline: list[Listener], current: list[Listener]) -> Drift:
-    base_set = set(baseline)
-    curr_set = set(current)
-    return Drift(
-        added=tuple(sorted(curr_set - base_set)),
-        removed=tuple(sorted(base_set - curr_set)),
-    )
-
-
-def read_baseline() -> list[Listener] | None:
-    if not BASELINE_PATH.exists():
-        return None
-    return [
-        Listener.deserialize(line.strip())
-        for line in BASELINE_PATH.read_text().splitlines()
-        if line.strip()
-    ]
-
-
-def write_baseline(listeners: list[Listener]) -> None:
-    BASELINE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    BASELINE_PATH.write_text(
-        "\n".join(l.serialize() for l in sorted(listeners)) + "\n",
-    )
-
-
 def fetch_listeners() -> list[Listener]:
     result = subprocess.run(
         list(SS_CMD),
@@ -158,47 +123,16 @@ def fetch_listeners() -> list[Listener]:
     return parse_listeners(result.stdout)
 
 
-def format_diff(drift: Drift) -> str:
-    lines = [f"-{l.serialize()}" for l in drift.removed]
-    lines += [f"+{l.serialize()}" for l in drift.added]
-    return "\n".join(lines) + "\n"
-
-
 def main() -> int:
-    parser = argparse.ArgumentParser(
+    return run_cli(
         description="Drift detection for local TCP+UDP listeners.",
+        noun="listeners",
+        baseline_path=BASELINE_PATH,
+        diff_path=DIFF_PATH,
+        fetch=fetch_listeners,
+        serialize=Listener.serialize,
+        deserialize=Listener.deserialize,
     )
-    parser.add_argument(
-        "--bless",
-        action="store_true",
-        help="Overwrite the baseline with current state.",
-    )
-    args = parser.parse_args()
-
-    current = fetch_listeners()
-
-    if args.bless:
-        write_baseline(current)
-        print(f"blessed baseline: {len(current)} listeners at {BASELINE_PATH}")
-        return 0
-
-    baseline = read_baseline()
-    if baseline is None:
-        write_baseline(current)
-        print(f"no baseline found at {BASELINE_PATH}, creating it")
-        return 0
-
-    drift = diff_listeners(baseline, current)
-    if not drift.has_drift:
-        print(f"no drift ({len(current)} listeners)")
-        return 0
-
-    DIFF_PATH.write_text(format_diff(drift))
-    print(
-        f"drift detected: +{len(drift.added)} -{len(drift.removed)} "
-        f"(full diff: {DIFF_PATH})",
-    )
-    return 1
 
 
 def _make_listener(proto_str: str, local: str) -> Listener | None:

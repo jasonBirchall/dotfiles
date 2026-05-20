@@ -62,11 +62,12 @@ Commands
 
 from __future__ import annotations
 
-import argparse
 import subprocess
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
+
+from _common import run_cli
 
 SYSTEMCTL_BASE: tuple[str, ...] = (
     "list-units",
@@ -98,16 +99,6 @@ class RunningService:
         return cls(scope=Scope(scope_str), name=name)
 
 
-@dataclass(frozen=True)
-class Drift:
-    added: tuple[RunningService, ...]
-    removed: tuple[RunningService, ...]
-
-    @property
-    def has_drift(self) -> bool:
-        return bool(self.added or self.removed)
-
-
 def parse_running_services(stdout: str, scope: Scope) -> list[RunningService]:
     services: list[RunningService] = []
     for raw in stdout.splitlines():
@@ -121,35 +112,6 @@ def parse_running_services(stdout: str, scope: Scope) -> list[RunningService]:
             continue
         services.append(RunningService(scope=scope, name=name))
     return sorted(services)
-
-
-def diff_services(
-    baseline: list[RunningService],
-    current: list[RunningService],
-) -> Drift:
-    base_set = set(baseline)
-    curr_set = set(current)
-    return Drift(
-        added=tuple(sorted(curr_set - base_set)),
-        removed=tuple(sorted(base_set - curr_set)),
-    )
-
-
-def read_baseline() -> list[RunningService] | None:
-    if not BASELINE_PATH.exists():
-        return None
-    return [
-        RunningService.deserialize(line.strip())
-        for line in BASELINE_PATH.read_text().splitlines()
-        if line.strip()
-    ]
-
-
-def write_baseline(services: list[RunningService]) -> None:
-    BASELINE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    BASELINE_PATH.write_text(
-        "\n".join(s.serialize() for s in sorted(services)) + "\n",
-    )
 
 
 def fetch_running_services() -> list[RunningService]:
@@ -171,47 +133,16 @@ def fetch_running_services() -> list[RunningService]:
     )
 
 
-def format_diff(drift: Drift) -> str:
-    lines = [f"-{s.serialize()}" for s in drift.removed]
-    lines += [f"+{s.serialize()}" for s in drift.added]
-    return "\n".join(lines) + "\n"
-
-
 def main() -> int:
-    parser = argparse.ArgumentParser(
+    return run_cli(
         description="Drift detection for running system + user .service units.",
+        noun="running services",
+        baseline_path=BASELINE_PATH,
+        diff_path=DIFF_PATH,
+        fetch=fetch_running_services,
+        serialize=RunningService.serialize,
+        deserialize=RunningService.deserialize,
     )
-    parser.add_argument(
-        "--bless",
-        action="store_true",
-        help="Overwrite the baseline with current state.",
-    )
-    args = parser.parse_args()
-
-    current = fetch_running_services()
-
-    if args.bless:
-        write_baseline(current)
-        print(f"blessed baseline: {len(current)} running services at {BASELINE_PATH}")
-        return 0
-
-    baseline = read_baseline()
-    if baseline is None:
-        write_baseline(current)
-        print(f"no baseline found at {BASELINE_PATH}, creating it")
-        return 0
-
-    drift = diff_services(baseline, current)
-    if not drift.has_drift:
-        print(f"no drift ({len(current)} running services)")
-        return 0
-
-    DIFF_PATH.write_text(format_diff(drift))
-    print(
-        f"drift detected: +{len(drift.added)} -{len(drift.removed)} "
-        f"(full diff: {DIFF_PATH})",
-    )
-    return 1
 
 
 if __name__ == "__main__":

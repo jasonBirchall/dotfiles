@@ -5,4 +5,4 @@ OnFailure=recon-notify@%N.service
 
 [Service]
 Type=oneshot
-ExecStart=/home/json0/.nix-profile/bin/uv run --directory /home/json0/Documents/workarea/dotfiles/bin/recon/processes processes.py
+ExecStart=/home/json0/.nix-profile/bin/uv run --directory /home/json0/Documents/workarea/dotfiles/bin/recon python -m processes.processes

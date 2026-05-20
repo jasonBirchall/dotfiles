@@ -1,15 +1,17 @@
 from pathlib import Path
 
-import pytest
-
-from listening import (
-    Drift,
+from _common import Drift, diff
+from listening.listening import (
     Listener,
     Protocol,
     Scope,
-    diff_listeners,
     parse_listeners,
 )
+
+
+def diff_listeners(baseline: list[Listener], current: list[Listener]) -> Drift[Listener]:
+    return diff(baseline, current)
+
 
 FIXTURES = Path(__file__).parent / "fixtures"
 

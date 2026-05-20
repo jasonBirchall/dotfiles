@@ -62,10 +62,11 @@ Command
 
 from __future__ import annotations
 
-import argparse
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
+
+from _common import run_cli
 
 SYSTEMCTL_CMD: tuple[str, ...] = (
     "systemctl",
@@ -78,7 +79,7 @@ BASELINE_PATH = Path(__file__).parent / "baseline" / "enabled-services.txt"
 DIFF_PATH = Path("/tmp/recon-autostart.diff")
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, order=True)
 class UnitName:
     value: str
 
@@ -93,15 +94,12 @@ class UnitName:
         if suffix != "service":
             raise ValueError(f"Unit name suffix '{suffix}' is not valid")
 
+    def serialize(self) -> str:
+        return self.value
 
-@dataclass(frozen=True)
-class Drift:
-    added: tuple[UnitName, ...]
-    removed: tuple[UnitName, ...]
-
-    @property
-    def has_drift(self) -> bool:
-        return bool(self.added or self.removed)
+    @classmethod
+    def deserialize(cls, line: str) -> UnitName:
+        return cls(line)
 
 
 def parse_unit_files(stdout: str) -> list[UnitName]:
@@ -118,32 +116,7 @@ def parse_unit_files(stdout: str) -> list[UnitName]:
         if not name.endswith(".service"):
             continue
         units.append(UnitName(name))
-    return sorted(units, key=_by_value)
-
-
-def diff_units(baseline: list[UnitName], current: list[UnitName]) -> Drift:
-    base_set = set(baseline)
-    curr_set = set(current)
-    return Drift(
-        added=tuple(sorted(curr_set - base_set, key=_by_value)),
-        removed=tuple(sorted(base_set - curr_set, key=_by_value)),
-    )
-
-
-def read_baseline() -> list[UnitName] | None:
-    if not BASELINE_PATH.exists():
-        return None
-    return [
-        UnitName(line.strip())
-        for line in BASELINE_PATH.read_text().splitlines()
-        if line.strip()
-    ]
-
-
-def write_baseline(units: list[UnitName]) -> None:
-    BASELINE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    sorted_units = sorted(units, key=_by_value)
-    BASELINE_PATH.write_text("\n".join(u.value for u in sorted_units) + "\n")
+    return sorted(units)
 
 
 def fetch_enabled_units() -> list[UnitName]:
@@ -156,51 +129,16 @@ def fetch_enabled_units() -> list[UnitName]:
     return parse_unit_files(result.stdout)
 
 
-def format_diff(drift: Drift) -> str:
-    lines = [f"-{u.value}" for u in drift.removed]
-    lines += [f"+{u.value}" for u in drift.added]
-    return "\n".join(lines) + "\n"
-
-
 def main() -> int:
-    parser = argparse.ArgumentParser(
+    return run_cli(
         description="Drift detection for enabled system .service units.",
+        noun="enabled services",
+        baseline_path=BASELINE_PATH,
+        diff_path=DIFF_PATH,
+        fetch=fetch_enabled_units,
+        serialize=UnitName.serialize,
+        deserialize=UnitName.deserialize,
     )
-    parser.add_argument(
-        "--bless",
-        action="store_true",
-        help="Overwrite the baseline with current state.",
-    )
-    args = parser.parse_args()
-
-    current = fetch_enabled_units()
-
-    if args.bless:
-        write_baseline(current)
-        print(f"blessed baseline: {len(current)} enabled services at {BASELINE_PATH}")
-        return 0
-
-    baseline = read_baseline()
-    if baseline is None:
-        write_baseline(current)
-        print(f"no baseline found at {BASELINE_PATH}, creating it")
-        return 0
-
-    drift = diff_units(baseline, current)
-    if not drift.has_drift:
-        print(f"no drift ({len(current)} enabled services)")
-        return 0
-
-    DIFF_PATH.write_text(format_diff(drift))
-    print(
-        f"drift detected: +{len(drift.added)} -{len(drift.removed)} "
-        f"(full diff: {DIFF_PATH})",
-    )
-    return 1
-
-
-def _by_value(unit: UnitName) -> str:
-    return unit.value
 
 
 if __name__ == "__main__":

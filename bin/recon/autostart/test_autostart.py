@@ -2,7 +2,12 @@ from pathlib import Path
 
 import pytest
 
-from autostart import Drift, UnitName, diff_units, parse_unit_files
+from _common import Drift, diff
+from autostart.autostart import UnitName, parse_unit_files
+
+
+def diff_units(baseline: list[UnitName], current: list[UnitName]) -> Drift[UnitName]:
+    return diff(baseline, current)
 
 FIXTURES = Path(__file__).parent / "fixtures"
 

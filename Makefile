@@ -172,17 +172,17 @@ recon: recon-processes recon-listening recon-outbound recon-autostart
 
 recon-processes:
 	@echo "=== recon: processes ==="
-	@uv run --directory bin/recon python processes/processes.py
+	@uv run --directory bin/recon python -m processes.processes
 
 recon-processes-bless:
-	@uv run --directory bin/recon python processes/processes.py --bless
+	@uv run --directory bin/recon python -m processes.processes --bless
 
 recon-listening:
 	@echo "=== recon: listening ==="
-	@uv run --directory bin/recon python listening/listening.py
+	@uv run --directory bin/recon python -m listening.listening
 
 recon-listening-bless:
-	@uv run --directory bin/recon python listening/listening.py --bless
+	@uv run --directory bin/recon python -m listening.listening --bless
 
 recon-outbound:
 	@echo "=== recon: outbound ==="
@@ -190,10 +190,10 @@ recon-outbound:
 
 recon-autostart:
 	@echo "=== recon: autostart ==="
-	@uv run --directory bin/recon python autostart/autostart.py
+	@uv run --directory bin/recon python -m autostart.autostart
 
 recon-autostart-bless:
-	@uv run --directory bin/recon python autostart/autostart.py --bless
+	@uv run --directory bin/recon python -m autostart.autostart --bless
 
 .PHONY: recon-timers-install
 recon-timers-install:
