@@ -19,6 +19,11 @@ Everything else is excluded as inherently noisy or transient:
 - Specific-IP listeners (e.g. bound to your current LAN address) —
   drift would fire every time DHCP changes the IP. If you ever need
   to track these, v2 should normalise the IP to a stable marker.
+- Dynamically-assigned UDP ports — a UDP listener whose port falls in
+  the kernel ephemeral range (``/proc/sys/net/ipv4/ip_local_port_range``,
+  32768+ by default) is almost always an OS-assigned transient port.
+  avahi's unicast-response socket re-rolls one on every restart. TCP is
+  left alone — a high TCP port is usually a deliberate service.
 
 Investigation
 -------------
@@ -57,6 +62,8 @@ from _common import run_cli
 SS_CMD: tuple[str, ...] = ("ss", "-tulnH")
 BASELINE_PATH = Path(__file__).parent / "baseline" / "listeners.txt"
 DIFF_PATH = Path("/tmp/recon-listening.diff")
+EPHEMERAL_RANGE_PATH = Path("/proc/sys/net/ipv4/ip_local_port_range")
+DEFAULT_EPHEMERAL_MIN = 32768
 
 LOOPBACK_V6 = "[::1]"
 EXPOSED_V4 = "0.0.0.0"
@@ -95,7 +102,9 @@ class Listener:
         )
 
 
-def parse_listeners(stdout: str) -> list[Listener]:
+def parse_listeners(
+    stdout: str, ephemeral_min: int = DEFAULT_EPHEMERAL_MIN
+) -> list[Listener]:
     seen: set[Listener] = set()
     for raw in stdout.splitlines():
         line = raw.strip()
@@ -108,8 +117,11 @@ def parse_listeners(stdout: str) -> list[Listener]:
         if proto_str not in {p.value for p in Protocol}:
             continue
         listener = _make_listener(proto_str, fields[4])
-        if listener is not None:
-            seen.add(listener)
+        if listener is None:
+            continue
+        if listener.protocol is Protocol.UDP and listener.port >= ephemeral_min:
+            continue
+        seen.add(listener)
     return sorted(seen)
 
 
@@ -120,7 +132,7 @@ def fetch_listeners() -> list[Listener]:
         text=True,
         check=True,
     )
-    return parse_listeners(result.stdout)
+    return parse_listeners(result.stdout, _read_ephemeral_min())
 
 
 def main() -> int:
@@ -185,6 +197,15 @@ def _classify_scope(addr: str) -> Scope | None:
     if addr.startswith("127."):
         return Scope.LOOPBACK
     return None
+
+
+def _read_ephemeral_min() -> int:
+    """Lowest port the kernel assigns dynamically. Falls back to the
+    Linux default if /proc is unreadable (containers, odd kernels)."""
+    try:
+        return int(EPHEMERAL_RANGE_PATH.read_text().split()[0])
+    except (OSError, ValueError, IndexError):
+        return DEFAULT_EPHEMERAL_MIN
 
 
 if __name__ == "__main__":

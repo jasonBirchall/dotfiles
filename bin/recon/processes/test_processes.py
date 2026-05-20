@@ -5,6 +5,7 @@ from processes.processes import (
     RunningService,
     Scope,
     parse_running_services,
+    stable_across_samples,
 )
 
 
@@ -168,3 +169,33 @@ class TestDiffServices:
 
         assert drift.added == (svc(Scope.USER, "dbus-broker.service"),)
         assert drift.removed == ()
+
+
+class TestStableAcrossSamples:
+    def test_empty_input_yields_empty(self):
+        assert stable_across_samples([]) == []
+
+    def test_single_sample_returns_its_contents(self):
+        sample = [svc(Scope.SYSTEM, "auditd.service")]
+
+        assert stable_across_samples([sample]) == sample
+
+    def test_service_in_every_sample_survives(self):
+        daemon = svc(Scope.SYSTEM, "auditd.service")
+        samples = [[daemon], [daemon], [daemon]]
+
+        assert stable_across_samples(samples) == [daemon]
+
+    def test_service_missing_from_one_sample_is_dropped(self):
+        daemon = svc(Scope.SYSTEM, "auditd.service")
+        blip = svc(Scope.SYSTEM, "fprintd.service")
+        samples = [[daemon, blip], [daemon], [daemon, blip]]
+
+        assert stable_across_samples(samples) == [daemon]
+
+    def test_result_is_sorted(self):
+        a = svc(Scope.SYSTEM, "atd.service")
+        z = svc(Scope.SYSTEM, "zfs.service")
+        samples = [[z, a], [a, z]]
+
+        assert stable_across_samples(samples) == [a, z]

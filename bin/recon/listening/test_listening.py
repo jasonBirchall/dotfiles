@@ -142,6 +142,32 @@ class TestParseListeners:
 
         assert parse_listeners(stdout) == []
 
+    def test_filters_ephemeral_udp_port(self):
+        stdout = "udp UNCONN 0 0 0.0.0.0:45000 0.0.0.0:*\n"
+
+        assert parse_listeners(stdout, ephemeral_min=32768) == []
+
+    def test_keeps_udp_port_just_below_ephemeral_range(self):
+        stdout = "udp UNCONN 0 0 0.0.0.0:32767 0.0.0.0:*\n"
+
+        assert parse_listeners(stdout, ephemeral_min=32768) == [
+            make(Scope.EXPOSED, Protocol.UDP, "0.0.0.0", 32767)
+        ]
+
+    def test_filters_udp_port_exactly_at_ephemeral_min(self):
+        stdout = "udp UNCONN 0 0 0.0.0.0:32768 0.0.0.0:*\n"
+
+        assert parse_listeners(stdout, ephemeral_min=32768) == []
+
+    def test_keeps_high_tcp_port(self):
+        # The ephemeral filter is UDP-only; a high TCP port is usually
+        # a deliberate service.
+        stdout = "tcp LISTEN 0 4096 0.0.0.0:45000 0.0.0.0:*\n"
+
+        assert parse_listeners(stdout, ephemeral_min=32768) == [
+            make(Scope.EXPOSED, Protocol.TCP, "0.0.0.0", 45000)
+        ]
+
     def test_parses_real_ss_fixture(self):
         stdout = (FIXTURES / "listeners.stdout.txt").read_text()
 
@@ -154,6 +180,10 @@ class TestParseListeners:
         assert not any("ff02" in l.address for l in listeners)
         assert not any(l.address.startswith("192.0.2.") for l in listeners)
         assert not any(l.address == "*" for l in listeners)
+        # The fixture's avahi ephemeral UDP port (0.0.0.0:41583) is gone
+        assert not any(
+            l.protocol is Protocol.UDP and l.port >= 32768 for l in listeners
+        )
         # A handful of expected entries from the fixture
         assert make(Scope.LOOPBACK, Protocol.TCP, "127.0.0.1", 631) in listeners
         assert make(Scope.EXPOSED, Protocol.UDP, "0.0.0.0", 5353) in listeners

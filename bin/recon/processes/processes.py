@@ -31,6 +31,18 @@ Excluded as inherently churning:
   spawned on-demand by DBus rather than being long-lived services
   worth tracking.
 
+Transient services
+------------------
+The running set is a snapshot of a moving target — dbus-activated and
+oneshot services (``NetworkManager-dispatcher``, ``fprintd``, ...) blink
+in and out as they handle on-demand work, and ``Type`` alone can't tell
+them apart from durable daemons (``wpa_supplicant`` is also
+``Type=dbus``). The distinction is temporal, so ``fetch_running_services``
+samples the running set ``SAMPLE_COUNT`` times spaced
+``SAMPLE_INTERVAL_SECONDS`` apart and keeps only services present in
+*every* sample. A brief blip drops out; a persistent daemon survives.
+One consequence: a tool run takes a few seconds.
+
 Investigation
 -------------
 When drift fires and you don't recognise a service:
@@ -49,10 +61,11 @@ deciding whether to ``systemctl start`` or accept and bless.
 
 Test seam
 ---------
-``parse_running_services`` is the pure function:
-``(str, Scope) -> list[RunningService]``. Fixtures captured per
-scope at ``fixtures/{system,user}-running.stdout.txt``. Subprocess
-and baseline I/O stay thin around it.
+Two pure functions: ``parse_running_services``
+(``(str, Scope) -> list[RunningService]``) and ``stable_across_samples``
+(intersection of repeated samples). Fixtures captured per scope at
+``fixtures/{system,user}-running.stdout.txt``. The subprocess calls and
+the sampling loop stay thin around them.
 
 Commands
 --------
@@ -63,6 +76,7 @@ Commands
 from __future__ import annotations
 
 import subprocess
+import time
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
@@ -78,6 +92,8 @@ SYSTEMCTL_BASE: tuple[str, ...] = (
 )
 BASELINE_PATH = Path(__file__).parent / "baseline" / "running-services.txt"
 DIFF_PATH = Path("/tmp/recon-processes.diff")
+SAMPLE_COUNT = 3
+SAMPLE_INTERVAL_SECONDS = 2.0
 
 
 class Scope(StrEnum):
@@ -114,7 +130,29 @@ def parse_running_services(stdout: str, scope: Scope) -> list[RunningService]:
     return sorted(services)
 
 
+def stable_across_samples(
+    samples: list[list[RunningService]],
+) -> list[RunningService]:
+    """Services present in every sample — the intersection. Transient
+    services that blink in and out fall away; persistent daemons stay."""
+    if not samples:
+        return []
+    common = set(samples[0])
+    for sample in samples[1:]:
+        common &= set(sample)
+    return sorted(common)
+
+
 def fetch_running_services() -> list[RunningService]:
+    samples: list[list[RunningService]] = []
+    for index in range(SAMPLE_COUNT):
+        if index > 0:
+            time.sleep(SAMPLE_INTERVAL_SECONDS)
+        samples.append(_sample_running_services())
+    return stable_across_samples(samples)
+
+
+def _sample_running_services() -> list[RunningService]:
     system_out = subprocess.run(
         ["systemctl", *SYSTEMCTL_BASE],
         capture_output=True,
@@ -127,9 +165,9 @@ def fetch_running_services() -> list[RunningService]:
         text=True,
         check=True,
     ).stdout
-    return sorted(
+    return (
         parse_running_services(system_out, Scope.SYSTEM)
-        + parse_running_services(user_out, Scope.USER),
+        + parse_running_services(user_out, Scope.USER)
     )
 
 
