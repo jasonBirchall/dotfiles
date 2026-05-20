@@ -37,7 +37,7 @@
     commitizen
 
     # --- Terminal Workspace ---
-    tmux
+    # tmux is installed via programs.tmux below
     ranger
 
     # --- Editors & Note Taking ---
@@ -129,8 +129,8 @@
           PS1+="\[\e[31m\]✗ \[\e[0m\]"
         fi
 
-        # Working directory (basename only) — gruvbox blue
-        PS1+="\[\e[34m\]\W\[\e[0m\]"
+        # Working directory (basename only) — gruvbox gray (palette colour 7, #a89984)
+        PS1+="\[\e[37m\]\W\[\e[0m\]"
 
         # Git branch (only when in a repo)
         local branch
@@ -160,8 +160,41 @@
     fileWidgetCommand = "fd --type f";
   };
 
+  programs.tmux = {
+    enable = true;
+    prefix = "C-a";
+    keyMode = "vi";
+    baseIndex = 1;
+    escapeTime = 10;
+    historyLimit = 50000;
+    mouse = true;
+    focusEvents = true;
+    aggressiveResize = true;
+    clock24 = true;
+    terminal = "tmux-256color";
+
+    # tmux-sensible is prepended automatically (sensibleOnTop).
+    # The remaining plugins are installed by Nix — no TPM. They are
+    # appended *after* the readFile content so that settings like
+    # @resurrect-* and the battery status-right tokens are already
+    # in place when each plugin loads (home-manager's own `plugins`
+    # option would load them too early).
+    extraConfig = builtins.readFile ./tmux/tmux.conf + ''
+
+      # ── Plugins (installed by Nix) ────────────────────────────
+      run-shell ${pkgs.tmuxPlugins.resurrect.rtp}
+      run-shell ${pkgs.tmuxPlugins.continuum.rtp}
+      run-shell ${pkgs.tmuxPlugins.vim-tmux-navigator.rtp}
+      run-shell ${pkgs.tmuxPlugins.battery.rtp}
+
+      # vim-tmux-navigator binds C-h/j/k/l for pane navigation, which
+      # steals C-l (clear screen). Reclaim it — must come *after* the
+      # plugin's run-shell. Navigate right with M-l or prefix+l.
+      unbind -n C-l
+    '';
+  };
+
   home.file = {
-    ".tmux.conf".source = ./tmux/tmux.conf;
     # Neovim (LazyVim) - Out-of-store symlink so it can write to lazy-lock.json
     ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/nvim";
     ".config/ranger/rc.conf".source = ./ranger/rc.conf;

@@ -1,3 +1,9 @@
+# Theme — classic gruvbox (medium dark, #282828 bg).
+# Matches gruvbox.nvim and the tmux status bar.
+# Alternatives: "Gruvbox Dark Hard" (darker #1d2021 bg),
+#               "Gruvbox Material" (softer, lower-contrast palette).
+theme = Gruvbox Dark
+
 shell-integration = bash
 copy-on-select = clipboard
 font-size = 16
