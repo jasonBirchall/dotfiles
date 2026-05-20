@@ -220,6 +220,7 @@
     # Custom scripts
     "bin/connection-checker.py".source = ./bin/connection-checker/connection-checker.py;
     "bin/diagnosis.sh".source = ./bin/debug/fedora_diagnosis.sh;
+    "bin/view.py".source = ./bin/wakatime-view/view.py;
 
     # Suricata scripts
     "bin/suricata-alerts.sh".source = ./bin/suricata/suricata-alerts.sh;
