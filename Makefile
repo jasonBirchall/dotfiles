@@ -24,7 +24,8 @@ help:
 	@echo "  make recon-processes-bless  Accept current processes state as baseline"
 	@echo "  make recon-listening    Listening sockets / open ports"
 	@echo "  make recon-listening-bless  Accept current listening state as baseline"
-	@echo "  make recon-outbound     Outbound traffic / DNS / connections"
+	@echo "  make recon-outbound     Outbound (protocol, dest_port) drift via Suricata flows"
+	@echo "  make recon-outbound-bless   Accept current outbound state as baseline"
 	@echo "  make recon-autostart    systemd timers, cron, desktop autostart"
 	@echo "  make recon-autostart-bless  Accept current autostart state as baseline"
 	@echo "  make recon-new NAME=x   Scaffold a new recon tool at bin/recon/x/"
@@ -166,7 +167,7 @@ suricata-update:
 
 RECON_TOOLS := processes listening outbound autostart
 
-.PHONY: recon recon-processes recon-processes-bless recon-listening recon-listening-bless recon-outbound recon-autostart recon-autostart-bless recon-new
+.PHONY: recon recon-processes recon-processes-bless recon-listening recon-listening-bless recon-outbound recon-outbound-bless recon-autostart recon-autostart-bless recon-new
 
 recon: recon-processes recon-listening recon-outbound recon-autostart
 
@@ -186,7 +187,10 @@ recon-listening-bless:
 
 recon-outbound:
 	@echo "=== recon: outbound ==="
-	@bin/recon/outbound/outbound.sh
+	@uv run --directory bin/recon python -m outbound.outbound
+
+recon-outbound-bless:
+	@uv run --directory bin/recon python -m outbound.outbound --bless
 
 recon-autostart:
 	@echo "=== recon: autostart ==="

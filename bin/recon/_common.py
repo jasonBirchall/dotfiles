@@ -77,7 +77,15 @@ def run_cli(
     fetch: Callable[[], list[T]],
     serialize: Callable[[T], str],
     deserialize: Callable[[str], T],
+    additions_only: bool = False,
 ) -> int:
+    """Standard drift-detection CLI flow.
+
+    With ``additions_only``, a baseline entry that disappears is not
+    treated as drift — only new entries count. Use it when the tracked
+    set is a rolling window (outbound traffic) rather than a stable
+    inventory: a port you simply didn't use lately is not a finding.
+    """
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument(
         "--bless",
@@ -100,13 +108,14 @@ def run_cli(
         return 0
 
     drift = diff(baseline, current)
-    if not drift.has_drift:
+    reported = Drift(added=drift.added, removed=() if additions_only else drift.removed)
+    if not reported.has_drift:
         print(f"no drift ({len(current)} {noun})")
         return 0
 
-    diff_path.write_text(format_diff(drift, serialize))
+    diff_path.write_text(format_diff(reported, serialize))
     print(
-        f"drift detected: +{len(drift.added)} -{len(drift.removed)} "
+        f"drift detected: +{len(reported.added)} -{len(reported.removed)} "
         f"(full diff: {diff_path})",
     )
     return 1
