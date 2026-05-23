@@ -15,6 +15,25 @@ echo "[*] Configuring Suricata for passive IDS on interface: ${IFACE}"
 sudo mkdir -p "${LOG_DIR}"
 sudo chmod 755 "${LOG_DIR}"
 
+# Fix log rotation. The packaged logrotate config signals Suricata with
+# kill -HUP after rotation, but Suricata does not reopen its log files on
+# HUP — so it keeps writing to the renamed file and eve.json stays empty.
+# copytruncate makes logrotate copy then truncate eve.json in place, so
+# Suricata's open file descriptor stays valid and no signal is needed.
+echo "[*] Installing copytruncate logrotate config..."
+sudo tee /etc/logrotate.d/suricata >/dev/null <<'EOF'
+/var/log/suricata/*.log /var/log/suricata/*.json {
+    daily
+    missingok
+    rotate 5
+    compress
+    delaycompress
+    minsize 500k
+    sharedscripts
+    copytruncate
+}
+EOF
+
 # Download ET Open ruleset (FOSS, no subscription needed)
 echo "[*] Updating ET Open rules..."
 sudo suricata-update
