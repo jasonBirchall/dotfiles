@@ -53,6 +53,7 @@
     k9s
     helm
     opentofu
+    awscli2
     rustup
     aider-chat
     ollama
