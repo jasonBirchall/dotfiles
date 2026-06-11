@@ -239,6 +239,7 @@
       EDITOR = "nvim";
       VISUAL = "nvim";
       GIT_EDITOR = "nvim";
+      SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent.socket";
   };
 
   home.sessionPath = [
