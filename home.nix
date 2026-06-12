@@ -35,6 +35,7 @@
     git
     lazygit
     commitizen
+    git-cola
 
     # --- Terminal Workspace ---
     # tmux is installed via programs.tmux below
@@ -53,6 +54,7 @@
     k9s
     helm
     opentofu
+    terraform
     awscli2
     rustup
     aider-chat
