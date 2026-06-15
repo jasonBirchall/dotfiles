@@ -56,6 +56,8 @@
     opentofu
     terraform
     awscli2
+    sops
+    age
     rustup
     aider-chat
     ollama

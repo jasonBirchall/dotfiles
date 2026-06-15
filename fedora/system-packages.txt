@@ -10,6 +10,8 @@ libnotify
 lm_sensors
 mako
 playerctl
+podman
+podman-compose
 policycoreutils-devel
 suricata
 sway
