@@ -12,6 +12,7 @@ help:
 	@echo "  make bootstrap          dnf + flatpak + nix + hm"
 	@echo "  make nvidia             Install proprietary NVIDIA driver + suspend setup"
 	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
+	@echo "  make tailscale          Install Tailscale + enable tailscaled (then 'sudo tailscale up')"
 	@echo "  make local-sync         Clone or update the private local-config repo + run its setup hook"
 	@echo "  make audit              Report pending security updates (dnf), flatpak updates, nix flake input age"
 	@echo "  make update             Apply routine updates across all channels (dnf, flatpak, flake, hm, uv)"
@@ -52,7 +53,7 @@ hm:
 	home-manager switch --flake "$(FLAKE)"
 
 .PHONY: bootstrap
-bootstrap: dnf flatpak nix local-sync hm suricata nvidia xremap recon-timers-install
+bootstrap: dnf flatpak nix local-sync hm suricata nvidia xremap tailscale recon-timers-install
 	@echo "Bootstrap complete."
 
 # Clones or updates the private local-config repo (sibling of dotfiles) and
@@ -79,6 +80,11 @@ xremap:
 nvidia:
 	@echo "Setting up NVIDIA proprietary driver + suspend"
 	bash fedora/setup-nvidia.sh
+
+.PHONY: tailscale
+tailscale:
+	@echo "Setting up Tailscale"
+	bash fedora/setup-tailscale.sh
 
 # Reports what's pending across the three update channels so you can decide
 # whether to apply now or leave for the next routine update.
