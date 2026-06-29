@@ -10,6 +10,7 @@
     "memory",
     "pulseaudio",
     "network",
+    "battery",
     "tray",
     "clock"
   ],
@@ -33,6 +34,15 @@
     "format-wifi": "  {essid}",
     "format-ethernet": "󰈀  Wired",
     "format-disconnected": "  Offline"
+  },
+
+  "battery": {
+    "format": "{icon}  {capacity}%",
+    "format-charging": "  {capacity}%",
+    "format-plugged": "  {capacity}%",
+    "format-icons": ["", "", "", "", ""],
+    "states": { "warning": 30, "critical": 15 },
+    "interval": 30
   },
 
   "pulseaudio": {

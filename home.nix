@@ -219,6 +219,7 @@
     ".config/mako/config".source = ./mako/config;
     ".config/waybar/config".source = ./waybar/config;
     ".config/waybar/style.css".source = ./waybar/style.css;
+    ".config/waybar/launch.sh".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/waybar/launch.sh";
     ".newsboat/config".source = ./newsboat/config;
     ".newsboat/urls".source = ./newsboat/urls;
 
