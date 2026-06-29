@@ -9,5 +9,5 @@ if ! command -v nix &>/dev/null; then
   sh <(curl -L https://nixos.org/nix/install)
 fi
 
-# Activate Home Manager
-nix run home-manager/master -- switch --flake .#json0
+# Activate Home Manager (per-user config; flake.nix exposes one per username)
+nix run home-manager/master -- switch --flake ".#$(id -un)"

@@ -1,10 +1,10 @@
 { config, pkgs, ... }:
 
 {
-  home.username = "json0";
-  home.homeDirectory = "/home/json0";
+  # home.username and home.homeDirectory are injected per-host by flake.nix
+  # (see mkHome). This keeps home.nix machine-agnostic.
 
-  home.stateVersion = "23.11"; 
+  home.stateVersion = "23.11";
 
   home.packages = with pkgs; [
     # --- Core Utilities ---
