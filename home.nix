@@ -212,6 +212,7 @@
     # Run `make local-sync` to clone or update it before `make hm`.
     ".claude/settings.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/local-config/settings.json";
     ".claude/hooks".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/local-config/hooks";
+    ".claude/skills".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/local-config/skills";
     ".config/swaylock/config".source = ./swaylock/config;
     ".config/wofi/config".source = ./wofi/config;
     ".config/wofi/style".source = ./wofi/style.css;
