@@ -1,4 +1,8 @@
-FLAKE ?= .#json0
+SHELL := /bin/bash
+
+# Defaults to the current user's host config (.#<username>). flake.nix exposes
+# one homeConfiguration per username via mkHome. Override with FLAKE=.#name.
+FLAKE ?= .#$(shell id -un)
 DNF_PKGS_FILE ?= fedora/system-packages.txt
 FLATPAK_FILE ?= fedora/flatpaks.txt
 
@@ -10,6 +14,7 @@ help:
 	@echo "  make nix                Install Nix (if missing)"
 	@echo "  make hm                 Apply Home Manager flake ($(FLAKE))"
 	@echo "  make bootstrap          dnf + flatpak + nix + hm"
+	@echo "  make ghostty            Install Ghostty terminal (enables scottames/ghostty COPR)"
 	@echo "  make nvidia             Install proprietary NVIDIA driver + suspend setup"
 	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
 	@echo "  make tailscale          Install Tailscale + enable tailscaled (then 'sudo tailscale up')"
@@ -36,15 +41,15 @@ help:
 dnf:
 	test -f "$(DNF_PKGS_FILE)"
 	@echo "Installing DNF packages from $(DNF_PKGS_FILE)…"
-	sudo dnf install -y $$(grep -vE '^\s*#|^\s*$$' "$(DNF_PKGS_FILE)" | tr '\n' ' ')
+	sudo dnf install -y $$(grep -vE '^\s*#|^\s*$$' "$(DNF_PKGS_FILE)" | tr '\n' ' ') --skip-unavailable
 
 .PHONY: nix
 nix:
 	@if command -v nix >/dev/null 2>&1; then \
 	  echo "Nix already installed."; \
 	else \
-	  echo "Installing Nix…"; \
-	  sh <(curl -L https://nixos.org/nix/install) --daemon; \
+	  echo "Installing Nix via the Determinate Systems installer (handles SELinux on Fedora)…"; \
+	  curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm; \
 	fi
 
 .PHONY: hm
@@ -65,7 +70,7 @@ local-sync:
 	@if [ -d "$(HOME)/Documents/workarea/local-config/.git" ]; then \
 	  git -C "$(HOME)/Documents/workarea/local-config" pull --ff-only; \
 	else \
-	  git clone git@github.com:json0/local-config.git "$(HOME)/Documents/workarea/local-config"; \
+	  git clone git@github.com:jasonBirchall/local-config.git "$(HOME)/Documents/workarea/local-config"; \
 	fi
 	@if [ -x "$(HOME)/Documents/workarea/local-config/setup.sh" ]; then \
 	  bash "$(HOME)/Documents/workarea/local-config/setup.sh"; \
@@ -75,6 +80,11 @@ local-sync:
 xremap:
 	@echo "Setting up xremap uinput access"
 	bash fedora/setup-xremap.sh
+
+.PHONY: ghostty
+ghostty:
+	@echo "Setting up Ghostty terminal"
+	bash fedora/setup-ghostty.sh
 
 .PHONY: nvidia
 nvidia:
