@@ -64,8 +64,17 @@ ExecStart=
 ExecStart=/usr/bin/suricata -c /etc/suricata/suricata.yaml --af-packet=${IFACE} --user suricata
 EOF
 
+# Gate Suricata on AC power to save battery on laptops. The drop-in blocks a
+# boot-on-battery start; the udev rule starts/stops it on plug/unplug.
+echo "[*] Installing AC-power gating (drop-in + udev rule)..."
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+sudo install -m 0644 "${SCRIPT_DIR}/acpower.conf" /etc/systemd/system/suricata.service.d/acpower.conf
+sudo install -m 0644 "${SCRIPT_DIR}/99-suricata-acpower.rules" /etc/udev/rules.d/99-suricata-acpower.rules
+sudo udevadm control --reload
+
 sudo systemctl daemon-reload
 sudo systemctl enable suricata
+# Start only if on AC; ConditionACPower makes a battery start a no-op success.
 sudo systemctl restart suricata
 
 # Add current user to suricata group for log access

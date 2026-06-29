@@ -1,8 +1,8 @@
 # Recon
 
 Personal system-inspection tooling for Fedora. A small set of opinionated
-drift detectors — "what runs at boot?", "what's listening?", "what's
-connected outbound?" — each runnable by hand or on a schedule.
+drift detectors — "what runs at boot?", "what's listening?" — each
+runnable by hand or on a schedule.
 
 The point is not a generic monitoring stack. Each tool answers one focused
 question and reports change against a baseline I've explicitly approved.

@@ -26,12 +26,8 @@ help:
 	@echo ""
 	@echo "Recon (system inspection):"
 	@echo "  make recon              Run all recon tools"
-	@echo "  make recon-processes    Processes & services snapshot"
-	@echo "  make recon-processes-bless  Accept current processes state as baseline"
 	@echo "  make recon-listening    Listening sockets / open ports"
 	@echo "  make recon-listening-bless  Accept current listening state as baseline"
-	@echo "  make recon-outbound     Outbound (protocol, dest_port) drift via Suricata flows"
-	@echo "  make recon-outbound-bless   Accept current outbound state as baseline"
 	@echo "  make recon-autostart    systemd timers, cron, desktop autostart"
 	@echo "  make recon-autostart-bless  Accept current autostart state as baseline"
 	@echo "  make recon-new NAME=x   Scaffold a new recon tool at bin/recon/x/"
@@ -181,18 +177,11 @@ suricata-update:
 	@echo "Updating suricata rules"
 	sudo systemctl restart suricata
 
-RECON_TOOLS := processes listening outbound autostart
+RECON_TOOLS := listening autostart
 
-.PHONY: recon recon-processes recon-processes-bless recon-listening recon-listening-bless recon-outbound recon-outbound-bless recon-autostart recon-autostart-bless recon-new
+.PHONY: recon recon-listening recon-listening-bless recon-autostart recon-autostart-bless recon-new
 
-recon: recon-processes recon-listening recon-outbound recon-autostart
-
-recon-processes:
-	@echo "=== recon: processes ==="
-	@uv run --directory bin/recon python -m processes.processes
-
-recon-processes-bless:
-	@uv run --directory bin/recon python -m processes.processes --bless
+recon: recon-listening recon-autostart
 
 recon-listening:
 	@echo "=== recon: listening ==="
@@ -200,13 +189,6 @@ recon-listening:
 
 recon-listening-bless:
 	@uv run --directory bin/recon python -m listening.listening --bless
-
-recon-outbound:
-	@echo "=== recon: outbound ==="
-	@uv run --directory bin/recon python -m outbound.outbound
-
-recon-outbound-bless:
-	@uv run --directory bin/recon python -m outbound.outbound --bless
 
 recon-autostart:
 	@echo "=== recon: autostart ==="

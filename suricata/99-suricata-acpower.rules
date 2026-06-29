@@ -1,0 +1,6 @@
+# Start/stop Suricata based on AC power to save battery on the laptop.
+# Pairs with the ConditionACPower=true drop-in (acpower.conf): the condition
+# blocks a boot-on-battery start, and these rules react to plug/unplug while
+# the system is running. --no-block so udev does not wait on the transaction.
+SUBSYSTEM=="power_supply", KERNEL=="AC", ATTR{online}=="1", RUN+="/usr/bin/systemctl --no-block start suricata.service"
+SUBSYSTEM=="power_supply", KERNEL=="AC", ATTR{online}=="0", RUN+="/usr/bin/systemctl --no-block stop suricata.service"

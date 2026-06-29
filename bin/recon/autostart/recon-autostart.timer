@@ -2,7 +2,6 @@
 Description=recon: scheduled enabled .service drift check
 
 [Timer]
-OnBootSec=5min
 OnCalendar=daily
 RandomizedDelaySec=10min
 Persistent=true
