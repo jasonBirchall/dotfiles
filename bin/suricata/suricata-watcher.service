@@ -1,0 +1,18 @@
+[Unit]
+Description=Suricata real-time alert watcher
+After=graphical-session.target
+PartOf=graphical-session.target
+# Suricata (the system service) is AC-gated, so there is only a live feed to
+# watch on AC power. ConditionACPower=true keeps this user unit symmetric:
+# it won't start on battery. A user unit can't BindsTo the system
+# suricata.service across the user/system boundary, so we gate on AC instead.
+ConditionACPower=true
+
+[Service]
+Type=simple
+ExecStart=%h/bin/suricata-watcher.sh
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=graphical-session.target

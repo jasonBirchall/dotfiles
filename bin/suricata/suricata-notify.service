@@ -1,0 +1,9 @@
+[Unit]
+Description=Suricata hourly alert check
+# Suricata only logs on AC (it's AC-gated), so there are no new alerts to
+# summarise on battery. Skip the hourly wakeup + jq scan when unplugged.
+ConditionACPower=true
+
+[Service]
+Type=oneshot
+ExecStart=%h/bin/suricata-notify.sh

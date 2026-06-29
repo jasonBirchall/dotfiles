@@ -1,0 +1,10 @@
+[Unit]
+Description=Hourly Suricata alert check
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+RandomizedDelaySec=120
+
+[Install]
+WantedBy=timers.target

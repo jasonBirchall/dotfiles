@@ -83,6 +83,20 @@ if ! groups | grep -q suricata; then
   echo "[*] Added $(whoami) to suricata group (effective after next login)"
 fi
 
+# Install the alert-tooling user units (watcher + hourly notify). Symlinked
+# from the repo so edits are picked up directly. Both are ConditionACPower
+# gated to match the AC-gated daemon — no point watching/scanning on battery.
+echo "[*] Installing alert user units (watcher + notify)..."
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+USER_UNIT_DIR="$HOME/.config/systemd/user"
+mkdir -p "$USER_UNIT_DIR"
+for unit in suricata-watcher.service suricata-notify.service suricata-notify.timer; do
+  ln -sfn "${REPO_ROOT}/bin/suricata/${unit}" "${USER_UNIT_DIR}/${unit}"
+done
+systemctl --user daemon-reload
+systemctl --user enable suricata-watcher.service
+systemctl --user enable --now suricata-notify.timer
+
 echo ""
 echo "[*] Suricata is running in passive IDS mode on ${IFACE}"
 echo ""
