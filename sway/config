@@ -34,6 +34,12 @@ exec_always swayidle -w \
     timeout 3800 'systemctl poweroff' \
     before-sleep 'swaylock -f -C ~/.config/swaylock/config'
 
+### --- Lid switch ---
+# Lock the screen the moment the laptop lid is closed. Harmless on the
+# desktop (no lid switch ever fires). --locked lets it run over the lock
+# screen; --reload re-applies the current lid state on config reload.
+bindswitch --reload --locked lid:on exec swaylock -f -C ~/.config/swaylock/config
+
 bindsym $mod+Shift+q exec swaylock -f -C ~/.config/swaylock/config
 
 # Lock, then suspend
