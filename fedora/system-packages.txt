@@ -1,4 +1,5 @@
 akmod-nvidia
+brightnessctl
 checkpolicy
 conntrack-tools
 docker

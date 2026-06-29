@@ -65,6 +65,12 @@ bindsym XF86AudioNext  exec playerctl next
 bindsym XF86AudioPrev  exec playerctl previous
 bindsym XF86AudioStop  exec playerctl stop
 
+### --- Brightness Controls ---
+# brightnessctl sets the panel backlight via systemd-logind (no root / video
+# group needed). --locked lets it work while the screen is locked.
+bindsym --locked XF86MonBrightnessUp   exec brightnessctl set 5%+
+bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+
 # wl-kbptr — keyboard-driven pointer
 bindsym $mod+g exec ~/.nix-profile/bin/wl-kbptr
 
