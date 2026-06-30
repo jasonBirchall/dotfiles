@@ -1,3 +1,4 @@
 # Format: <remote> <app-id>
 # Installed system-wide via `make flatpak`.
 flathub org.gnome.Fractal
+flathub org.mozilla.vpn
