@@ -42,8 +42,11 @@ bindswitch --reload --locked lid:on exec swaylock -f -C ~/.config/swaylock/confi
 
 bindsym $mod+Shift+q exec swaylock -f -C ~/.config/swaylock/config
 
-# Lock, then suspend
-bindsym $mod+Shift+s exec sh -c 'swaylock -f -C ~/.config/swaylock/config & sleep 0.3; systemctl suspend'
+# Lock, then sleep. sleep.sh picks the mode per-host: hibernate where
+# real disk swap exists (this s2idle laptop, where plain suspend just
+# drains the battery), plain suspend where it doesn't (zram-only
+# machines). Lid-close hibernates too, via a logind drop-in.
+bindsym $mod+Shift+s exec ~/.config/sway/sleep.sh
 
 ### --- Audio Controls ---
 # Volume / mute via Mod + Page Up / Page Down / End
