@@ -62,6 +62,7 @@
     aider-chat
     ollama
     github-cli
+    exercism
 
     # --- Input remapping ---
     xremap
