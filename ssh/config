@@ -1,0 +1,20 @@
+# GitHub & Codeberg: authenticate directly with the YubiKey (touch required).
+# The key handle is a FIDO2 *resident* credential — regenerate it on any
+# machine with `yubikey-ssh-bootstrap` (or `ssh-keygen -K`).
+# IdentityAgent none bypasses ssh-agent. On macOS the default agent is
+# Apple's launchd agent, which refuses FIDO/sk key operations
+# ("agent refused operation"). Hardware keys don't need an agent anyway.
+Host github.com
+  IdentitiesOnly yes
+  IdentityAgent none
+  IdentityFile ~/.ssh/id_ed25519_sk_rk
+
+Host codeberg.org
+  IdentitiesOnly yes
+  IdentityAgent none
+  IdentityFile ~/.ssh/id_ed25519_sk_rk
+
+# Everything else: software key, agent enabled as normal.
+Host *
+  AddKeysToAgent yes
+  IdentityFile ~/.ssh/id_ed25519

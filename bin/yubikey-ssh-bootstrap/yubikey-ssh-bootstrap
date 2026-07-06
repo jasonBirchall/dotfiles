@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Regenerate the SSH key handle for the YubiKey's resident FIDO2 credential.
+# Run once per machine with the YubiKey plugged in. Prompts for the FIDO2
+# PIN and a touch. Safe to re-run; it only writes the local stub — the
+# actual credential never leaves the hardware.
+set -euo pipefail
+
+KEY_NAME="id_ed25519_sk_rk"
+SSH_DIR="$HOME/.ssh"
+
+if [[ -f "$SSH_DIR/$KEY_NAME" ]]; then
+  echo "$SSH_DIR/$KEY_NAME already exists — nothing to do."
+  echo "Delete it first if you want to re-export from the YubiKey."
+  exit 0
+fi
+
+mkdir -p "$SSH_DIR"
+chmod 700 "$SSH_DIR"
+
+workdir="$(mktemp -d)"
+trap 'rm -rf "$workdir"' EXIT
+
+echo "Exporting resident credential from the YubiKey (PIN + touch)..."
+(cd "$workdir" && ssh-keygen -K)
+
+# ssh-keygen -K names exports id_<type>_sk_rk[_<application>]; with the
+# default ssh: application there is exactly one pair named id_ed25519_sk_rk.
+exported="$workdir/$KEY_NAME"
+if [[ ! -f "$exported" ]]; then
+  echo "Expected $KEY_NAME not found. Exported files:" >&2
+  ls "$workdir" >&2
+  exit 1
+fi
+
+mv "$exported" "$exported.pub" "$SSH_DIR/"
+chmod 600 "$SSH_DIR/$KEY_NAME"
+chmod 644 "$SSH_DIR/$KEY_NAME.pub"
+
+echo "Done. Test with: ssh -T git@codeberg.org"

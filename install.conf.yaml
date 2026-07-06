@@ -5,6 +5,10 @@
 - clean: ["~"]
 
 - create:
+    ~/.ssh:
+      mode: 0700
+
+- create:
     - ~/.config
     - ~/.config/zsh
     - ~/.config/ghostty
@@ -31,6 +35,9 @@
     ~/.config/zsh/.env: zsh/zshenv
     ~/.config/zsh/.zshrc: zsh/zshrc
     ~/.gitconfig: git/gitconfig
+    ~/.ssh/config: ssh/config
+    ~/.ssh/allowed_signers: ssh/allowed_signers
+    ~/bin/yubikey-ssh-bootstrap: bin/yubikey-ssh-bootstrap/yubikey-ssh-bootstrap
     ~/.newsboat: newsboat
     ~/bin/view.py: bin/wakatime-view/view.py
     ~/bin/sync.py: bin/sync-zettel/sync.py
