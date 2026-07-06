@@ -21,6 +21,12 @@ help:
 	@echo "  make local-sync         Clone or update the private local-config repo + run its setup hook"
 	@echo "  make audit              Report pending security updates (dnf), flatpak updates, nix flake input age"
 	@echo "  make update             Apply routine updates across all channels (dnf, flatpak, flake, hm, uv)"
+	@echo ""
+	@echo "Linting (pre-commit):"
+	@echo "  make lint               Run all pre-commit hooks across every file"
+	@echo "  make lint-staged        Run pre-commit hooks against staged changes only"
+	@echo "  make lint-install       Install the git hooks into this clone (run once)"
+	@echo "  make lint-update        Bump pinned hook revs in .pre-commit-config.yaml"
 	@echo "  make drift-dnf          Show user-installed packages not in $(DNF_PKGS_FILE)"
 	@echo "  make drift-flatpak      Show installed flatpaks not in $(FLATPAK_FILE)"
 	@echo ""
@@ -54,7 +60,7 @@ hm:
 	home-manager switch --flake "$(FLAKE)"
 
 .PHONY: bootstrap
-bootstrap: dnf flatpak nix local-sync hm suricata nvidia xremap tailscale recon-timers-install
+bootstrap: dnf flatpak nix local-sync hm lint-install suricata nvidia xremap tailscale recon-timers-install
 	@echo "Bootstrap complete."
 
 # Clones or updates the private local-config repo (sibling of dotfiles) and
@@ -137,6 +143,31 @@ update:
 	cd bin/recon && uv lock --upgrade
 	@echo
 	@echo "Update complete. If the kernel was updated, reboot to apply."
+
+# --- Linting (pre-commit) ---
+# Tooling (pre-commit, shellcheck, shfmt, nixpkgs-fmt, ruff, commitizen) is
+# installed via home.nix; hook definitions live in .pre-commit-config.yaml.
+# `lint-install` wires the hooks into .git/hooks so they fire on commit; it is
+# part of `bootstrap` but must be re-run in any fresh clone.
+.PHONY: lint
+lint:
+	@echo "Running pre-commit across all files…"
+	pre-commit run --all-files
+
+.PHONY: lint-staged
+lint-staged:
+	@echo "Running pre-commit against staged changes…"
+	pre-commit run
+
+.PHONY: lint-install
+lint-install:
+	@echo "Installing pre-commit git hooks…"
+	pre-commit install --install-hooks
+
+.PHONY: lint-update
+lint-update:
+	@echo "Bumping pinned hook revisions…"
+	pre-commit autoupdate
 
 .PHONY: drift-dnf
 drift-dnf:

@@ -1,0 +1,50 @@
+# Pre-commit hooks for this dotfiles repo.
+# Tools are installed via home.nix (pre-commit, shellcheck, shfmt, nixpkgs-fmt,
+# ruff, commitizen). After `make hm`, activate the hooks with:
+#   pre-commit install --install-hooks
+# Pinned revs are bumped with: pre-commit autoupdate
+default_install_hook_types: [pre-commit, commit-msg]
+
+repos:
+  # --- General hygiene ---
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+      - id: mixed-line-ending
+
+  # --- Python ---
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.20
+    hooks:
+      - id: ruff # lint
+        args: [--fix]
+      - id: ruff-format # format
+
+  # --- Shell ---
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.11.0.1
+    hooks:
+      - id: shellcheck
+  - repo: https://github.com/scop/pre-commit-shfmt
+    rev: v3.13.1-1
+    hooks:
+      - id: shfmt
+        args: [-w, -i, "2", -ci]
+
+  # --- Nix ---
+  - repo: local
+    hooks:
+      - id: nixpkgs-fmt
+        name: nixpkgs-fmt
+        entry: nixpkgs-fmt
+        language: system
+        files: \.nix$
