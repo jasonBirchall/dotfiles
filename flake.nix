@@ -30,7 +30,8 @@
           ./home.nix
         ];
       };
-    in {
+    in
+    {
       homeConfigurations = {
         json0 = mkHome "json0";
         jsond = mkHome "jsond";

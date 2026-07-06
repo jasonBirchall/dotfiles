@@ -166,10 +166,10 @@ def _make_listener(proto_str: str, local: str) -> Listener | None:
 def _split_addr_port(s: str) -> tuple[str | None, int | None]:
     if s.startswith("["):
         bracket_end = s.find("]")
-        if bracket_end == -1 or ":" not in s[bracket_end + 1:]:
+        if bracket_end == -1 or ":" not in s[bracket_end + 1 :]:
             return None, None
         addr = s[: bracket_end + 1]
-        port_str = s[bracket_end + 1:].rsplit(":", 1)[1]
+        port_str = s[bracket_end + 1 :].rsplit(":", 1)[1]
     else:
         if ":" not in s:
             return None, None

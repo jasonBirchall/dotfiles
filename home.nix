@@ -68,8 +68,12 @@
       requests
       httpx
     ]))
-    ruff   # standalone Rust binary (linter + formatter), not a python module
+    ruff # standalone Rust binary (linter + formatter), not a python module
     uv
+    pre-commit # git hook framework; config in .pre-commit-config.yaml
+    shellcheck # shell linter (pre-commit)
+    shfmt # shell formatter (pre-commit)
+    nixpkgs-fmt # nix formatter (pre-commit)
     nodejs
     kubectl
     k9s
@@ -105,7 +109,7 @@
 
   programs.bash = {
     enable = true;
-    
+
     shellAliases = {
       v = "nvim";
       vim = "nvim";
@@ -269,17 +273,17 @@
   };
 
   home.sessionVariables = {
-      EDITOR = "nvim";
-      VISUAL = "nvim";
-      GIT_EDITOR = "nvim";
-      SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent.socket";
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+    GIT_EDITOR = "nvim";
+    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent.socket";
   };
 
   home.sessionPath = [
-      "$HOME/.cargo/bin"
-      "$HOME/.local/bin"
-      "$HOME/go/bin"
-      "$HOME/bin"
+    "$HOME/.cargo/bin"
+    "$HOME/.local/bin"
+    "$HOME/go/bin"
+    "$HOME/bin"
   ];
 
   # Suricata real-time alert watcher

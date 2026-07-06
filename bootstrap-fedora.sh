@@ -2,7 +2,8 @@
 set -e
 
 # Install DNF system packages
-sudo dnf install -y $(cat fedora/system-packages.txt)
+mapfile -t pkgs <fedora/system-packages.txt
+sudo dnf install -y "${pkgs[@]}"
 
 # Install Nix (if not installed)
 if ! command -v nix &>/dev/null; then

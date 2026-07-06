@@ -12,7 +12,8 @@ COOLDOWN_SECS=300
 
 mkdir -p "${COOLDOWN_DIR}"
 
-export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
+DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
+export DBUS_SESSION_BUS_ADDRESS
 export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-0}"
 
 notify_alert() {

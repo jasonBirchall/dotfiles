@@ -9,7 +9,9 @@ from listening.listening import (
 )
 
 
-def diff_listeners(baseline: list[Listener], current: list[Listener]) -> Drift[Listener]:
+def diff_listeners(
+    baseline: list[Listener], current: list[Listener]
+) -> Drift[Listener]:
     return diff(baseline, current)
 
 
@@ -80,7 +82,7 @@ class TestParseListeners:
 
         listeners = parse_listeners(stdout)
 
-        assert all(l.scope == Scope.LOOPBACK for l in listeners)
+        assert all(ln.scope == Scope.LOOPBACK for ln in listeners)
 
     def test_strips_interface_suffix_from_ipv4(self):
         stdout = "udp UNCONN 0 0 127.0.0.53%lo:53 0.0.0.0:*\n"
@@ -95,9 +97,7 @@ class TestParseListeners:
         assert parse_listeners(stdout) == []
 
     def test_filters_link_local_ipv6(self):
-        stdout = (
-            "udp UNCONN 0 0 [fe80::abcd]%wlp5s0:3702 [::]:*\n"
-        )
+        stdout = "udp UNCONN 0 0 [fe80::abcd]%wlp5s0:3702 [::]:*\n"
 
         assert parse_listeners(stdout) == []
 
@@ -174,15 +174,15 @@ class TestParseListeners:
         listeners = parse_listeners(stdout)
 
         # Every surviving listener has a non-empty address and a port > 0
-        assert all(l.address and l.port > 0 for l in listeners)
+        assert all(ln.address and ln.port > 0 for ln in listeners)
         # Filters worked — none of the noisy categories survive
-        assert not any("fe80" in l.address for l in listeners)
-        assert not any("ff02" in l.address for l in listeners)
-        assert not any(l.address.startswith("192.0.2.") for l in listeners)
-        assert not any(l.address == "*" for l in listeners)
+        assert not any("fe80" in ln.address for ln in listeners)
+        assert not any("ff02" in ln.address for ln in listeners)
+        assert not any(ln.address.startswith("192.0.2.") for ln in listeners)
+        assert not any(ln.address == "*" for ln in listeners)
         # The fixture's avahi ephemeral UDP port (0.0.0.0:41583) is gone
         assert not any(
-            l.protocol is Protocol.UDP and l.port >= 32768 for l in listeners
+            ln.protocol is Protocol.UDP and ln.port >= 32768 for ln in listeners
         )
         # A handful of expected entries from the fixture
         assert make(Scope.LOOPBACK, Protocol.TCP, "127.0.0.1", 631) in listeners

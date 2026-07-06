@@ -20,18 +20,18 @@ sleep 0.3
 # Does /sys/power/state list the "disk" (hibernate) state?
 can_hibernate=0
 if [ -r /sys/power/state ]; then
-    read -r _states < /sys/power/state
-    case " $_states " in *" disk "*) can_hibernate=1 ;; esac
+  read -r _states </sys/power/state
+  case " $_states " in *" disk "*) can_hibernate=1 ;; esac
 fi
 
 # Is any active swap a real (non-zram) device? /proc/swaps col 1 = path.
 has_disk_swap=0
 if awk 'NR>1 && $1 !~ /^\/dev\/zram/ { found=1 } END { exit found?0:1 }' /proc/swaps; then
-    has_disk_swap=1
+  has_disk_swap=1
 fi
 
 if [ "$can_hibernate" = 1 ] && [ "$has_disk_swap" = 1 ]; then
-    exec systemctl hibernate
+  exec systemctl hibernate
 else
-    exec systemctl suspend
+  exec systemctl suspend
 fi

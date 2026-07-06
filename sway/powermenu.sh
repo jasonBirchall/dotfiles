@@ -18,10 +18,18 @@ SELECTION="$(printf '%s' "$CHOICES" | wofi --show dmenu --prompt "power " --inse
 LOCK='swaylock -f -C ~/.config/swaylock/config'
 
 case "$SELECTION" in
-    Lock)      eval "$LOCK" ;;
-    Suspend)   eval "$LOCK" & sleep 0.3; systemctl suspend ;;
-    Hibernate) eval "$LOCK" & sleep 0.3; systemctl hibernate ;;
-    Logout)    swaymsg exit ;;
-    Reboot)    systemctl reboot ;;
-    Shutdown)  systemctl poweroff ;;
+  Lock) eval "$LOCK" ;;
+  Suspend)
+    eval "$LOCK" &
+    sleep 0.3
+    systemctl suspend
+    ;;
+  Hibernate)
+    eval "$LOCK" &
+    sleep 0.3
+    systemctl hibernate
+    ;;
+  Logout) swaymsg exit ;;
+  Reboot) systemctl reboot ;;
+  Shutdown) systemctl poweroff ;;
 esac

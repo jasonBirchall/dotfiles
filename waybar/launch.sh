@@ -10,11 +10,11 @@ style="$HOME/.config/waybar/style.css"
 pkill waybar 2>/dev/null || true
 
 if ls /sys/class/power_supply/BAT* >/dev/null 2>&1; then
-    exec waybar -c "$config" -s "$style"
+  exec waybar -c "$config" -s "$style"
 fi
 
 # No battery present: drop the module and its definition into a runtime config.
 runtime="${XDG_RUNTIME_DIR:-/tmp}/waybar-config.json"
 jq 'del(.battery) | ."modules-right" |= map(select(. != "battery"))' \
-    "$config" > "$runtime"
+  "$config" >"$runtime"
 exec waybar -c "$runtime" -s "$style"

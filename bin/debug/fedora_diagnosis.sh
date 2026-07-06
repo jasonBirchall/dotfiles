@@ -16,9 +16,11 @@ log() {
 }
 
 separator() {
-  echo "" >>"${REPORT}"
-  echo "---" >>"${REPORT}"
-  echo "" >>"${REPORT}"
+  {
+    echo ""
+    echo "---"
+    echo ""
+  } >>"${REPORT}"
 }
 
 echo "Post-crash diagnostic — $(date)"

@@ -20,20 +20,22 @@ import structlog
 
 
 def send_notification(title: str, message: str):
-    subprocess.run([
-        "osascript", "-e",
-        f'display notification "{message}" with title "{title}"'
-    ])
+    subprocess.run(
+        ["osascript", "-e", f'display notification "{message}" with title "{title}"']
+    )
 
 
 def notify_on_error(logger, method_name, event_dict):
     if event_dict.get("level") in ("error", "warning"):
         event = event_dict.get("event", "Unknown event")
-        details = ", ".join(f"{k}={v}" for k, v in event_dict.items()
-                           if k not in ("event", "level", "timestamp"))
+        details = ", ".join(
+            f"{k}={v}"
+            for k, v in event_dict.items()
+            if k not in ("event", "level", "timestamp")
+        )
         send_notification(
             f"sync-zettel {event_dict.get('level', 'alert')}",
-            f"{event}: {details}" if details else event
+            f"{event}: {details}" if details else event,
         )
     return event_dict
 

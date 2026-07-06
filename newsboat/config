@@ -78,4 +78,3 @@ bind-key ^D halfpagedown
 # Give sorting new homes since we stole g/G
 bind-key s sort
 bind-key S rev-sort
-

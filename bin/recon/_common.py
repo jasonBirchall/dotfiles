@@ -42,9 +42,7 @@ def diff(baseline: list[T], current: list[T]) -> Drift[T]:
     )
 
 
-def read_baseline(
-    path: Path, deserialize: Callable[[str], T]
-) -> list[T] | None:
+def read_baseline(path: Path, deserialize: Callable[[str], T]) -> list[T] | None:
     if not path.exists():
         return None
     return [
@@ -54,9 +52,7 @@ def read_baseline(
     ]
 
 
-def write_baseline(
-    path: Path, items: list[T], serialize: Callable[[T], str]
-) -> None:
+def write_baseline(path: Path, items: list[T], serialize: Callable[[T], str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     sorted_items = sorted(items)  # type: ignore[type-var]
     path.write_text("\n".join(serialize(i) for i in sorted_items) + "\n")

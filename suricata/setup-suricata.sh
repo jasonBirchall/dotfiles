@@ -6,7 +6,6 @@ set -euo pipefail
 
 IFACE="${1:-$(ip route show default | awk '/default/ {print $5}' | head -1)}"
 LOG_DIR="/var/log/suricata"
-RULES_DIR="/var/lib/suricata/rules"
 
 echo "[*] Configuring Suricata for passive IDS on interface: ${IFACE}"
 
