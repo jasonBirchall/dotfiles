@@ -4,6 +4,12 @@
   # home.username and home.homeDirectory are injected per-host by flake.nix
   # (see mkHome). This keeps home.nix machine-agnostic.
 
+  # YubiKey-backed SSH auth + git commit signing (shared with the
+  # dotbot-managed machines via the mac-m1 branch). After the first
+  # switch, run ~/bin/yubikey-ssh-bootstrap with the YubiKey plugged
+  # in to export the resident key handle (PIN + touch).
+  imports = [ ./nix/yubikey-ssh.nix ];
+
   home.stateVersion = "23.11";
 
   home.packages = with pkgs; [
@@ -230,6 +236,10 @@
     "bin/connection-checker.py".source = ./bin/connection-checker/connection-checker.py;
     "bin/diagnosis.sh".source = ./bin/debug/fedora_diagnosis.sh;
     "bin/view.py".source = ./bin/wakatime-view/view.py;
+    "bin/yubikey-ssh-bootstrap" = {
+      source = ./bin/yubikey-ssh-bootstrap/yubikey-ssh-bootstrap;
+      executable = true;
+    };
 
     # Suricata scripts
     "bin/suricata-alerts.sh".source = ./bin/suricata/suricata-alerts.sh;
