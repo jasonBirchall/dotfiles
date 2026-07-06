@@ -25,6 +25,15 @@
         identityFile = "~/.ssh/id_ed25519_sk_rk";
         extraOptions.IdentityAgent = "none";
       };
+      # Hetzner box (private, tailnet-only). No HostName: Tailscale MagicDNS
+      # resolves the bare `blog` name when the tailnet is up, keeping the tailnet
+      # address out of the repo. YubiKey only, touch required.
+      "blog" = {
+        user = "blog";
+        identitiesOnly = true;
+        identityFile = "~/.ssh/id_ed25519_sk_rk";
+        extraOptions.IdentityAgent = "none";
+      };
       "*" = {
         addKeysToAgent = "yes";
         identityFile = "~/.ssh/id_ed25519";
