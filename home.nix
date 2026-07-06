@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # home.username and home.homeDirectory are injected per-host by flake.nix
@@ -53,7 +53,22 @@
 
     # --- Development & Infrastructure ---
     go
-    python3
+    # python3 wrapped with common dev libraries so `import pytest` and the
+    # pytest/ipython/etc. CLIs work globally without a venv. For per-project
+    # dependency pinning, reach for `uv` instead.
+    (python3.withPackages (ps: with ps; [
+      # Testing
+      pytest
+      pytest-cov
+      pytest-mock
+      # Types
+      mypy
+      # REPL & HTTP
+      ipython
+      requests
+      httpx
+    ]))
+    ruff   # standalone Rust binary (linter + formatter), not a python module
     uv
     nodejs
     kubectl
@@ -325,6 +340,18 @@
       WantedBy = [ "graphical-session.target" ];
     };
   };
+
+  # gitingest isn't in nixpkgs, so install it as an isolated `uv tool`.
+  # Idempotent: only runs when the executable is missing (e.g. first switch
+  # on a new machine), so it won't hit the network on every activation and
+  # can't break an offline `switch`. Run `uv tool upgrade gitingest` by hand
+  # to bump it.
+  home.activation.gitingestTool =
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      if [ ! -x "$HOME/.local/bin/gitingest" ]; then
+        run ${pkgs.uv}/bin/uv tool install gitingest
+      fi
+    '';
 
   # Let Home Manager manage itself
   programs.home-manager.enable = true;
