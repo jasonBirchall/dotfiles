@@ -1,5 +1,5 @@
 # YubiKey SSH + git signing for home-manager machines.
-# Import from home.nix: imports = [ ./nix/yubikey-ssh.nix ];
+# Import from home.nix: imports = [ ./modules/ssh.nix ];
 #
 # The key handle is a FIDO2 *resident* credential — after switching,
 # run bin/yubikey-ssh-bootstrap (or `ssh-keygen -K`) once to export
