@@ -82,7 +82,7 @@
       "--color=bw"
     ];
     defaultCommand = "fd --type f";
-    fileWidgetCommand = "fd --type f";
+    fileWidget.command = "fd --type f";
   };
 
   home.sessionVariables = {
