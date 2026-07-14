@@ -2,3 +2,4 @@
 # Installed system-wide via `make flatpak`.
 flathub org.gnome.Fractal
 flathub org.mozilla.vpn
+flathub org.signal.Signal
