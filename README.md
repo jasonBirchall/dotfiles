@@ -110,6 +110,15 @@ This will:
 
 ---
 
+## Post-bootstrap manual steps
+
+`make bootstrap` installs every package and config, but a handful of things can't be automated: interactive logins and device pairings. A rebuilt machine has the tools but not the sessions — this is the "why am I logged out?" list. Do these once per machine:
+
+- **Proton Drive** — `proton-drive auth login` opens a browser to sign in; the session is then cached in libsecret, so you won't be asked again. After that the `pdrive` wrapper (and its `pd` alias) work. How the binary is pinned and updated lives in `modules/services.nix`; `make audit` tells you when a newer release ships.
+- **Signal** — launch Signal, then on your phone go to *Settings → Linked devices → Link new device* and scan the QR code. History doesn't backfill; both devices sync forward from the link point.
+
+---
+
 # Common Commands
 
 Install system packages:
@@ -209,6 +218,14 @@ make local-sync
 This target runs as part of `make bootstrap` ahead of Home Manager, because `home.nix` references files inside `local-config/` — the clone has to land first.
 
 If you've cloned this repo without access to the private companion, `make hm` and `make bootstrap` will fail at the `local-sync` step. Comment out the lines that reference `local-config/` in `home.nix` to skip the private parts, or run the individual targets that don't depend on `local-sync` directly.
+
+---
+
+# Gotchas
+
+Things that have cost me a head-scratch, written down so they cost less next time.
+
+- **The Proton Drive CLI skips Docs and Sheets.** `pdrive pull` (and the underlying `proton-drive filesystem download`) quietly skip anything stored as a Proton Doc or Sheet — those live in Proton's editor in a proprietary format, not as real files. So a pull of a folder that holds only Docs finishes cleanly and downloads *nothing*, which looks broken but isn't. To get a Doc locally, export it from the Proton Docs web UI first. Regular files (PDFs, images, `.md`, …) come down fine.
 
 ---
 

@@ -8,6 +8,10 @@ set -euo pipefail
 # remember. Conflicts prompt interactively unless you pass a strategy, so
 # nothing is silently overwritten.
 #
+# Gotcha: the CLI silently skips Proton Docs and Sheets (they're not real
+# files). A `pull` of a folder holding only Docs downloads nothing and still
+# exits 0 — looks broken, isn't. Export Docs from the Proton web UI first.
+#
 # Config — override in your shell if you want a different pairing:
 #   PDRIVE_LOCAL   local folder this maps to   (default: ~/ProtonDrive)
 #   PDRIVE_REMOTE  remote folder it mirrors     (default: /my-files)
