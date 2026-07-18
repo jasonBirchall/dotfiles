@@ -15,7 +15,8 @@
       alerts = "sudo ~/bin/suricata-alerts.sh";
       sniff = "sudo \"$(which bandwhich)\"";
       capture = "sudo tcpdump -i any -w /tmp/capture-$(date +%s).pcap";
-      shark = "termshark";
+      shark = "sudo \"$(which termshark)\"";
+      pd = "pdrive";
     };
 
     initExtra = ''
