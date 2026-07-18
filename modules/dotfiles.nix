@@ -37,6 +37,12 @@
       executable = true;
     };
 
+    # Proton Drive CLI wrapper (friendly verbs over the `proton-drive` binary)
+    "bin/pdrive" = {
+      source = ../bin/pdrive/pdrive;
+      executable = true;
+    };
+
     # Suricata scripts
     "bin/suricata-alerts.sh".source = ../bin/suricata/suricata-alerts.sh;
     "bin/suricata-watcher.sh".source = ../bin/suricata/suricata-watcher.sh;

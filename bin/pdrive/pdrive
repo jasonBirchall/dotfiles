@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# pdrive — a friendly wrapper around Proton's official `proton-drive` CLI.
+#
+# The CLI is a one-shot transfer tool (no background sync, no mounted folder),
+# so this just makes the common "get my stuff up/down" gestures easy to
+# remember. Conflicts prompt interactively unless you pass a strategy, so
+# nothing is silently overwritten.
+#
+# Config — override in your shell if you want a different pairing:
+#   PDRIVE_LOCAL   local folder this maps to   (default: ~/ProtonDrive)
+#   PDRIVE_REMOTE  remote folder it mirrors     (default: /my-files)
+LOCAL="${PDRIVE_LOCAL:-$HOME/ProtonDrive}"
+REMOTE="${PDRIVE_REMOTE:-/my-files}"
+
+CLI="proton-drive"
+
+die() {
+  echo "pdrive: $*" >&2
+  exit 1
+}
+command -v "$CLI" >/dev/null 2>&1 || die "$CLI not found on PATH (install it first)"
+
+usage() {
+  cat <<EOF
+pdrive — talk to Proton Drive without memorising the long CLI
+
+Usage: pdrive <command> [args]
+
+  login              Sign in (opens your browser; session cached in libsecret)
+  logout             Sign out
+  ls [PATH]          List a remote folder            (default: $REMOTE)
+  pull [PATH]        Download a remote folder into $LOCAL
+                     (default whole $REMOTE); prompts on conflicts
+  push PATH...       Upload local file(s)/folder(s) into $REMOTE
+                     (default: everything inside $LOCAL)
+  sync               push local up, then pull remote down (poor-man's sync —
+                     NOT a real two-way resolver; it just runs both and
+                     prompts on conflicts)
+  where              Show the local <-> remote folder mapping
+  raw ...            Pass arguments straight through to \`$CLI\`
+  help               This message
+
+Examples:
+  pdrive pull                       # mirror all of $REMOTE into $LOCAL
+  pdrive pull /my-files/Reports     # just one folder
+  pdrive push ~/notes.md            # send one file up to $REMOTE
+  pdrive push                       # back up everything in $LOCAL
+  pdrive raw sharing set-url /my-files/Reports
+EOF
+}
+
+cmd="${1:-help}"
+shift || true
+
+case "$cmd" in
+  login) exec "$CLI" auth login "$@" ;;
+  logout) exec "$CLI" auth logout "$@" ;;
+
+  ls) exec "$CLI" filesystem list "${1:-$REMOTE}" ;;
+
+  where)
+    echo "local : $LOCAL"
+    echo "remote: $REMOTE"
+    ;;
+
+  pull)
+    mkdir -p "$LOCAL"
+    local_target="$LOCAL"
+    remote_src="${1:-$REMOTE}"
+    echo "pdrive: downloading $remote_src -> $local_target"
+    exec "$CLI" filesystem download "$remote_src" "$local_target"
+    ;;
+
+  push)
+    if [ "$#" -gt 0 ]; then
+      # Explicit paths given: last arg may be a remote parent if it starts
+      # with '/', otherwise everything goes to the default $REMOTE.
+      exec "$CLI" filesystem upload "$@" "$REMOTE"
+    fi
+    # No args: back up the whole local folder's contents.
+    [ -d "$LOCAL" ] || die "$LOCAL does not exist yet — nothing to push"
+    shopt -s nullglob dotglob
+    items=("$LOCAL"/*)
+    shopt -u nullglob dotglob
+    [ "${#items[@]}" -gt 0 ] || die "$LOCAL is empty — nothing to push"
+    echo "pdrive: uploading contents of $LOCAL -> $REMOTE"
+    exec "$CLI" filesystem upload "${items[@]}" "$REMOTE"
+    ;;
+
+  sync)
+    mkdir -p "$LOCAL"
+    echo "pdrive: sync = push then pull (not a true bidirectional merge)"
+    shopt -s nullglob dotglob
+    items=("$LOCAL"/*)
+    shopt -u nullglob dotglob
+    if [ "${#items[@]}" -gt 0 ]; then
+      echo "pdrive: [1/2] pushing $LOCAL -> $REMOTE"
+      "$CLI" filesystem upload "${items[@]}" "$REMOTE"
+    else
+      echo "pdrive: [1/2] $LOCAL empty, skipping push"
+    fi
+    echo "pdrive: [2/2] pulling $REMOTE -> $LOCAL"
+    exec "$CLI" filesystem download "$REMOTE" "$LOCAL"
+    ;;
+
+  raw) exec "$CLI" "$@" ;;
+
+  help | -h | --help) usage ;;
+  *)
+    usage
+    exit 1
+    ;;
+esac
