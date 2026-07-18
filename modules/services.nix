@@ -85,4 +85,32 @@
         run ${pkgs.uv}/bin/uv tool install gitingest
       fi
     '';
+
+  # Proton Drive CLI — Proton's official single-binary client (no nixpkgs
+  # package yet). Fedora is glibc, so the linux-x64 build runs natively.
+  # Pinned to a version + SHA-512; a mismatched download aborts rather than
+  # installing. Idempotent like gitingest above: only fetches when the binary
+  # is missing, so offline switches are fine. To upgrade: bump VER + SHA512
+  # (from https://proton.me/download/drive/cli/) and
+  # `rm ~/.local/bin/proton-drive` before the next switch.
+  # First-time auth is a one-shot `proton-drive auth login` (browser-based;
+  # the session is cached in libsecret — no password stored on disk).
+  home.activation.protonDriveCli =
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      VER=0.5.0
+      SHA512=d85edbc57412c92a9705b70a8d3a5c66ad933331554d6b922b912d6df29b4e5e9b0d7a940a594927dd4788e1f8db86d5e9a23f084f07dbd5327f7a9e51d61272
+      BIN="$HOME/.local/bin/proton-drive"
+      if [ ! -x "$BIN" ]; then
+        run ${pkgs.coreutils}/bin/mkdir -p "$HOME/.local/bin"
+        tmp="$(${pkgs.coreutils}/bin/mktemp)"
+        if run ${pkgs.curl}/bin/curl -fsSL \
+            "https://proton.me/download/drive/cli/$VER/linux-x64/proton-drive" -o "$tmp" \
+          && echo "$SHA512  $tmp" | ${pkgs.coreutils}/bin/sha512sum -c - >/dev/null 2>&1; then
+          run ${pkgs.coreutils}/bin/install -m755 "$tmp" "$BIN"
+        else
+          echo "proton-drive: download/checksum failed — skipping install" >&2
+        fi
+        ${pkgs.coreutils}/bin/rm -f "$tmp"
+      fi
+    '';
 }
