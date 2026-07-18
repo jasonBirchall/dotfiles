@@ -116,6 +116,9 @@ audit:
 	@echo
 	@echo "=== Python (bin/recon): vulnerabilities ==="
 	@uvx pip-audit -r <(cd bin/recon && uv export --no-hashes 2>/dev/null) 2>&1 | grep -vE '^(Installed|Downloading|Downloaded| Installed)' || true
+	@echo
+	@echo "=== Proton Drive CLI: pinned vs latest ==="
+	@bash bin/pdrive/pdrive-check-update.sh || true
 
 # Routine cadence update across all four package channels.
 # Order matters: flake update must come before `home-manager switch`, otherwise

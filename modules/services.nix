@@ -89,10 +89,10 @@
   # Proton Drive CLI — Proton's official single-binary client (no nixpkgs
   # package yet). Fedora is glibc, so the linux-x64 build runs natively.
   # Pinned to a version + SHA-512; a mismatched download aborts rather than
-  # installing. Idempotent like gitingest above: only fetches when the binary
-  # is missing, so offline switches are fine. To upgrade: bump VER + SHA512
-  # (from https://proton.me/download/drive/cli/) and
-  # `rm ~/.local/bin/proton-drive` before the next switch.
+  # installing. Fetches only when the binary is missing OR its version differs
+  # from the pin, so routine offline switches never hit the network.
+  # To upgrade: `make audit` tells you when a newer release is out and prints
+  # the exact VER + SHA512 to paste below; then `make hm` swaps it in.
   # First-time auth is a one-shot `proton-drive auth login` (browser-based;
   # the session is cached in libsecret — no password stored on disk).
   home.activation.protonDriveCli =
@@ -100,7 +100,11 @@
       VER=0.5.0
       SHA512=d85edbc57412c92a9705b70a8d3a5c66ad933331554d6b922b912d6df29b4e5e9b0d7a940a594927dd4788e1f8db86d5e9a23f084f07dbd5327f7a9e51d61272
       BIN="$HOME/.local/bin/proton-drive"
-      if [ ! -x "$BIN" ]; then
+      have=""
+      if [ -x "$BIN" ]; then
+        have="$("$BIN" --version 2>/dev/null | ${pkgs.gnugrep}/bin/grep -oE 'cli-drive@[0-9.]+' | ${pkgs.coreutils}/bin/cut -d@ -f2 || true)"
+      fi
+      if [ "$have" != "$VER" ]; then
         run ${pkgs.coreutils}/bin/mkdir -p "$HOME/.local/bin"
         tmp="$(${pkgs.coreutils}/bin/mktemp)"
         if run ${pkgs.curl}/bin/curl -fsSL \
