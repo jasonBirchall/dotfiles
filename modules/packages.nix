@@ -29,7 +29,6 @@
     # --- Git & Version Control ---
     git
     lazygit
-    commitizen
     git-cola
 
     # --- Terminal Workspace ---
