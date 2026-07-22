@@ -28,8 +28,8 @@
 
       # Better History: ignore duplicates and space-started commands
       export HISTCONTROL=ignoreboth:erasedups
-      export HISTSIZE=10000
-      export HISTFILESIZE=20000
+      export HISTSIZE=100000
+      export HISTFILESIZE=100000
 
       # Autocomplete cd: typing a directory name moves you there
       shopt -s autocd
@@ -48,6 +48,13 @@
 
       __prompt_command() {
         local exit_code=$?
+
+        # Bash only writes history on clean shell exit, so killed tmux panes
+        # lose theirs and concurrent panes can't see each other's commands.
+        # Flush after every command and pull in what other shells have written.
+        history -a
+        history -n
+
         PS1=""
 
         # Red ✗ only on non-zero exit
