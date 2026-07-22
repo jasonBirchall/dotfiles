@@ -6,14 +6,20 @@ docker
 docker-compose
 flatpak
 ghostty
+gnome-shell-extension-pop-shell
+gnome-shell-extension-pop-shell-shortcut-overrides
 jetbrains-mono-fonts
 libnotify
 lm_sensors
 mako
+network-manager-applet
+nm-connection-editor
 playerctl
 podman
 podman-compose
 policycoreutils-devel
+# pop-shell's Super+d launcher daemon; the extension package doesn't pull it in
+pop-launcher
 suricata
 sway
 swayidle

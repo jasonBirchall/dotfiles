@@ -13,6 +13,7 @@
     ./modules/tmux.nix # programs.tmux
     ./modules/dotfiles.nix # home.file symlinks
     ./modules/services.nix # systemd user services/timers + activation
+    ./modules/gnome.nix # GNOME + pop-shell dconf keybindings (mirrors sway)
 
     # YubiKey-backed SSH auth + git commit signing (shared with the
     # dotbot-managed machines via the mac-m1 branch). After the first

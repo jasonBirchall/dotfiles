@@ -16,6 +16,7 @@ This repo manages:
 - System packages (via `dnf`)
 - User environment (via Nix + Home Manager)
 - Sway configuration
+- GNOME + pop-shell keybindings (mirroring sway, for GNOME sessions)
 - Waybar, mako, swaylock styling
 - Shell configuration
 

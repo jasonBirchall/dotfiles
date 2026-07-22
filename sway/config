@@ -77,6 +77,14 @@ bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
 # wl-kbptr — keyboard-driven pointer
 bindsym $mod+g exec ~/.nix-profile/bin/wl-kbptr
 
+### --- Network ---
+# NetworkManager connection editor: create/edit wifi (incl. hidden
+# networks) and VPN connections. Also opens from the waybar network
+# module on click.
+# The trailing shell comment is shown by the cheatsheet, making this
+# binding findable by searching "wifi" or "network".
+bindsym $mod+Shift+w exec nm-connection-editor # wifi / network editor
+
 ### --- NVIDIA stability ---
 output * adaptive_sync off
 output * scale 1.25
