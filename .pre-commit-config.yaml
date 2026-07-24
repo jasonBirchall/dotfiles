@@ -48,3 +48,14 @@ repos:
         entry: nixpkgs-fmt
         language: system
         files: \.nix$
+
+  # --- Sigma detection rules ---
+  # sigma-cli is installed via `uv tool install sigma-cli` (kept current by
+  # `make update`). Validates syntax, conditions, and ATT&CK tags.
+  - repo: local
+    hooks:
+      - id: sigma-check
+        name: sigma check
+        entry: sigma check
+        language: system
+        files: ^detection/rules/.*\.ya?ml$
