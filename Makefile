@@ -19,6 +19,7 @@ help:
 	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
 	@echo "  make tailscale          Install Tailscale + enable tailscaled (then 'sudo tailscale up')"
 	@echo "  make auditd             Install auditd tamper watches (~/.ssh, shell rc, systemd user units)"
+	@echo "  make sigma-scan         Run Sigma rules (detection/rules/) over local telemetry via Zircolite"
 	@echo "  make local-sync         Clone or update the private local-config repo + run its setup hook"
 	@echo "  make audit              Report pending security updates (dnf), flatpak updates, nix flake input age"
 	@echo "  make update             Apply routine updates across all channels (dnf, flatpak, flake, hm, auditd, uv)"
@@ -196,6 +197,11 @@ drift-flatpak:
 auditd:
 	@echo "Setting up auditd tamper watches"
 	bash auditd/setup-auditd.sh
+
+.PHONY: sigma-scan
+sigma-scan:
+	@echo "Running Sigma detection rules over local telemetry"
+	bash detection/sigma-scan.sh
 
 .PHONY: suricata
 suricata:

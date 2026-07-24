@@ -1,0 +1,30 @@
+title: Auditd Tamper Watch Rule Removed
+id: 7834cd23-1e4c-4b96-bfc1-92863c176a81
+status: experimental
+description: >
+  A CONFIG_CHANGE record shows one of the *-tamper watch rules being
+  removed from the kernel. `auditctl -D` or a selective delete is the
+  cleanest way to blind the watches without touching files in /etc/audit.
+  A legitimate `augenrules --load` also produces remove_rule events, but
+  setup-auditd.sh only reloads when rules actually changed, so this stays
+  rare.
+references:
+  - https://attack.mitre.org/techniques/T1685/004/
+author: Jason Birchall
+date: 2026-07-24
+tags:
+  - attack.defense-impairment
+  - attack.t1685.004
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    type: CONFIG_CHANGE
+    op: remove_rule
+    key|endswith: '-tamper'
+  condition: selection
+falsepositives:
+  - Rule reload during `make auditd` / `make update` after editing the
+    rules in this repo
+level: medium

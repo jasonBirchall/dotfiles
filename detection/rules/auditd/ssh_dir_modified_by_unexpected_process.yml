@@ -1,0 +1,36 @@
+title: SSH Directory Modified By Unexpected Process
+id: 7e19d857-1ac5-4325-80f6-20c63352eae5
+status: experimental
+description: >
+  Something other than the usual SSH/editing tooling wrote to ~/.ssh
+  (ssh-tamper watch). Malware drops keys or rewrites config via shells,
+  interpreters, or droppers — none of which appear in the filter list.
+references:
+  - https://attack.mitre.org/techniques/T1098/004/
+author: Jason Birchall
+date: 2026-07-24
+tags:
+  - attack.persistence
+  - attack.t1098.004
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    type: SYSCALL
+    key: ssh-tamper
+  filter_expected_tools:
+    comm:
+      - ssh
+      - ssh-keygen
+      - ssh-agent
+      - sshd
+      - scp
+      - sftp
+      - git
+      - vim
+      - nvim
+  condition: selection and not filter_expected_tools
+falsepositives:
+  - One-off manual maintenance with cp/mv/chmod — verify it was you
+level: medium

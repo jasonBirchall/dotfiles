@@ -86,6 +86,16 @@
       fi
     '';
 
+  # sigma-cli lints the Sigma detection rules in detection/rules/ (the
+  # sigma-check pre-commit hook and `sigma check` by hand). Same shape as
+  # gitingest above: install once when missing, `uv tool upgrade` bumps it.
+  home.activation.sigmaCliTool =
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      if [ ! -x "$HOME/.local/bin/sigma" ]; then
+        run ${pkgs.uv}/bin/uv tool install sigma-cli
+      fi
+    '';
+
   # Proton Drive CLI — Proton's official single-binary client (no nixpkgs
   # package yet). Fedora is glibc, so the linux-x64 build runs natively.
   # Pinned to a version + SHA-512; a mismatched download aborts rather than

@@ -1,0 +1,23 @@
+title: Failed Write To Tamper-Watched Path
+id: 46f1069e-45d8-4744-b899-a18d5e0e2b74
+status: experimental
+description: >
+  A syscall under any *-tamper watch failed (success=no). Watched paths are
+  writable by their owner, so a denied write usually means a confined or
+  unprivileged process probing at files it should not touch.
+author: Jason Birchall
+date: 2026-07-24
+tags:
+  - attack.discovery
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    type: SYSCALL
+    success: 'no'
+    key|endswith: '-tamper'
+  condition: selection
+falsepositives:
+  - Sandboxed apps (flatpak) blindly statting or opening dotfiles
+level: medium

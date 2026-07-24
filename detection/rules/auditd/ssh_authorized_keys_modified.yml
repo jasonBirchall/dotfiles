@@ -1,0 +1,27 @@
+title: SSH authorized_keys Written Or Deleted
+id: 4398c98f-39db-4f05-9032-a7f0999920c3
+status: experimental
+description: >
+  A PATH record under the ssh-tamper watch touched an authorized_keys file.
+  Adding a key here grants persistent remote access, so this fires on any
+  writer — including tools allowlisted by the companion SYSCALL rules.
+references:
+  - https://attack.mitre.org/techniques/T1098/004/
+author: Jason Birchall
+date: 2026-07-24
+tags:
+  - attack.persistence
+  - attack.t1098.004
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    type: PATH
+    name|contains: authorized_keys
+  filter_parent_dir:
+    nametype: PARENT
+  condition: selection and not filter_parent_dir
+falsepositives:
+  - Deliberately adding a key for a new machine
+level: high

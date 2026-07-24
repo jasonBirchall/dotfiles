@@ -1,0 +1,35 @@
+title: Audit Configuration Modified By Unexpected Process
+id: e80191df-e273-4663-8a62-319ef6e3248a
+status: experimental
+description: >
+  Write to /etc/audit outside the provisioning toolchain
+  (audit-config-tamper watch). An attacker with root neuters the watches
+  first; only setup-auditd.sh's tools and the package manager should ever
+  land here.
+references:
+  - https://attack.mitre.org/techniques/T1685/004/
+author: Jason Birchall
+date: 2026-07-24
+tags:
+  - attack.defense-impairment
+  - attack.t1685.004
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    type: SYSCALL
+    key: audit-config-tamper
+  filter_provisioning:
+    comm:
+      - augenrules
+      - auditctl
+      - install
+      - sed
+      - dnf
+      - rpm
+  condition: selection and not filter_provisioning
+falsepositives:
+  - Editing audit config by hand with an editor — should be rare enough to
+    confirm each occurrence
+level: high

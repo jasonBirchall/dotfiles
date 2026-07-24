@@ -1,0 +1,35 @@
+title: Shell RC File Modified By Unexpected Process
+id: 8deb6ca6-cc92-4358-b03a-2568e4096fb0
+status: experimental
+description: >
+  A process outside the editing/provisioning toolchain wrote to a shell rc
+  file (rc-tamper watch). Appending to .bashrc via bash/tee/sed is the
+  classic user-level persistence primitive, and those tools are deliberately
+  not in the filter list.
+references:
+  - https://attack.mitre.org/techniques/T1546/004/
+author: Jason Birchall
+date: 2026-07-24
+tags:
+  - attack.persistence
+  - attack.t1546.004
+logsource:
+  product: linux
+  service: auditd
+detection:
+  selection:
+    type: SYSCALL
+    key: rc-tamper
+  filter_expected_tools:
+    comm:
+      - vim
+      - nvim
+      - git
+      - ln
+      - home-manager
+      - nix
+  condition: selection and not filter_expected_tools
+falsepositives:
+  - Installers that append PATH exports to .bashrc (rustup, nvm, etc.) —
+    still worth seeing each time
+level: medium
