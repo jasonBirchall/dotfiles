@@ -1,8 +1,0 @@
-[Unit]
-Description=recon: enabled .service drift detection
-Documentation=file://%h/Documents/workarea/dotfiles/bin/recon/README.md
-OnFailure=recon-notify@%N.service
-
-[Service]
-Type=oneshot
-ExecStart=%h/.nix-profile/bin/uv run --directory %h/Documents/workarea/dotfiles/bin/recon python -m autostart.autostart

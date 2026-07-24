@@ -29,15 +29,6 @@ help:
 	@echo "  make lint-update        Bump pinned hook revs in .pre-commit-config.yaml"
 	@echo "  make drift-dnf          Show user-installed packages not in $(DNF_PKGS_FILE)"
 	@echo "  make drift-flatpak      Show installed flatpaks not in $(FLATPAK_FILE)"
-	@echo ""
-	@echo "Recon (system inspection):"
-	@echo "  make recon              Run all recon tools"
-	@echo "  make recon-listening    Listening sockets / open ports"
-	@echo "  make recon-listening-bless  Accept current listening state as baseline"
-	@echo "  make recon-autostart    systemd timers, cron, desktop autostart"
-	@echo "  make recon-autostart-bless  Accept current autostart state as baseline"
-	@echo "  make recon-new NAME=x   Scaffold a new recon tool at bin/recon/x/"
-	@echo "  make recon-timers-install   Install + enable recon systemd --user timers"
 
 .PHONY: dnf
 dnf:
@@ -60,7 +51,7 @@ hm:
 	home-manager switch --flake "$(FLAKE)"
 
 .PHONY: bootstrap
-bootstrap: dnf flatpak nix local-sync hm lint-install suricata nvidia xremap tailscale recon-timers-install
+bootstrap: dnf flatpak nix local-sync hm lint-install suricata nvidia xremap tailscale
 	@echo "Bootstrap complete."
 
 # Clones or updates the private local-config repo (sibling of dotfiles) and
@@ -114,9 +105,6 @@ audit:
 	@echo "=== Nix flake input age ==="
 	@nix flake metadata --json 2>/dev/null | jq -r '.locks.nodes | to_entries[] | select(.value.locked.lastModified) | "\(.key): \((now - .value.locked.lastModified) / 86400 | floor)d old"' || true
 	@echo
-	@echo "=== Python (bin/recon): vulnerabilities ==="
-	@uvx pip-audit -r <(cd bin/recon && uv export --no-hashes 2>/dev/null) 2>&1 | grep -vE '^(Installed|Downloading|Downloaded| Installed)' || true
-	@echo
 	@echo "=== Proton Drive CLI: pinned vs latest ==="
 	@bash bin/pdrive/pdrive-check-update.sh || true
 
@@ -141,9 +129,6 @@ update:
 	@echo
 	@echo "=== uv: upgrade tools ==="
 	uv tool upgrade --all
-	@echo
-	@echo "=== uv: refresh bin/recon lockfile ==="
-	cd bin/recon && uv lock --upgrade
 	@echo
 	@echo "Update complete. If the kernel was updated, reboot to apply."
 
@@ -210,36 +195,3 @@ suricata:
 suricata-update:
 	@echo "Updating suricata rules"
 	sudo systemctl restart suricata
-
-RECON_TOOLS := listening autostart
-
-.PHONY: recon recon-listening recon-listening-bless recon-autostart recon-autostart-bless recon-new
-
-recon: recon-listening recon-autostart
-
-recon-listening:
-	@echo "=== recon: listening ==="
-	@uv run --directory bin/recon python -m listening.listening
-
-recon-listening-bless:
-	@uv run --directory bin/recon python -m listening.listening --bless
-
-recon-autostart:
-	@echo "=== recon: autostart ==="
-	@uv run --directory bin/recon python -m autostart.autostart
-
-recon-autostart-bless:
-	@uv run --directory bin/recon python -m autostart.autostart --bless
-
-.PHONY: recon-timers-install
-recon-timers-install:
-	bash bin/recon/setup-recon-timers.sh
-
-recon-new:
-	@test -n "$(NAME)" || (echo "usage: make recon-new NAME=<tool>"; exit 1)
-	@test ! -d "bin/recon/$(NAME)" || (echo "bin/recon/$(NAME) already exists"; exit 1)
-	mkdir -p "bin/recon/$(NAME)"
-	@printf '#!/usr/bin/env bash\nset -euo pipefail\n\n# TODO: describe what this tool answers\n\necho "TODO: implement $(NAME) recon"\n' > "bin/recon/$(NAME)/$(NAME).sh"
-	chmod +x "bin/recon/$(NAME)/$(NAME).sh"
-	@echo "Created bin/recon/$(NAME)/$(NAME).sh"
-	@echo "Add '$(NAME)' to RECON_TOOLS in the Makefile to wire it into 'make recon'."

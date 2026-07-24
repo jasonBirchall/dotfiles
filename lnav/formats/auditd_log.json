@@ -1,0 +1,29 @@
+{
+  "$schema": "https://lnav.org/schemas/format-v1.schema.json",
+  "auditd_log": {
+    "title": "Linux auditd log",
+    "description": "Raw /var/log/audit/audit.log records; multi-record events share a serial (opid)",
+    "regex": {
+      "std": {
+        "pattern": "^(?:node=\\S+ )?type=(?<type>\\S+) msg=audit\\((?<timestamp>\\d+)\\.\\d+:(?<serial>\\d+)\\): ?(?:(?=.* key=\"(?<key>[^\"]+)\"))?(?<body>.*)$"
+      }
+    },
+    "timestamp-field": "timestamp",
+    "timestamp-format": ["%s"],
+    "opid-field": "serial",
+    "value": {
+      "type": { "kind": "string", "identifier": true },
+      "serial": { "kind": "string", "identifier": true },
+      "key": { "kind": "string", "identifier": true },
+      "body": { "kind": "string" }
+    },
+    "sample": [
+      {
+        "line": "type=SYSCALL msg=audit(1753357331.123:4567): arch=c000003e syscall=257 success=yes exit=3 auid=1000 uid=1000 comm=\"vim\" exe=\"/usr/bin/vim\" key=\"rc-tamper\""
+      },
+      {
+        "line": "type=PATH msg=audit(1753357331.123:4567): item=0 name=\"/home/jsond/.bashrc\" inode=131 mode=0100644 ouid=1000"
+      }
+    ]
+  }
+}
