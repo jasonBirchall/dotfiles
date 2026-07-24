@@ -20,6 +20,11 @@
       cdd = "cd ~/Documents/workarea/dotfiles";
       cdw = "cd ~/Documents/workarea";
       alerts = "sudo ~/bin/suricata-alerts.sh";
+      # auditd tamper watches (auditd/): -k does substring match, so one
+      # alias covers every *-tamper key, including future rules files
+      tamper = "ausearch -ts today -k tamper --format text";
+      tampernew = "ausearch -k tamper --format text --checkpoint ~/.local/state/tamper.ckpt";
+      tamperlog = "lnav /var/log/audit/audit.log -c ':filter-in key=\"[a-z-]+-tamper\"'";
       sniff = "sudo \"$(which bandwhich)\"";
       capture = "sudo tcpdump -i any -w /tmp/capture-$(date +%s).pcap";
       shark = "sudo \"$(which termshark)\"";

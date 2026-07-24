@@ -1,0 +1,5 @@
+## auditd watches its own config: any change to the deployed rules is
+## itself an audit event, so drift cannot happen silently. Only root can
+## write here, so this fires on tampering or on legitimate re-provisioning
+## via setup-auditd.sh — both worth a log entry.
+-w /etc/audit/ -p wa -k audit-config-tamper

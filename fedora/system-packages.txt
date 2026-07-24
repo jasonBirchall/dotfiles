@@ -1,4 +1,6 @@
 akmod-nvidia
+# auditd — a Fedora default, but pinned so `make auditd` never runs against a missing daemon
+audit
 brightnessctl
 checkpolicy
 conntrack-tools
@@ -10,6 +12,8 @@ gnome-shell-extension-pop-shell
 gnome-shell-extension-pop-shell-shortcut-overrides
 jetbrains-mono-fonts
 libnotify
+# audit-log viewer; custom format in lnav/formats/auditd_log.json
+lnav
 lm_sensors
 mako
 network-manager-applet

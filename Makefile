@@ -18,9 +18,10 @@ help:
 	@echo "  make nvidia             Install proprietary NVIDIA driver + suspend setup"
 	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
 	@echo "  make tailscale          Install Tailscale + enable tailscaled (then 'sudo tailscale up')"
+	@echo "  make auditd             Install auditd tamper watches (~/.ssh, shell rc, systemd user units)"
 	@echo "  make local-sync         Clone or update the private local-config repo + run its setup hook"
 	@echo "  make audit              Report pending security updates (dnf), flatpak updates, nix flake input age"
-	@echo "  make update             Apply routine updates across all channels (dnf, flatpak, flake, hm, uv)"
+	@echo "  make update             Apply routine updates across all channels (dnf, flatpak, flake, hm, auditd, uv)"
 	@echo ""
 	@echo "Linting (pre-commit):"
 	@echo "  make lint               Run all pre-commit hooks across every file"
@@ -51,7 +52,7 @@ hm:
 	home-manager switch --flake "$(FLAKE)"
 
 .PHONY: bootstrap
-bootstrap: dnf flatpak nix local-sync hm lint-install suricata nvidia xremap tailscale
+bootstrap: dnf flatpak nix local-sync hm lint-install suricata auditd nvidia xremap tailscale
 	@echo "Bootstrap complete."
 
 # Clones or updates the private local-config repo (sibling of dotfiles) and
@@ -108,10 +109,12 @@ audit:
 	@echo "=== Proton Drive CLI: pinned vs latest ==="
 	@bash bin/pdrive/pdrive-check-update.sh || true
 
-# Routine cadence update across all four package channels.
+# Routine cadence update across all four package channels, plus config sync.
 # Order matters: flake update must come before `home-manager switch`, otherwise
 # you'd apply an old flake.lock. uv tool upgrade is last because the companion
-# tools depend on nothing else.
+# tools depend on nothing else. The auditd step syncs any new tamper watch
+# rules pulled into the repo; it's drift-aware, so it's a no-op (no reload,
+# no audit event) when nothing changed.
 # Run weekly or biweekly. A kernel update may land here — reboot afterwards if so.
 .PHONY: update
 update:
@@ -126,6 +129,9 @@ update:
 	@echo
 	@echo "=== Home Manager: apply new generation ==="
 	home-manager switch --flake "$(FLAKE)"
+	@echo
+	@echo "=== auditd: sync tamper watch rules ==="
+	bash auditd/setup-auditd.sh
 	@echo
 	@echo "=== uv: upgrade tools ==="
 	uv tool upgrade --all
@@ -185,6 +191,11 @@ drift-flatpak:
 	@comm -23 \
 	  <(flatpak list --app --columns=origin,application | tr '\t' ' ' | sort) \
 	  <(grep -vE '^\s*#|^\s*$$' "$(FLATPAK_FILE)" | tr -s ' \t' ' ' | sort) || true
+
+.PHONY: auditd
+auditd:
+	@echo "Setting up auditd tamper watches"
+	bash auditd/setup-auditd.sh
 
 .PHONY: suricata
 suricata:

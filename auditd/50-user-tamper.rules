@@ -1,0 +1,16 @@
+## Tamper-detection watches for user persistence surfaces.
+## @HOME@ is rendered to the invoking user's home by setup-auditd.sh —
+## audit rules are system-wide and know nothing about ~ or $HOME.
+## -p wa = writes + attribute changes (chmod/chown). Deliberately no 'r':
+## every ssh/git invocation reads these files and would drown the log.
+
+## SSH — keys, authorized_keys, config (directory watches are recursive)
+-w @HOME@/.ssh -p wa -k ssh-tamper
+
+## Shell rc files (bash)
+-w @HOME@/.bashrc -p wa -k rc-tamper
+-w @HOME@/.bash_profile -p wa -k rc-tamper
+-w @HOME@/.profile -p wa -k rc-tamper
+
+## systemd user units
+-w @HOME@/.config/systemd/user -p wa -k systemd-user-tamper
