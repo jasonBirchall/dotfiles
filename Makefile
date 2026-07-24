@@ -20,6 +20,7 @@ help:
 	@echo "  make tailscale          Install Tailscale + enable tailscaled (then 'sudo tailscale up')"
 	@echo "  make auditd             Install auditd tamper watches (~/.ssh, shell rc, systemd user units)"
 	@echo "  make sigma-scan         Run Sigma rules (detection/rules/) over local telemetry via Zircolite"
+	@echo "  make sigma-test         Fire Atomic Red Team-mapped triggers and assert each rule detects (SUDO=1 for root tests)"
 	@echo "  make local-sync         Clone or update the private local-config repo + run its setup hook"
 	@echo "  make audit              Report pending security updates (dnf), flatpak updates, nix flake input age"
 	@echo "  make update             Apply routine updates across all channels (dnf, flatpak, flake, hm, auditd, uv)"
@@ -202,6 +203,14 @@ auditd:
 sigma-scan:
 	@echo "Running Sigma detection rules over local telemetry"
 	bash detection/sigma-scan.sh
+
+# Fires a trigger per rule (Atomic Red Team-mapped) and asserts the rule
+# detects it. SUDO=1 also runs the tests that touch /etc/audit and the live
+# ruleset. Tests clean up after themselves.
+.PHONY: sigma-test
+sigma-test:
+	@echo "Running detection tests (Atomic Red Team-mapped)"
+	bash detection/run-tests.sh $(if $(filter 1,$(SUDO)),--sudo,)
 
 .PHONY: suricata
 suricata:
