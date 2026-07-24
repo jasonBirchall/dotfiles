@@ -89,7 +89,10 @@ if ! sudo auditctl -l | grep -E -- '-k [a-z-]+-tamper'; then
 fi
 
 echo ""
-echo "[*] Done. Useful commands:"
-echo "      sudo ausearch -k ssh-tamper -i           — who touched ~/.ssh"
-echo "      sudo ausearch -k rc-tamper -ts today -i  — shell rc changes today"
-echo "      sudo aureport -k --summary               — event counts per key"
+echo "[*] Done. Useful commands (aliases from modules/shell.nix; log is"
+echo "    wheel-readable, so no sudo needed):"
+echo "      tamper                      — today's tamper events, interpreted"
+echo "      tampernew                   — only tamper events since you last looked"
+echo "      tamperlog                   — browse the raw log in lnav, filtered"
+echo "      make sigma-scan             — run Sigma rules (detection/rules/) over the log"
+echo "      aureport -k --summary       — event counts per key"
