@@ -25,7 +25,9 @@ policycoreutils-devel
 # pop-shell's Super+d launcher daemon; the extension package doesn't pull it in
 pop-launcher
 suricata
+swappy
 sway
+sway-contrib
 swayidle
 swaylock
 thunderbird

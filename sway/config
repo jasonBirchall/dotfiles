@@ -162,10 +162,10 @@ bindsym $mod+r mode "resize"
 ### --- Screenshot ---
 # Print            area  -> clipboard
 # Shift+Print      full  -> clipboard
-# $mod+Print       area  -> ~/Pictures/screenshots/<timestamp>.png
+# $mod+Print       area
 bindsym Print       exec grim -g "$(slurp)" - | wl-copy && notify-send 'Screenshot' 'Area copied to clipboard'
 bindsym Shift+Print exec grim - | wl-copy && notify-send 'Screenshot' 'Full screen copied to clipboard'
-bindsym $mod+Print  exec sh -c 'd="$HOME/Pictures/screenshots"; mkdir -p "$d"; f="$d/$(date +%Y-%m-%d_%H%M%S).png"; grim -g "$(slurp)" "$f" && notify-send "Screenshot" "Saved to $f"'
+bindsym $mod+Print  exec grim -g "$(slurp)" - | swappy -f -
 
 gaps inner 14
 gaps outer 6
