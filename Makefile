@@ -30,6 +30,7 @@ help:
 	@echo "  make pop-shell          Install pop-shell (repo package on Fedora, source build on Ubuntu)"
 	@echo "  make ghostty            Install Ghostty (COPR on Fedora; from $(PKGS_FILE) on Ubuntu)"
 	@echo "  make nvidia             Install proprietary NVIDIA driver + suspend setup (Fedora only)"
+	@echo "  make camera             Build the intel_cvs driver for Intel IPU7 cameras (Ubuntu only)"
 	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
 	@echo "  make tailscale          Install Tailscale + enable tailscaled (then 'sudo tailscale up')"
 	@echo "  make firefox-nightly    Install Firefox Nightly (apt repo on Ubuntu, signed tarball on Fedora)"
@@ -125,6 +126,19 @@ local-sync:
 	@if [ -x "$(HOME)/Documents/workarea/local-config/setup.sh" ]; then \
 	  bash "$(HOME)/Documents/workarea/local-config/setup.sh"; \
 	fi
+
+# Ubuntu-only, and errors rather than no-ops on Fedora: the Fedora hosts have
+# UVC webcams, so reaching this target there means something is wrong with the
+# request, not with the host. Not in bootstrap — it builds an out-of-tree DKMS
+# module and needs a reboot afterwards, so it stays a deliberate one-off. The
+# script itself exits cleanly on a machine with no Intel CVS device.
+.PHONY: camera
+camera:
+	@test "$(DISTRO)" = ubuntu || { \
+	  echo "make camera is Ubuntu-only (out-of-tree intel_cvs via DKMS)." >&2; \
+	  echo "Fedora hosts in this repo have UVC webcams and need nothing." >&2; exit 1; }
+	@echo "Setting up the internal camera (Intel IPU7 / intel_cvs)"
+	bash ubuntu/setup-camera.sh
 
 # udev rule + input group; pure udev/usermod, so identical on both distros.
 .PHONY: xremap

@@ -55,6 +55,33 @@ lm-sensors
 mako-notifier
 network-manager-applet
 podman
+# --- Internal camera (Intel IPU7 / OV08X40); see ubuntu/setup-camera.sh ---
+# Absent from fedora/system-packages.txt: the Fedora hosts have UVC webcams,
+# which need none of this. The out-of-tree intel_cvs driver is the one piece
+# apt cannot provide — setup-camera.sh builds it via DKMS.
+#
+# libcamera because plain V4L2 cannot drive this hardware: /dev/video0..31 are
+# raw ISYS CSI endpoints with no debayer, AE or AWB, so apps enumerate 30-odd
+# cameras and every one is black.
+libcamera-tools
+libcamera-ipa
+# PipeWire's libcamera plugin — what Firefox and anything using the camera
+# portal goes through.
+libspa-0.2-libcamera
+# The rest are for the V4L2 relay (bin/camera/camera-relay.sh), which Zoom,
+# Chrome and Electron apps need because they speak V4L2 and nothing else.
+# v4l2-relayd is here for its /etc/modprobe.d/v4l2-relayd.conf, which sets the
+# loopback's exclusive_caps and card_label; the relay finds the node by that
+# label rather than by number.
+v4l2loopback-dkms
+v4l2-relayd
+gstreamer1.0-libcamera
+# gst-launch-1.0 plus videoconvert/videoscale/v4l2sink. Currently pulled in
+# transitively, but the relay invokes them directly, so they are named rather
+# than left to survive someone else's dependency change.
+gstreamer1.0-tools
+gstreamer1.0-plugins-base
+gstreamer1.0-plugins-good
 podman-compose
 suricata
 sway
