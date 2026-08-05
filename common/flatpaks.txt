@@ -53,3 +53,18 @@ flathub us.zoom.Zoom
 # divergence it hid, not the file format, and none of that divergence applies
 # here. Upstream has swapped the source format before and may again.
 flathub com.slack.Slack
+# Firefox, moved off Ubuntu's snap for the reason the Thunderbird note above
+# predicts — and this one had already gone wrong rather than being theoretical.
+# Found 2026-07-30 on the laptop: the snap sat at 149.0.2 with a refresh-date of
+# 2026-04-23 while latest/stable was 153.0.1. Three months without a refresh, on
+# the process with more exposure to hostile input than anything else on the box.
+# snapd's auto-refresh is not something `make update` can see, let alone fix, so
+# the failure was silent by construction. Flathub's build is Mozilla-published,
+# same as the snap, and updates with everything else.
+#
+# The snap keeps its profile in ~/snap/firefox/common/.mozilla; the flatpak uses
+# ~/.var/app/org.mozilla.firefox/.mozilla (persistent=.mozilla). Migrating means
+# copying between the two with Firefox closed — profiles.ini is IsRelative=1, so
+# it needs no editing. Leave the snap installed until the flatpak has opened the
+# copied profile and you have confirmed history, logins and extensions arrived.
+flathub org.mozilla.firefox
