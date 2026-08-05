@@ -1,5 +1,28 @@
 # Format: <remote> <app-id>
 # Installed system-wide via `make flatpak`.
+#
+# App IDs are case-sensitive and the casing is not consistent between projects
+# — org.mozilla.vpn is genuinely lowercase, org.mozilla.Thunderbird is not.
+# `flatpak search` lowercases everything it prints, so confirm a new ID with
+# `flatpak remote-info flathub <id>` rather than copying it out of a search.
 flathub org.gnome.Fractal
 flathub org.mozilla.vpn
 flathub org.signal.Signal
+# Thunderbird is a flatpak on both distros rather than a system package. Fedora
+# ships a real RPM, but Ubuntu's thunderbird deb is only a transitional package
+# that pulls in Canonical's snap — so one name in the two package lists meant
+# two different delivery mechanisms, two update channels and two profile
+# locations. Flathub gives both hosts the same build, like the Nix moves in
+# modules/packages.nix.
+#
+# Was org.mozilla.Thunderbird until Flathub retired that ID on 2026-05-08 with
+# an End-of-life-rebase onto org.mozilla.thunderbird_esr. Installing the old ID
+# still succeeds and silently lands the new one, which is the exact case
+# common/check-flatpaks.sh exists to catch — the two disagreed here for a while
+# and `make drift-flatpak` reported the replacement as untracked on every run.
+#
+# Note this moved the channel, not just the name: the flatpak now tracks ESR
+# (140.x) rather than the release channel, so it lags monthly Thunderbird
+# releases and picks up features a year late. That is a fine trade for mail and
+# not one worth working around, but it is a change, not a rename.
+flathub org.mozilla.thunderbird_esr

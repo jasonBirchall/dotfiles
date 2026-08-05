@@ -40,7 +40,9 @@ suricata
 sway
 swayidle
 swaylock
-thunderbird
+# thunderbird moved to Flathub (common/flatpaks.txt). Fedora packages it, but
+# Ubuntu's deb is only a transitional package for Canonical's snap, so the
+# flatpak is the one delivery mechanism that is the same on both hosts.
 waybar
 wofi
 yubikey-manager
