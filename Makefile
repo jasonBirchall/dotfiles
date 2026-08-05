@@ -1,43 +1,89 @@
 SHELL := /bin/bash
 
-# Defaults to the current user's host config (.#<username>). flake.nix exposes
-# one homeConfiguration per username via mkHome. Override with FLAKE=.#name.
-FLAKE ?= .#$(shell id -un)
-DNF_PKGS_FILE ?= fedora/system-packages.txt
+# Defaults to .#<username>-<distro>. flake.nix keys homeConfigurations on both
+# because the same username exists on hosts running different distros, and the
+# distro decides which desktop assumptions apply. Override with FLAKE=.#name.
+# The '#' must be escaped: unescaped, make treats it as a comment and FLAKE
+# silently collapses to '.', so `make hm` selects no homeConfiguration at all.
+FLAKE ?= .\#$(shell id -un)-$(DISTRO)
+
+# Host distro family: fedora | ubuntu | unknown. The detection lives in a script
+# because $(shell ...) cannot contain an unescaped ')' — see common/detect-distro.sh.
+# Override on the command line with DISTRO=fedora|ubuntu.
+DISTRO ?= $(shell bash common/detect-distro.sh 2>/dev/null || echo unknown)
+
+# System packages are per-distro; the flatpak list is shared, since flatpak
+# itself is distro-agnostic and the app IDs are identical everywhere.
+PKGS_FILE    ?= $(DISTRO)/system-packages.txt
 FLATPAK_FILE ?= fedora/flatpaks.txt
 
 .PHONY: help
 help:
+	@echo "Host distro detected: $(DISTRO)   (override with DISTRO=fedora|ubuntu)"
+	@echo ""
 	@echo "Targets:"
-	@echo "  make dnf                Install Fedora system packages from $(DNF_PKGS_FILE)"
+	@echo "  make system             Install system packages for $(DISTRO) from $(PKGS_FILE)"
 	@echo "  make flatpak            Install flatpaks from $(FLATPAK_FILE)"
 	@echo "  make nix                Install Nix (if missing)"
 	@echo "  make hm                 Apply Home Manager flake ($(FLAKE))"
-	@echo "  make bootstrap          dnf + flatpak + nix + hm"
+	@echo "  make bootstrap          system + flatpak + nix + hm"
 	@echo "  make ghostty            Install Ghostty terminal (enables scottames/ghostty COPR)"
-	@echo "  make nvidia             Install proprietary NVIDIA driver + suspend setup"
+	@echo "  make nvidia             Install proprietary NVIDIA driver + suspend setup (Fedora only)"
 	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
 	@echo "  make tailscale          Install Tailscale + enable tailscaled (then 'sudo tailscale up')"
 	@echo "  make auditd             Install auditd tamper watches (~/.ssh, shell rc, systemd user units)"
 	@echo "  make sigma-scan         Run Sigma rules (detection/rules/) over local telemetry via Zircolite"
 	@echo "  make sigma-test         Fire Atomic Red Team-mapped triggers and assert each rule detects (SUDO=1 for root tests)"
 	@echo "  make local-sync         Clone or update the private local-config repo + run its setup hook"
-	@echo "  make audit              Report pending security updates (dnf), flatpak updates, nix flake input age"
-	@echo "  make update             Apply routine updates across all channels (dnf, flatpak, flake, hm, auditd, uv)"
+	@echo "  make audit              Report pending security updates (system), flatpak updates, nix flake input age"
+	@echo "  make update             Apply routine updates across all channels (system, flatpak, flake, hm, auditd, uv)"
 	@echo ""
 	@echo "Linting (pre-commit):"
 	@echo "  make lint               Run all pre-commit hooks across every file"
 	@echo "  make lint-staged        Run pre-commit hooks against staged changes only"
 	@echo "  make lint-install       Install the git hooks into this clone (run once)"
 	@echo "  make lint-update        Bump pinned hook revs in .pre-commit-config.yaml"
-	@echo "  make drift-dnf          Show user-installed packages not in $(DNF_PKGS_FILE)"
+	@echo "  make drift-system       Show user-installed packages not in $(PKGS_FILE)"
 	@echo "  make drift-flatpak      Show installed flatpaks not in $(FLATPAK_FILE)"
 
+# Entry point for system packages: dispatches to the detected distro. The
+# per-distro targets stay callable by name so a specific one can be forced.
+.PHONY: system
+system:
+	@test "$(DISTRO)" != unknown || { \
+	  echo "Unrecognised distro (no fedora/rhel/debian/ubuntu in /etc/os-release)." >&2; \
+	  echo "Set it explicitly: make system DISTRO=fedora|ubuntu" >&2; exit 1; }
+	@$(MAKE) --no-print-directory $(DISTRO)-packages
+
+.PHONY: fedora-packages
+fedora-packages:
+	test -f "fedora/system-packages.txt"
+	@echo "Installing DNF packages from fedora/system-packages.txt…"
+	sudo dnf install -y $$(grep -vE '^\s*#|^\s*$$' "fedora/system-packages.txt" | tr '\n' ' ') --skip-unavailable
+
+# apt has no --skip-unavailable, and one unknown name aborts the whole
+# transaction, so partition the list first and report what was dropped.
+# Silently installing a subset would be worse than saying so.
+.PHONY: ubuntu-packages
+ubuntu-packages:
+	test -f "ubuntu/system-packages.txt"
+	@echo "Refreshing apt index…"
+	sudo apt-get update -qq
+	@avail=""; missing=""; \
+	for p in $$(grep -vE '^\s*#|^\s*$$' "ubuntu/system-packages.txt"); do \
+	  if apt-cache policy "$$p" 2>/dev/null | grep -qE 'Candidate: [^(]'; then \
+	    avail="$$avail $$p"; \
+	  else \
+	    missing="$$missing $$p"; \
+	  fi; \
+	done; \
+	if [ -n "$$missing" ]; then echo "Skipping unavailable:$$missing"; fi; \
+	echo "Installing APT packages from ubuntu/system-packages.txt…"; \
+	sudo apt-get install -y $$avail
+
+# Back-compat: `make dnf` still works on the Fedora machine.
 .PHONY: dnf
-dnf:
-	test -f "$(DNF_PKGS_FILE)"
-	@echo "Installing DNF packages from $(DNF_PKGS_FILE)…"
-	sudo dnf install -y $$(grep -vE '^\s*#|^\s*$$' "$(DNF_PKGS_FILE)" | tr '\n' ' ') --skip-unavailable
+dnf: fedora-packages
 
 .PHONY: nix
 nix:
@@ -50,11 +96,16 @@ nix:
 
 .PHONY: hm
 hm:
+	@test "$(DISTRO)" != unknown || { \
+	  echo "Unrecognised distro, so the flake attribute cannot be chosen." >&2; \
+	  echo "Set it explicitly: make hm DISTRO=fedora|ubuntu" >&2; exit 1; }
 	@echo "Applying Home Manager flake $(FLAKE)…"
 	home-manager switch --flake "$(FLAKE)"
 
+# nvidia is not in the dependency list: it is Fedora-only and this laptop line
+# ships Intel graphics. Run `make nvidia` explicitly on a machine that needs it.
 .PHONY: bootstrap
-bootstrap: dnf flatpak nix local-sync hm lint-install suricata auditd nvidia xremap tailscale
+bootstrap: system flatpak nix local-sync hm lint-install suricata auditd xremap tailscale
 	@echo "Bootstrap complete."
 
 # Clones or updates the private local-config repo (sibling of dotfiles) and
@@ -78,6 +129,8 @@ xremap:
 	@echo "Setting up xremap uinput access"
 	bash common/setup-xremap.sh
 
+# Fedora-only: akmod-nvidia lives in RPM Fusion and the suspend workaround is
+# an SELinux policy module. Ubuntu users want `ubuntu-drivers install` instead.
 .PHONY: ghostty
 ghostty:
 	@echo "Setting up Ghostty terminal"
@@ -85,6 +138,9 @@ ghostty:
 
 .PHONY: nvidia
 nvidia:
+	@test "$(DISTRO)" = fedora || { \
+	  echo "make nvidia is Fedora-only (RPM Fusion akmod + SELinux policy)." >&2; \
+	  echo "On Ubuntu use: sudo ubuntu-drivers install" >&2; exit 1; }
 	@echo "Setting up NVIDIA proprietary driver + suspend"
 	bash fedora/setup-nvidia.sh
 
@@ -101,8 +157,18 @@ tailscale:
 # - nix flake metadata shows how stale each input is so flake.lock churn is visible
 .PHONY: audit
 audit:
-	@echo "=== DNF: pending security updates ==="
+	@echo "=== System: pending security updates ($(DISTRO)) ==="
+ifeq ($(DISTRO),ubuntu)
+	@# unattended-upgrades ships this; it is the only apt-side view that
+	@# distinguishes security updates from ordinary ones.
+	@if [ -x /usr/lib/update-notifier/apt-check ]; then \
+	  /usr/lib/update-notifier/apt-check --human-readable || true; \
+	else \
+	  apt-get -s upgrade 2>/dev/null | grep -E '^Inst.*security' || echo "(none, or apt-check unavailable)"; \
+	fi
+else
 	@dnf check-update --security || true
+endif
 	@echo
 	@echo "=== Flatpak: pending updates ==="
 	@flatpak remote-ls --updates || true
@@ -122,8 +188,13 @@ audit:
 # Run weekly or biweekly. A kernel update may land here — reboot afterwards if so.
 .PHONY: update
 update:
-	@echo "=== DNF: system upgrade ==="
+	@echo "=== System: upgrade ($(DISTRO)) ==="
+ifeq ($(DISTRO),ubuntu)
+	sudo apt-get update
+	sudo apt-get upgrade -y
+else
 	sudo dnf upgrade --refresh -y
+endif
 	@echo
 	@echo "=== Flatpak: update ==="
 	flatpak update -y
@@ -167,12 +238,30 @@ lint-update:
 	@echo "Bumping pinned hook revisions…"
 	pre-commit autoupdate
 
+# Packages installed by hand but never written back to the tracked list. On
+# apt, apt-mark showmanual is the closest equivalent to dnf's --userinstalled;
+# both include the base system, so expect a longer list on a fresh machine.
+.PHONY: drift-system
+drift-system:
+	@echo "System drift (installed but not tracked in $(PKGS_FILE)):"
+# LC_ALL=C on every sort and on comm itself. comm compares bytes, but a
+# locale-aware sort orders punctuation differently (it ignores the '-' and '.'
+# in names like docker-compose-v2 and docker.io). The orders then disagree,
+# comm warns "file N is not in sorted order" and silently drops entries — so
+# the drift list reads as clean when it is not.
+ifeq ($(DISTRO),ubuntu)
+	@LC_ALL=C comm -23 \
+	  <(apt-mark showmanual | LC_ALL=C sort) \
+	  <(grep -vE '^\s*#|^\s*$$' "$(PKGS_FILE)" | LC_ALL=C sort) || true
+else
+	@LC_ALL=C comm -23 \
+	  <(dnf repoquery --userinstalled | LC_ALL=C sort) \
+	  <(grep -vE '^\s*#|^\s*$$' "$(PKGS_FILE)" | LC_ALL=C sort) || true
+endif
+
+# Back-compat alias.
 .PHONY: drift-dnf
-drift-dnf:
-	@echo "DNF drift (installed but not tracked in $(DNF_PKGS_FILE)):"
-	comm -23 \
-	  <(dnf repoquery --userinstalled | sort) \
-	  <(grep -vE '^\s*#|^\s*$$' "$(DNF_PKGS_FILE)" | sort) || true
+drift-dnf: drift-system
 
 .PHONY: flatpak
 flatpak:
