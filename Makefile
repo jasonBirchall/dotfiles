@@ -32,6 +32,7 @@ help:
 	@echo "  make nvidia             Install proprietary NVIDIA driver + suspend setup (Fedora only)"
 	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
 	@echo "  make tailscale          Install Tailscale + enable tailscaled (then 'sudo tailscale up')"
+	@echo "  make firefox-nightly    Install Firefox Nightly (apt repo on Ubuntu, signed tarball on Fedora)"
 	@echo "  make suricata           Set up Suricata passive IDS (Fedora only; no-op elsewhere)"
 	@echo "  make auditd             Install auditd tamper watches (~/.ssh, shell rc, systemd user units)"
 	@echo "  make sigma-scan         Run Sigma rules (detection/rules/) over local telemetry via Zircolite"
@@ -107,7 +108,7 @@ hm:
 # nvidia is not in the dependency list: it is Fedora-only and this laptop line
 # ships Intel graphics. Run `make nvidia` explicitly on a machine that needs it.
 .PHONY: bootstrap
-bootstrap: system flatpak nix local-sync hm lint-install suricata auditd pop-shell xremap tailscale
+bootstrap: system flatpak nix local-sync hm lint-install suricata auditd pop-shell xremap tailscale firefox-nightly
 	@echo "Bootstrap complete."
 
 # Clones or updates the private local-config repo (sibling of dotfiles) and
@@ -175,6 +176,23 @@ nvidia:
 tailscale:
 	@echo "Setting up Tailscale"
 	bash common/setup-tailscale.sh
+
+# The one Firefox channel with no shared answer. Flathub carries only the
+# release build (common/flatpaks.txt) and there is no Mozilla flatpak repo, so
+# each distro takes the best channel it has: Mozilla's apt repo on Ubuntu,
+# which `make update` can see, and Mozilla's signed tarball on Fedora, which
+# updates itself because it installs somewhere the user can write.
+#
+# Both are one-offs per host — apt and Nightly's own updater take it from there.
+.PHONY: firefox-nightly
+firefox-nightly:
+ifeq ($(DISTRO),ubuntu)
+	@echo "Installing Firefox Nightly (Mozilla apt repository)"
+	bash ubuntu/setup-firefox-nightly.sh
+else
+	@echo "Installing Firefox Nightly (Mozilla signed tarball)"
+	bash fedora/setup-firefox-nightly.sh
+endif
 
 # Reports what's pending across the three update channels so you can decide
 # whether to apply now or leave for the next routine update.
