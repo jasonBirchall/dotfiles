@@ -44,6 +44,14 @@
       executable = true;
     };
 
+    # Stands in for tmux-battery's #{battery_remain}, which is broken on all
+    # Linux hosts — see the header of the script for the two upstream bugs.
+    # tmux/tmux.conf calls it from status-right.
+    "bin/battery-remain.sh" = {
+      source = ../bin/tmux-battery/battery-remain.sh;
+      executable = true;
+    };
+
     # Proton Drive CLI wrapper (friendly verbs over the `proton-drive` binary)
     "bin/pdrive" = {
       source = ../bin/pdrive/pdrive;
