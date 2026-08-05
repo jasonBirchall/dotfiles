@@ -1,3 +1,15 @@
+# Fedora system packages. See ubuntu/system-packages.txt for the apt counterpart.
+#
+# Moved to Nix (modules/packages.nix), so absent here and pinned to identical
+# versions on every distro: lnav, wl-clipboard, playerctl, wev, pop-launcher.
+#
+# ghostty is NOT among them. The nixpkgs build cannot create an EGL display on
+# a non-NixOS host — it links Nix's libEGL, which searches the store for
+# drivers instead of the distro's /usr/lib — so it starts and exits. GPU-backed
+# GUI apps stay in the distro layer; CLI tools above are unaffected.
+# brightnessctl deliberately stays below — this package ships
+# 90-brightnessctl.rules, and Nix cannot install a udev rule that a non-NixOS
+# udev will read.
 akmod-nvidia
 # auditd — a Fedora default, but pinned so `make auditd` never runs against a missing daemon
 audit
@@ -7,30 +19,28 @@ conntrack-tools
 docker
 docker-compose
 flatpak
-ghostty
+# ghostty is absent here on purpose: it lives in the third-party
+# scottames/ghostty COPR, which must be enabled before dnf can see it. That is
+# what `make ghostty` / fedora/setup-ghostty.sh do. Ubuntu packages it in the
+# archive, so it appears directly in ubuntu/system-packages.txt.
 gnome-shell-extension-pop-shell
 gnome-shell-extension-pop-shell-shortcut-overrides
 jetbrains-mono-fonts
 libnotify
-# audit-log viewer; custom format in lnav/formats/auditd_log.json
-lnav
 lm_sensors
 mako
 network-manager-applet
 nm-connection-editor
-playerctl
 podman
 podman-compose
 policycoreutils-devel
-# pop-shell's Super+d launcher daemon; the extension package doesn't pull it in
-pop-launcher
+# pop-launcher moved to Nix (modules/packages.nix): Fedora packages it but
+# Ubuntu does not, and it is a plain binary with no system integration.
 suricata
 sway
 swayidle
 swaylock
 thunderbird
 waybar
-wev
-wl-clipboard
 wofi
 yubikey-manager

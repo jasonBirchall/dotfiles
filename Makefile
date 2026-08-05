@@ -27,7 +27,7 @@ help:
 	@echo "  make nix                Install Nix (if missing)"
 	@echo "  make hm                 Apply Home Manager flake ($(FLAKE))"
 	@echo "  make bootstrap          system + flatpak + nix + hm"
-	@echo "  make ghostty            Install Ghostty terminal (enables scottames/ghostty COPR)"
+	@echo "  make ghostty            Install Ghostty (COPR on Fedora; from $(PKGS_FILE) on Ubuntu)"
 	@echo "  make nvidia             Install proprietary NVIDIA driver + suspend setup (Fedora only)"
 	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
 	@echo "  make tailscale          Install Tailscale + enable tailscaled (then 'sudo tailscale up')"
@@ -131,10 +131,22 @@ xremap:
 
 # Fedora-only: akmod-nvidia lives in RPM Fusion and the suspend workaround is
 # an SELinux policy module. Ubuntu users want `ubuntu-drivers install` instead.
+# Ghostty stays a distro package rather than a Nix one. The nixpkgs build
+# cannot create an EGL display on a non-NixOS host: it links Nix's libEGL,
+# which looks for drivers inside the store instead of the distro's
+# /usr/lib/<triplet>, so it starts and immediately exits. That applies to any
+# GPU-backed GUI app — CLI tools in modules/packages.nix are unaffected.
+#
+# Ubuntu packages it, so `make system` already did the work. Fedora needs a
+# third-party COPR enabled first, which is why it keeps a setup script.
 .PHONY: ghostty
 ghostty:
-	@echo "Setting up Ghostty terminal"
+ifeq ($(DISTRO),ubuntu)
+	@echo "ghostty comes from $(PKGS_FILE) on $(DISTRO); nothing to do."
+else
+	@echo "Setting up Ghostty terminal (scottames/ghostty COPR)"
 	bash fedora/setup-ghostty.sh
+endif
 
 .PHONY: nvidia
 nvidia:
