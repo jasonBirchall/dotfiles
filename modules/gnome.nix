@@ -35,7 +35,9 @@ in
   dconf.settings = {
     "org/gnome/shell" = {
       disable-user-extensions = false;
-      enabled-extensions = [ "pop-shell@system76.com" ]
+      # top-consumer is this repo's own extension (gnome/top-consumer@jsond),
+      # linked into ~/.local/share/gnome-shell/extensions by modules/dotfiles.nix.
+      enabled-extensions = [ "pop-shell@system76.com" "top-consumer@jsond" ]
         ++ lib.optionals (distro == "ubuntu") ubuntuExtensions;
       # Ubuntu enables tiling-assistant via a system gschema override, so it
       # never appears in enabled-extensions and stays active unless it is named

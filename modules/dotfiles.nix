@@ -12,6 +12,12 @@
     ".config/sway/sleep.sh".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/sway/sleep.sh";
     ".config/gnome/cheatsheet.sh".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/gnome/cheatsheet.sh";
 
+    # GNOME Shell only loads extensions from this directory, so the source
+    # tree is linked into place rather than copied. Out-of-store because an
+    # edit to extension.js should need a shell restart, not a `make hm`.
+    # modules/gnome.nix names the same uuid in enabled-extensions.
+    ".local/share/gnome-shell/extensions/top-consumer@jsond".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/gnome/top-consumer@jsond";
+
     # Sourced from the local-config private repo (sibling of dotfiles).
     # Run `make local-sync` to clone or update it before `make hm`.
     ".claude/settings.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/local-config/settings.json";
