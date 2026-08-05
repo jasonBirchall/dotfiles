@@ -27,6 +27,7 @@ help:
 	@echo "  make nix                Install Nix (if missing)"
 	@echo "  make hm                 Apply Home Manager flake ($(FLAKE))"
 	@echo "  make bootstrap          system + flatpak + nix + hm"
+	@echo "  make pop-shell          Install pop-shell (repo package on Fedora, source build on Ubuntu)"
 	@echo "  make ghostty            Install Ghostty (COPR on Fedora; from $(PKGS_FILE) on Ubuntu)"
 	@echo "  make nvidia             Install proprietary NVIDIA driver + suspend setup (Fedora only)"
 	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
@@ -106,7 +107,7 @@ hm:
 # nvidia is not in the dependency list: it is Fedora-only and this laptop line
 # ships Intel graphics. Run `make nvidia` explicitly on a machine that needs it.
 .PHONY: bootstrap
-bootstrap: system flatpak nix local-sync hm lint-install suricata auditd xremap tailscale
+bootstrap: system flatpak nix local-sync hm lint-install suricata auditd pop-shell xremap tailscale
 	@echo "Bootstrap complete."
 
 # Clones or updates the private local-config repo (sibling of dotfiles) and
@@ -129,6 +130,18 @@ local-sync:
 xremap:
 	@echo "Setting up xremap uinput access"
 	bash common/setup-xremap.sh
+
+# Fedora packages pop-shell in its repos, so `make system` already installed it
+# there and this is a no-op. Debian/Ubuntu don't package it at all, hence the
+# source build. Same extension UUID either way, so modules/gnome.nix is shared.
+.PHONY: pop-shell
+pop-shell:
+ifeq ($(DISTRO),ubuntu)
+	@echo "Building pop-shell from source (not packaged on Ubuntu)"
+	bash ubuntu/setup-pop-shell.sh
+else
+	@echo "pop-shell comes from fedora/system-packages.txt on $(DISTRO); nothing to do."
+endif
 
 # Fedora-only: akmod-nvidia lives in RPM Fusion and the suspend workaround is
 # an SELinux policy module. Ubuntu users want `ubuntu-drivers install` instead.
