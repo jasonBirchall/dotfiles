@@ -52,6 +52,14 @@
       executable = true;
     };
 
+    # Backs the camera-relay user service (modules/services.nix), which starts
+    # it by path. Linked on both distros — it is inert without an Intel IPU7
+    # camera, and the service that calls it only exists on Ubuntu.
+    "bin/camera-relay.sh" = {
+      source = ../bin/camera/camera-relay.sh;
+      executable = true;
+    };
+
     # Proton Drive CLI wrapper (friendly verbs over the `proton-drive` binary)
     "bin/pdrive" = {
       source = ../bin/pdrive/pdrive;

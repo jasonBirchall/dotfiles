@@ -10,6 +10,7 @@
 # that never appears.
 let
   onFedora = distro == "fedora";
+  onUbuntu = distro == "ubuntu";
 in
 {
   systemd.user.services = {
@@ -40,6 +41,30 @@ in
       };
       Install = {
         WantedBy = [ "graphical-session.target" ];
+      };
+    };
+  } // lib.optionalAttrs onUbuntu {
+    # Bridges the libcamera camera into a v4l2loopback node for apps that
+    # speak V4L2 and nothing else (Zoom, Chrome, Electron). Ubuntu-only: the
+    # Fedora hosts have UVC webcams and need no bridge.
+    #
+    # Deliberately no Install section, so this never gets enabled. The
+    # software ISP costs ~80% of one core for as long as it runs, which is not
+    # something to leave on a laptop — `systemctl --user start camera-relay`
+    # before a call, stop it after. ubuntu/setup-camera.sh says so on exit.
+    #
+    # Not restarted on failure for the same reason: the common failure is the
+    # loopback node being absent, and retrying that in a loop burns a core
+    # rather than fixing it.
+    camera-relay = {
+      Unit = {
+        Description = "Relay libcamera to a V4L2 loopback node";
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+      Service = {
+        Type = "simple";
+        ExecStart = "%h/bin/camera-relay.sh";
       };
     };
   } // lib.optionalAttrs onFedora {
