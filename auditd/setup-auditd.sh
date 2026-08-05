@@ -64,15 +64,50 @@ else
   echo "[*] No rule changes — skipping reload."
 fi
 
-# Widen audit-log read access to wheel so ausearch/lnav work without sudo.
-# Read-only: the log stays root-writable. auditd applies log_group to files
-# it creates and rotates; the chgrp/chmod below covers the existing ones.
-# Deliberate trade: anyone in wheel can read the audit trail.
-LOG_GROUP="wheel"
+# Widen audit-log read access to the local admin group so ausearch/lnav work
+# without sudo. Read-only: the log stays root-writable. auditd applies
+# log_group to files it creates and rotates; the chgrp/chmod below covers the
+# existing ones. Deliberate trade: anyone in that group can read the audit trail.
+#
+# The group is per-distro. Fedora's admin group is wheel; Debian/Ubuntu have no
+# wheel at all and use adm for log reading — /var/log/audit already ships as
+# root:adm there, so this is the native answer rather than a substitute.
+case "$("${SCRIPT_DIR}/../common/detect-distro.sh")" in
+  fedora) LOG_GROUP="wheel" ;;
+  ubuntu) LOG_GROUP="adm" ;;
+  *) LOG_GROUP="" ;;
+esac
+
+# Validate before writing. auditd refuses to start on an unresolvable log_group
+# ("Group ID is non-numeric and unknown"), exiting 6/NOTCONFIGURED — so an
+# unchecked name here does not degrade to a warning, it takes the daemon down
+# and stops all audit logging until someone edits auditd.conf by hand. That is
+# exactly what a hardcoded "wheel" did on Ubuntu, and it stayed invisible for
+# eight days because the chgrp below failed first under `set -e` and masked the
+# health check at the end of this script.
+if [ -z "${LOG_GROUP}" ] || ! getent group "${LOG_GROUP}" >/dev/null; then
+  echo "[!] No usable audit-log group for this host." >&2
+  [ -n "${LOG_GROUP}" ] && echo "    '${LOG_GROUP}' does not exist in /etc/group." >&2
+  echo "    Refusing to write log_group into auditd.conf: an unresolvable" >&2
+  echo "    group stops auditd from starting at all." >&2
+  exit 1
+fi
+
 if ! sudo grep -qE "^log_group = ${LOG_GROUP}$" /etc/audit/auditd.conf; then
   echo "[*] Setting log_group = ${LOG_GROUP} in auditd.conf..."
   sudo sed -i "s/^log_group = .*/log_group = ${LOG_GROUP}/" /etc/audit/auditd.conf
-  sudo systemctl kill --signal=HUP auditd
+  # Restart rather than HUP: a daemon already dead from a bad config ignores
+  # HUP, which would leave this script reporting success over a stopped auditd.
+  sudo systemctl restart auditd
+fi
+
+# Checked unconditionally, not just after a config change. auditd being down is
+# the failure that matters — the tamper watches record nothing — and it can
+# happen for reasons this script never touched.
+if ! systemctl is-active --quiet auditd; then
+  echo "[!] auditd is not running — no audit events are being recorded." >&2
+  echo "    systemctl status auditd; journalctl -u auditd -n 20" >&2
+  exit 1
 fi
 if [ "$(sudo stat -c '%G' /var/log/audit)" != "${LOG_GROUP}" ]; then
   echo "[*] Granting ${LOG_GROUP} read access to existing logs..."

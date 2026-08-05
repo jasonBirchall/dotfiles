@@ -52,7 +52,8 @@
     ".config/xremap/config.yml".source = ../xremap/config.yml;
 
     # lnav format for the raw audit log; pairs with the auditd tamper watches
-    # (auditd/) and log_group = wheel, which makes the log user-readable
+    # (auditd/) and log_group (wheel on Fedora, adm on Ubuntu), which makes
+    # the log user-readable
     ".config/lnav/formats/dotfiles/auditd_log.json".source = ../lnav/formats/auditd_log.json;
 
     # Force GTK4's GL renderer for Fractal — Vulkan-on-Nvidia produces a blank window.

@@ -11,7 +11,8 @@ set -euo pipefail
 # Rules are written per *record* against the raw field names Zircolite
 # flattens to (type, key, comm, name, ...) — no pySigma pipeline involved.
 #
-# No sudo needed for auditd: setup-auditd.sh grants wheel read access.
+# No sudo needed for auditd: setup-auditd.sh grants the host's admin group
+# (wheel on Fedora, adm on Ubuntu) read access to the log.
 # Zircolite isn't on PyPI, so it's cloned once and run via uv against its
 # requirements file; `uv run` keeps the environment cached between runs.
 #
@@ -72,7 +73,7 @@ if [ $# -ge 1 ]; then
   if [ ! -r "${log}" ]; then
     echo "[!] Cannot read ${log}." >&2
     [ "${source}" = auditd ] &&
-      echo "    Run 'make auditd' first — it grants the wheel group read access." >&2
+      echo "    Run 'make auditd' first — it grants your admin group read access." >&2
     exit 1
   fi
   scan_source "${source}" "${log}"
