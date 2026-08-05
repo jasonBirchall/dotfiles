@@ -31,6 +31,7 @@ help:
 	@echo "  make nvidia             Install proprietary NVIDIA driver + suspend setup (Fedora only)"
 	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
 	@echo "  make tailscale          Install Tailscale + enable tailscaled (then 'sudo tailscale up')"
+	@echo "  make suricata           Set up Suricata passive IDS (Fedora only; no-op elsewhere)"
 	@echo "  make auditd             Install auditd tamper watches (~/.ssh, shell rc, systemd user units)"
 	@echo "  make sigma-scan         Run Sigma rules (detection/rules/) over local telemetry via Zircolite"
 	@echo "  make sigma-test         Fire Atomic Red Team-mapped triggers and assert each rule detects (SUDO=1 for root tests)"
@@ -315,12 +316,25 @@ sigma-test:
 	@echo "Running detection tests (Atomic Red Team-mapped)"
 	bash detection/run-tests.sh $(if $(filter 1,$(SUDO)),--sudo,)
 
+# Fedora-only by choice rather than by packaging: Ubuntu packages Suricata
+# perfectly well, but the laptop runs the auditd tamper watches alone. This
+# no-ops instead of erroring (unlike nvidia) because it is a bootstrap
+# prerequisite, and bootstrap has to complete on both distros. The matching
+# user units are omitted by modules/services.nix on the same condition.
 .PHONY: suricata
 suricata:
+ifeq ($(DISTRO),ubuntu)
+	@echo "suricata is Fedora-only in this setup; nothing to do on $(DISTRO)."
+else
 	@echo "Setting up suricata"
 	bash suricata/setup-suricata.sh
+endif
 
 .PHONY: suricata-update
 suricata-update:
+ifeq ($(DISTRO),ubuntu)
+	@echo "suricata is Fedora-only in this setup; nothing to do on $(DISTRO)."
+else
 	@echo "Updating suricata rules"
 	sudo systemctl restart suricata
+endif

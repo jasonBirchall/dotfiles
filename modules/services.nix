@@ -1,76 +1,91 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, distro ? "fedora", ... }:
 
+# Suricata is Fedora-only here: the Ubuntu laptop runs the auditd tamper
+# watches alone. Its units are therefore added with lib.optionalAttrs rather
+# than disabled with lib.mkIf — mkIf suppresses the *value* but the attribute
+# name still comes from the enclosing set, so home-manager would go on
+# generating a unit for it. optionalAttrs drops the name outright, which is
+# what "this host has no such service" needs to mean. Left in on a host with
+# no Suricata, suricata-watcher restarts every 30s against a /var/log/suricata
+# that never appears.
+let
+  onFedora = distro == "fedora";
+in
 {
-  systemd.user.services.ollama = {
-    Unit = {
-      Description = "Ollama Local LLM Runner";
-      After = [ "network.target" ];
+  systemd.user.services = {
+    ollama = {
+      Unit = {
+        Description = "Ollama Local LLM Runner";
+        After = [ "network.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.ollama}/bin/ollama serve";
+        Restart = "always";
+      };
+      Install = {
+        WantedBy = [ "default.target" ];
+      };
     };
-    Service = {
-      ExecStart = "${pkgs.ollama}/bin/ollama serve";
-      Restart = "always";
+
+    xremap = {
+      Unit = {
+        Description = "xremap key remapper";
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.xremap}/bin/xremap %h/.config/xremap/config.yml";
+        Restart = "on-failure";
+        RestartSec = 5;
+      };
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
     };
-    Install = {
-      WantedBy = [ "default.target" ];
+  } // lib.optionalAttrs onFedora {
+    # Real-time alert watcher
+    suricata-watcher = {
+      Unit = {
+        Description = "Suricata real-time alert watcher";
+        After = [ "graphical-session.target" ];
+        PartOf = [ "graphical-session.target" ];
+      };
+      Service = {
+        Type = "simple";
+        ExecStart = "%h/bin/suricata-watcher.sh";
+        Restart = "on-failure";
+        RestartSec = 30;
+      };
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
+    };
+
+    # Hourly alert summary
+    suricata-notify = {
+      Unit = {
+        Description = "Suricata hourly alert check";
+      };
+      Service = {
+        Type = "oneshot";
+        ExecStart = "%h/bin/suricata-notify.sh";
+      };
     };
   };
 
-  # Suricata real-time alert watcher
-  systemd.user.services.suricata-watcher = {
-    Unit = {
-      Description = "Suricata real-time alert watcher";
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-    Service = {
-      Type = "simple";
-      ExecStart = "%h/bin/suricata-watcher.sh";
-      Restart = "on-failure";
-      RestartSec = 30;
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-  };
-
-  # Hourly alert summary
-  systemd.user.services.suricata-notify = {
-    Unit = {
-      Description = "Suricata hourly alert check";
-    };
-    Service = {
-      Type = "oneshot";
-      ExecStart = "%h/bin/suricata-notify.sh";
-    };
-  };
-
-  systemd.user.timers.suricata-notify = {
-    Unit = {
-      Description = "Hourly Suricata alert check";
-    };
-    Timer = {
-      OnCalendar = "hourly";
-      RandomizedDelaySec = 120;
-      Persistent = true;
-    };
-    Install = {
-      WantedBy = [ "timers.target" ];
-    };
-  };
-
-  systemd.user.services.xremap = {
-    Unit = {
-      Description = "xremap key remapper";
-      PartOf = [ "graphical-session.target" ];
-      After = [ "graphical-session.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.xremap}/bin/xremap %h/.config/xremap/config.yml";
-      Restart = "on-failure";
-      RestartSec = 5;
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
+  systemd.user.timers = lib.optionalAttrs onFedora {
+    suricata-notify = {
+      Unit = {
+        Description = "Hourly Suricata alert check";
+      };
+      Timer = {
+        OnCalendar = "hourly";
+        RandomizedDelaySec = 120;
+        Persistent = true;
+      };
+      Install = {
+        WantedBy = [ "timers.target" ];
+      };
     };
   };
 
