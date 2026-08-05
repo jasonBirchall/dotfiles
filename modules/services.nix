@@ -122,8 +122,8 @@ in
   # the session is cached in libsecret — no password stored on disk).
   home.activation.protonDriveCli =
     lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      VER=0.5.0
-      SHA512=d85edbc57412c92a9705b70a8d3a5c66ad933331554d6b922b912d6df29b4e5e9b0d7a940a594927dd4788e1f8db86d5e9a23f084f07dbd5327f7a9e51d61272
+      VER=0.7.0
+      SHA512=5a5affcbec04ea926a32d10e236c1342227f1b6d416cb797f88f943b2c4f1dcf53b5897a115f1c1aa9ce8ce92fd637e1c50bd223b04866577681f0584eccdbc6
       BIN="$HOME/.local/bin/proton-drive"
       have=""
       if [ -x "$BIN" ]; then
