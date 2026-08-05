@@ -15,7 +15,7 @@ DISTRO ?= $(shell bash common/detect-distro.sh 2>/dev/null || echo unknown)
 # System packages are per-distro; the flatpak list is shared, since flatpak
 # itself is distro-agnostic and the app IDs are identical everywhere.
 PKGS_FILE    ?= $(DISTRO)/system-packages.txt
-FLATPAK_FILE ?= fedora/flatpaks.txt
+FLATPAK_FILE ?= common/flatpaks.txt
 
 .PHONY: help
 help:
