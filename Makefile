@@ -72,10 +72,11 @@ local-sync:
 	  bash "$(HOME)/Documents/workarea/local-config/setup.sh"; \
 	fi
 
+# udev rule + input group; pure udev/usermod, so identical on both distros.
 .PHONY: xremap
 xremap:
 	@echo "Setting up xremap uinput access"
-	bash fedora/setup-xremap.sh
+	bash common/setup-xremap.sh
 
 .PHONY: ghostty
 ghostty:
@@ -87,10 +88,11 @@ nvidia:
 	@echo "Setting up NVIDIA proprietary driver + suspend"
 	bash fedora/setup-nvidia.sh
 
+# Upstream's installer detects the host distro itself, so this is shared.
 .PHONY: tailscale
 tailscale:
 	@echo "Setting up Tailscale"
-	bash fedora/setup-tailscale.sh
+	bash common/setup-tailscale.sh
 
 # Reports what's pending across the three update channels so you can decide
 # whether to apply now or leave for the next routine update.
