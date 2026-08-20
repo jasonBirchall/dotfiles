@@ -59,12 +59,17 @@ in
     camera-relay = {
       Unit = {
         Description = "Relay libcamera to a V4L2 loopback node";
+        Documentation = "https://github.com/intel/vision-drivers";
         PartOf = [ "graphical-session.target" ];
         After = [ "graphical-session.target" ];
       };
       Service = {
         Type = "simple";
         ExecStart = "%h/bin/camera-relay.sh";
+        # The ISP work is not latency-critical to anything else on the desktop,
+        # and at ~80% of a core it is the largest single thing competing for
+        # CPU while a call is running. Keep it off the critical path.
+        Nice = 5;
       };
     };
   } // lib.optionalAttrs onFedora {
