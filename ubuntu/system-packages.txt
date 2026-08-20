@@ -34,6 +34,7 @@ brightnessctl
 # conntrack-tools on Fedora
 conntrack
 docker.io
+docker-buildx
 # Compose v2 plugin ("docker compose"); supersedes the v1 docker-compose script
 docker-compose-v2
 flatpak
