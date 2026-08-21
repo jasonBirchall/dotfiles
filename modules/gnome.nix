@@ -169,8 +169,15 @@ in
     };
 
     "org/gnome/settings-daemon/plugins/media-keys" = {
-      # Lock on Super+Shift+q (sway's swaylock binding)
-      screensaver = [ "<Super><Shift>q" ];
+      # Lock on Super+Shift+q (sway's swaylock binding), plus the conventional
+      # Ctrl+Alt+L. Both are mirrored in sway/config.
+      #
+      # Not Super+L, the GNOME default: that is focus-right in the vim-style
+      # h/j/k/l scheme (pop-shell focus-right above, `$mod+l focus right` in
+      # sway). Super+Shift+L is out for the same reason — `$mod+Shift+l move
+      # right` in sway. Ctrl+Alt+L keeps the L-for-lock muscle memory without
+      # touching either.
+      screensaver = [ "<Control><Alt>l" "<Super><Shift>q" ];
       # Volume on Mod+PgUp/PgDn/End alongside the dedicated media keys
       volume-up = [ "<Super>Prior" "XF86AudioRaiseVolume" ];
       volume-down = [ "<Super>Next" "XF86AudioLowerVolume" ];
