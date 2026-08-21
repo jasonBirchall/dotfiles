@@ -72,6 +72,35 @@ in
       toggle-stacking-global = [ "<Super>s" ];
     };
 
+    # Touchpad, mirrored by the `input type:touchpad` block in sway/config so
+    # both sessions feel the same. Tapping is off deliberately: a clickpad
+    # registers a resting thumb or a palm brush as a tap, which lands as a
+    # click mid-sentence. click-method 'fingers' means a physical press
+    # anywhere on the pad still works, with two fingers for right-click, so
+    # nothing is lost but the accidental clicks.
+    #
+    # tap-and-drag is the worst of the two: an accidental tap followed by any
+    # movement becomes a drag-select, which then gets overtyped. It is
+    # redundant with tap-to-click off, but set explicitly so re-enabling
+    # tapping later does not silently bring dragging back with it.
+    "org/gnome/desktop/peripherals/touchpad" = {
+      tap-to-click = false;
+      tap-and-drag = false;
+      # Suppresses pointer motion from palm contact for this long after a
+      # keystroke. GNOME's default 500ms is short enough that a pause for
+      # thought re-arms the pad mid-paragraph. No sway equivalent — sway
+      # exposes dwt as a boolean and does not surface libinput's timeout.
+      disable-while-typing = true;
+      disable-while-typing-timeout = mkUint32 800;
+
+      click-method = "fingers";
+      natural-scroll = true;
+      two-finger-scrolling-enabled = true;
+      edge-scrolling-enabled = false;
+      # Range is -1.0 (slowest) .. 1.0; a third below centre.
+      speed = -0.33333333333333337;
+    };
+
     "org/gnome/desktop/wm/keybindings" = {
       close = [ "<Super>q" ];
       toggle-fullscreen = [ "<Super>f" ];

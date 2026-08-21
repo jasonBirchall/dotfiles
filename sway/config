@@ -18,6 +18,27 @@ input * {
     xkb_layout gb
 }
 
+# Touchpad. Mirrors the org/gnome/desktop/peripherals/touchpad block in
+# modules/gnome.nix so the GNOME and sway sessions feel the same.
+#
+# tap/drag are disabled deliberately: on a clickpad a resting thumb or a palm
+# brush registers as a tap, landing a click mid-sentence, and with drag on it
+# becomes a drag-select that then gets overtyped. clickfinger keeps the
+# physical press working anywhere on the pad, two fingers for right-click.
+#
+# sway exposes dwt only as a boolean; libinput's dwt timeout (800ms on the
+# GNOME side) has no sway equivalent, so that one setting does not carry over.
+input type:touchpad {
+    tap disabled
+    drag disabled
+    dwt enabled
+
+    click_method clickfinger
+    natural_scroll enabled
+    scroll_method two_finger
+    pointer_accel -0.33
+}
+
 # Dismiss current notification
 bindsym $mod+n exec makoctl dismiss
 
