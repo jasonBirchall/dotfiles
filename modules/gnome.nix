@@ -120,11 +120,35 @@ in
       move-to-workspace-2 = [ "<Super><Shift>2" ];
       move-to-workspace-3 = [ "<Super><Shift>3" ];
       move-to-workspace-4 = [ "<Super><Shift>4" ];
+
+      # Both directions of the input-source switcher are cleared to free
+      # Super+space for toggle-overview below. Nothing is lost: input-sources
+      # holds a single entry (xkb gb), matching sway's `xkb_layout gb`, so the
+      # switcher has nothing to cycle between.
+      #
+      # The backward binding matters independently of the overview change:
+      # GNOME defaults it to Shift+Super+space, which silently shadowed
+      # pop-shell's toggle-floating above.
+      switch-input-source = [ ];
+      switch-input-source-backward = [ ];
     };
 
     # Four fixed workspaces, like sway
     "org/gnome/mutter" = {
       dynamic-workspaces = false;
+      # Tapping Super on its own opens the overview. Empty disables that,
+      # leaving Super usable as a modifier exactly as before — overlay-key
+      # governs only the bare press-and-release, not Super+<key> combos.
+      # The overview moves to Super+space in shell/keybindings below.
+      overlay-key = "";
+    };
+
+    # ibus keeps its own grab on Super+space, separate from GNOME's
+    # switch-input-source, and would still swallow the key with the GNOME
+    # binding cleared. ibus-daemon runs on Ubuntu by default (--panel disable,
+    # driven by GNOME); on Fedora this key is simply unused.
+    "org/freedesktop/ibus/general/hotkey" = {
+      triggers = [ ];
     };
     "org/gnome/desktop/wm/preferences" = {
       num-workspaces = 4;
@@ -138,6 +162,10 @@ in
       switch-to-application-4 = [ ];
       # Default Super+s (quick settings) would shadow toggle-stacking-global
       toggle-quick-settings = [ ];
+
+      # The overview, moved off the bare Super tap (see mutter overlay-key).
+      # Ships unbound by default, since overlay-key normally covers it.
+      toggle-overview = [ "<Super>space" ];
     };
 
     "org/gnome/settings-daemon/plugins/media-keys" = {
