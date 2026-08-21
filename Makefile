@@ -33,6 +33,8 @@ help:
 	@echo "  make camera             Build the intel_cvs driver for Intel IPU7 cameras (Ubuntu only)"
 	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
 	@echo "  make tailscale          Install Tailscale + enable tailscaled (then 'sudo tailscale up')"
+	@echo "  make vpn                Set up the Mozilla Corporate VPN via NetworkManager (Ubuntu only)"
+	@echo "                          Bundle from login.mozilla.com: make vpn BUNDLE=~/Downloads/you@mozilla.com.zip"
 	@echo "  make firefox-nightly    Install Firefox Nightly (apt repo on Ubuntu, signed tarball on Fedora)"
 	@echo "  make suricata           Set up Suricata passive IDS (Fedora only; no-op elsewhere)"
 	@echo "  make auditd             Install auditd tamper watches (~/.ssh, shell rc, systemd user units)"
@@ -184,6 +186,26 @@ nvidia:
 	  echo "On Ubuntu use: sudo ubuntu-drivers install" >&2; exit 1; }
 	@echo "Setting up NVIDIA proprietary driver + suspend"
 	bash fedora/setup-nvidia.sh
+
+# Mozilla Corporate VPN (a.k.a. Global VPN) — not the consumer Mozilla VPN
+# product, which is a different service entirely.
+#
+# Errors rather than no-ops off Ubuntu, the way `camera` does: the work VPN is
+# on the laptop by choice, so reaching this on a Fedora box means the request
+# is wrong rather than the host. If a Fedora host ever needs it, the script is
+# distro-agnostic apart from its dpkg/apt calls.
+#
+# Deliberately not in `bootstrap`: it needs a bundle downloaded by hand from
+# login.mozilla.com, and it hands over to an interactive upstream script, so it
+# cannot succeed unattended on a fresh machine and would turn a clean bootstrap
+# into a failed one. Re-runnable with no BUNDLE once the bundle is staged.
+.PHONY: vpn
+vpn:
+	@test "$(DISTRO)" = ubuntu || { \
+	  echo "make vpn is Ubuntu-only in this setup (the Fedora hosts are personal machines)." >&2; \
+	  echo "Force it with DISTRO=ubuntu if that has changed." >&2; exit 1; }
+	@echo "Importing the Mozilla Corporate VPN configuration"
+	MOZVPN_DUOTYPE=$(DUOTYPE) MOZVPN_FORCE=$(FORCE) bash ubuntu/setup-vpn.sh $(BUNDLE)
 
 # Upstream's installer detects the host distro itself, so this is shared.
 .PHONY: tailscale

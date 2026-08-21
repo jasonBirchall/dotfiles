@@ -39,6 +39,17 @@ newsboat/*.db*
 newsboat/history.cmdline
 .aider*
 
+# Mozilla VPN bundles. These belong in ~/.config/mozilla-vpn (0700), never in
+# here — the openvpn.*.conf files carry your client key. Ignored defensively so
+# a bundle unzipped in the repo to look at cannot be committed by reflex.
+# Note the patterns are specific rather than a bare *.conf, which would swallow
+# legitimate config files elsewhere in this repo.
+mozilla_vpn/
+mozilla-vpn/
+vpn-config-*.conf
+*.ovpn
+username.txt
+
 # Python (uv venvs, bytecode, caches)
 .venv/
 __pycache__/

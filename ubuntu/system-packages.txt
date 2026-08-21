@@ -55,6 +55,20 @@ lm-sensors
 # mako on Fedora; Debian avoids the name clash with an unrelated package
 mako-notifier
 network-manager-applet
+# --- Mozilla Corporate VPN (see ubuntu/setup-vpn.sh, `make vpn`) ---
+# Absent from fedora/system-packages.txt on purpose: the work VPN lives on the
+# laptop alone, the Fedora boxes being personal machines.
+#
+# All three normally arrive as dependencies of the desktop task, so naming them
+# is about pinning rather than installing: apt-mark showmanual does not list
+# them today, which means `apt autoremove` is free to take them the moment
+# whatever pulled them in stops depending on them.
+openvpn
+# The NM plugin is what makes `nmcli connection import type openvpn` work and
+# puts the tunnel in GNOME's quick settings; the -gnome half supplies the auth
+# dialog. Without them the import fails with "unknown VPN service type".
+network-manager-openvpn
+network-manager-openvpn-gnome
 podman
 # --- Internal camera (Intel IPU7 / OV08X40); see ubuntu/setup-camera.sh ---
 # Absent from fedora/system-packages.txt: the Fedora hosts have UVC webcams,

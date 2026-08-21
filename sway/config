@@ -61,7 +61,12 @@ exec_always swayidle -w \
 # screen; --reload re-applies the current lid state on config reload.
 bindswitch --reload --locked lid:on exec swaylock -f -C ~/.config/swaylock/config
 
+# Two lock bindings, mirroring the media-keys `screensaver` list in
+# modules/gnome.nix. Not $mod+l or $mod+Shift+l — those are `focus right` and
+# `move right` in the h/j/k/l scheme below; Ctrl+Alt+L keeps the L-for-lock
+# muscle memory without spending a navigation key.
 bindsym $mod+Shift+q exec swaylock -f -C ~/.config/swaylock/config
+bindsym Control+Alt+l exec swaylock -f -C ~/.config/swaylock/config
 
 # Lock, then sleep. sleep.sh picks the mode per-host: hibernate where
 # real disk swap exists (this s2idle laptop, where plain suspend just

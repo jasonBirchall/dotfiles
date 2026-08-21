@@ -66,6 +66,16 @@
       executable = true;
     };
 
+    # Mozilla Corporate VPN wrapper over nmcli; profiles are imported by
+    # `make vpn` (ubuntu/setup-vpn.sh). Linked on both distros for the same
+    # reason as camera-relay.sh above — it is inert with no profiles imported,
+    # and `mozvpn list` says so rather than failing. Out-of-store so `mozvpn
+    # import` can find the repo by resolving its own symlink. No `executable`
+    # attribute for the same reason as the other out-of-store entries: the mode
+    # comes from the file in the repo, which pre-commit's
+    # check-shebang-scripts-are-executable already enforces.
+    "bin/mozvpn".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/bin/mozvpn/mozvpn";
+
     # Suricata scripts
     "bin/suricata-alerts.sh".source = ../bin/suricata/suricata-alerts.sh;
     "bin/suricata-watcher.sh".source = ../bin/suricata/suricata-watcher.sh;
