@@ -1,0 +1,294 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# mozvpn — a friendly wrapper around the Mozilla Corporate VPN profiles that
+# `make vpn` (ubuntu/setup-vpn.sh → Mozilla's generate_nm_config) imports into
+# NetworkManager.
+#
+# Everything here is nmcli underneath, so this and GNOME's quick-settings
+# toggle drive the same connection. Use whichever is to hand.
+#
+# Profiles are found by matching the endpoint code in the connection name,
+# rather than by an exact id. generate_nm_config is upstream's and picks its
+# own naming (it follows the bundle's openvpn.$DATACENTER.mozilla.com.conf),
+# so pinning an exact string here would break the first time Mozilla changed
+# it. Substring matching on mdc1/ber3 survives that.
+#
+# Naming: this is the *Corporate* VPN, also called Global VPN. Nothing to do
+# with Mozilla VPN the consumer product, which is a different service, does not
+# use OpenVPN, and is not IT-supported. The corporate one was briefly called
+# "Mozilla VPN" too, which is where the confusion comes from.
+
+ENDPOINTS="mdc1 ber3"
+
+die() {
+  echo "mozvpn: $*" >&2
+  exit 1
+}
+
+command -v nmcli >/dev/null 2>&1 || die "nmcli not found (is NetworkManager installed?)"
+
+# All VPN-type profiles naming one of our endpoints.
+profiles() {
+  nmcli -t -f NAME,TYPE connection show 2>/dev/null |
+    awk -F: '$2 == "vpn" { print $1 }' |
+    grep -iE "($(echo "$ENDPOINTS" | tr ' ' '|'))" || true
+}
+
+active_profiles() {
+  nmcli -t -f NAME,TYPE connection show --active 2>/dev/null |
+    awk -F: '$2 == "vpn" { print $1 }' |
+    grep -iE "($(echo "$ENDPOINTS" | tr ' ' '|'))" || true
+}
+
+# The one profile for a given endpoint, or empty. The `|| true` is load-bearing
+# under `set -o pipefail`: a grep that matches nothing exits 1, which makes the
+# whole pipeline exit 1, which under `set -e` kills the caller mid-assignment —
+# so "no such profile" would abort silently instead of reaching the error
+# message written for exactly that case.
+profile_for() {
+  profiles | grep -i "$1" | head -1 || true
+}
+
+usage() {
+  cat <<'EOF'
+mozvpn — Mozilla Corporate VPN (OpenVPN over NetworkManager)
+
+Usage: mozvpn <command> [args]
+
+  up mdc1|ber3       Connect to an endpoint
+  down               Disconnect
+  status             Tunnel state, routed subnets, and split-DNS domains
+  list               Imported profiles, and which is active
+  import [PATH]      (Re-)import a bundle — runs ubuntu/setup-vpn.sh
+  logs               Recent NetworkManager/OpenVPN log lines
+  report             Collect everything #servicedesk asks for in a ticket
+  help               This message
+
+Credentials, when prompted:
+  username   your LDAP address, <you>@mozilla.com
+  password   the literal string 'push' — NOT your LDAP password. Duo then
+             sends a push to your phone. If you set the bundle up with totp
+             instead, enter your TOTP code here.
+
+Endpoints:
+  mdc1   US-West    / California, USA
+  ber3   EU-Central / Berlin, Germany
+
+There is no default endpoint, on purpose. The right one is the one nearest the
+*resources* you are working on, not the one nearest you: throughput is bounded
+by ACK round-trip time to the target host. Working on EU servers from the US
+means ber3; on US servers from Europe, mdc1. A baked-in default would be
+silently wrong half the time.
+
+MDC2 (US-East / Virginia) was decommissioned in April 2021. `mozvpn import`
+removes it if it is still lying around.
+
+This is a split tunnel: only the Mozilla systems your role has access to route
+over it. Your general internet traffic does not, so it is not a privacy proxy.
+
+Careful with repeated failures — too many failed Duo attempts lock your
+account, and then you cannot VPN at all until #servicedesk unlocks it. If a
+connection fails, read `mozvpn logs` before retrying.
+EOF
+}
+
+cmd="${1:-help}"
+shift || true
+
+case "$cmd" in
+  help | -h | --help) usage ;;
+
+  list)
+    mapfile -t all < <(profiles)
+    if [ "${#all[@]}" -eq 0 ]; then
+      echo "No profiles imported yet. Run: mozvpn import ~/Downloads/<you>@mozilla.com.zip"
+      exit 0
+    fi
+    mapfile -t up < <(active_profiles)
+    for p in "${all[@]}"; do
+      mark="  "
+      for a in ${up[@]+"${up[@]}"}; do [ "$a" = "$p" ] && mark="* "; done
+      echo "$mark$p"
+    done
+    ;;
+
+  up)
+    ep="$(printf '%s' "${1:-}" | tr '[:upper:]' '[:lower:]')"
+    [ -n "$ep" ] || die "which endpoint? 'mozvpn up mdc1' or 'mozvpn up ber3' (see 'mozvpn help')"
+    case "$ep" in
+      mdc1 | ber3) ;;
+      mdc2) die "MDC2 was decommissioned in April 2021. Use mdc1 or ber3." ;;
+      *) die "unknown endpoint '$ep'. Use mdc1 (US-West) or ber3 (EU-Central)." ;;
+    esac
+
+    conn="$(profile_for "$ep")"
+    [ -n "$conn" ] ||
+      die "no profile matching '$ep'. Import your bundle first:
+    mozvpn import ~/Downloads/<you>@mozilla.com.zip"
+
+    # Only one tunnel at a time. Two Mozilla profiles up together push routes
+    # for the same internal ranges, and which one wins comes down to metric
+    # ordering rather than anything you chose.
+    while read -r other; do
+      [ -n "$other" ] && [ "$other" != "$conn" ] || continue
+      echo "mozvpn: disconnecting $other first"
+      nmcli connection down id "$other" >/dev/null
+    done < <(active_profiles)
+
+    echo "mozvpn: connecting $conn"
+    echo "        username <you>@mozilla.com, password 'push' (then approve on your phone)"
+    # --ask so any prompt lands in this terminal. Without it nmcli fails
+    # outright over SSH and silently defers to the desktop agent otherwise,
+    # which is fine at a GUI session and baffling anywhere else.
+    exec nmcli --ask connection up id "$conn"
+    ;;
+
+  down)
+    mapfile -t up < <(active_profiles)
+    if [ "${#up[@]}" -eq 0 ]; then
+      echo "mozvpn: not connected"
+      exit 0
+    fi
+    for p in "${up[@]}"; do
+      echo "mozvpn: disconnecting $p"
+      nmcli connection down id "$p" >/dev/null
+    done
+    ;;
+
+  status)
+    mapfile -t up < <(active_profiles)
+    if [ "${#up[@]}" -eq 0 ]; then
+      echo "state    : disconnected"
+      exit 0
+    fi
+    conn="${up[0]}"
+
+    # Everything below comes from `nmcli connection show <vpn>` rather than
+    # from `ip route show dev …`, because working out the device is the trap
+    # here. For a VPN profile NM reports the *underlying* interface — the wifi
+    # card — in both DEVICE and GENERAL.DEVICES, not the tun. Believing it
+    # prints your LAN routes and LAN resolver under a "routed over the tunnel"
+    # heading, and then flags the ordinary wifi default route as a split-tunnel
+    # failure. Every line of that is wrong and all of it looks plausible.
+    # NM's IP4.* fields for the connection are the tunnel's own view, so they
+    # need no device at all; the device is derived afterwards, for display.
+    addr="$(nmcli -g IP4.ADDRESS connection show "$conn" 2>/dev/null | head -1)"
+    dev=""
+    if [ -n "$addr" ]; then
+      dev="$(ip -4 -o addr show 2>/dev/null |
+        awk -v a="${addr%%/*}" '$4 ~ "^"a"/" { print $2; exit }')"
+    fi
+
+    echo "state    : connected"
+    echo "profile  : $conn"
+    echo "address  : ${addr:-unknown}${dev:+ on $dev}"
+
+    # The routes are the split tunnel made visible: a handful of internal
+    # prefixes and no 0.0.0.0/0. A default route here would mean all your
+    # traffic is going through Mozilla, which is not how this VPN works.
+    echo ""
+    echo "routed over the tunnel:"
+    routes="$(nmcli -g IP4.ROUTE connection show "$conn" 2>/dev/null)"
+    if [ -n "$routes" ]; then
+      # -g joins repeated fields with " | ", and each is "dst = X, nh = Y, mt = Z".
+      echo "$routes" | tr '|' '\n' | while IFS= read -r r; do
+        d="$(printf '%s' "$r" | sed -n 's/.*dst = \([^,]*\).*/\1/p')"
+        n="$(printf '%s' "$r" | sed -n 's/.*nh = \([^,]*\).*/\1/p')"
+        [ -n "$d" ] || continue
+        if [ -n "$n" ] && [ "$n" != "0.0.0.0" ]; then
+          echo "  $d via $n"
+        else
+          echo "  $d"
+        fi
+      done
+      if printf '%s' "$routes" | grep -q 'dst = 0\.0\.0\.0/0'; then
+        echo "  !! default route present — this should be a split tunnel."
+      else
+        echo "  (no default route — split tunnel as expected)"
+      fi
+    else
+      echo "  (none)"
+    fi
+
+    # The DNS half. systemd-resolved sends only these domains to the VPN's
+    # resolver; everything else keeps using your normal DNS. An internal name
+    # that will not resolve while the tunnel is up is almost always a domain
+    # missing from this list.
+    echo ""
+    echo "DNS via the tunnel:"
+    # tr -s squeezes the spaces either side of -g's " | " separator.
+    dns="$(nmcli -g IP4.DNS connection show "$conn" 2>/dev/null | tr '|' ' ' | tr -s ' ')"
+    dom="$(nmcli -g IP4.DOMAIN connection show "$conn" 2>/dev/null | tr '|' ' ' | tr -s ' ')"
+    echo "  servers: ${dns:-(none)}"
+    echo "  domains: ${dom:-(none)}"
+    ;;
+
+  logs)
+    # NM runs the openvpn process, so the client's output lands in NM's journal
+    # unit rather than anywhere under /var/log/openvpn.
+    since="${1:--30m}"
+    if ! journalctl -u NetworkManager --since "$since" --no-pager 2>/dev/null |
+      grep -iE 'vpn|openvpn|auth'; then
+      echo "mozvpn: no VPN log lines since $since"
+    fi
+    ;;
+
+  report)
+    # Mozilla's AUTH_FAILED guidance asks for a specific set of facts, and
+    # says the more you supply the likelier they can help. Gathering them by
+    # hand at the point of being locked out is exactly when you will forget
+    # one, so collect the lot.
+    echo "=== mozvpn report — paste this into #servicedesk or a JSM ticket ==="
+    echo
+    echo "-- when (Mozilla asks for UTC) --"
+    date -u '+%Y-%m-%d %H:%M:%S UTC'
+    date '+%Y-%m-%d %H:%M:%S %Z (local)'
+    echo
+    echo "-- loginid --"
+    echo "${MOZVPN_LOGIN:-<set MOZVPN_LOGIN or fill in your @mozilla.com address>}"
+    echo
+    echo "-- distro --"
+    # shellcheck disable=SC1091
+    (. /etc/os-release && echo "$PRETTY_NAME") 2>/dev/null || echo unknown
+    echo "kernel: $(uname -r)"
+    echo
+    echo "-- openvpn packages --"
+    dpkg -l | grep -i openvpn | sort || echo "(none)"
+    echo
+    echo "-- openvpn version --"
+    openvpn --version 2>/dev/null | head -1 || echo "(not installed)"
+    echo
+    echo "-- profiles (which endpoint was tried) --"
+    found="$(profiles)"
+    if [ -n "$found" ]; then
+      while IFS= read -r line; do echo "  $line"; done <<<"$found"
+    else
+      echo "  (none)"
+    fi
+    echo "active: $(active_profiles | tr '\n' ' ')"
+    echo
+    echo "-- duo method --"
+    echo "push or totp — whichever you chose when running generate_nm_config"
+    echo
+    echo "-- recent log --"
+    journalctl -u NetworkManager --since -30m --no-pager 2>/dev/null |
+      grep -iE 'vpn|openvpn|auth' | tail -50 || echo "(none)"
+    echo
+    echo "=== end ==="
+    ;;
+
+  import)
+    # Locate the repo by resolving this script's own symlink — it is linked
+    # into ~/bin by modules/dotfiles.nix, so $0's directory is not the repo.
+    self="$(readlink -f "${BASH_SOURCE[0]}")"
+    repo="$(cd "$(dirname "$self")/../.." && pwd)"
+    [ -f "$repo/ubuntu/setup-vpn.sh" ] ||
+      die "cannot find ubuntu/setup-vpn.sh (looked in $repo)"
+    exec bash "$repo/ubuntu/setup-vpn.sh" "$@"
+    ;;
+
+  *)
+    die "unknown command '$cmd' (try 'mozvpn help')"
+    ;;
+esac
