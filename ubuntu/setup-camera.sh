@@ -87,6 +87,50 @@ EOF
 
 sudo update-initramfs -u
 
+# libcamera 0.7.0 has no tuning file for ov08x40, so its software ISP falls
+# back to uncalibrated.yaml: no colour correction, and the Saturation control
+# does not exist (it is only registered when a Ccm algorithm is configured).
+# The picture is near-greyscale. An identity Ccm is enough to bring the knob
+# into existence — bin/camera/camera-relay.sh then sets saturation at runtime,
+# and the PipeWire path picks the tuning up too. Drop this file when a real
+# ov08x40 tuning lands upstream.
+echo "[*] Writing /usr/share/libcamera/ipa/simple/ov08x40.yaml"
+sudo tee /usr/share/libcamera/ipa/simple/ov08x40.yaml >/dev/null <<'EOF'
+# Managed by dotfiles (ubuntu/setup-camera.sh). See that script for why.
+# SPDX-License-Identifier: CC0-1.0
+%YAML 1.1
+---
+version: 1
+algorithms:
+  - BlackLevel:
+  - Awb:
+  - Ccm:
+      ccms:
+        - ct: 6500
+          ccm: [ 1, 0, 0,
+                 0, 1, 0,
+                 0, 0, 1 ]
+  - Adjust:
+  - Agc:
+...
+EOF
+
+# The relay runs as the camera-relay *user* service (modules/services.nix),
+# not Ubuntu's v4l2-relayd system service: the system unit ships unconfigured
+# on IPU7 machines, and configuring it means root plus a hardening sandbox
+# between us and every future tweak, when a user service does the same job
+# with its config in the dotfiles. Two relayds fight over the loopback, so
+# the system side stays off. Also sweep up the system-side configs from
+# debugging this — inert once the unit is disabled, but confusing to find
+# later.
+echo "[*] Disabling the system v4l2-relayd (user service replaces it)"
+sudo systemctl disable --now v4l2-relayd.service 2>/dev/null || true
+sudo systemctl stop 'v4l2-relayd@*' 2>/dev/null || true
+sudo rm -f /etc/v4l2-relayd.d/libcamera.conf \
+  /etc/systemd/system/v4l2-relayd@.service.d/dmabuf.conf \
+  /etc/systemd/system/v4l2-relayd@.service.d/50-nosync.conf
+sudo systemctl daemon-reload
+
 echo ""
 echo "[*] intel_cvs installed:"
 sudo dkms status -m "$DKMS_NAME"
@@ -94,6 +138,7 @@ echo ""
 echo "    Reboot, then check the sensor came up:"
 echo "      cam -l          # expect exactly 1 camera, not 0 and not 30"
 echo ""
-echo "    For Zoom/Chrome, start the relay (they cannot speak libcamera):"
-echo "      systemctl --user start camera-relay"
+echo "    Zoom/Chrome see it as \"Virtual Camera\" via the camera-relay user"
+echo "    service, which idles until an app opens the device — nothing to"
+echo "    start by hand. SAT/W/H knobs: bin/camera/camera-relay.sh."
 echo ""

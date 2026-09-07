@@ -48,14 +48,11 @@ in
     # speak V4L2 and nothing else (Zoom, Chrome, Electron). Ubuntu-only: the
     # Fedora hosts have UVC webcams and need no bridge.
     #
-    # Deliberately no Install section, so this never gets enabled. The
-    # software ISP costs ~80% of one core for as long as it runs, which is not
-    # something to leave on a laptop — `systemctl --user start camera-relay`
-    # before a call, stop it after. ubuntu/setup-camera.sh says so on exit.
-    #
-    # Not restarted on failure for the same reason: the common failure is the
-    # loopback node being absent, and retrying that in a loop burns a core
-    # rather than fixing it.
+    # Enabled at boot, which used to be unaffordable: the old script ran the
+    # camera pipeline for as long as the service was up (~80% of a core). It
+    # now wraps v4l2-relayd, which starts the pipeline only while an app is
+    # reading the loopback and idles at zero otherwise — see the script for
+    # why Ubuntu's own v4l2-relayd system service cannot be used instead.
     camera-relay = {
       Unit = {
         Description = "Relay libcamera to a V4L2 loopback node";
@@ -66,10 +63,16 @@ in
       Service = {
         Type = "simple";
         ExecStart = "%h/bin/camera-relay.sh";
-        # The ISP work is not latency-critical to anything else on the desktop,
-        # and at ~80% of a core it is the largest single thing competing for
-        # CPU while a call is running. Keep it off the critical path.
+        # The ISP work is not latency-critical to anything else on the desktop.
+        # Keep it off the critical path while a call is running.
         Nice = 5;
+        # Restarting is safe now that idle costs nothing; the loopback-absent
+        # failure exits fast, so back off rather than spin on it.
+        Restart = "on-failure";
+        RestartSec = 5;
+      };
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
       };
     };
   } // lib.optionalAttrs onFedora {
