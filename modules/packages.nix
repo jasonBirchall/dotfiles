@@ -95,10 +95,12 @@
     opentofu
     terraform
     awscli2
+    google-cloud-sdk
     sops
     age
     rustup
     aider-chat
+    gemini-cli
     ollama
     github-cli
     exercism
