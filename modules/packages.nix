@@ -91,7 +91,9 @@
     nodejs
     kubectl
     k9s
-    helm
+    kubernetes-helm # `helm` in nixpkgs is a synthesizer, of course
+    argocd
+    argo-workflows
     opentofu
     terraform
     awscli2
