@@ -8,6 +8,7 @@
     fd
     bat
     jq
+    yq-go # mikefarah's yq; plain `yq` in nixpkgs is the python jq-wrapper
     htop
     btop
     tree
