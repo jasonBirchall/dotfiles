@@ -31,6 +31,7 @@ help:
 	@echo "  make ghostty            Install Ghostty (COPR on Fedora; from $(PKGS_FILE) on Ubuntu)"
 	@echo "  make nvidia             Install proprietary NVIDIA driver + suspend setup (Fedora only)"
 	@echo "  make camera             Build the intel_cvs driver for Intel IPU7 cameras (Ubuntu only)"
+	@echo "  make displaylink        Install the DisplayLink driver for the Dell D6000 dock (Ubuntu only)"
 	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
 	@echo "  make tailscale          Install Tailscale + enable tailscaled (then 'sudo tailscale up')"
 	@echo "  make vpn                Set up the Mozilla Corporate VPN via NetworkManager (Ubuntu only)"
@@ -141,6 +142,19 @@ camera:
 	  echo "Fedora hosts in this repo have UVC webcams and need nothing." >&2; exit 1; }
 	@echo "Setting up the internal camera (Intel IPU7 / intel_cvs)"
 	bash ubuntu/setup-camera.sh
+
+# Ubuntu-only and errors elsewhere, for the same reason as `camera`: the D6000
+# dock is on the work laptop, so reaching this on a Fedora host means the
+# request is wrong. Not in bootstrap — it builds evdi via DKMS and adds the
+# Synaptics apt repo, which only earns its keep on a host that meets the dock.
+# After this, `make update` carries the driver forward through apt.
+.PHONY: displaylink
+displaylink:
+	@test "$(DISTRO)" = ubuntu || { \
+	  echo "make displaylink is Ubuntu-only (apt repo + Ubuntu's evdi-dkms)." >&2; \
+	  echo "The Fedora hosts in this repo have no DisplayLink dock." >&2; exit 1; }
+	@echo "Setting up the DisplayLink driver (Dell D6000 dock)"
+	bash ubuntu/setup-displaylink.sh
 
 # udev rule + input group; pure udev/usermod, so identical on both distros.
 .PHONY: xremap
