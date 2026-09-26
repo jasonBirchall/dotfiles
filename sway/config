@@ -18,6 +18,27 @@ input * {
     xkb_layout gb
 }
 
+# Touchpad. Mirrors the org/gnome/desktop/peripherals/touchpad block in
+# modules/gnome.nix so the GNOME and sway sessions feel the same.
+#
+# tap/drag are disabled deliberately: on a clickpad a resting thumb or a palm
+# brush registers as a tap, landing a click mid-sentence, and with drag on it
+# becomes a drag-select that then gets overtyped. clickfinger keeps the
+# physical press working anywhere on the pad, two fingers for right-click.
+#
+# sway exposes dwt only as a boolean; libinput's dwt timeout (800ms on the
+# GNOME side) has no sway equivalent, so that one setting does not carry over.
+input type:touchpad {
+    tap disabled
+    drag disabled
+    dwt enabled
+
+    click_method clickfinger
+    natural_scroll enabled
+    scroll_method two_finger
+    pointer_accel -0.33
+}
+
 # Dismiss current notification
 bindsym $mod+n exec makoctl dismiss
 
@@ -40,7 +61,12 @@ exec_always swayidle -w \
 # screen; --reload re-applies the current lid state on config reload.
 bindswitch --reload --locked lid:on exec swaylock -f -C ~/.config/swaylock/config
 
+# Two lock bindings, mirroring the media-keys `screensaver` list in
+# modules/gnome.nix. Not $mod+l or $mod+Shift+l — those are `focus right` and
+# `move right` in the h/j/k/l scheme below; Ctrl+Alt+L keeps the L-for-lock
+# muscle memory without spending a navigation key.
 bindsym $mod+Shift+q exec swaylock -f -C ~/.config/swaylock/config
+bindsym Control+Alt+l exec swaylock -f -C ~/.config/swaylock/config
 
 # Lock, then sleep. sleep.sh picks the mode per-host: hibernate where
 # real disk swap exists (this s2idle laptop, where plain suspend just

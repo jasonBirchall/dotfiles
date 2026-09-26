@@ -17,6 +17,8 @@ This repo manages:
 - User environment (via Nix + Home Manager)
 - Sway configuration
 - GNOME + pop-shell keybindings (mirroring sway, for GNOME sessions)
+- A GNOME Shell extension of its own, `gnome/top-consumer@jsond`, putting the
+  top CPU or memory process in the panel
 - Waybar, mako, swaylock styling
 - Shell configuration
 

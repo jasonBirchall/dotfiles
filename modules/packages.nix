@@ -8,6 +8,7 @@
     fd
     bat
     jq
+    yq-go # mikefarah's yq; plain `yq` in nixpkgs is the python jq-wrapper
     htop
     btop
     tree
@@ -16,6 +17,26 @@
     wl-kbptr
     wlrctl
     ack
+
+    # Formerly per-distro system packages. These are self-contained binaries
+    # with no udev rules, system services or session integration, so taking
+    # them from nixpkgs removes them from both package lists and keeps the
+    # two distros on identical versions.
+    #
+    # brightnessctl deliberately stays a system package: Fedora's RPM ships
+    # 90-brightnessctl.rules, and a Nix package cannot install a udev rule
+    # that a non-NixOS udev will read.
+    lnav # audit-log viewer; format in lnav/formats/auditd_log.json
+    wl-clipboard
+    playerctl
+    wev
+
+    # pop-shell's launcher (Super+d) is only a frontend: the search and launch
+    # work is done by this separate binary over stdio. Without it the dialog
+    # opens, accepts input and does nothing, which reads as a keybinding fault
+    # rather than a missing dependency. Packaged on Fedora, unpackaged on
+    # Ubuntu, so nixpkgs covers both from one line.
+    pop-launcher
 
     # --- Network monitoring ---
     bandwhich
@@ -34,6 +55,12 @@
     # --- Terminal Workspace ---
     # tmux is installed via programs.tmux (see tmux.nix)
     ranger
+    # ghostty is deliberately NOT taken from nixpkgs. On a non-NixOS host the
+    # Nix build links Nix's own libEGL, which searches the store for drivers
+    # rather than the distro's /usr/lib/<triplet>; it launches, fails with
+    # "Failed to create EGL display" and exits. GPU-backed GUI apps therefore
+    # stay in the distro layer (see the Makefile's ghostty target). The CLI
+    # tools above have no such dependency and are safe to take from Nix.
 
     # --- Editors & Note Taking ---
     neovim
@@ -65,14 +92,18 @@
     nodejs
     kubectl
     k9s
-    helm
+    kubernetes-helm # `helm` in nixpkgs is a synthesizer, of course
+    argocd
+    argo-workflows
     opentofu
     terraform
     awscli2
+    google-cloud-sdk
     sops
     age
     rustup
     aider-chat
+    gemini-cli
     ollama
     github-cli
     exercism

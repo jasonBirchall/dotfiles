@@ -59,3 +59,17 @@ repos:
         entry: sigma check
         language: system
         files: ^detection/rules/.*\.ya?ml$
+
+  # --- Flatpak app IDs ---
+  # Catches IDs that do not exist (casing is inconsistent between projects and
+  # easy to copy wrong) and IDs Flathub has marked end-of-life — those still
+  # install, but land a different app than the one written down. Unlike every
+  # other hook here this one needs the network, so it skips rather than fails
+  # when Flathub is unreachable; see the header of the script for why.
+  - repo: local
+    hooks:
+      - id: check-flatpaks
+        name: check flatpak app ids
+        entry: common/check-flatpaks.sh
+        language: script
+        files: ^common/flatpaks\.txt$

@@ -1,76 +1,124 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, distro ? "fedora", ... }:
 
+# Suricata is Fedora-only here: the Ubuntu laptop runs the auditd tamper
+# watches alone. Its units are therefore added with lib.optionalAttrs rather
+# than disabled with lib.mkIf — mkIf suppresses the *value* but the attribute
+# name still comes from the enclosing set, so home-manager would go on
+# generating a unit for it. optionalAttrs drops the name outright, which is
+# what "this host has no such service" needs to mean. Left in on a host with
+# no Suricata, suricata-watcher restarts every 30s against a /var/log/suricata
+# that never appears.
+let
+  onFedora = distro == "fedora";
+  onUbuntu = distro == "ubuntu";
+in
 {
-  systemd.user.services.ollama = {
-    Unit = {
-      Description = "Ollama Local LLM Runner";
-      After = [ "network.target" ];
+  systemd.user.services = {
+    ollama = {
+      Unit = {
+        Description = "Ollama Local LLM Runner";
+        After = [ "network.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.ollama}/bin/ollama serve";
+        Restart = "always";
+      };
+      Install = {
+        WantedBy = [ "default.target" ];
+      };
     };
-    Service = {
-      ExecStart = "${pkgs.ollama}/bin/ollama serve";
-      Restart = "always";
+
+    xremap = {
+      Unit = {
+        Description = "xremap key remapper";
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.xremap}/bin/xremap %h/.config/xremap/config.yml";
+        Restart = "on-failure";
+        RestartSec = 5;
+      };
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
     };
-    Install = {
-      WantedBy = [ "default.target" ];
+  } // lib.optionalAttrs onUbuntu {
+    # Bridges the libcamera camera into a v4l2loopback node for apps that
+    # speak V4L2 and nothing else (Zoom, Chrome, Electron). Ubuntu-only: the
+    # Fedora hosts have UVC webcams and need no bridge.
+    #
+    # Enabled at boot, which used to be unaffordable: the old script ran the
+    # camera pipeline for as long as the service was up (~80% of a core). It
+    # now wraps v4l2-relayd, which starts the pipeline only while an app is
+    # reading the loopback and idles at zero otherwise — see the script for
+    # why Ubuntu's own v4l2-relayd system service cannot be used instead.
+    camera-relay = {
+      Unit = {
+        Description = "Relay libcamera to a V4L2 loopback node";
+        Documentation = "https://github.com/intel/vision-drivers";
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+      Service = {
+        Type = "simple";
+        ExecStart = "%h/bin/camera-relay.sh";
+        # The ISP work is not latency-critical to anything else on the desktop.
+        # Keep it off the critical path while a call is running.
+        Nice = 5;
+        # Restarting is safe now that idle costs nothing; the loopback-absent
+        # failure exits fast, so back off rather than spin on it.
+        Restart = "on-failure";
+        RestartSec = 5;
+      };
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
+    };
+  } // lib.optionalAttrs onFedora {
+    # Real-time alert watcher
+    suricata-watcher = {
+      Unit = {
+        Description = "Suricata real-time alert watcher";
+        After = [ "graphical-session.target" ];
+        PartOf = [ "graphical-session.target" ];
+      };
+      Service = {
+        Type = "simple";
+        ExecStart = "%h/bin/suricata-watcher.sh";
+        Restart = "on-failure";
+        RestartSec = 30;
+      };
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
+    };
+
+    # Hourly alert summary
+    suricata-notify = {
+      Unit = {
+        Description = "Suricata hourly alert check";
+      };
+      Service = {
+        Type = "oneshot";
+        ExecStart = "%h/bin/suricata-notify.sh";
+      };
     };
   };
 
-  # Suricata real-time alert watcher
-  systemd.user.services.suricata-watcher = {
-    Unit = {
-      Description = "Suricata real-time alert watcher";
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-    Service = {
-      Type = "simple";
-      ExecStart = "%h/bin/suricata-watcher.sh";
-      Restart = "on-failure";
-      RestartSec = 30;
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-  };
-
-  # Hourly alert summary
-  systemd.user.services.suricata-notify = {
-    Unit = {
-      Description = "Suricata hourly alert check";
-    };
-    Service = {
-      Type = "oneshot";
-      ExecStart = "%h/bin/suricata-notify.sh";
-    };
-  };
-
-  systemd.user.timers.suricata-notify = {
-    Unit = {
-      Description = "Hourly Suricata alert check";
-    };
-    Timer = {
-      OnCalendar = "hourly";
-      RandomizedDelaySec = 120;
-      Persistent = true;
-    };
-    Install = {
-      WantedBy = [ "timers.target" ];
-    };
-  };
-
-  systemd.user.services.xremap = {
-    Unit = {
-      Description = "xremap key remapper";
-      PartOf = [ "graphical-session.target" ];
-      After = [ "graphical-session.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.xremap}/bin/xremap %h/.config/xremap/config.yml";
-      Restart = "on-failure";
-      RestartSec = 5;
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
+  systemd.user.timers = lib.optionalAttrs onFedora {
+    suricata-notify = {
+      Unit = {
+        Description = "Hourly Suricata alert check";
+      };
+      Timer = {
+        OnCalendar = "hourly";
+        RandomizedDelaySec = 120;
+        Persistent = true;
+      };
+      Install = {
+        WantedBy = [ "timers.target" ];
+      };
     };
   };
 
@@ -107,8 +155,8 @@
   # the session is cached in libsecret — no password stored on disk).
   home.activation.protonDriveCli =
     lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      VER=0.5.0
-      SHA512=d85edbc57412c92a9705b70a8d3a5c66ad933331554d6b922b912d6df29b4e5e9b0d7a940a594927dd4788e1f8db86d5e9a23f084f07dbd5327f7a9e51d61272
+      VER=0.7.0
+      SHA512=5a5affcbec04ea926a32d10e236c1342227f1b6d416cb797f88f943b2c4f1dcf53b5897a115f1c1aa9ce8ce92fd637e1c50bd223b04866577681f0584eccdbc6
       BIN="$HOME/.local/bin/proton-drive"
       have=""
       if [ -x "$BIN" ]; then

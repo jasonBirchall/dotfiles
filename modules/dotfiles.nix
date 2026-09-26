@@ -12,6 +12,12 @@
     ".config/sway/sleep.sh".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/sway/sleep.sh";
     ".config/gnome/cheatsheet.sh".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/gnome/cheatsheet.sh";
 
+    # GNOME Shell only loads extensions from this directory, so the source
+    # tree is linked into place rather than copied. Out-of-store because an
+    # edit to extension.js should need a shell restart, not a `make hm`.
+    # modules/gnome.nix names the same uuid in enabled-extensions.
+    ".local/share/gnome-shell/extensions/top-consumer@jsond".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/gnome/top-consumer@jsond";
+
     # Sourced from the local-config private repo (sibling of dotfiles).
     # Run `make local-sync` to clone or update it before `make hm`.
     ".claude/settings.json".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/local-config/settings.json";
@@ -38,11 +44,37 @@
       executable = true;
     };
 
+    # Stands in for tmux-battery's #{battery_remain}, which is broken on all
+    # Linux hosts — see the header of the script for the two upstream bugs.
+    # tmux/tmux.conf calls it from status-right.
+    "bin/battery-remain.sh" = {
+      source = ../bin/tmux-battery/battery-remain.sh;
+      executable = true;
+    };
+
+    # Backs the camera-relay user service (modules/services.nix), which starts
+    # it by path. Linked on both distros — it is inert without an Intel IPU7
+    # camera, and the service that calls it only exists on Ubuntu.
+    "bin/camera-relay.sh" = {
+      source = ../bin/camera/camera-relay.sh;
+      executable = true;
+    };
+
     # Proton Drive CLI wrapper (friendly verbs over the `proton-drive` binary)
     "bin/pdrive" = {
       source = ../bin/pdrive/pdrive;
       executable = true;
     };
+
+    # Mozilla Corporate VPN wrapper over nmcli; profiles are imported by
+    # `make vpn` (ubuntu/setup-vpn.sh). Linked on both distros for the same
+    # reason as camera-relay.sh above — it is inert with no profiles imported,
+    # and `mozvpn list` says so rather than failing. Out-of-store so `mozvpn
+    # import` can find the repo by resolving its own symlink. No `executable`
+    # attribute for the same reason as the other out-of-store entries: the mode
+    # comes from the file in the repo, which pre-commit's
+    # check-shebang-scripts-are-executable already enforces.
+    "bin/mozvpn".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/workarea/dotfiles/bin/mozvpn/mozvpn";
 
     # Suricata scripts
     "bin/suricata-alerts.sh".source = ../bin/suricata/suricata-alerts.sh;
@@ -52,7 +84,8 @@
     ".config/xremap/config.yml".source = ../xremap/config.yml;
 
     # lnav format for the raw audit log; pairs with the auditd tamper watches
-    # (auditd/) and log_group = wheel, which makes the log user-readable
+    # (auditd/) and log_group (wheel on Fedora, adm on Ubuntu), which makes
+    # the log user-readable
     ".config/lnav/formats/dotfiles/auditd_log.json".source = ../lnav/formats/auditd_log.json;
 
     # Force GTK4's GL renderer for Fractal — Vulkan-on-Nvidia produces a blank window.

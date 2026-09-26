@@ -1,0 +1,11 @@
+{
+    "uuid": "top-consumer@jsond",
+    "name": "Top Consumer",
+    "description": "Shows the process currently using the most CPU (or memory) in the top bar. Click for the top five of each.",
+    "version": 1,
+    "shell-version": [
+        "48",
+        "49",
+        "50"
+    ]
+}

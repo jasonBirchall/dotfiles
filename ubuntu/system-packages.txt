@@ -1,0 +1,111 @@
+# Ubuntu/Debian system packages — the apt counterpart of
+# fedora/system-packages.txt. Names diverge wherever Debian packaging splits or
+# renames things; the comments below flag each difference so the two lists can
+# be diffed by eye.
+#
+# Deliberately absent:
+#   akmod-nvidia           RPM Fusion only. Ubuntu uses ubuntu-drivers / nvidia-driver-*.
+#   checkpolicy            SELinux tooling; Ubuntu ships AppArmor.
+#   policycoreutils-devel  ditto.
+#   nm-connection-editor   ships inside network-manager-applet on Debian.
+#   pop-shell              unpackaged; built from source by ubuntu/setup-pop-shell.sh.
+#   thunderbird            moved to Flathub (common/flatpaks.txt) — see below.
+#   firefox-nightly        needs Mozilla's apt repo, which is not in the archive.
+#                          `make firefox-nightly` adds the repo (pinned so it can
+#                          serve nothing but Nightly) and installs it. Listed here
+#                          would only mean `make system` skipping it as
+#                          unavailable on a host that had not run that target yet.
+#
+# Moved to Nix (modules/packages.nix), so absent here and pinned to identical
+# versions on every distro: lnav, wl-clipboard, playerctl, wev, pop-launcher.
+# Note pop-launcher is the Super+d backend and is a separate project from
+# pop-shell — setup-pop-shell.sh does not build it.
+#
+# ghostty is listed below rather than taken from Nix: the nixpkgs build cannot
+# create an EGL display on a non-NixOS host and exits at startup. Ubuntu
+# packages it; Fedora installs it from a COPR via fedora/setup-ghostty.sh.
+# brightnessctl stays below — Fedora's RPM ships 90-brightnessctl.rules, and
+# Nix cannot install a udev rule that a non-NixOS udev will read.
+
+# auditd — pinned so `make auditd` never runs against a missing daemon.
+# Fedora calls this 'audit'.
+auditd
+brightnessctl
+# conntrack-tools on Fedora
+conntrack
+docker.io
+docker-buildx
+# Compose v2 plugin ("docker compose"); supersedes the v1 docker-compose script
+docker-compose-v2
+flatpak
+# Packaged on Ubuntu; Fedora installs it from the scottames COPR instead
+# (fedora/setup-ghostty.sh), so it is absent from fedora/system-packages.txt.
+# Verified 2026-07-29: 1.3.0~us1-0ubuntu1 from resolute/universe on 26.04 —
+# the real archive, no PPA. It is in universe rather than main, which is
+# enabled by default on Desktop but not on every minimal install; if a future
+# host reports it unavailable, check that universe is enabled before assuming
+# the package is gone.
+ghostty
+# jetbrains-mono-fonts on Fedora
+fonts-jetbrains-mono
+# libnotify on Fedora; Debian splits the notify-send CLI into -bin
+libnotify-bin
+# lm_sensors on Fedora (underscore)
+lm-sensors
+# mako on Fedora; Debian avoids the name clash with an unrelated package
+mako-notifier
+network-manager-applet
+# --- Mozilla Corporate VPN (see ubuntu/setup-vpn.sh, `make vpn`) ---
+# Absent from fedora/system-packages.txt on purpose: the work VPN lives on the
+# laptop alone, the Fedora boxes being personal machines.
+#
+# All three normally arrive as dependencies of the desktop task, so naming them
+# is about pinning rather than installing: apt-mark showmanual does not list
+# them today, which means `apt autoremove` is free to take them the moment
+# whatever pulled them in stops depending on them.
+openvpn
+# The NM plugin is what makes `nmcli connection import type openvpn` work and
+# puts the tunnel in GNOME's quick settings; the -gnome half supplies the auth
+# dialog. Without them the import fails with "unknown VPN service type".
+network-manager-openvpn
+network-manager-openvpn-gnome
+podman
+# --- Internal camera (Intel IPU7 / OV08X40); see ubuntu/setup-camera.sh ---
+# Absent from fedora/system-packages.txt: the Fedora hosts have UVC webcams,
+# which need none of this. The out-of-tree intel_cvs driver is the one piece
+# apt cannot provide — setup-camera.sh builds it via DKMS.
+#
+# libcamera because plain V4L2 cannot drive this hardware: /dev/video0..31 are
+# raw ISYS CSI endpoints with no debayer, AE or AWB, so apps enumerate 30-odd
+# cameras and every one is black.
+libcamera-tools
+libcamera-ipa
+# PipeWire's libcamera plugin — what Firefox and anything using the camera
+# portal goes through.
+libspa-0.2-libcamera
+# The rest are for the V4L2 relay (bin/camera/camera-relay.sh), which Zoom,
+# Chrome and Electron apps need because they speak V4L2 and nothing else.
+# v4l2-relayd is here for its /etc/modprobe.d/v4l2-relayd.conf, which sets the
+# loopback's exclusive_caps and card_label; the relay finds the node by that
+# label rather than by number.
+v4l2loopback-dkms
+v4l2-relayd
+gstreamer1.0-libcamera
+# gst-launch-1.0 plus videoconvert/videoscale/v4l2sink. Currently pulled in
+# transitively, but the relay invokes them directly, so they are named rather
+# than left to survive someone else's dependency change.
+gstreamer1.0-tools
+gstreamer1.0-plugins-base
+gstreamer1.0-plugins-good
+podman-compose
+suricata
+sway
+swayidle
+swaylock
+# thunderbird moved to Flathub (common/flatpaks.txt). The deb here was never a
+# real Thunderbird: 2:1snap1-0ubuntu5 is a transitional package whose only job
+# is to install Canonical's snap, so this one name delivered something quite
+# different from Fedora's RPM.
+waybar
+wofi
+yubikey-manager

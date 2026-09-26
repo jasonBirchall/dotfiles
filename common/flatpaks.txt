@@ -1,0 +1,70 @@
+# Format: <remote> <app-id>
+# Installed system-wide via `make flatpak`.
+#
+# App IDs are case-sensitive and the casing is not consistent between projects
+# — org.mozilla.vpn is genuinely lowercase, org.mozilla.Thunderbird is not.
+# `flatpak search` lowercases everything it prints, so confirm a new ID with
+# `flatpak remote-info flathub <id>` rather than copying it out of a search.
+flathub org.gnome.Fractal
+flathub org.mozilla.vpn
+flathub org.signal.Signal
+# Thunderbird is a flatpak on both distros rather than a system package. Fedora
+# ships a real RPM, but Ubuntu's thunderbird deb is only a transitional package
+# that pulls in Canonical's snap — so one name in the two package lists meant
+# two different delivery mechanisms, two update channels and two profile
+# locations. Flathub gives both hosts the same build, like the Nix moves in
+# modules/packages.nix.
+#
+# Was org.mozilla.Thunderbird until Flathub retired that ID on 2026-05-08 with
+# an End-of-life-rebase onto org.mozilla.thunderbird_esr. Installing the old ID
+# still succeeds and silently lands the new one, which is the exact case
+# common/check-flatpaks.sh exists to catch — the two disagreed here for a while
+# and `make drift-flatpak` reported the replacement as untracked on every run.
+#
+# Note this moved the channel, not just the name: the flatpak now tracks ESR
+# (140.x) rather than the release channel, so it lags monthly Thunderbird
+# releases and picks up features a year late. That is a fine trade for mail and
+# not one worth working around, but it is a change, not a rename.
+flathub org.mozilla.thunderbird_esr
+# Zoom is a flatpak rather than the .deb from zoom.us. The deb drops a
+# proprietary binary with the run of $HOME and no update channel unless you also
+# add Zoom's apt repo; the Flathub build is confined to ~/Documents/Zoom and
+# rides along with `make update`. File transfers and screen share go through
+# xdg-desktop-portal, which is what you want under GNOME Wayland anyway. The
+# snap is avoided for the same reason Thunderbird moved off one.
+#
+# This is an extra-data package: the small Flathub download is a wrapper that
+# fetches the ~300 MB tarball from cdn.zoom.us at install time and checks it
+# against a checksum in the manifest. Consequences worth knowing — installs need
+# the Zoom CDN reachable, and a build stops installing once upstream deletes its
+# tarball, so a stale install can only be fixed forward with `flatpak update`.
+flathub us.zoom.Zoom
+# Slack, same reasoning as Zoom: sandboxed (it gets ~/Downloads and nothing
+# else), one build on both distros, updated by `make update` rather than by a
+# vendor apt repo.
+#
+# Worth knowing before it surprises you: this is an extra-data package whose
+# payload is Slack's *snap*, pulled from api.snapcraft.io and checksummed by the
+# manifest. That reads oddly next to the Thunderbird note above, so to be clear
+# about what is and isn't shared with the case for dropping that one — snapd
+# never enters the picture, there is no Canonical update channel and no second
+# profile location; the snap is just the squashfs Slack happens to publish, and
+# the flatpak unpacks it. The objection to Ubuntu's thunderbird deb was the
+# divergence it hid, not the file format, and none of that divergence applies
+# here. Upstream has swapped the source format before and may again.
+flathub com.slack.Slack
+# Firefox, moved off Ubuntu's snap for the reason the Thunderbird note above
+# predicts — and this one had already gone wrong rather than being theoretical.
+# Found 2026-07-30 on the laptop: the snap sat at 149.0.2 with a refresh-date of
+# 2026-04-23 while latest/stable was 153.0.1. Three months without a refresh, on
+# the process with more exposure to hostile input than anything else on the box.
+# snapd's auto-refresh is not something `make update` can see, let alone fix, so
+# the failure was silent by construction. Flathub's build is Mozilla-published,
+# same as the snap, and updates with everything else.
+#
+# The snap keeps its profile in ~/snap/firefox/common/.mozilla; the flatpak uses
+# ~/.var/app/org.mozilla.firefox/.mozilla (persistent=.mozilla). Migrating means
+# copying between the two with Firefox closed — profiles.ini is IsRelative=1, so
+# it needs no editing. Leave the snap installed until the flatpak has opened the
+# copied profile and you have confirmed history, logins and extensions arrived.
+flathub org.mozilla.firefox
