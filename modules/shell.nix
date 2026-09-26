@@ -66,6 +66,10 @@
         # ble.sh's contrib modules rebind Ctrl-R/Ctrl-T/Alt-C natively.
         if [[ ''${BLE_VERSION-} ]]; then
           _ble_contrib_fzf_base=${pkgs.fzf}/share/fzf
+          # Re-read HISTFILE before and append after every command — ble's
+          # equivalent of the `history -a; history -n` pair in __prompt_command
+          # below, which must not run under ble.sh (see the comment there).
+          bleopt history_share=1
           ble-import -d integration/fzf-completion
           ble-import -d integration/fzf-key-bindings
         fi
@@ -81,8 +85,17 @@
           # Bash only writes history on clean shell exit, so killed tmux panes
           # lose theirs and concurrent panes can't see each other's commands.
           # Flush after every command and pull in what other shells have written.
-          history -a
-          history -n
+          #
+          # Plain bash only. Under ble.sh `history` is ble's wrapper, and its
+          # `-n` re-reads the whole HISTFILE on the first prompt, which bash
+          # then glues onto the last entry as one multi-line command. fzf's
+          # Ctrl-R sees a single entry the size of the file that fuzzy-matches
+          # every query, so it fills the screen with noise. ble.sh shares
+          # history itself via `bleopt history_share` (set above).
+          if [[ ! ''${BLE_VERSION-} ]]; then
+            history -a
+            history -n
+          fi
 
           PS1=""
 
