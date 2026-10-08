@@ -72,6 +72,18 @@
           bleopt history_share=1
           ble-import -d integration/fzf-completion
           ble-import -d integration/fzf-key-bindings
+
+          # ble.sh's default RET inserts a newline whenever the buffer spans
+          # several lines (a pasted heredoc, say) and expects C-j to run it,
+          # but vim-tmux-navigator owns C-j. `accept-line syntax` runs the
+          # command when it parses as complete and only inserts a newline
+          # when it doesn't (open quote, unterminated `do`/`{`/heredoc).
+          # This also silences the "-- MULTILINE -- (RET: newline, C-j: run)"
+          # hint, which ble.sh shows only under its default bindings.
+          ble-bind -f 'RET' 'accept-line syntax'
+          ble-bind -f 'C-m' 'accept-line syntax'
+          # Deliberate newline inside an otherwise complete command.
+          ble-bind -f 'M-RET' 'newline'
         fi
 
         # --- Prompt ---
