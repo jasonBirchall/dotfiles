@@ -28,6 +28,7 @@
     # that a non-NixOS udev will read.
     lnav # audit-log viewer; format in lnav/formats/auditd_log.json
     wl-clipboard
+    xclip # nvim clipboard via Xwayland: no focus-grab window, see nvim/lua/config/options.lua
     playerctl
     wev
 

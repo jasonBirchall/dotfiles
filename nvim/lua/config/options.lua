@@ -13,6 +13,30 @@ vim.g.autoformat = true
 -- Set to `false` to globally disable all snacks animations
 vim.g.snacks_animate = true
 
+-- tmux 3.7 repaints the whole pane after every synchronized-output block,
+-- which flickers on DisplayLink screens. tmux already syncs to the terminal.
+if vim.env.TMUX then
+  vim.opt.termsync = false
+end
+
+-- GNOME offers no window-free clipboard protocol, so wl-paste opens a
+-- throwaway window to grab focus on every read (visible as a flash on the
+-- primary monitor). Reading via Xwayland needs no focus; mutter bridges it.
+if vim.env.WAYLAND_DISPLAY and vim.fn.executable("xclip") == 1 then
+  vim.g.clipboard = {
+    name = "xclip-xwayland",
+    copy = {
+      ["+"] = "xclip -quiet -i -selection clipboard",
+      ["*"] = "xclip -quiet -i -selection primary",
+    },
+    paste = {
+      ["+"] = "xclip -o -selection clipboard",
+      ["*"] = "xclip -o -selection primary",
+    },
+    cache_enabled = true,
+  }
+end
+
 -- LazyVim picker to use.
 -- Can be one of: telescope, fzf
 -- Leave it to "auto" to automatically use the picker
