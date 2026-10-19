@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, distro, ... }:
 
 {
   programs.bash = {
@@ -197,7 +197,14 @@
     EDITOR = "nvim";
     VISUAL = "nvim";
     GIT_EDITOR = "nvim";
-    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent.socket";
+    # Socket of the distro's user ssh-agent.service. Fedora's openssh unit
+    # listens on %t/ssh-agent.socket, Ubuntu's on %t/openssh_agent. The
+    # YubiKey hosts bypass the agent (IdentityAgent none), so a wrong path
+    # only shows up as `ssh-add` failing and Host * never using the agent.
+    SSH_AUTH_SOCK =
+      if distro == "ubuntu"
+      then "$XDG_RUNTIME_DIR/openssh_agent"
+      else "$XDG_RUNTIME_DIR/ssh-agent.socket";
   };
 
   home.sessionPath = [

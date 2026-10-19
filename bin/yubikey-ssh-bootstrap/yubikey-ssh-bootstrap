@@ -20,7 +20,12 @@ chmod 700 "$SSH_DIR"
 workdir="$(mktemp -d)"
 trap 'rm -rf "$workdir"' EXIT
 
+# ssh-keygen -K also offers to passphrase-protect the exported file. Leave
+# it empty (press Enter): the file is only a credential handle, useless
+# without the YubiKey, and every use already needs a touch. A passphrase
+# just adds a prompt on every commit signature and push.
 echo "Exporting resident credential from the YubiKey (PIN + touch)..."
+echo "When asked for a passphrase, press Enter twice to leave it empty."
 (cd "$workdir" && ssh-keygen -K)
 
 # ssh-keygen -K names exports id_<type>_sk_rk[_<application>]; with the
