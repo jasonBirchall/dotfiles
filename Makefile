@@ -162,6 +162,15 @@ xremap:
 	@echo "Setting up xremap uinput access"
 	bash common/setup-xremap.sh
 
+# The TEX Shinobi keyboard carries a fake mass-storage interface whose SCSI
+# errors reset the keyboard every ~30s, which shows up as a key auto-repeating
+# until the next key press. Ignores that interface via a usb-storage quirk.
+# Same on both distros; see the script header for the full diagnosis.
+.PHONY: shinobi
+shinobi:
+	@echo "Setting up the TEX Shinobi keyboard usb-storage quirk"
+	bash common/setup-tex-shinobi.sh
+
 # Fedora packages pop-shell in its repos, so `make system` already installed it
 # there and this is a no-op. Debian/Ubuntu don't package it at all, hence the
 # source build. Same extension UUID either way, so modules/gnome.nix is shared.
