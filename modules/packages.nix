@@ -108,6 +108,7 @@
     ollama
     github-cli
     exercism
+    oha # HTTP load generator; used against the AMO scanners' Cloud Run services
 
     # --- Input remapping ---
     xremap
