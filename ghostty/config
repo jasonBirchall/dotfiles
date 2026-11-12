@@ -4,6 +4,7 @@
 #               "Gruvbox Material" (softer, lower-contrast palette).
 theme = Gruvbox Dark
 
-shell-integration = bash
+# Auto-detect the login shell: bash on the Linux hosts, zsh on the Mac.
+shell-integration = detect
 copy-on-select = clipboard
 font-size = 16
