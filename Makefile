@@ -14,12 +14,16 @@ DISTRO ?= $(shell bash common/detect-distro.sh 2>/dev/null || echo unknown)
 
 # System packages are per-distro; the flatpak list is shared, since flatpak
 # itself is distro-agnostic and the app IDs are identical everywhere.
+ifeq ($(DISTRO),darwin)
+PKGS_FILE    ?= mac/Brewfile
+else
 PKGS_FILE    ?= $(DISTRO)/system-packages.txt
+endif
 FLATPAK_FILE ?= common/flatpaks.txt
 
 .PHONY: help
 help:
-	@echo "Host distro detected: $(DISTRO)   (override with DISTRO=fedora|ubuntu)"
+	@echo "Host distro detected: $(DISTRO)   (override with DISTRO=fedora|ubuntu|darwin)"
 	@echo ""
 	@echo "Targets:"
 	@echo "  make system             Install system packages for $(DISTRO) from $(PKGS_FILE)"
@@ -88,6 +92,12 @@ ubuntu-packages:
 	echo "Installing APT packages from ubuntu/system-packages.txt…"; \
 	sudo apt-get install -y $$avail
 
+.PHONY: darwin-packages
+darwin-packages:
+	test -f "mac/Brewfile"
+	@echo "Installing Homebrew packages from mac/Brewfile…"
+	brew bundle --file mac/Brewfile
+
 # Back-compat: `make dnf` still works on the Fedora machine.
 .PHONY: dnf
 dnf: fedora-packages
@@ -111,8 +121,15 @@ hm:
 
 # nvidia is not in the dependency list: it is Fedora-only and this laptop line
 # ships Intel graphics. Run `make nvidia` explicitly on a machine that needs it.
+# Darwin's tail is shorter by design: suricata/auditd/pop-shell/xremap are
+# Linux-only, tailscale and firefox arrive as casks via mac/Brewfile, and
+# flatpak no-ops (it stays listed so the recipe shape is identical).
 .PHONY: bootstrap
+ifeq ($(DISTRO),darwin)
+bootstrap: system flatpak nix local-sync hm lint-install
+else
 bootstrap: system flatpak nix local-sync hm lint-install suricata auditd pop-shell xremap tailscale firefox-nightly
+endif
 	@echo "Bootstrap complete."
 
 # Clones or updates the private local-config repo (sibling of dotfiles) and
@@ -156,47 +173,41 @@ displaylink:
 	@echo "Setting up the DisplayLink driver (Dell D6000 dock)"
 	bash ubuntu/setup-displaylink.sh
 
-# udev rule + input group; pure udev/usermod, so identical on both distros.
+# xremap: error (udev/uinput are Linux concepts)
 .PHONY: xremap
 xremap:
+	@test "$(DISTRO)" != darwin || { \
+	  echo "make xremap is Linux-only (udev rule + /dev/uinput)." >&2; exit 1; }
 	@echo "Setting up xremap uinput access"
 	bash common/setup-xremap.sh
 
-# The TEX Shinobi keyboard carries a fake mass-storage interface whose SCSI
-# errors reset the keyboard every ~30s, which shows up as a key auto-repeating
-# until the next key press. Ignores that interface via a usb-storage quirk.
-# Same on both distros; see the script header for the full diagnosis.
+# shinobi: error (usb-storage quirk is a Linux kernel parameter)
 .PHONY: shinobi
 shinobi:
+	@test "$(DISTRO)" != darwin || { \
+	  echo "make shinobi is Linux-only (usb-storage quirk via sysfs)." >&2; exit 1; }
 	@echo "Setting up the TEX Shinobi keyboard usb-storage quirk"
 	bash common/setup-tex-shinobi.sh
 
-# Fedora packages pop-shell in its repos, so `make system` already installed it
-# there and this is a no-op. Debian/Ubuntu don't package it at all, hence the
-# source build. Same extension UUID either way, so modules/gnome.nix is shared.
+# pop-shell: extend the existing dispatch with a darwin arm
 .PHONY: pop-shell
 pop-shell:
 ifeq ($(DISTRO),ubuntu)
 	@echo "Building pop-shell from source (not packaged on Ubuntu)"
 	bash ubuntu/setup-pop-shell.sh
+else ifeq ($(DISTRO),darwin)
+	@echo "pop-shell is a GNOME extension; nothing to do on darwin."
 else
 	@echo "pop-shell comes from fedora/system-packages.txt on $(DISTRO); nothing to do."
 endif
 
-# Fedora-only: akmod-nvidia lives in RPM Fusion and the suspend workaround is
-# an SELinux policy module. Ubuntu users want `ubuntu-drivers install` instead.
-# Ghostty stays a distro package rather than a Nix one. The nixpkgs build
-# cannot create an EGL display on a non-NixOS host: it links Nix's libEGL,
-# which looks for drivers inside the store instead of the distro's
-# /usr/lib/<triplet>, so it starts and immediately exits. That applies to any
-# GPU-backed GUI app — CLI tools in modules/packages.nix are unaffected.
-#
-# Ubuntu packages it, so `make system` already did the work. Fedora needs a
-# third-party COPR enabled first, which is why it keeps a setup script.
+# ghostty: extend the existing dispatch
 .PHONY: ghostty
 ghostty:
 ifeq ($(DISTRO),ubuntu)
 	@echo "ghostty comes from $(PKGS_FILE) on $(DISTRO); nothing to do."
+else ifeq ($(DISTRO),darwin)
+	@echo "ghostty comes from mac/Brewfile on darwin; nothing to do."
 else
 	@echo "Setting up Ghostty terminal (scottames/ghostty COPR)"
 	bash fedora/setup-ghostty.sh
@@ -230,22 +241,23 @@ vpn:
 	@echo "Importing the Mozilla Corporate VPN configuration"
 	MOZVPN_DUOTYPE=$(DUOTYPE) MOZVPN_FORCE=$(FORCE) bash ubuntu/setup-vpn.sh $(BUNDLE)
 
-# Upstream's installer detects the host distro itself, so this is shared.
+# tailscale: no-op (cask on the Mac; keeps `make tailscale` safe everywhere)
 .PHONY: tailscale
 tailscale:
+ifeq ($(DISTRO),darwin)
+	@echo "tailscale comes from mac/Brewfile on darwin; nothing to do."
+else
 	@echo "Setting up Tailscale"
 	bash common/setup-tailscale.sh
+endif
 
-# The one Firefox channel with no shared answer. Flathub carries only the
-# release build (common/flatpaks.txt) and there is no Mozilla flatpak repo, so
-# each distro takes the best channel it has: Mozilla's apt repo on Ubuntu,
-# which `make update` can see, and Mozilla's signed tarball on Fedora, which
-# updates itself because it installs somewhere the user can write.
-#
-# Both are one-offs per host — apt and Nightly's own updater take it from there.
+# firefox-nightly: error on darwin (grab it as a cask if wanted)
 .PHONY: firefox-nightly
 firefox-nightly:
-ifeq ($(DISTRO),ubuntu)
+ifeq ($(DISTRO),darwin)
+	@echo "firefox-nightly is handled via mac/Brewfile on darwin (cask 'firefox@nightly')." >&2
+	@exit 1
+else ifeq ($(DISTRO),ubuntu)
 	@echo "Installing Firefox Nightly (Mozilla apt repository)"
 	bash ubuntu/setup-firefox-nightly.sh
 else
@@ -260,10 +272,10 @@ endif
 # - nix flake metadata shows how stale each input is so flake.lock churn is visible
 .PHONY: audit
 audit:
-	@echo "=== System: pending security updates ($(DISTRO)) ==="
-ifeq ($(DISTRO),ubuntu)
-	@# unattended-upgrades ships this; it is the only apt-side view that
-	@# distinguishes security updates from ordinary ones.
+	@echo "=== System: pending updates ($(DISTRO)) ==="
+ifeq ($(DISTRO),darwin)
+	@brew outdated || true
+else ifeq ($(DISTRO),ubuntu)
 	@if [ -x /usr/lib/update-notifier/apt-check ]; then \
 	  /usr/lib/update-notifier/apt-check --human-readable || true; \
 	else \
@@ -272,9 +284,11 @@ ifeq ($(DISTRO),ubuntu)
 else
 	@dnf check-update --security || true
 endif
+ifneq ($(DISTRO),darwin)
 	@echo
 	@echo "=== Flatpak: pending updates ==="
 	@flatpak remote-ls --updates || true
+endif
 	@echo
 	@echo "=== Nix flake input age ==="
 	@nix flake metadata --json 2>/dev/null | jq -r '.locks.nodes | to_entries[] | select(.value.locked.lastModified) | "\(.key): \((now - .value.locked.lastModified) / 86400 | floor)d old"' || true
@@ -292,24 +306,32 @@ endif
 .PHONY: update
 update:
 	@echo "=== System: upgrade ($(DISTRO)) ==="
-ifeq ($(DISTRO),ubuntu)
+ifeq ($(DISTRO),darwin)
+	brew update
+	brew upgrade
+	brew bundle --file mac/Brewfile
+else ifeq ($(DISTRO),ubuntu)
 	sudo apt-get update
 	sudo apt-get upgrade -y
 else
 	sudo dnf upgrade --refresh -y
 endif
+ifneq ($(DISTRO),darwin)
 	@echo
 	@echo "=== Flatpak: update ==="
 	flatpak update -y
+endif
 	@echo
 	@echo "=== Nix flake: update flake.lock ==="
 	nix flake update
 	@echo
 	@echo "=== Home Manager: apply new generation ==="
 	home-manager switch --flake "$(FLAKE)"
+ifneq ($(DISTRO),darwin)
 	@echo
 	@echo "=== auditd: sync tamper watch rules ==="
 	bash auditd/setup-auditd.sh
+endif
 	@echo
 	@echo "=== uv: upgrade tools ==="
 	uv tool upgrade --all
@@ -352,7 +374,9 @@ drift-system:
 # in names like docker-compose-v2 and docker.io). The orders then disagree,
 # comm warns "file N is not in sorted order" and silently drops entries — so
 # the drift list reads as clean when it is not.
-ifeq ($(DISTRO),ubuntu)
+ifeq ($(DISTRO),darwin)
+	@brew bundle cleanup --file mac/Brewfile || true
+else ifeq ($(DISTRO),ubuntu)
 	@LC_ALL=C comm -23 \
 	  <(apt-mark showmanual | LC_ALL=C sort) \
 	  <(grep -vE '^\s*#|^\s*$$' "$(PKGS_FILE)" | LC_ALL=C sort) || true
@@ -368,6 +392,9 @@ drift-dnf: drift-system
 
 .PHONY: flatpak
 flatpak:
+ifeq ($(DISTRO),darwin)
+	@echo "flatpak is Linux-only; nothing to do on darwin."
+else
 	test -f "$(FLATPAK_FILE)"
 	@echo "Ensuring Flathub remote is configured…"
 	sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
@@ -380,6 +407,7 @@ flatpak:
 	@gdbus call --session --dest org.freedesktop.DBus \
 	  --object-path /org/freedesktop/DBus \
 	  --method org.freedesktop.DBus.ReloadConfig >/dev/null 2>&1 || true
+endif
 
 .PHONY: drift-flatpak
 drift-flatpak:
@@ -388,8 +416,11 @@ drift-flatpak:
 	  <(flatpak list --app --columns=origin,application | tr '\t' ' ' | sort) \
 	  <(grep -vE '^\s*#|^\s*$$' "$(FLATPAK_FILE)" | tr -s ' \t' ' ' | sort) || true
 
+# auditd: error on darwin (auditd is the Linux audit framework)
 .PHONY: auditd
 auditd:
+	@test "$(DISTRO)" != darwin || { \
+	  echo "make auditd is Linux-only (the Linux audit framework)." >&2; exit 1; }
 	@echo "Setting up auditd tamper watches"
 	bash auditd/setup-auditd.sh
 
@@ -406,18 +437,14 @@ sigma-test:
 	@echo "Running detection tests (Atomic Red Team-mapped)"
 	bash detection/run-tests.sh $(if $(filter 1,$(SUDO)),--sudo,)
 
-# Fedora-only by choice rather than by packaging: Ubuntu packages Suricata
-# perfectly well, but the laptop runs the auditd tamper watches alone. This
-# no-ops instead of erroring (unlike nvidia) because it is a bootstrap
-# prerequisite, and bootstrap has to complete on both distros. The matching
-# user units are omitted by modules/services.nix on the same condition.
+# suricata: extend the existing no-op to any non-Fedora distro
 .PHONY: suricata
 suricata:
-ifeq ($(DISTRO),ubuntu)
-	@echo "suricata is Fedora-only in this setup; nothing to do on $(DISTRO)."
-else
+ifeq ($(DISTRO),fedora)
 	@echo "Setting up suricata"
 	bash suricata/setup-suricata.sh
+else
+	@echo "suricata is Fedora-only in this setup; nothing to do on $(DISTRO)."
 endif
 
 .PHONY: suricata-update

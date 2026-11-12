@@ -1,0 +1,10 @@
+# System/GUI layer for the Mac — the darwin analogue of
+# fedora/system-packages.txt. CLI tools come from Home Manager
+# (modules/packages.nix); only casks, fonts and mac-only tools live here.
+# `make drift-system` (brew bundle cleanup --dry-run) reports anything
+# installed but not listed.
+
+cask "ghostty"
+cask "claude"
+cask "tailscale-app"
+cask "font-hack-nerd-font"
