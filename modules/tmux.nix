@@ -37,7 +37,7 @@
       # bin/battery-remain.sh reads Linux sysfs; on macOS tmux-battery's own
       # #{battery_remain} works (pmset-based), so restate status-right with
       # the native token. Must come after the plugin run-shells above.
-      set -g status-right "#[fg=#928374] Batt #{battery_percentage} #{battery_remain} #[fg=#665c54]│ #[fg=#928374]#(~/.completions/tmux_kube.sh) #[fg=#665c54]│ #[fg=#928374]Wakatime #(cd ~/bin; uv run view.py today) #[fg=#665c54]│ #[fg=#928374]Conn #(cd ~/bin; uv run connection-checker.py --tmux) #[fg=#665c54]│ #[fg=#a89984]%a %d %b %H:%M "
+      set -g status-right "#[fg=#928374] Batt #{battery_percentage} #{battery_remain} #[fg=#665c54]│ #[fg=#928374]#(~/.completions/tmux_kube.sh) #[fg=#665c54]│ #[fg=#928374]Wakatime #(cd ~/bin; ~/.nix-profile/bin/uv run view.py today) #[fg=#665c54]│ #[fg=#928374]Conn #(cd ~/bin; ~/.nix-profile/bin/uv run connection-checker.py --tmux) #[fg=#665c54]│ #[fg=#a89984]%a %d %b %H:%M "
     '';
   };
 }
