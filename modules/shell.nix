@@ -1,4 +1,32 @@
-{ pkgs, lib, distro, ... }:
+{ pkgs, lib, distro, dotfilesDir, ... }:
+
+let
+  # One alias set, two shells: bash gets all of these on Linux; zsh gets the
+  # common ones on the Mac. The Linux-only aliases wrap auditd/suricata
+  # tooling (ausearch, /var/log/audit) or Linux-only flags (`tcpdump -i any`
+  # is a Linux pseudo-interface).
+  commonAliases = {
+    v = "nvim";
+    vim = "nvim";
+    g = "git";
+    lg = "lazygit";
+    r = "ranger";
+    cdd = "cd ${dotfilesDir}";
+    cdw = "cd ~/Documents/workarea";
+    sniff = "sudo \"$(which bandwhich)\"";
+    shark = "sudo \"$(which termshark)\"";
+    pd = "pdrive";
+  };
+  linuxAliases = {
+    alerts = "sudo ~/bin/suricata-alerts.sh";
+    # auditd tamper watches (auditd/): -k does substring match, so one
+    # alias covers every *-tamper key, including future rules files
+    tamper = "ausearch -ts today -k tamper --format text";
+    tampernew = "ausearch -k tamper --format text --checkpoint ~/.local/state/tamper.ckpt";
+    tamperlog = "lnav /var/log/audit/audit.log -c ':filter-in key=\"[a-z-]+-tamper\"'";
+    capture = "sudo tcpdump -i any -w /tmp/capture-$(date +%s).pcap";
+  };
+in
 
 {
   programs.bash = {
@@ -11,25 +39,7 @@
       [[ $- == *i* ]] && source ${pkgs.blesh}/share/blesh/ble.sh --attach=none
     '';
 
-    shellAliases = {
-      v = "nvim";
-      vim = "nvim";
-      g = "git";
-      lg = "lazygit";
-      r = "ranger";
-      cdd = "cd ~/Documents/workarea/dotfiles";
-      cdw = "cd ~/Documents/workarea";
-      alerts = "sudo ~/bin/suricata-alerts.sh";
-      # auditd tamper watches (auditd/): -k does substring match, so one
-      # alias covers every *-tamper key, including future rules files
-      tamper = "ausearch -ts today -k tamper --format text";
-      tampernew = "ausearch -k tamper --format text --checkpoint ~/.local/state/tamper.ckpt";
-      tamperlog = "lnav /var/log/audit/audit.log -c ':filter-in key=\"[a-z-]+-tamper\"'";
-      sniff = "sudo \"$(which bandwhich)\"";
-      capture = "sudo tcpdump -i any -w /tmp/capture-$(date +%s).pcap";
-      shark = "sudo \"$(which termshark)\"";
-      pd = "pdrive";
-    };
+    shellAliases = commonAliases // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux linuxAliases;
 
     initExtra = lib.mkMerge [
       ''
@@ -139,6 +149,35 @@
     ];
   };
 
+  # The Mac keeps zsh (macOS default); the Linux hosts stay on bash + ble.sh.
+  # This mirrors the bash setup above: same aliases, fzf/zoxide/direnv hooks,
+  # typed-prefix history search on the arrow keys. hm-session-vars is sourced
+  # by the HM-generated ~/.zshenv automatically.
+  programs.zsh = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
+    enable = true;
+    shellAliases = commonAliases;
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+    history = {
+      size = 100000;
+      save = 100000;
+      ignoreDups = true;
+      ignoreSpace = true;
+      share = true;
+    };
+    initContent = ''
+      setopt AUTO_CD
+
+      # Up/down arrows search history filtered by what's already typed
+      # (matches the readline config the Linux hosts get).
+      autoload -U history-search-end
+      zle -N history-beginning-search-backward-end history-search-end
+      zle -N history-beginning-search-forward-end history-search-end
+      bindkey '^[[A' history-beginning-search-backward-end
+      bindkey '^[[B' history-beginning-search-forward-end
+    '';
+  };
+
   # Readline: zsh-style completion & history navigation for every readline
   # program (bash, python REPL, psql, …).
   programs.readline = {
@@ -164,6 +203,7 @@
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
+    enableZshIntegration = true;
     defaultOptions = [
       "--height 40%"
       "--layout=reverse"
@@ -183,6 +223,7 @@
   programs.zoxide = {
     enable = true;
     enableBashIntegration = true;
+    enableZshIntegration = true;
   };
 
   # Auto-load per-project environments from .envrc; nix-direnv caches
@@ -190,6 +231,7 @@
   programs.direnv = {
     enable = true;
     enableBashIntegration = true;
+    enableZshIntegration = true;
     nix-direnv.enable = true;
   };
 
@@ -197,10 +239,12 @@
     EDITOR = "nvim";
     VISUAL = "nvim";
     GIT_EDITOR = "nvim";
+  } // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
     # Socket of the distro's user ssh-agent.service. Fedora's openssh unit
     # listens on %t/ssh-agent.socket, Ubuntu's on %t/openssh_agent. The
     # YubiKey hosts bypass the agent (IdentityAgent none), so a wrong path
     # only shows up as `ssh-add` failing and Host * never using the agent.
+    # Darwin is untouched: launchd provides SSH_AUTH_SOCK there.
     SSH_AUTH_SOCK =
       if distro == "ubuntu"
       then "$XDG_RUNTIME_DIR/openssh_agent"
