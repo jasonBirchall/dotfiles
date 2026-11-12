@@ -24,6 +24,13 @@
 # routinely bypassed is worth less than no hook at all.
 set -euo pipefail
 
+# flatpak is Linux-only; on a darwin host there is nothing to validate the
+# IDs against, so skip for the same reason the offline case skips below.
+if [ "$(uname -s)" = Darwin ]; then
+  echo "flatpak is Linux-only; skipping app-id check on darwin."
+  exit 0
+fi
+
 # Both lookups are wrapped in `timeout`. An unreachable remote does not fail
 # fast — a blackholed route leaves flatpak waiting on a TCP connect for minutes,
 # and a hook that hangs a commit is worse than one that fails it. Erring short is

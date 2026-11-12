@@ -2,18 +2,18 @@
 
 This repository contains both dotfile configuration and packages. The bits that are rather personal to my setup are as follows:
 
-- Fedora host
+- Fedora, Ubuntu and macOS (Apple silicon) hosts
 - Nix + Home Manager
 - Makefile-driven bootstrap
-- Sway setup
+- Sway setup (Linux)
 
 ---
 
-Personal Fedora workstation configuration.
+Personal workstation configuration — Fedora and Ubuntu on Linux, macOS on a MacBook Pro M1. Every host gets the same two-layer split and the same Makefile; only the system layer's package manager changes.
 
 This repo manages:
 
-- System packages (via `dnf`)
+- System packages (via `dnf`, `apt` or Homebrew, per host)
 - User environment (via Nix + Home Manager)
 - Sway configuration
 - GNOME + pop-shell keybindings (mirroring sway, for GNOME sessions)
@@ -51,6 +51,22 @@ fedora/system-packages.txt
 
 ---
 
+### 1b. macOS (system layer)
+
+Managed with Homebrew. GUI apps (casks), fonts and mac-only tools live in:
+
+```
+mac/Brewfile
+```
+
+CLI tooling comes from the Nix layer below, exactly as on Linux — the
+Brewfile deliberately holds nothing Home Manager can provide. `make
+drift-system` reports anything installed outside it. (Apple's own App Store
+apps are kept installed but untracked; the drift target knows not to judge
+them.)
+
+---
+
 ### 2. Nix (user layer)
 
 Managed with:
@@ -67,11 +83,9 @@ Includes:
 - Dotfile symlinks
 - User-level config
 
-The active profile is:
-
-```
-.#json0
-```
+The flake keys profiles by `<username>-<distro>`; the Makefile picks the
+right one automatically (`.#json0-fedora`, `.#jsond-ubuntu`,
+`.#json0-darwin`, …).
 
 ---
 
@@ -79,10 +93,12 @@ The active profile is:
 
 Before using this repo, you need:
 
-- Fedora (Workstation or minimal install)
+- Fedora (Workstation or minimal install), Ubuntu, or macOS
 - `git`
 - `make`
-- `dnf`
+- The platform's package manager: `dnf`/`apt` come with the distro; on
+  macOS install [Homebrew](https://brew.sh) and the Xcode command line
+  tools (`xcode-select --install`) first
 - Internet access
 
 Nix will be installed automatically by the bootstrap target if missing.
@@ -106,10 +122,14 @@ make bootstrap
 
 This will:
 
-1. Install system packages via `dnf`
+1. Install system packages via `dnf`/`apt`/`brew bundle`, per host
 2. Install Nix (if not present)
 3. Clone or update the [private companion repo](#private-companion-repo) (`make local-sync`)
 4. Apply Home Manager configuration
+
+The same command works on macOS; its dependency chain is just shorter.
+The Linux tail (suricata, auditd, pop-shell, xremap, …) doesn't apply —
+Tailscale and the GUI apps arrive as casks from `mac/Brewfile` instead.
 
 ---
 
@@ -118,16 +138,22 @@ This will:
 `make bootstrap` installs every package and config, but a handful of things can't be automated: interactive logins and device pairings. A rebuilt machine has the tools but not the sessions — this is the "why am I logged out?" list. Do these once per machine:
 
 - **Proton Drive** — `proton-drive auth login` opens a browser to sign in; the session is then cached in libsecret, so you won't be asked again. After that the `pdrive` wrapper (and its `pd` alias) work. How the binary is pinned and updated lives in `modules/services.nix`; `make audit` tells you when a newer release ships.
-- **Signal** — launch Signal, then on your phone go to *Settings → Linked devices → Link new device* and scan the QR code. History doesn't backfill; both devices sync forward from the link point.
+- **Signal** — launch Signal, then on your phone go to *Settings → Linked devices → Link new device* and scan the QR code. History doesn't backfill; both devices sync forward from the link point. Same dance on macOS.
+- **YubiKey (macOS)** — run `~/bin/yubikey-ssh-bootstrap` with the key
+  plugged in to export the resident key handle (PIN + touch). Commit
+  signing then needs the key passphrase + touch per commit; load the key
+  into an sk-capable ssh-agent (`ssh-add ~/.ssh/id_ed25519_sk_rk`, using
+  the nix openssh — Apple's agent can't hold FIDO2 keys) to reduce that
+  to touch-only and to let non-TTY tools (IDEs, agents) sign.
 
 ---
 
 # Common Commands
 
-Install system packages:
+Install system packages (dnf, apt or brew bundle — detected per host):
 
 ```bash
-make dnf
+make system
 ```
 
 Apply Home Manager config:
@@ -148,10 +174,10 @@ Full rebuild:
 make bootstrap
 ```
 
-Check for DNF drift (packages installed but not tracked):
+Check for system-package drift (installed but not tracked):
 
 ```bash
-make drift-dnf
+make drift-system
 ```
 
 ---
@@ -229,6 +255,14 @@ If you've cloned this repo without access to the private companion, `make hm` an
 Things that have cost me a head-scratch, written down so they cost less next time.
 
 - **The Proton Drive CLI skips Docs and Sheets.** `pdrive pull` (and the underlying `proton-drive filesystem download`) quietly skip anything stored as a Proton Doc or Sheet — those live in Proton's editor in a proprietary format, not as real files. So a pull of a folder that holds only Docs finishes cleanly and downloads *nothing*, which looks broken but isn't. To get a Doc locally, export it from the Proton Docs web UI first. Regular files (PDFs, images, `.md`, …) come down fine.
+- **Commit signing needs a TTY (or an agent).** The signing key file is
+  passphrase-protected; anything without a terminal (IDE commit buttons,
+  AI agents, cron) fails with "incorrect passphrase supplied to decrypt
+  private key". Fix: `ssh-add ~/.ssh/id_ed25519_sk_rk` once per login, or
+  commit from a real terminal.
+- **A short YubiKey touch types gibberish.** That's the OTP slot firing,
+  not a bug — the FIDO2 touch only reads when ssh/ssh-keygen is actually
+  waiting on the key.
 
 ---
 
