@@ -96,7 +96,7 @@
     github-cli
     exercism
     oha # HTTP load generator; used against the AMO scanners' Cloud Run services
-  ] ++ lib.optionals stdenv.isLinux [
+  ] ++ lib.optionals stdenv.hostPlatform.isLinux [
     # Wayland/X/desktop plumbing, Linux kernel interfaces, and tools whose
     # nixpkgs build is Linux-only. (gcc: macOS uses Apple clang; Nix's gcc on
     # a darwin host causes more linker trouble than it solves.)
@@ -119,7 +119,7 @@
 
     # --- Input remapping ---
     xremap
-  ] ++ lib.optionals stdenv.isDarwin [
+  ] ++ lib.optionals stdenv.hostPlatform.isDarwin [
     # Apple ships OpenSSH without FIDO2/sk support, so the YubiKey resident
     # key (ssh.nix) needs ssh/ssh-keygen from nixpkgs. PATH puts
     # ~/.nix-profile/bin ahead of /usr/bin, so these win in HM-managed shells.

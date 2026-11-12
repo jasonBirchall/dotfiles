@@ -73,7 +73,7 @@
       # Signing calls ssh-keygen; Apple's has no FIDO2 middleware and the
       # PATH winner varies by context (GUI apps, agents, cron see different
       # PATHs). Pin the Nix one on darwin so signing works everywhere.
-      gpg.ssh.program = lib.mkIf pkgs.stdenv.isDarwin "${pkgs.openssh}/bin/ssh-keygen";
+      gpg.ssh.program = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin "${pkgs.openssh}/bin/ssh-keygen";
       tag.gpgsign = true;
     };
   };
