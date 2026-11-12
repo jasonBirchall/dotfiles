@@ -9,7 +9,7 @@
 # ship with systemd); ykman comes from fedora/system-packages.txt.
 # NixOS: add to configuration.nix:
 #   services.udev.packages = [ pkgs.libfido2 ];   # USB access to the key
-{ lib, ... }:
+{ lib, pkgs, ... }:
 
 {
   # Host blocks use upstream OpenSSH directive names under `settings` (the
@@ -70,6 +70,10 @@
       user.email = "jason.birchall@pm.me";
       gpg.format = "ssh";
       gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
+      # Signing calls ssh-keygen; Apple's has no FIDO2 middleware and the
+      # PATH winner varies by context (GUI apps, agents, cron see different
+      # PATHs). Pin the Nix one on darwin so signing works everywhere.
+      gpg.ssh.program = lib.mkIf pkgs.stdenv.isDarwin "${pkgs.openssh}/bin/ssh-keygen";
       tag.gpgsign = true;
     };
   };

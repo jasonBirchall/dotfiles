@@ -9,14 +9,15 @@
 
   imports = [
     ./modules/packages.nix # home.packages
-    ./modules/shell.nix # bash, fzf, session vars & PATH
+    ./modules/shell.nix # bash/zsh, fzf, session vars & PATH
     ./modules/tmux.nix # programs.tmux
     ./modules/dotfiles.nix # home.file symlinks
-    ./modules/services.nix # systemd user services/timers + activation
-    ./modules/gnome.nix # GNOME + pop-shell dconf keybindings (mirrors sway)
 
-    # YubiKey-backed SSH auth + git commit signing (shared with the
-    # dotbot-managed machines via the mac-m1 branch). After the first
+    # services.nix (systemd user units) and gnome.nix (dconf) are imported by
+    # flake.nix on Linux hosts only — systemd.user.* options don't exist in
+    # Home Manager on Darwin, so they cannot be imported unconditionally here.
+
+    # YubiKey-backed SSH auth + git commit signing. After the first
     # switch, run ~/bin/yubikey-ssh-bootstrap with the YubiKey plugged
     # in to export the resident key handle (PIN + touch).
     ./modules/ssh.nix

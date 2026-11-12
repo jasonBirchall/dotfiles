@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Print the host distro family: fedora | ubuntu | unknown.
+# Print the host distro family: fedora | ubuntu | darwin | unknown.
 #
 # Matching ID_LIKE as well as ID means derivatives work without being enumerated
 # (Pop!_OS and Mint report ID_LIKE=ubuntu/debian; Nobara reports fedora).
@@ -8,6 +8,12 @@
 # $(shell ...) cannot contain an unescaped ')' — make's parser counts parens and
 # the first case pattern would close the expansion early.
 set -euo pipefail
+
+# macOS has no /etc/os-release; uname is the whole story there.
+if [ "$(uname -s)" = Darwin ]; then
+  echo darwin
+  exit 0
+fi
 
 if [ ! -r /etc/os-release ]; then
   echo unknown

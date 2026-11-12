@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   home.packages = with pkgs; [
@@ -12,10 +12,7 @@
     htop
     btop
     tree
-    gcc
     gnumake
-    wl-kbptr
-    wlrctl
     ack
 
     # Formerly per-distro system packages. These are self-contained binaries
@@ -26,22 +23,10 @@
     # brightnessctl deliberately stays a system package: Fedora's RPM ships
     # 90-brightnessctl.rules, and a Nix package cannot install a udev rule
     # that a non-NixOS udev will read.
-    lnav # audit-log viewer; format in lnav/formats/auditd_log.json
-    wl-clipboard
-    xclip # nvim clipboard via Xwayland: no focus-grab window, see nvim/lua/config/options.lua
-    playerctl
-    wev
-
-    # pop-shell's launcher (Super+d) is only a frontend: the search and launch
-    # work is done by this separate binary over stdio. Without it the dialog
-    # opens, accepts input and does nothing, which reads as a keybinding fault
-    # rather than a missing dependency. Packaged on Fedora, unpackaged on
-    # Ubuntu, so nixpkgs covers both from one line.
-    pop-launcher
+    lnav # audit-log viewer on Linux, general log viewer everywhere
 
     # --- Network monitoring ---
     bandwhich
-    nethogs
     tcpdump
     nmap
     termshark
@@ -103,14 +88,41 @@
     sops
     age
     rustup
-    aider-chat
+    # aider-chat removed 2026-11-12: its posthog dep is marked broken in
+    # nixpkgs (locked rev AND latest unstable), failing eval on every host.
+    # Jason approved dropping it — `uv tool install aider-chat` if missed.
     gemini-cli
     ollama
     github-cli
     exercism
     oha # HTTP load generator; used against the AMO scanners' Cloud Run services
+  ] ++ lib.optionals stdenv.isLinux [
+    # Wayland/X/desktop plumbing, Linux kernel interfaces, and tools whose
+    # nixpkgs build is Linux-only. (gcc: macOS uses Apple clang; Nix's gcc on
+    # a darwin host causes more linker trouble than it solves.)
+    gcc
+    wl-kbptr
+    wlrctl
+    wl-clipboard
+    xclip # nvim clipboard via Xwayland: no focus-grab window, see nvim/lua/config/options.lua
+    playerctl
+    wev
+
+    # pop-shell's launcher (Super+d) is only a frontend: the search and launch
+    # work is done by this separate binary over stdio. Without it the dialog
+    # opens, accepts input and does nothing, which reads as a keybinding fault
+    # rather than a missing dependency. Packaged on Fedora, unpackaged on
+    # Ubuntu, so nixpkgs covers both from one line.
+    pop-launcher
+
+    nethogs
 
     # --- Input remapping ---
     xremap
+  ] ++ lib.optionals stdenv.isDarwin [
+    # Apple ships OpenSSH without FIDO2/sk support, so the YubiKey resident
+    # key (ssh.nix) needs ssh/ssh-keygen from nixpkgs. PATH puts
+    # ~/.nix-profile/bin ahead of /usr/bin, so these win in HM-managed shells.
+    openssh
   ];
 }
