@@ -36,7 +36,6 @@
     # --- Git & Version Control ---
     git
     lazygit
-    git-cola
 
     # --- Terminal Workspace ---
     # tmux is installed via programs.tmux (see tmux.nix)
@@ -119,6 +118,11 @@
 
     # --- Input remapping ---
     xremap
+
+    # git-cola is pure-python but drags in PyQt6, which has no aarch64-darwin
+    # binary cache entry and takes an age to compile. lazygit is the daily
+    # driver anyway, so the Mac goes without.
+    git-cola
   ] ++ lib.optionals stdenv.hostPlatform.isDarwin [
     # Apple ships OpenSSH without FIDO2/sk support, so the YubiKey resident
     # key (ssh.nix) needs ssh/ssh-keygen from nixpkgs. PATH puts
