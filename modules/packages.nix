@@ -128,5 +128,12 @@
     # key (ssh.nix) needs ssh/ssh-keygen from nixpkgs. PATH puts
     # ~/.nix-profile/bin ahead of /usr/bin, so these win in HM-managed shells.
     openssh
+
+    # Kept from the 2026-11 brew prune — mac workflow tools HM owns now.
+    # (The Linux hosts get their equivalents from the system layer, so these
+    # stay darwin-only until a Linux host wants them from HM too.)
+    commitizen # cz: conventional-commit prompter
+    wakatime-cli # the nvim wakatime plugin shells out to it
+    yubikey-manager # ykman
   ];
 }

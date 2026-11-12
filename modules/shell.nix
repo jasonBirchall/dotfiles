@@ -178,6 +178,15 @@ in
     '';
   };
 
+  # The Mac's prompt was starship under the dotbot-era zshrc; keep it, now
+  # HM-managed. The Linux hosts keep the hand-rolled PS1 in bash above, so
+  # bash integration stays off everywhere.
+  programs.starship = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
+    enable = true;
+    enableZshIntegration = true;
+    enableBashIntegration = false;
+  };
+
   # Readline: zsh-style completion & history navigation for every readline
   # program (bash, python REPL, psql, …).
   programs.readline = {

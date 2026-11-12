@@ -3,8 +3,29 @@
 # (modules/packages.nix); only casks, fonts and mac-only tools live here.
 # `make drift-system` (brew bundle cleanup --dry-run) reports anything
 # installed but not listed.
+#
+# Contents are the survivors of the 2026-11 usage-informed prune
+# (docs/superpowers/plans/2026-11-12-darwin-support.md, Task 9).
 
-cask "ghostty"
+cask "caffeine"
 cask "claude"
-cask "tailscale-app"
+cask "docker-desktop"
+cask "firefox"
 cask "font-hack-nerd-font"
+cask "ghostty"
+cask "obsidian"
+cask "signal"
+cask "slack"
+cask "tailscale-app"
+cask "thunderbird"
+cask "visual-studio-code"
+cask "zoom"
+
+# mas is the one mac-only CLI HM can't provide: it drives the App Store.
+# Apple's own apps (Keynote, Pages, Numbers, GarageBand, iMovie, …) stay
+# installed but deliberately untracked — which is why drift/cleanup targets
+# pass --formula --cask --tap and never judge mas entries.
+brew "mas"
+
+mas "Tomato 2", id: 1494210770
+mas "Vimari", id: 1480933944

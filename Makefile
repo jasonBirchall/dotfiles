@@ -375,7 +375,10 @@ drift-system:
 # comm warns "file N is not in sorted order" and silently drops entries — so
 # the drift list reads as clean when it is not.
 ifeq ($(DISTRO),darwin)
-	@brew bundle cleanup --file mac/Brewfile || true
+# Type flags on purpose: without them, cleanup also treats App Store apps
+# missing from the Brewfile as removable — Keynote/Pages/etc. are kept
+# installed but deliberately untracked.
+	@brew bundle cleanup --file mac/Brewfile --formula --cask --tap || true
 else ifeq ($(DISTRO),ubuntu)
 	@LC_ALL=C comm -23 \
 	  <(apt-mark showmanual | LC_ALL=C sort) \
