@@ -135,5 +135,11 @@
     commitizen # cz: conventional-commit prompter
     wakatime-cli # the nvim wakatime plugin shells out to it
     yubikey-manager # ykman
+
+    # Desktop notification when a Claude agent is blocked on me and I'm not
+    # looking at its tmux window — called by ~/.claude/hooks/tmux-agent-flag.sh
+    # (local-config repo). macOS asks once to allow it; `terminal-notifier
+    # -diagnose` says why when nothing appears.
+    terminal-notifier
   ];
 }
