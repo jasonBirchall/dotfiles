@@ -260,10 +260,17 @@ in
       else "$XDG_RUNTIME_DIR/ssh-agent.socket";
   };
 
-  home.sessionPath = [
-    "$HOME/.cargo/bin"
-    "$HOME/.local/bin"
-    "$HOME/go/bin"
-    "$HOME/bin"
-  ];
+  home.sessionPath =
+    [
+      "$HOME/.cargo/bin"
+      "$HOME/.local/bin"
+      "$HOME/go/bin"
+      "$HOME/bin"
+    ]
+    # Homebrew's installer normally adds `brew shellenv` to ~/.zprofile, but
+    # home-manager owns that file here, so the PATH entries live in this list.
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
+      "/opt/homebrew/bin"
+      "/opt/homebrew/sbin"
+    ];
 }
