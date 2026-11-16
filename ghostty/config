@@ -7,4 +7,4 @@ theme = Gruvbox Dark
 # Auto-detect the login shell: bash on the Linux hosts, zsh on the Mac.
 shell-integration = detect
 copy-on-select = clipboard
-font-size = 16
+font-size = 18
