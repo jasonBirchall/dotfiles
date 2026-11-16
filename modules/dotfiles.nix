@@ -94,5 +94,10 @@
     # Force GTK4's GL renderer for Fractal — Vulkan-on-Nvidia produces a blank window.
     ".local/share/flatpak/overrides/org.gnome.Fractal".source =
       ../flatpak/overrides/org.gnome.Fractal;
+  } // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+    # AeroSpace is the Mac's stand-in for sway (the app is a cask in
+    # mac/Brewfile). Out-of-store for the same reason as sway/config: an edit
+    # needs a reload (ctrl-alt-shift-r), not a `make hm`.
+    ".config/aerospace/aerospace.toml".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/aerospace/aerospace.toml";
   };
 }

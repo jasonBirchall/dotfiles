@@ -1,0 +1,115 @@
+# AeroSpace — tiling window manager for the Mac, set up to feel like sway/config.
+#
+# Linked to ~/.config/aerospace/aerospace.toml by modules/dotfiles.nix (an
+# out-of-store link, so an edit here needs a reload, not a `make hm`).
+# The app itself is a cask in mac/Brewfile.
+# Reload: ctrl-alt-shift-r, or `aerospace reload-config`.
+#
+# The modifier is ctrl+alt (ctrl+option) where sway uses Super:
+#   - alt alone is AeroSpace's default, but on a British layout alt-3 is "#"
+#     and alt-2 is "€", and tmux.conf binds alt-h/j/k/l to pane selection;
+#   - cmd is where Super sits, but macOS owns cmd-h/q/f/s/v and cmd-1..9.
+# Everything below keeps the sway key and swaps the modifier.
+
+config-version = 2
+
+after-startup-command = []
+
+# A window manager that isn't running is a surprise; start it with the session.
+start-at-login = true
+
+# Reloading is explicit, as in sway ($mod+Shift+r).
+auto-reload-config = false
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+accordion-padding = 30
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+automatically-unhide-macos-hidden-apps = false
+
+# Four workspaces, as in sway. AeroSpace keeps its own workspaces; they are
+# not macOS Spaces, and Mission Control knows nothing about them.
+persistent-workspaces = ["1", "2", "3", "4"]
+
+on-mode-changed = []
+
+focus-follows-mouse.enabled = false
+
+key-mapping.preset = 'qwerty'
+
+# sway: gaps inner 14, gaps outer 6
+gaps.inner.horizontal = 14
+gaps.inner.vertical = 14
+gaps.outer.left = 6
+gaps.outer.bottom = 6
+gaps.outer.top = 6
+gaps.outer.right = 6
+
+[mode.main.binding]
+
+    # $mod+Return: the terminal. Ghostty is one window running tmux here, so
+    # this brings it forward (starting it if needed) rather than opening another.
+    ctrl-alt-enter = 'exec-and-forget open -a Ghostty'
+
+    # $mod+q
+    ctrl-alt-q = 'close'
+
+    # $mod+h/j/k/l
+    ctrl-alt-h = 'focus left'
+    ctrl-alt-j = 'focus down'
+    ctrl-alt-k = 'focus up'
+    ctrl-alt-l = 'focus right'
+
+    # $mod+Shift+h/j/k/l
+    ctrl-alt-shift-h = 'move left'
+    ctrl-alt-shift-j = 'move down'
+    ctrl-alt-shift-k = 'move up'
+    ctrl-alt-shift-l = 'move right'
+
+    # $mod+e toggles the split direction. AeroSpace has no tabbed or stacking
+    # layout; its accordion is the nearest thing, so $mod+w and $mod+s map to
+    # the horizontal and vertical accordion.
+    ctrl-alt-e = 'layout tiles horizontal vertical'
+    ctrl-alt-w = 'layout accordion horizontal'
+    ctrl-alt-s = 'layout accordion vertical'
+
+    # $mod+f, $mod+Shift+space
+    ctrl-alt-f = 'fullscreen'
+    ctrl-alt-shift-space = 'layout floating tiling'
+
+    # $mod+r
+    ctrl-alt-r = 'mode resize'
+
+    # $mod+1..4
+    ctrl-alt-1 = 'workspace 1'
+    ctrl-alt-2 = 'workspace 2'
+    ctrl-alt-3 = 'workspace 3'
+    ctrl-alt-4 = 'workspace 4'
+
+    # $mod+Shift+1..4
+    ctrl-alt-shift-1 = 'move-node-to-workspace 1'
+    ctrl-alt-shift-2 = 'move-node-to-workspace 2'
+    ctrl-alt-shift-3 = 'move-node-to-workspace 3'
+    ctrl-alt-shift-4 = 'move-node-to-workspace 4'
+
+    # $mod+Shift+r
+    ctrl-alt-shift-r = 'reload-config'
+
+# sway's "resize" mode: 30px steps, Return or Escape to leave.
+[mode.resize.binding]
+    h = 'resize width -30'
+    j = 'resize height +30'
+    k = 'resize height -30'
+    l = 'resize width +30'
+
+    left = 'resize width -30'
+    down = 'resize height +30'
+    up = 'resize height -30'
+    right = 'resize width +30'
+
+    enter = 'mode main'
+    esc = 'mode main'
