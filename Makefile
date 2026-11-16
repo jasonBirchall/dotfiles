@@ -38,6 +38,7 @@ help:
 	@echo "  make displaylink        Install the DisplayLink driver for the Dell D6000 dock (Ubuntu only)"
 	@echo "  make xremap             Grant /dev/uinput access for xremap (udev rule + input group)"
 	@echo "  make tailscale          Install Tailscale + enable tailscaled (then 'sudo tailscale up')"
+	@echo "  make touchid-sudo       Let sudo accept Touch ID, tmux included (macOS only; opt-in)"
 	@echo "  make vpn                Set up the Mozilla Corporate VPN via NetworkManager (Ubuntu only)"
 	@echo "                          Bundle from login.mozilla.com: make vpn BUNDLE=~/Downloads/you@mozilla.com.zip"
 	@echo "  make firefox-nightly    Install Firefox Nightly (apt repo on Ubuntu, signed tarball on Fedora)"
@@ -249,6 +250,18 @@ ifeq ($(DISTRO),darwin)
 else
 	@echo "Setting up Tailscale"
 	bash common/setup-tailscale.sh
+endif
+
+# touchid-sudo: let sudo take a fingerprint, including inside tmux. Opt-in
+# and deliberately not part of bootstrap: it changes how root is granted on
+# the machine, so it should be a decision, not a side effect.
+.PHONY: touchid-sudo
+touchid-sudo:
+ifeq ($(DISTRO),darwin)
+	@echo "Setting up Touch ID for sudo"
+	bash mac/setup-touchid-sudo.sh
+else
+	@echo "Touch ID for sudo is macOS-only; nothing to do on $(DISTRO)."
 endif
 
 # firefox-nightly: error on darwin (grab it as a cask if wanted)

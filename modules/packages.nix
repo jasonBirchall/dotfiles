@@ -141,5 +141,11 @@
     # (local-config repo). macOS asks once to allow it; `terminal-notifier
     # -diagnose` says why when nothing appears.
     terminal-notifier
+
+    # Lets Touch ID authenticate sudo from inside tmux. sudo never loads it
+    # from here: `make touchid-sudo` (mac/setup-touchid-sudo.sh) installs a
+    # root-owned copy, because a PAM module on a user-writable path is root
+    # for anything running as me.
+    pam-reattach
   ];
 }
