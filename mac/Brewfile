@@ -14,6 +14,10 @@ tap "nikitabobko/tap"
 cask "nikitabobko/tap/aerospace"
 cask "caffeine"
 cask "claude"
+# Drives the monitors on the Dell D6000 dock. This Mac's base M1 supports one
+# external display natively; the dock's outputs are DisplayLink (video over
+# USB), which is how it gets two. Needs Screen Recording permission.
+cask "displaylink"
 cask "docker-desktop"
 cask "firefox"
 cask "font-hack-nerd-font"
