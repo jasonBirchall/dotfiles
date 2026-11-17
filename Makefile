@@ -48,7 +48,9 @@ help:
 	@echo "  make sigma-test         Fire Atomic Red Team-mapped triggers and assert each rule detects (SUDO=1 for root tests)"
 	@echo "  make local-sync         Clone or update the private local-config repo + run its setup hook"
 	@echo "  make audit              Report pending security updates (system), flatpak updates, nix flake input age"
-	@echo "  make update             Apply routine updates across all channels (system, flatpak, flake, hm, auditd, uv)"
+	@echo "  make pull               Pull this repo and the private local-config (fast-forward only)"
+	@echo "  make update             pull, then upgrade"
+	@echo "  make upgrade            Apply routine updates across all channels (system, flatpak, flake, hm, auditd, uv)"
 	@echo ""
 	@echo "Linting (pre-commit):"
 	@echo "  make lint               Run all pre-commit hooks across every file"
@@ -309,15 +311,33 @@ endif
 	@echo "=== Proton Drive CLI: pinned vs latest ==="
 	@bash bin/pdrive/pdrive-check-update.sh || true
 
-# Routine cadence update across all four package channels, plus config sync.
+# Brings both config repos up to date: this one, then the private local-config
+# through local-sync. --ff-only on purpose: when this clone has diverged from
+# origin, or an incoming change touches a file with uncommitted edits (usually
+# flake.lock after an update that was never committed), the pull stops and
+# says so instead of merging on my behalf.
+.PHONY: pull
+pull:
+	@echo "=== Config: pull dotfiles + local-config ==="
+	git pull --ff-only
+	@$(MAKE) --no-print-directory local-sync
+
+# Routine cadence update: pull the config repos, then upgrade every channel.
+# The upgrade runs in a fresh make because the pull may have just changed this
+# Makefile, and the make already running has read the old one.
+# Run weekly or biweekly. A kernel update may land here — reboot afterwards if so.
+.PHONY: update
+update: pull
+	@$(MAKE) --no-print-directory upgrade
+
+# The upgrade half of `update`: all four package channels, without pulling.
 # Order matters: flake update must come before `home-manager switch`, otherwise
 # you'd apply an old flake.lock. uv tool upgrade is last because the companion
 # tools depend on nothing else. The auditd step syncs any new tamper watch
 # rules pulled into the repo; it's drift-aware, so it's a no-op (no reload,
 # no audit event) when nothing changed.
-# Run weekly or biweekly. A kernel update may land here — reboot afterwards if so.
-.PHONY: update
-update:
+.PHONY: upgrade
+upgrade:
 	@echo "=== System: upgrade ($(DISTRO)) ==="
 ifeq ($(DISTRO),darwin)
 	brew update
