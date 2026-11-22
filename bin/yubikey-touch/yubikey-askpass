@@ -17,7 +17,10 @@
 #     tmux/tmux.conf draws as a key on the window pill and counts in the bar
 #     for sessions that are not on screen;
 #   - if I am not looking at that window, a macOS notification as well;
-#   - the message is also written to the terminal, where ssh would have put it.
+#   - the message is also written to the terminal, where ssh would have put it;
+#   - where that window has no status bar — the lazygit popup (prefix + g),
+#     which also swallows the terminal message — a tmux message is shown
+#     across the bottom of it instead, and replaced by a short "done".
 # All of it is taken back when ssh kills us, and after LIMIT seconds regardless
 # so that a crashed ssh cannot leave the flag up.
 #
@@ -62,6 +65,7 @@ ask_on_tty() {
 # ── The key is waiting ─────────────────────────────────────────────────────
 group="yubikey-${TMUX_PANE:-$$}"
 notified=
+messaged=
 
 # True when this pane's window is in front of me (same test as the Claude
 # hook, local-config/hooks/tmux-agent-flag.sh). Outside tmux there is no way
@@ -72,9 +76,22 @@ looking() {
   tmux list-clients -t "$TMUX_PANE" -F '#{client_flags}' 2>/dev/null | grep -q focused
 }
 
+# The lazygit popup is a session of its own with the status bar switched off,
+# so a flag on its window pill would be drawn nowhere.
+barless() {
+  [ -n "${TMUX_PANE-}" ] || return 1
+  [ "$(tmux display-message -p -t "$TMUX_PANE" '#{status}' 2>/dev/null)" = off ]
+}
+
 raise() {
   if [ -n "${TMUX_PANE-}" ]; then
     tmux set-option -w -t "$TMUX_PANE" @yubikey_waiting 1 2>/dev/null
+    if barless; then
+      # -d 0: stays until a key is pressed or lower() replaces it.
+      tmux display-message -t "$TMUX_PANE" -d 0 \
+        '#[fg=#fabd2f,bold] YubiKey is waiting — touch it to continue' 2>/dev/null
+      messaged=1
+    fi
   fi
   if ! looking && command -v "$notifier" >/dev/null 2>&1; then
     where=
@@ -98,6 +115,9 @@ lower() {
   trap - TERM INT HUP
   if [ -n "${TMUX_PANE-}" ]; then
     tmux set-option -wqu -t "$TMUX_PANE" @yubikey_waiting 2>/dev/null
+    if [ -n "$messaged" ]; then
+      tmux display-message -t "$TMUX_PANE" -d 800 ' YubiKey: done' 2>/dev/null
+    fi
   fi
   if [ -n "$notified" ]; then
     "$notifier" -remove "$group" </dev/null >/dev/null 2>&1 &
