@@ -36,6 +36,7 @@
     # --- Git & Version Control ---
     git
     lazygit
+    delta # lazygit's diff renderer, see lazygit/config.yml
 
     # --- Terminal Workspace ---
     # tmux is installed via programs.tmux (see tmux.nix)

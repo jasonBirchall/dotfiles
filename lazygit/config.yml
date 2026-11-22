@@ -1,3 +1,27 @@
+git:
+  # Diffs go through delta: syntax highlighting and word-level changes, which
+  # matter more when the code being read was written by an agent. `|` cycles
+  # to the next renderer, so git's plain diff is one key away.
+  # --paging=never because lazygit does the scrolling itself.
+  # --dark is stated rather than taken from lazygit's {{colorScheme}}: that is
+  # detected by asking the terminal for its background, and a wrong answer
+  # (inside a tmux popup, say) would flip delta to its light palette.
+  # The backgrounds are gruvbox red (#fb4934) and green (#b8bb26) blended into
+  # bg0: about 15% for a changed line, 35% for the changed words in it. Kept
+  # this dark on purpose — gruvbox.nvim's own DiffAdd / DiffDelete backgrounds
+  # were tried first and washed out the syntax colours on top of them.
+  diffRenderers:
+    - command: >-
+        delta --dark --paging=never --syntax-theme=gruvbox-dark
+        --minus-style='syntax "#482d2a"' --minus-emph-style='syntax "#72332c"'
+        --plus-style='syntax "#3e3e28"' --plus-emph-style='syntax "#5a5b27"'
+    - type: rawGit
+      name: plain
+
+# Come straight back from a subprocess (nvim, Diffview, cz) instead of
+# stopping at "press enter to return to lazygit".
+promptToReturnFromSubprocess: false
+
 customCommands:
   - key: "P"
     command: "git push {{.SelectedRemote.RefName}} {{.SelectedLocalCommit.Sha}}:{{.SelectedLocalBranch.RefName}}"
@@ -19,4 +43,26 @@ customCommands:
     command: "lazycommit commit"
     description: "lazycommit commit"
     context: "files"
+    output: terminal
+  # X — the same thing in Diffview (nvim/lua/plugins/diffview.lua): a file
+  # list and a side-by-side diff, for when lazygit's unified diff is not
+  # enough. :qa comes back to lazygit.
+  #   files     the uncommitted changes
+  #   commits   what the selected commit changed
+  #   branches  everything the selected branch changed since it left the
+  #             checked-out one
+  - key: "X"
+    command: "nvim -c 'DiffviewOpen'"
+    context: "files"
+    description: "Review uncommitted changes in Diffview"
+    output: terminal
+  - key: "X"
+    command: "nvim -c 'DiffviewOpen {{.SelectedLocalCommit.Sha}}^!'"
+    context: "commits"
+    description: "Review this commit in Diffview"
+    output: terminal
+  - key: "X"
+    command: "nvim -c 'DiffviewOpen {{.CheckedOutBranch.Name}}...{{.SelectedLocalBranch.Name}}'"
+    context: "localBranches"
+    description: "Review this branch against the checked-out one in Diffview"
     output: terminal
