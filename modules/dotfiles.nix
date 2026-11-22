@@ -30,6 +30,12 @@
       source = ../bin/pdrive/pdrive;
       executable = true;
     };
+
+    # Commit-subject drafts for lazygit's <c-e> (see lazygit/config.yml)
+    "bin/commit-suggest" = {
+      source = ../bin/commit-suggest/commit-suggest;
+      executable = true;
+    };
   } // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
     ".config/sway/config".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/sway/config";
     ".config/sway/cheatsheet.sh".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/sway/cheatsheet.sh";

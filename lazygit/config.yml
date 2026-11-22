@@ -39,10 +39,22 @@ customCommands:
     context: "files"
     loadingText: "opening commitizen commit tool"
     output: terminal
+  # <c-e> — Claude drafts a few subjects for what is staged; pick one and the
+  # commit editor opens with it filled in, to edit or add a body before the
+  # commit is made (and signed). Quit the editor with :cq to back out.
+  # The drafting, and the style rules it follows, are in
+  # bin/commit-suggest/commit-suggest. Expect a few seconds before the menu.
   - key: "<c-e>"
-    command: "lazycommit commit"
-    description: "lazycommit commit"
     context: "files"
+    description: "Commit with a Claude-drafted message"
+    prompts:
+      - type: "menuFromCommand"
+        title: "Commit message (Claude's drafts)"
+        key: "Msg"
+        # Through sh: lazygit runs a menu command directly, with no shell,
+        # so a bare ~ is never expanded ("fork/exec ~/bin/…: no such file").
+        command: "sh -c '~/bin/commit-suggest'"
+    command: "git commit -e -m {{.Form.Msg | quote}}"
     output: terminal
   # X — the same thing in Diffview (nvim/lua/plugins/diffview.lua): a file
   # list and a side-by-side diff, for when lazygit's unified diff is not
