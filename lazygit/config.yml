@@ -58,23 +58,24 @@ customCommands:
     output: terminal
   # X — the same thing in Diffview (nvim/lua/plugins/diffview.lua): a file
   # list and a side-by-side diff, for when lazygit's unified diff is not
-  # enough. :qa comes back to lazygit.
+  # enough. q or :q comes back to lazygit: g:diffview_quit_all makes them
+  # quit nvim outright (see the plugin file).
   #   files     the uncommitted changes
   #   commits   what the selected commit changed
   #   branches  everything the selected branch changed since it left the
   #             checked-out one
   - key: "X"
-    command: "nvim -c 'DiffviewOpen'"
+    command: "nvim --cmd 'let g:diffview_quit_all=1' -c 'DiffviewOpen'"
     context: "files"
     description: "Review uncommitted changes in Diffview"
     output: terminal
   - key: "X"
-    command: "nvim -c 'DiffviewOpen {{.SelectedLocalCommit.Sha}}^!'"
+    command: "nvim --cmd 'let g:diffview_quit_all=1' -c 'DiffviewOpen {{.SelectedLocalCommit.Sha}}^!'"
     context: "commits"
     description: "Review this commit in Diffview"
     output: terminal
   - key: "X"
-    command: "nvim -c 'DiffviewOpen {{.CheckedOutBranch.Name}}...{{.SelectedLocalBranch.Name}}'"
+    command: "nvim --cmd 'let g:diffview_quit_all=1' -c 'DiffviewOpen {{.CheckedOutBranch.Name}}...{{.SelectedLocalBranch.Name}}'"
     context: "localBranches"
     description: "Review this branch against the checked-out one in Diffview"
     output: terminal
