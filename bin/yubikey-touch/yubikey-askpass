@@ -1,12 +1,16 @@
 #!/bin/sh
 # Tell me when the YubiKey is waiting for a touch.
 #
-# OpenSSH already knows the moment: while it waits for the key it either
-# prints "Confirm user presence for key …" on its stderr or, when stderr is
-# not a terminal, runs the SSH_ASKPASS program with that text and
-# SSH_ASKPASS_PROMPT=none, and kills it (SIGTERM) the instant the touch lands.
-# git captures ssh-keygen's stderr when signing, so until now the message went
-# nowhere and the key just blinked. This is that askpass program.
+# OpenSSH knows the moment but tells nobody useful:
+#   - ssh (git fetch / push) prints "Confirm user presence for key …" on
+#     stderr, or, when stderr is not a terminal, runs the SSH_ASKPASS program
+#     with that text and SSH_ASKPASS_PROMPT=none and kills it (SIGTERM) the
+#     instant the touch lands;
+#   - ssh-keygen -Y sign (git commit signing) only ever prints it on stderr,
+#     which git captures, so the key just blinked.
+# This script is the "key is waiting" end of both. ssh runs it as its
+# askpass; for signing, the wrapper around ssh-keygen spots the line and
+# runs it the same way.
 #
 # While the key waits:
 #   - the tmux window it was asked from gets @yubikey_waiting, which
@@ -17,13 +21,13 @@
 # All of it is taken back when ssh kills us, and after LIMIT seconds regardless
 # so that a crashed ssh cannot leave the flag up.
 #
-# Who points ssh here: the two wrappers in modules/ssh.nix (git's signing
-# program and git's ssh command). They also set DISPLAY when nothing has,
+# Who runs it: the two wrappers in modules/ssh.nix (git's signing program
+# and git's ssh command). The ssh one also sets DISPLAY when nothing has,
 # because ssh only uses an askpass when it believes there is a display.
 #
-# That has a side effect this script must cover: with a display, ssh sends an
-# ordinary question (the key file's passphrase, a PIN) here too whenever its
-# stdin is not a terminal. Those are answered by asking on /dev/tty — the same
+# That has a side effect this script must cover: with a display, ssh may send
+# an ordinary question (the key file's passphrase, a PIN) here too when it
+# cannot reach a terminal itself. Those are answered by asking on /dev/tty — the same
 # prompt, in the same place, as before. The passphrase goes from the terminal
 # to ssh's pipe and nowhere else.
 PATH="$HOME/.nix-profile/bin:$PATH"

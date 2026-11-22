@@ -15,10 +15,14 @@ let
   isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
 
   # "The YubiKey is waiting for a touch" — see the header of the askpass
-  # script for the whole mechanism. ssh only calls an askpass when it believes
-  # there is a display, so the wrappers below supply a DISPLAY where nothing
-  # has (macOS). It is set for these two processes only, never session-wide,
-  # so nothing else starts thinking X11 is available.
+  # script for what happens then. The two wrappers below are how it gets
+  # called, and they differ because ssh and ssh-keygen announce the wait
+  # differently.
+  #
+  # touchEnv is for ssh, which calls an askpass only when it believes there is
+  # a display; this supplies a DISPLAY where nothing has (macOS). It is set
+  # for that one process, never session-wide, so nothing else starts thinking
+  # X11 is available.
   touchAskpass = ../bin/yubikey-touch/yubikey-askpass;
   touchEnv = ''
     export SSH_ASKPASS=${touchAskpass}
@@ -28,11 +32,29 @@ let
   # git's signing program. Apple's ssh-keygen has no FIDO2 middleware and the
   # PATH winner varies by context (GUI apps, agents, cron see different
   # PATHs), so darwin pins the Nix one; the Linux hosts keep the distro's.
-  # git captures this process's stderr, which is why the "confirm user
-  # presence" message never used to reach the screen.
+  #
+  # `ssh-keygen -Y sign` does not use the askpass for the touch: it only
+  # prints "Confirm user presence for key …" on stderr, and git captures
+  # that stderr, so the message used to go nowhere. So this reads ssh-keygen's
+  # stderr itself, passes every line on untouched, and when that line goes by
+  # starts the askpass script in its "key is waiting" mode. It is stopped
+  # again (which lowers the flag) when ssh-keygen closes stderr, i.e. exits.
+  # The passphrase and PIN prompts are not on stderr and are not affected.
   signProgram = pkgs.writeShellScript "ssh-keygen-touch-notify" ''
-    ${touchEnv}
-    exec ${if isDarwin then "${pkgs.openssh}/bin/ssh-keygen" else "ssh-keygen"} "$@"
+    exec 3>&2
+    ${if isDarwin then "${pkgs.openssh}/bin/ssh-keygen" else "ssh-keygen"} "$@" 2> >(
+      notifier=
+      while IFS= read -r line; do
+        printf '%s\n' "$line" >&3
+        case $line in
+          "Confirm user presence"*)
+            SSH_ASKPASS_PROMPT=none ${touchAskpass} "$line" </dev/null >/dev/null 2>&1 3>&- &
+            notifier=$!
+            ;;
+        esac
+      done
+      [ -z "$notifier" ] || kill "$notifier" 2>/dev/null
+    )
   '';
 
   # git's ssh, for fetch and push. In a terminal ssh would print the message
