@@ -1,0 +1,110 @@
+#!/bin/sh
+# Tell me when the YubiKey is waiting for a touch.
+#
+# OpenSSH already knows the moment: while it waits for the key it either
+# prints "Confirm user presence for key …" on its stderr or, when stderr is
+# not a terminal, runs the SSH_ASKPASS program with that text and
+# SSH_ASKPASS_PROMPT=none, and kills it (SIGTERM) the instant the touch lands.
+# git captures ssh-keygen's stderr when signing, so until now the message went
+# nowhere and the key just blinked. This is that askpass program.
+#
+# While the key waits:
+#   - the tmux window it was asked from gets @yubikey_waiting, which
+#     tmux/tmux.conf draws as a key on the window pill and counts in the bar
+#     for sessions that are not on screen;
+#   - if I am not looking at that window, a macOS notification as well;
+#   - the message is also written to the terminal, where ssh would have put it.
+# All of it is taken back when ssh kills us, and after LIMIT seconds regardless
+# so that a crashed ssh cannot leave the flag up.
+#
+# Who points ssh here: the two wrappers in modules/ssh.nix (git's signing
+# program and git's ssh command). They also set DISPLAY when nothing has,
+# because ssh only uses an askpass when it believes there is a display.
+#
+# That has a side effect this script must cover: with a display, ssh sends an
+# ordinary question (the key file's passphrase, a PIN) here too whenever its
+# stdin is not a terminal. Those are answered by asking on /dev/tty — the same
+# prompt, in the same place, as before. The passphrase goes from the terminal
+# to ssh's pipe and nowhere else.
+PATH="$HOME/.nix-profile/bin:$PATH"
+
+LIMIT=90
+prompt=$1
+notifier=${YUBIKEY_ASKPASS_NOTIFIER:-terminal-notifier}
+
+# ── An ordinary question: ask it on the terminal ───────────────────────────
+ask_on_tty() {
+  # No terminal, nobody to ask: fail, and ssh reports it as it always did.
+  exec 3<>/dev/tty || exit 1
+  printf '%s' "$prompt" >&3
+  if [ "${SSH_ASKPASS_PROMPT-}" = confirm ]; then
+    IFS= read -r answer <&3 || exit 1
+  else
+    saved=$(stty -g <&3)
+    trap 'stty "$saved" <&3; exit 1' INT TERM HUP
+    stty -echo <&3
+    IFS= read -r answer <&3
+    status=$?
+    stty "$saved" <&3
+    printf '\n' >&3
+    [ "$status" = 0 ] || exit 1
+  fi
+  printf '%s\n' "$answer"
+  exit 0
+}
+
+[ "${SSH_ASKPASS_PROMPT-}" = none ] || ask_on_tty
+
+# ── The key is waiting ─────────────────────────────────────────────────────
+group="yubikey-${TMUX_PANE:-$$}"
+notified=
+
+# True when this pane's window is in front of me (same test as the Claude
+# hook, local-config/hooks/tmux-agent-flag.sh). Outside tmux there is no way
+# to tell, so assume not.
+looking() {
+  [ -n "${TMUX_PANE-}" ] || return 1
+  [ "$(tmux display-message -p -t "$TMUX_PANE" '#{window_active}' 2>/dev/null)" = 1 ] || return 1
+  tmux list-clients -t "$TMUX_PANE" -F '#{client_flags}' 2>/dev/null | grep -q focused
+}
+
+raise() {
+  if [ -n "${TMUX_PANE-}" ]; then
+    tmux set-option -w -t "$TMUX_PANE" @yubikey_waiting 1 2>/dev/null
+  fi
+  if ! looking && command -v "$notifier" >/dev/null 2>&1; then
+    where=
+    if [ -n "${TMUX_PANE-}" ]; then
+      where=$(tmux display-message -p -t "$TMUX_PANE" '#{window_name}' 2>/dev/null)
+    fi
+    # terminal-notifier reads a leading "-" as an option and wants a leading
+    # "[" escaped; a backslash is its documented escape.
+    case $where in
+      [-[]*) where="\\$where" ;;
+    esac
+    "$notifier" -title 'YubiKey is waiting' -message "Touch it to continue${where:+ — $where}" \
+      -group "$group" -activate com.mitchellh.ghostty </dev/null >/dev/null 2>&1 &
+    notified=1
+  fi
+  # Where ssh would have printed it, had its stderr been the terminal.
+  { printf '%s\n' "$prompt" >/dev/tty; } 2>/dev/null
+}
+
+lower() {
+  trap - TERM INT HUP
+  if [ -n "${TMUX_PANE-}" ]; then
+    tmux set-option -wqu -t "$TMUX_PANE" @yubikey_waiting 2>/dev/null
+  fi
+  if [ -n "$notified" ]; then
+    "$notifier" -remove "$group" </dev/null >/dev/null 2>&1 &
+  fi
+  [ -n "${waiter-}" ] && kill "$waiter" 2>/dev/null
+  exit 0
+}
+
+trap lower TERM INT HUP
+raise
+sleep "$LIMIT" &
+waiter=$!
+wait "$waiter"
+lower

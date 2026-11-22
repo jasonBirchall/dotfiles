@@ -11,6 +11,42 @@
 #   services.udev.packages = [ pkgs.libfido2 ];   # USB access to the key
 { lib, pkgs, ... }:
 
+let
+  isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
+
+  # "The YubiKey is waiting for a touch" — see the header of the askpass
+  # script for the whole mechanism. ssh only calls an askpass when it believes
+  # there is a display, so the wrappers below supply a DISPLAY where nothing
+  # has (macOS). It is set for these two processes only, never session-wide,
+  # so nothing else starts thinking X11 is available.
+  touchAskpass = ../bin/yubikey-touch/yubikey-askpass;
+  touchEnv = ''
+    export SSH_ASKPASS=${touchAskpass}
+    [ -n "''${DISPLAY-}''${WAYLAND_DISPLAY-}" ] || export DISPLAY=:0
+  '';
+
+  # git's signing program. Apple's ssh-keygen has no FIDO2 middleware and the
+  # PATH winner varies by context (GUI apps, agents, cron see different
+  # PATHs), so darwin pins the Nix one; the Linux hosts keep the distro's.
+  # git captures this process's stderr, which is why the "confirm user
+  # presence" message never used to reach the screen.
+  signProgram = pkgs.writeShellScript "ssh-keygen-touch-notify" ''
+    ${touchEnv}
+    exec ${if isDarwin then "${pkgs.openssh}/bin/ssh-keygen" else "ssh-keygen"} "$@"
+  '';
+
+  # git's ssh, for fetch and push. In a terminal ssh would print the message
+  # on stderr and nothing else would hear about it; with stderr passed through
+  # a pipe instead, ssh calls the askpass (which also prints the message, so
+  # nothing is lost). Everything else ssh writes still reaches the terminal.
+  gitSsh = pkgs.writeShellScript "git-ssh-touch-notify" ''
+    ${touchEnv}
+    if [ -t 2 ]; then
+      exec ssh "$@" 2> >(cat >&2)
+    fi
+    exec ssh "$@"
+  '';
+in
 {
   # Host blocks use upstream OpenSSH directive names under `settings` (the
   # `matchBlocks` API is deprecated). Unlike matchBlocks, `settings` injects
@@ -70,10 +106,9 @@
       user.email = "jason.birchall@pm.me";
       gpg.format = "ssh";
       gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
-      # Signing calls ssh-keygen; Apple's has no FIDO2 middleware and the
-      # PATH winner varies by context (GUI apps, agents, cron see different
-      # PATHs). Pin the Nix one on darwin so signing works everywhere.
-      gpg.ssh.program = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin "${pkgs.openssh}/bin/ssh-keygen";
+      # Both go through the touch-notify wrappers defined at the top.
+      gpg.ssh.program = "${signProgram}";
+      core.sshCommand = "${gitSsh}";
       tag.gpgsign = true;
     };
   };
