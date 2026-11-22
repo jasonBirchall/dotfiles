@@ -31,6 +31,12 @@
       executable = true;
     };
 
+    # Ends the hidden lazygit sessions left by tmux's prefix + g
+    "bin/lazygit-sweep" = {
+      source = ../bin/tmux-lazygit/lazygit-sweep;
+      executable = true;
+    };
+
     # Commit-subject drafts for lazygit's <c-e> (see lazygit/config.yml)
     "bin/commit-suggest" = {
       source = ../bin/commit-suggest/commit-suggest;

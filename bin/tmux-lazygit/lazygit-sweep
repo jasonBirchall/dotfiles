@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Close the background lazygit sessions that prefix + g leaves behind.
+#
+# prefix + g (tmux/tmux.conf) runs lazygit in a detached session named
+# lazygit-<folder>-<checksum>, so that hiding the popup does not lose its
+# place. Nothing ends such a session except q inside lazygit, so hidden ones
+# pile up. This ends a hidden one when either:
+#
+#   - no pane in any ordinary session is in its directory any more, i.e. the
+#     window it was opened over has been closed (or has moved elsewhere); or
+#   - an idle limit in seconds was given as $1 and nobody has touched the
+#     session for that long.
+#
+# A session that is on screen in a popup is never touched.
+#
+# tmux.conf calls it from the window-unlinked and session-closed hooks (no
+# argument), and with the idle limit a while after each hide.
+set -euo pipefail
+
+idle=${1:-}
+now=$(date +%s)
+tab=$'\t'
+
+# Directories that still have a pane in them, outside the lazygit sessions.
+live_dirs=$(tmux list-panes -a -F "#{session_name}${tab}#{pane_current_path}" |
+  grep -v '^lazygit-' | cut -f2- | sort -u || true)
+
+tmux list-sessions -F "#{session_name}${tab}#{session_attached}${tab}#{session_activity}${tab}#{session_path}" |
+  while IFS=$tab read -r name attached activity path; do
+    case $name in lazygit-*) ;; *) continue ;; esac
+    [ "$attached" = 0 ] || continue
+
+    if ! grep -qxF -- "$path" <<<"$live_dirs"; then
+      tmux kill-session -t "=$name" || true
+    elif [ -n "$idle" ] && [ $((now - activity)) -ge "$idle" ]; then
+      tmux kill-session -t "=$name" || true
+    fi
+  done
