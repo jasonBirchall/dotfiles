@@ -26,6 +26,24 @@ let
     tamperlog = "lnav /var/log/audit/audit.log -c ':filter-in key=\"[a-z-]+-tamper\"'";
     capture = "sudo tcpdump -i any -w /tmp/capture-$(date +%s).pcap";
   };
+
+  # `ranger`, wrapped so that pressing C inside it (ranger/rc.conf) leaves
+  # this shell in the directory ranger was showing. ranger cannot move its
+  # parent shell, so it is handed a temp file to write the directory into and
+  # the cd happens here, after it exits. q leaves the file empty and the shell
+  # where it was. Plain POSIX-ish sh: the same text is given to bash and zsh.
+  rangerCd = ''
+    ranger() {
+      local cd_file dir
+      cd_file=$(mktemp "''${TMPDIR:-/tmp}/ranger-cd.XXXXXX") || { command ranger "$@"; return; }
+      RANGER_CD_FILE="$cd_file" command ranger "$@"
+      if [ -s "$cd_file" ]; then
+        dir=$(cat "$cd_file")
+        [ -d "$dir" ] && cd -- "$dir"
+      fi
+      rm -f "$cd_file"
+    }
+  '';
 in
 
 {
@@ -141,6 +159,7 @@ in
 
         PROMPT_COMMAND=__prompt_command
       ''
+      rangerCd
       # mkAfter (1500) is where fzf/zoxide/direnv hooks land; attach ble.sh
       # after all of them so it wraps everything set up above.
       (lib.mkOrder 2000 ''
@@ -165,7 +184,7 @@ in
       ignoreSpace = true;
       share = true;
     };
-    initContent = ''
+    initContent = rangerCd + ''
       setopt AUTO_CD
 
       # Up/down arrows search history filtered by what's already typed
